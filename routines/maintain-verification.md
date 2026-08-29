@@ -3,7 +3,7 @@
 | 項目 | 値 |
 |---|---|
 | 目的 | 各プロダクトの検証スキルと feature map を腐らせない |
-| 担当ボット | <専用ボット名>（メインボットには貼らない） |
+| 担当ボット | 検証メンテ |
 | スケジュール | 1 日 1 回 |
 | 出力先 | メインボットへの 1 通の結果報告 |
 | 状態 | 下書き |
@@ -73,6 +73,7 @@ not a docs fix.
 - `blocked` や回帰の報告は、intake 系と同じく「工場に投げる素材」として扱う。
 - まだ検証スキルが無いプロダクトは、先に [`automations/verification-bootstrap/`](../automations/verification-bootstrap/FOR_AGENTS.md) で立てる。
 - draft PR のマージは人間。ボットは draft のまま。ルールは [`AGENTS.md`](../AGENTS.md) の「draft PR のマージ」。
+- 毎日の collect と maintain は、ブランチ `ops/daily-YYYY-MM-DD` 1本と draft PR 1本に積む。
 
 ### 手動 1 周チェックリスト（未実施）
 
