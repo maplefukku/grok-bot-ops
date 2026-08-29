@@ -10,12 +10,16 @@ setup conversation.
 ## for the agent
 
 the human enters this flow by pointing you at this file and naming the
-target product repository. work on the product repository, not on
-grok-bot-ops.
+target product repository. the work spans two repositories with a
+strict split: all verification code (the skill, the feature map, the
+proof) lives in the product repository; grok-bot-ops holds only the
+product's ledger entry under `products/`, which you must keep current.
 
 1. ask which repository is the target if not already named. confirm it
-   is registered in `grok-bot-ops/products/`; if not, add an entry from
-   `products/_template.md` first.
+   has a ledger entry under `products/` in grok-bot-ops; if not, add
+   one there now, copied from `products/_template.md`. this ledger
+   write in grok-bot-ops is required, and is exactly what its
+   AGENTS.md write rules allow.
 2. launch a cloud agent rooted in the target repository.
 3. in that repository, check for an existing `verify-*` skill under
    `.cursor/skills/` or an existing harness that can drive the app. if
@@ -31,8 +35,8 @@ grok-bot-ops.
    check, drive one feature, capture evidence, clean up. if that proof
    fails, do not ship the output; fix and retry. open the result as a
    PR on the product repository.
-6. update the product's entry in `grok-bot-ops/products/`: verify-skill
-   path, feature map path, date.
+6. back in grok-bot-ops, update the product's ledger entry under
+   `products/`: verify-skill path, feature map path, date.
 7. tell the human to attach `routines/maintain-verification.md` to a
    dedicated bot if not already running, so the feature map is
    refreshed daily.
@@ -42,7 +46,12 @@ grok-bot-ops.
 - never write the verification skill or feature map into grok-bot-ops.
   it must live in the product repository, or cloud agents checking out
   the product will not see it.
-- draft PRs only on the product repository. do not merge.
+- the only grok-bot-ops writes in this flow are the ledger entry under
+  `products/` (steps 1 and 6). do not skip them: the daily
+  maintain-verification routine finds its targets by reading
+  `grok-bot-ops/products/`, so an unrecorded product is never
+  maintained.
+- on the product repository, draft PRs only. do not merge anywhere.
 - if the app cannot be launched from the repository alone (missing
   secrets, external services), stop and list exactly what the human
   must provide. do not fake a passing proof.
