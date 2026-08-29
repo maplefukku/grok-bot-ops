@@ -37,4 +37,4 @@ agent on <grok-bot-ops repo> with this task:
 ## 備考
 
 - 収集専用。試して検証するのは人間か、別途立てる cloud agent の仕事。検証したらエントリの `確認` を更新する。
-- [`intake-x-feedback.md`](./intake-x-feedback.md) は自分のプロダクトへの反応を集める routine。こちらは Grok Bot というプロダクト自体の知識を集める routine。混ぜない。
+- [`examples/intake-x-feedback.md`](./examples/intake-x-feedback.md) は自分のプロダクトへの反応を集める routine の型見本。こちらは Grok Bot というプロダクト自体の知識を集める routine。混ぜない。

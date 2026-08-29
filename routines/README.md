@@ -10,13 +10,22 @@ Grok Bot の routine（外側ループ）の**原稿置き場**です。稼働�
 - **外部から起こすなら webhook routine。** 自作 UI やアプリからボットを起動できる。
 - 費用の異常に気づけるよう、routine の出力には毎回、処理件数を含めさせる。
 
+## routine は使いながら増やす
+
+このディレクトリは最初から埋めません。Grok Bot を触る中で「定期化する価値がある」と分かった仕事だけを、[`_template.md`](./_template.md) から原稿に起こして足します。
+
 ## いまある原稿
 
 | ファイル | 目的 | 頻度の目安 |
 |---|---|---|
-| [`intake-slack-bugs.md`](./intake-slack-bugs.md) | Slack のバグ報告を収集・仕分け | 1 時間ごと |
-| [`intake-x-feedback.md`](./intake-x-feedback.md) | 自分のプロダクトへの X の反応を収集 | 1 日 2〜3 回 |
 | [`collect-grokbot-knowhow.md`](./collect-grokbot-knowhow.md) | Grok Bot のアップデート・活用法を X から収集し `docs/knowhow/` へ | 1 日 1 回 |
-| [`maintain-verification.md`](./maintain-verification.md) | 各プロダクトの feature map を毎日更新 | 1 日 1 回 |
+| [`maintain-verification.md`](./maintain-verification.md) | 各プロダクトの feature map を毎日更新（プロダクト登録後に有効） | 1 日 1 回 |
 
-新しい routine は [`_template.md`](./_template.md) から作ってください。
+## 例（[`examples/`](./examples/)）
+
+プロダクトを持って外側ループを組むときの型見本です。そのままは動かしません。使うときは対象チャンネルやキーワードを埋め、トップレベルにコピーして「下書き → 稼働中」に上げてください。
+
+| ファイル | 目的 |
+|---|---|
+| [`examples/intake-slack-bugs.md`](./examples/intake-slack-bugs.md) | Slack のバグ報告チャンネルを収集・仕分け |
+| [`examples/intake-x-feedback.md`](./examples/intake-x-feedback.md) | 自分のプロダクトへの X の反応を収集 |

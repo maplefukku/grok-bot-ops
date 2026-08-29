@@ -37,7 +37,8 @@ Grok Bot でプロダクト開発を回すための **司令室リポジトリ**
 ```text
 .cursor-plugin/plugin.json   このリポジトリ自体が Cursor プラグイン
 skills/                      自作スキル。スキル0から始め、evalを通ったものだけ足す
-routines/                    Grok Bot routine の原稿（外側ループの正本）
+routines/                    Grok Bot routine の原稿（外側ループの正本）。使いながら増やす
+  examples/                  プロダクトを持ったとき用の型見本
 products/                    工場が出荷するプロダクトの台帳
 automations/
   verification-bootstrap/    プロダクトに検証スキルを立てる移植パック
@@ -55,7 +56,7 @@ AGENTS.md                    エージェントが最初に読むもの
 2. `/setup-pstack` でトークン効率のよいモデル（Grok 4.6 / Auto）を選ぶ
 3. プロダクトごとに検証スキルを立てる。cloud agent に [`automations/verification-bootstrap/FOR_AGENTS.md`](./automations/verification-bootstrap/FOR_AGENTS.md) を読ませ、対象リポジトリを名指す
 4. [`routines/maintain-verification.md`](./routines/maintain-verification.md) を毎日の routine として専用ボットに貼る
-5. 収集系 routine（[`routines/intake-slack-bugs.md`](./routines/intake-slack-bugs.md)、[`routines/intake-x-feedback.md`](./routines/intake-x-feedback.md)、[`routines/collect-grokbot-knowhow.md`](./routines/collect-grokbot-knowhow.md)）を、それぞれ専用ボットに貼る。メインボットには貼らない
+5. [`routines/collect-grokbot-knowhow.md`](./routines/collect-grokbot-knowhow.md) を専用ボットに貼り、Grok Bot のノウハウを貯め始める。プロダクト固有の収集（Slack バグ、X の反応）は [`routines/examples/`](./routines/examples/) の型から、必要になったときに起こす
 6. 日常は `/poteto-mode`。大きい仕事は `/goal` `/loop` `/swarm` + cloud agents
 7. マージ前は `/show-me-your-work` で判断ログを見る
 8. 効いたやり方が 2 回繰り返されたら、`evals/` のゲートを通して `skills/` に結晶させる
