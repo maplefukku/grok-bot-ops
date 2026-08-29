@@ -1,67 +1,60 @@
 # grok-bot-ops
 
-Grok Bot と pstack を、秘書ではなく **検証可能なエージェント工場** として使うためのリポジトリです。
+Grok Bot でプロダクト開発を回すための **司令室リポジトリ** です。工場そのものではありません。
 
-今回入っている本文は [pstack 公式ガイド](https://github.com/cursor/plugins/tree/main/pstack/docs/guide) の日本語訳だけです。ほかの箱は、運用ノウハウを足していくための空ディレクトリです。
-
-エージェントは先に [`AGENTS.md`](./AGENTS.md) を読んでください。
-
-## いま読めるもの
-
-| 場所 | 内容 |
-|---|---|
-| [`docs/guide/`](./docs/guide/README.md) | pstack 公式ガイドの日本語訳。セットアップから一晩放置まで |
-
-原文: [github.com/cursor/plugins/tree/main/pstack/docs/guide](https://github.com/cursor/plugins/tree/main/pstack/docs/guide)  
-導入: Cursor では `/add-plugin pstack`、Grok Bot では `grokbot://app/v1/plugin/add?id=9717366`
-
-## ディレクトリ構成
-
-ノウハウを足すときの置き場所です。空のディレクトリは `.gitkeep` だけ置いてあります。
+Lauren（@poteto）の工場は 3 層でできています。このリポジトリはその 3 層のどれでもなく、3 層を運転するための記録と原稿を持ちます。
 
 ```text
-docs/
-  guide/            公式ガイド日本語訳（今回の本体）
-  philosophy/       基本思想（Laziness / Impatience / Hubris）
-  factory/          工場の全体像
-    outer-loop/     Grok Bot routines。次に投げる仕事を耕す
-    inner-loop/     pstack + cloud agents。所有・検証・出荷
-    swarm/          安い高速ワーカーを大量に生やす
-    coordinator/    ローカル1体、仕事はクラウドへ
-  verification/     検証スキルとフィーチャーマップ
-  skills/           スキルの使い分け
-  grok-bot/         プロダクト機能
-    routines/       定期実行とコスト
-    plugins/        プラグインとディープリンク
-    ui/             Make Bot UI / botvillage
-    access/         言語・アプリ・加入
-  recipes/          最短で真似する手順
-
-knowhow/            現場で効いたこと
-  poteto/           @poteto 投稿ベース
-  operations/       運用 tips
-  cost/             トークンとスケジュール
-  models/           モデル選定
-
-playbooks/          実例プレイブック
-  swarm/
-  overnight/
-  bot-ui/
-
-agents/             grok-bot が実行時に読むもの
-  skills/
-  rules/
-  prompts/
-
-automations/        routine / webhook の定義
-  routines/
-  webhooks/
-
-sources/            出典・原文リンク
+【外側ループ】 Grok Bot 本体
+    routine が Slack のバグ、X の苦情、アイデアを耕す
+    メインボットはチーフ・オブ・スタッフ。定期作業は専用ボットへ
+          │ 次に工場へ投げる仕事
+          ▼
+【内側ループ】 各プロダクトリポジトリ
+    /poteto-mode が入口。cloud agents が所有・検証・出荷
+    ローカルは coordinator 1体、仕事は全部クラウドへ
+          │ 信頼の根拠
+          ▼
+【検証インフラ】 同じプロダクトリポジトリの中
+    .cursor/skills/verify-<app>/ + feature map
+    毎日 /maintain-verification-skill で腐らせない
+    マージ前は差分より /show-me-your-work（判断の監査）
 ```
 
-## 足し方
+## 何がどこに住むか
 
-1. 空の箱に Markdown を置く。`.gitkeep` は本文が入ったら消してよい。
-2. スキルやルールは `agents/`、定期実行は `automations/`、人間向けの説明は `docs/` か `knowhow/`。
-3. 出典があるなら `sources/` にリンクを残す。
+| もの | 住む場所 | このリポジトリが持つもの |
+|---|---|---|
+| スキル本体（pstack） | [cursor/plugins の pstack](https://github.com/cursor/plugins/tree/main/pstack) | 使い方の日本語ガイド（`docs/guide/`） |
+| 検証スキル・feature map | **各プロダクトリポジトリ** の `.cursor/skills/verify-<app>/` | 立ち上げ用パック（`automations/verification-bootstrap/`）と台帳（`products/`） |
+| 稼働中の routine | Grok Bot 本体の設定 | 原稿と運用ルール（`routines/`）。ここが正本、貼り付け先が実体 |
+| 自作スキル | このリポジトリの `skills/`（プラグインとして読み込む） | 最初は 0 個。評価を通ったものだけ増える |
+| 教訓 | `lessons/` | `/reflect` で受理されたものだけ |
+
+## ディレクトリ
+
+```text
+.cursor-plugin/plugin.json   このリポジトリ自体が Cursor プラグイン
+skills/                      自作スキル。スキル0から始め、evalを通ったものだけ足す
+routines/                    Grok Bot routine の原稿（外側ループの正本）
+products/                    工場が出荷するプロダクトの台帳
+automations/
+  verification-bootstrap/    プロダクトに検証スキルを立てる移植パック
+evals/                       スキル・プロンプト変更の盲検評価の記録
+lessons/                     /reflect で受理された教訓
+docs/guide/                  pstack 公式ガイドの日本語訳
+AGENTS.md                    エージェントが最初に読むもの
+```
+
+## 最短で工場を立ち上げる
+
+1. Grok Bot に pstack を入れる: `grokbot://app/v1/plugin/add?id=9717366`（Cursor なら `/add-plugin pstack`）
+2. `/setup-pstack` でトークン効率のよいモデル（Grok 4.6 / Auto）を選ぶ
+3. プロダクトごとに検証スキルを立てる。cloud agent に [`automations/verification-bootstrap/FOR_AGENTS.md`](./automations/verification-bootstrap/FOR_AGENTS.md) を読ませ、対象リポジトリを名指す
+4. [`routines/maintain-verification.md`](./routines/maintain-verification.md) を毎日の routine として専用ボットに貼る
+5. 収集系 routine（[`routines/intake-slack-bugs.md`](./routines/intake-slack-bugs.md)、[`routines/intake-x-feedback.md`](./routines/intake-x-feedback.md)）を、それぞれ専用ボットに貼る。メインボットには貼らない
+6. 日常は `/poteto-mode`。大きい仕事は `/goal` `/loop` `/swarm` + cloud agents
+7. マージ前は `/show-me-your-work` で判断ログを見る
+8. 効いたやり方が 2 回繰り返されたら、`evals/` のゲートを通して `skills/` に結晶させる
+
+詳しい使い方は [`docs/guide/`](./docs/guide/README.md)（pstack 公式ガイド日本語訳）。

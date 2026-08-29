@@ -1,0 +1,17 @@
+{
+	"name": "grok-bot-ops",
+	"displayName": "grok-bot-ops",
+	"version": "0.1.0",
+	"description": "Grok Bot でプロダクト開発を回す司令室。routine の原稿、プロダクト台帳、評価を通った自作スキル。",
+	"repository": "https://github.com/maplefukku/grok-bot-ops",
+	"license": "MIT",
+	"keywords": [
+		"grok-bot",
+		"pstack",
+		"ops",
+		"routines",
+		"verification"
+	],
+	"category": "developer-tools",
+	"skills": "./skills/"
+}
