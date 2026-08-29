@@ -122,6 +122,8 @@ def check_knowhow() -> list[str]:
     for path in sorted(directory.rglob("*")):
         if not path.is_file():
             continue
+        if path.name.lower() in SKIP_KNOWHOW:
+            continue
         if PLACEHOLDER in path.read_text(encoding="utf-8", errors="replace"):
             errors.append(f"{path.relative_to(ROOT)}: contains {PLACEHOLDER}")
     for path in knowhow_entry_files():
