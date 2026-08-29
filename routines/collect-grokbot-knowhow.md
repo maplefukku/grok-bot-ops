@@ -3,7 +3,7 @@
 | 項目 | 値 |
 |---|---|
 | 目的 | X から Grok Bot のアップデートと活用法を集め、`docs/knowhow/` に貯める |
-| 担当ボット | <専用ボット名>（メインボットには貼らない） |
+| 担当ボット | Knowhow収集 |
 | スケジュール | 1 日 1 回 |
 | 出力先 | メインボットへの 1 通のダイジェスト + grok-bot-ops への追記 PR |
 | 状態 | 下書き |
@@ -65,6 +65,7 @@ with this task:
 - 収集専用。試して検証するのは人間か、別途立てる cloud agent の仕事。検証したらエントリの `確認` を更新する。
 - [`examples/intake-x-feedback.md`](./examples/intake-x-feedback.md) は自分のプロダクトへの反応を集める routine の型見本。こちらは Grok Bot というプロダクト自体の知識を集める routine。混ぜない。
 - draft PR のマージは人間。ボットは draft のまま。ルールは [`AGENTS.md`](../AGENTS.md) の「draft PR のマージ」。
+- 毎日の collect と maintain は、ブランチ `ops/daily-YYYY-MM-DD` 1本と draft PR 1本に積む。
 
 ### 手動 1 周チェックリスト（未実施）
 
