@@ -36,6 +36,8 @@ Grok Bot でプロダクト開発を回すための **司令室リポジトリ**
 
 ```text
 .cursor-plugin/plugin.json   このリポジトリ自体が Cursor プラグイン
+.github/workflows/ci.yml     相対リンク・knowhow 出典・plugin.json
+scripts/ci.py                上と同じ検査（ローカルでもこれを実行）
 skills/                      自作スキル。スキル0から始め、evalを通ったものだけ足す
 routines/                    Grok Bot routine の原稿（外側ループの正本）。使いながら増やす
   examples/                  プロダクトを持ったとき用の型見本
