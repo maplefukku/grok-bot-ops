@@ -15,7 +15,8 @@ Grok Bot の routine（外側ループ）の**原稿置き場**です。稼働�
 | ファイル | 目的 | 頻度の目安 |
 |---|---|---|
 | [`intake-slack-bugs.md`](./intake-slack-bugs.md) | Slack のバグ報告を収集・仕分け | 1 時間ごと |
-| [`intake-x-feedback.md`](./intake-x-feedback.md) | X の苦情・要望・アイデアを収集 | 1 日 2〜3 回 |
+| [`intake-x-feedback.md`](./intake-x-feedback.md) | 自分のプロダクトへの X の反応を収集 | 1 日 2〜3 回 |
+| [`collect-grokbot-knowhow.md`](./collect-grokbot-knowhow.md) | Grok Bot のアップデート・活用法を X から収集し `docs/knowhow/` へ | 1 日 1 回 |
 | [`maintain-verification.md`](./maintain-verification.md) | 各プロダクトの feature map を毎日更新 | 1 日 1 回 |
 
 新しい routine は [`_template.md`](./_template.md) から作ってください。

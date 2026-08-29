@@ -2,7 +2,7 @@
 
 Grok Bot でプロダクト開発を回すための **司令室リポジトリ** です。工場そのものではありません。
 
-Lauren（@poteto）の工場は 3 層でできています。このリポジトリはその 3 層のどれでもなく、3 層を運転するための記録と原稿を持ちます。
+役割は 2 つです。3 層の工場（下図）を運転するための記録と原稿を持つこと、そして **Grok Bot 全般のノウハウを人に縛らず貯める** ことです。工場の骨格は Lauren（@poteto）の運用を下敷きにしていますが、ノウハウの出典は問いません。
 
 ```text
 【外側ループ】 Grok Bot 本体
@@ -28,6 +28,7 @@ Lauren（@poteto）の工場は 3 層でできています。このリポジト�
 | スキル本体（pstack） | [cursor/plugins の pstack](https://github.com/cursor/plugins/tree/main/pstack) | 使い方の日本語ガイド（`docs/guide/`） |
 | 検証スキル・feature map | **各プロダクトリポジトリ** の `.cursor/skills/verify-<app>/` | 立ち上げ用パック（`automations/verification-bootstrap/`）と台帳（`products/`） |
 | 稼働中の routine | Grok Bot 本体の設定 | 原稿と運用ルール（`routines/`）。ここが正本、貼り付け先が実体 |
+| Grok Bot のノウハウ | このリポジトリの `docs/knowhow/` | アップデート情報と活用法。X から定期収集して貯める。出典リンク必須 |
 | 自作スキル | このリポジトリの `skills/`（プラグインとして読み込む） | 最初は 0 個。評価を通ったものだけ増える |
 | 教訓 | `lessons/` | `/reflect` で受理されたものだけ |
 
@@ -42,7 +43,9 @@ automations/
   verification-bootstrap/    プロダクトに検証スキルを立てる移植パック
 evals/                       スキル・プロンプト変更の盲検評価の記録
 lessons/                     /reflect で受理された教訓
-docs/guide/                  pstack 公式ガイドの日本語訳
+docs/
+  guide/                     pstack 公式ガイドの日本語訳
+  knowhow/                   Grok Bot 全般のノウハウ（人に縛らない。出典リンク必須）
 AGENTS.md                    エージェントが最初に読むもの
 ```
 
@@ -52,9 +55,9 @@ AGENTS.md                    エージェントが最初に読むもの
 2. `/setup-pstack` でトークン効率のよいモデル（Grok 4.6 / Auto）を選ぶ
 3. プロダクトごとに検証スキルを立てる。cloud agent に [`automations/verification-bootstrap/FOR_AGENTS.md`](./automations/verification-bootstrap/FOR_AGENTS.md) を読ませ、対象リポジトリを名指す
 4. [`routines/maintain-verification.md`](./routines/maintain-verification.md) を毎日の routine として専用ボットに貼る
-5. 収集系 routine（[`routines/intake-slack-bugs.md`](./routines/intake-slack-bugs.md)、[`routines/intake-x-feedback.md`](./routines/intake-x-feedback.md)）を、それぞれ専用ボットに貼る。メインボットには貼らない
+5. 収集系 routine（[`routines/intake-slack-bugs.md`](./routines/intake-slack-bugs.md)、[`routines/intake-x-feedback.md`](./routines/intake-x-feedback.md)、[`routines/collect-grokbot-knowhow.md`](./routines/collect-grokbot-knowhow.md)）を、それぞれ専用ボットに貼る。メインボットには貼らない
 6. 日常は `/poteto-mode`。大きい仕事は `/goal` `/loop` `/swarm` + cloud agents
 7. マージ前は `/show-me-your-work` で判断ログを見る
 8. 効いたやり方が 2 回繰り返されたら、`evals/` のゲートを通して `skills/` に結晶させる
 
-詳しい使い方は [`docs/guide/`](./docs/guide/README.md)（pstack 公式ガイド日本語訳）。
+詳しい使い方は [`docs/guide/`](./docs/guide/README.md)（pstack 公式ガイド日本語訳）、Grok Bot 自体の知識は [`docs/knowhow/`](./docs/knowhow/README.md)。
