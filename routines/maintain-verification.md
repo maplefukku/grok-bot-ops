@@ -21,7 +21,7 @@ feature map はすぐ腐ります。Lauren はこれを **毎日** 回すこと�
 
 ## 台帳への書き戻し
 
-各プロダクトの cloud agent が終わったら、https://github.com/maplefukku/grok-bot-ops の `products/<名前>.md` を更新する。
+各プロダクトの cloud agent が終わったら、https://github.com/maplefukku/grok-bot-ops の `products/<名前>.md` を更新する。書き戻し用の cloud agent には、親が集めた product / outcome / PR の表をそのまま渡す。`README.md` と `_template.md` は対象外。
 
 | 欄 | 書く値 |
 |---|---|
@@ -34,8 +34,9 @@ feature map はすぐ腐ります。Lauren はこれを **毎日** 回すこと�
 ## プロンプト本文（Grok Bot に貼るもの）
 
 ```text
-For each repository listed in
+For each product file in
 https://github.com/maplefukku/grok-bot-ops/tree/main/products
+except README.md and _template.md
 that has a verification skill:
 
 Launch a Cursor cloud agent on that repository with this task:
@@ -50,12 +51,15 @@ Collect each agent's outcome. The skill ends in exactly one of:
 
 Then launch one Cursor cloud agent on
 https://github.com/maplefukku/grok-bot-ops
-with this task:
-  For each product you just checked, update products/<name>.md:
+with this task, and paste the outcome table you just collected
+(product / outcome / PR / blocker) into the task so the child
+does not invent values:
+  For each product in the pasted table only, update products/<name>.md:
   最終確認日 = today's UTC YYYY-MM-DD,
-  最終 outcome = clean|changed|blocked,
-  最終 PR = the product PR URL or 無し.
-  Write only under products/. Open one draft PR. Do not merge.
+  最終 outcome = that product's collected clean|changed|blocked,
+  最終 PR = that product's collected PR URL or 無し.
+  Skip README.md and _template.md. Write only under products/.
+  Open one draft PR. Do not merge.
 
 Send me one message: a table of product / outcome / PR link if any /
 blocker if any, plus the count of products checked. If a live pass
