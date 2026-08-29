@@ -36,7 +36,9 @@ product's ledger entry under `products/`, which you must keep current.
    fails, do not ship the output; fix and retry. open the result as a
    PR on the product repository.
 6. back in grok-bot-ops, update the product's ledger entry under
-   `products/`: verify-skill path, feature map path, date.
+   `products/`: verify-skill path, feature map path, date. leave
+   `最終確認日` / `最終 outcome` / `最終 PR` as 未 / 未 / 無し;
+   the daily maintain-verification routine writes those back.
 7. tell the human to attach `routines/maintain-verification.md` to a
    dedicated bot if not already running, so the feature map is
    refreshed daily.

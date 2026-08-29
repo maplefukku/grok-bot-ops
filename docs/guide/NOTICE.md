@@ -4,6 +4,7 @@
 
 - 原文: [pstack/docs/guide](https://github.com/cursor/plugins/tree/main/pstack/docs/guide)
 - プラグイン: [github.com/cursor/plugins/tree/main/pstack](https://github.com/cursor/plugins/tree/main/pstack)
+- 翻訳時点の原文ピン: このリポジトリが `docs/guide/` を入れた日（2026-08-29、コミット `ad77111`）時点の `cursor/plugins` `main` で、`pstack/docs/guide` を最後に更新したコミットは [`424829e3e0f7e5a8b9181412ca04e84e026a0c02`](https://github.com/cursor/plugins/commit/424829e3e0f7e5a8b9181412ca04e84e026a0c02)（2026-08-02、`docs(pstack): bring guide current with new skills and playbooks #188`）。GitHub API `commits?path=pstack/docs/guide&sha=main` で確認した。捏造していない。
 
 原文は MIT License です。著作権表示と許諾文をそのまま残します。
 

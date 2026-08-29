@@ -11,6 +11,19 @@
 - feature map はどこか
 - maintain-verification の routine は付いているか
 - benny などの automation パックは入っているか
+- 最後に検証スキルを確認した日と、その outcome（`clean` / `changed` / `blocked`）と PR リンク
+
+## 台帳の書き戻し
+
+[`routines/maintain-verification.md`](../routines/maintain-verification.md) が、各プロダクトの `/maintain-verification-skill` のあとでこのディレクトリだけを更新する。
+
+| 欄 | 誰が書く | 値 |
+|---|---|---|
+| 最終確認日 | maintain の書き戻し | UTC の `YYYY-MM-DD`。未実施は `未` |
+| 最終 outcome | 同上 | `clean` / `changed` / `blocked`。未実施は `未` |
+| 最終 PR | 同上 | `changed` ならプロダクト側 PR の URL。それ以外は `無し` |
+
+検証スキル本体はプロダクトリポジトリに置く。ここへコピーしない。
 
 ## 原則
 
