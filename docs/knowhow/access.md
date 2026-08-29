@@ -1,27 +1,21 @@
 # access
 
-言語・アプリ・加入プラン。
+加入プランと、使えるアプリ。
 
-## 加入と利用上限
+## 加入
 
-- 内容: SuperGrok と Cursor Pro の加入者は Grok Bot を利用できる。週次の利用上限リセットがある。
-- 出典: X の投稿（リンク要補完）（2026）
+- 内容: 2026-08-26 の公式発表では、Grok Bot は SuperGrok / SuperGrok Plus / SuperGrok Heavy、Cursor Pro / Pro+ / Ultra、Cursor Teams（Standard と Premium）に含まれる。Enterprise はウェイトリスト。
+- 出典: [Grok Bot is now included with more plans](https://x.ai/news/grok-bot-more-plans)（2026-08-26）
+- 確認: 未
+
+## 利用量
+
+- 内容: Settings の Usage & Billing（出るアカウントだけ）は、週次の included usage と on-demand usage を見せる。アカウントメニューに Weekly usage が出ることもある。
+- 出典: [Settings and notifications](https://docs.x.ai/grok-bot/settings-and-notifications)（2026-08-29 確認）
 - 確認: 未
 
 ## アプリ
 
-- 内容: Android アプリ準備中。Play Store 事前登録: `ai.x.grok.bot`。
-- 出典: X の投稿（リンク要補完）（2026）
-- 確認: 未
-
-## 言語
-
-- 内容: アラビア語、イタリア語、スウェーデン語、ロシア語、トルコ語を追加予定。RTL 言語の表示も改善中。
-- 出典: X の投稿（リンク要補完）（2026）
-- 確認: 未
-
-## 利用効率
-
-- 内容: エージェント ID（会話 ID）を運営に送ると最適化の助けになる、という公式案内があった。
-- 出典: X の投稿（リンク要補完）（2026）
+- 内容: 公式ドキュメントは初期ローンチ時点で macOS・Windows のデスクトップと iPhone（iOS 18 以降）を対応とし、Linux デスクトップ・Android・iPad は非対応と書いている。Play Store にはパッケージ `ai.x.grok.bot` の掲載がある。
+- 出典: [Get started](https://docs.x.ai/grok-bot/get-started)、[Grok Bot for iOS](https://docs.x.ai/grok-bot/mobile)、[FAQ](https://docs.x.ai/grok-bot/faq)、[Play Store `ai.x.grok.bot`](https://play.google.com/store/apps/details?id=ai.x.grok.bot)（いずれも 2026-08-29 確認）
 - 確認: 未
