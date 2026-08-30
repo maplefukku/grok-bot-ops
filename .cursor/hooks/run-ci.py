@@ -11,6 +11,16 @@ from pathlib import Path
 PROOF_LOG = Path("/tmp/grok-bot-ops-cursor-hooks.log")
 HOOK_PATH = ".cursor/hooks/run-ci.py"
 MAX_OUTPUT = 8000
+MUTATION_TOOLS = {
+    "write",
+    "strreplace",
+    "delete",
+    "editnotebook",
+    "edit",
+    "applypatch",
+    "writefile",
+    "deletefile",
+}
 
 
 def drain_stdin() -> dict:
@@ -41,22 +51,25 @@ def run_ci(root: Path) -> tuple[int, str]:
     return proc.returncode, (proc.stdout or "") + (proc.stderr or "")
 
 
-def append_proof(payload: dict, ci_exit: int) -> None:
-    record = {
-        "timestamp": datetime.now(timezone.utc).isoformat(),
-        "hook_event_name": payload.get("hook_event_name"),
-        "ci_exit": ci_exit,
-        "hook_path": HOOK_PATH,
-    }
-    if "conversation_id" in payload:
-        record["conversation_id"] = payload["conversation_id"]
-    if "tool_name" in payload:
-        record["tool_name"] = payload["tool_name"]
-    try:
-        with PROOF_LOG.open("a", encoding="utf-8") as fh:
-            fh.write(json.dumps(record, ensure_ascii=False) + "\n")
-    except OSError:
-        pass
+def should_run_ci(event: str, payload: dict) -> bool:
+    if event == "stop":
+        return True
+    if event != "pretooluse":
+        return False
+    name = str(payload.get("tool_name") or "").casefold()
+    if not name:
+        return True
+    return name in MUTATION_TOOLS
+
+
+def append_proof(root: Path, record: dict) -> None:
+    line = json.dumps(record, ensure_ascii=False) + "\n"
+    for path in (PROOF_LOG, root / ".git" / "cursor-hooks-fired.log"):
+        try:
+            with path.open("a", encoding="utf-8") as fh:
+                fh.write(line)
+        except OSError:
+            pass
 
 
 def fail_message(output: str) -> str:
@@ -66,9 +79,24 @@ def fail_message(output: str) -> str:
 
 def main() -> int:
     payload = drain_stdin()
-    ci_exit, output = run_ci(repo_root())
-    append_proof(payload, ci_exit)
+    root = repo_root()
     event = str(payload.get("hook_event_name") or "").lower()
+    ran = should_run_ci(event, payload)
+    ci_exit = 0
+    output = ""
+    if ran:
+        ci_exit, output = run_ci(root)
+    record = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "hook_event_name": payload.get("hook_event_name"),
+        "ci_exit": ci_exit,
+        "ran_ci": ran,
+        "hook_path": HOOK_PATH,
+    }
+    for key in ("conversation_id", "generation_id", "tool_name", "cursor_version"):
+        if key in payload:
+            record[key] = payload[key]
+    append_proof(root, record)
     if event == "stop":
         if ci_exit != 0:
             print(
@@ -81,7 +109,7 @@ def main() -> int:
         else:
             print("{}", flush=True)
         return 0
-    if ci_exit != 0:
+    if ran and ci_exit != 0:
         print(
             json.dumps(
                 {"permission": "deny", "agent_message": fail_message(output)},
