@@ -19,17 +19,17 @@
 | 名前 | 役割 | 回すまで動かない |
 |---|---|---|
 | [`PdM`](./PdM.md) | チーフ・オブ・スタッフ。優先順位を決め、開発は Cloud開発、PR は PR確認。ボットへの依頼は独立なら並列で渡してよい。マージはCIグリーンだけではしない。Cursor bot終了かつコメント全部resolvedまで待つ。ユーザーへは日本語。ボット間はプロトコル。コードは書かない。入口は poteto-mode。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
-| [`Cloud開発`](./Cloud開発.md) | impl.conductor。ZuruNoteは開発ZuruNote（c392743e）、sauna-masterは開発sauna-master（926dab14）へ回す。独立したプロダクト仕事は並列で火を付ける。Cloud Agentは立てない。コードもcloneもマージも計画も承認もしない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`Cloud開発`](./Cloud開発.md) | impl.conductor。ZuruNoteは開発ZuruNote（c392743e）、sauna-masterは開発sauna-master（926dab14）へ回す。独立したプロダクト仕事は並列で火を付ける。Cloud Agentは立てない。コードもcloneもマージも計画も承認もしない。main 向け PR は ready-for-review。draft は捨て検証だけ。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`Planner`](./Planner.md) | plan.only。grill-with-docs で to-spec にする。出典は mattpocock/skills。Cloud Agent は plan/spec のテキストだけ書き、GitHub issue は作らない。issue 起票は Planner が gh で行う。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`案件切り出し`](./案件切り出し.md) | issue.cut。CI 非依存の issue を1件、PdM と Planner の両方へ渡す。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`開発ZuruNote`](./開発ZuruNote.md) | impl.via。https://github.com/maplefukku/ZuruNote を Cloud Agent で実装する。計画 issue は Planner から受ける。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`開発sauna-master`](./開発sauna-master.md) | impl.via。https://github.com/maplefukku/sauna-master を Cloud Agent で実装する。計画 issue は Planner から受ける。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`CI運用`](./CI運用.md) | ci.ops。ZuruNote と sauna-master。CI の主は Xcode Cloud。残時間がほぼ0のときだけ Mac mini self-hosted に切り替える。XC と Mac の Swift 二重実行はしない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`開発ZuruNote`](./開発ZuruNote.md) | impl.via。https://github.com/maplefukku/ZuruNote を Cloud Agent で実装する。計画 issue は Planner から受ける。main 向け PR は ready-for-review。draft は捨て検証だけ。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`開発sauna-master`](./開発sauna-master.md) | impl.via。https://github.com/maplefukku/sauna-master を Cloud Agent で実装する。計画 issue は Planner から受ける。main 向け PR は ready-for-review。draft は捨て検証だけ。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`CI運用`](./CI運用.md) | ci.ops。ZuruNote と sauna-master。Linux の主は Mac mini Lima の gakuse-ci / gakuse-ci-2。zurunote-linux-1/2 は使わない。Swift の主は Xcode Cloud。残時間がほぼ0のときだけ Mac mini に切り替える。XC と Mac の Swift 二重実行はしない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`Apple運用`](./Apple運用.md) | apple.asc。Usage 時間を見る。残りがほぼ0なら PdM に知らせ、Mac mini が Swift を受ける。対象は ZuruNote と sauna-master。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`Cursor運用`](./Cursor運用.md) | cursor.dashboard。Cloud Agent・Bugbot・Automations を見る。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`Mini運用`](./Mini運用.md) | mini.ops。登録マシン fukku-mac-mini で Shell と Codex CUA。ssh-GUI禁止、余分な XC / Archive 開始禁止、15件PRキュー禁止。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`ChatGPT Pro`](./ChatGPT_Pro.md) | chatgpt.pro.advisor。行き詰まったときの相談。ChatGPT感性とも note執筆とも別。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`PR確認`](./PR確認.md) | 全プロダクト PR の目的・ユーザー変化・CI・コンフリクト・残課題を見る。マージ可はグリーンかつ Cursor-bots 完了かつスレッド resolved のときだけ。自動で見続けない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`PR確認`](./PR確認.md) | 全プロダクト PR の目的・ユーザー変化・CI・コンフリクト・残課題と isDraft を見る。main 向けは ready。draft は捨て検証だけ。マージ可はグリーンかつ Cursor-bots 完了かつスレッド resolved のときだけ。自動で見続けない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 
 ## 外側ループ
 
