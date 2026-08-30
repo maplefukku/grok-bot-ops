@@ -27,6 +27,7 @@
 | [`CI運用`](./CI運用.md) | ci.ops。ZuruNote と sauna-master。CI の主は Xcode Cloud。残時間がほぼ0のときだけ Mac mini self-hosted に切り替える。XC と Mac の Swift 二重実行はしない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`Apple運用`](./Apple運用.md) | apple.asc。Usage 時間を見る。残りがほぼ0なら PdM に知らせ、Mac mini が Swift を受ける。対象は ZuruNote と sauna-master。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`Cursor運用`](./Cursor運用.md) | cursor.dashboard。Cloud Agent・Bugbot・Automations を見る。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`Mini運用`](./Mini運用.md) | mini.ops。登録マシン fukku-mac-mini で Shell と Codex CUA。ssh-GUI禁止、余分な XC / Archive 開始禁止、15件PRキュー禁止。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`ChatGPT Pro`](./ChatGPT_Pro.md) | chatgpt.pro.advisor。行き詰まったときの相談。ChatGPT感性とも note執筆とも別。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`PR確認`](./PR確認.md) | 全プロダクト PR の目的・ユーザー変化・CI・コンフリクト・残課題を見る。マージ可はグリーンかつ Cursor-bots 完了かつスレッド resolved のときだけ。自動で見続けない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 
