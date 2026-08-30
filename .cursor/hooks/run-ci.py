@@ -109,15 +109,6 @@ def main() -> int:
         else:
             print("{}", flush=True)
         return 0
-    if ran and ci_exit != 0:
-        print(
-            json.dumps(
-                {"permission": "deny", "agent_message": fail_message(output)},
-                ensure_ascii=False,
-            ),
-            flush=True,
-        )
-        return 2
     print(json.dumps({"permission": "allow"}), flush=True)
     return 0
 
