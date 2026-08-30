@@ -36,6 +36,7 @@ Grok Bot でプロダクト開発を回すための **司令室リポジトリ**
 
 ```text
 .cursor-plugin/plugin.json   このリポジトリ自体が Cursor プラグイン
+.cursor/hooks.json           Cloud Agent が scripts/ci.py を回す（wrapper: .cursor/hooks/run-ci.py）
 .github/workflows/ci.yml     相対リンク・knowhow 出典・plugin.json
 scripts/ci.py                上と同じ検査（ローカルでもこれを実行）
 skills/                      自作スキル。スキル0から始め、evalを通ったものだけ足す
