@@ -4,8 +4,8 @@
 |---|---|
 | リポジトリ | https://github.com/maplefukku/ZuruNote |
 | デフォルトブランチ | main |
-| 検証スキル | 無し |
-| feature map | 無し |
+| 検証スキル | `.cursor/skills/verify-zurunote/`（2026-08-30） |
+| feature map | `.cursor/skills/verify-zurunote/features/` |
 | maintain routine | 検証メンテ・平日1回 |
 | automation パック | 無し |
 | intake の対象 | 無し |
@@ -20,3 +20,7 @@
 - クライアントは SwiftUI iOS のみ (`apps/ios-swift`)
 - 起動に Xcode と iOS シミュレータが要る
 - 録音は端末。講義音声はサーバに置かない
+- Linux では決定的なサーバと HTTP だけを駆動できる。Maestro と XCUITest には macOS が要る。対象は Simulator か実機
+- Docker が無い VM は apt の PostgreSQL 16 で足りる。スキル PR で確認済み
+- 開発用 DB とテスト用 DB はどちらもホストの 5433 を使うので同時には動かない
+- 検証スキル PR: https://github.com/maplefukku/ZuruNote/pull/221
