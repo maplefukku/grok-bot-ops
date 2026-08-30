@@ -19,6 +19,7 @@
 | 名前 | 役割 | 回すまで動かない |
 |---|---|---|
 | [`PdM`](./PdM.md) | チーフ・オブ・スタッフ。優先順位を決め、開発は 開発リーダー、PR は PR確認。ボットへの依頼は独立なら並列で渡してよい。マージはCIグリーンだけではしない。Cursor bot終了かつコメント全部resolvedまで待つ。ユーザーへは日本語。ボット間はプロトコル。コードは書かない。入口は poteto-mode。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`GTM`](./GTM.md) | product.gtm。公式 https://x.ai/bot/guides/grok-bot-for-gtm 。CoSはPdM。ZuruNote / sauna-master / gakuse-ai のローンチ資料。公開はPdMかユーザーのyes。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`開発リーダー`](./開発リーダー.md) | impl.conductor。開発リーダー。ZuruNoteは開発ZuruNote、sauna-masterは開発sauna-master、gakuse-aiは開発gakuse-ai、grok-bot-opsは開発grok-bot-opsへ回す。独立したプロダクト仕事は並列。Cloud Agentは立てない。プロダクト実装の CA ENV default は machine zurunote-ios-mini。grok-bot-ops は Cursor cloud VM。Planner は Cursor VM。main向けPRはready。draftは捨て検証だけ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`Planner`](./Planner.md) | plan.only。grill-with-docs で to-spec にする。出典は mattpocock/skills。Cloud Agent は plan/spec のテキストだけ書き、GitHub issue は作らない。issue 起票は Planner が gh で行う。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`案件切り出し`](./案件切り出し.md) | issue.cut。CI 非依存の issue を1件、PdM と Planner の両方へ渡す。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
