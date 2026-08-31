@@ -18,20 +18,20 @@
 
 | 名前 | 役割 | 回すまで動かない |
 |---|---|---|
-| [`監視`](./監視.md) | fleet.supervisor。PdMの上。フリートの停滞を見てPdMへJOB。平日 8,10,12,14,16,18,20,22 のsweep。新機能PRはdraft可。実装はしない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`PdM`](./PdM.md) | チーフ・オブ・スタッフ。優先順位を決め、開発は 開発リーダー、PR は PR確認。ボットへの依頼は独立なら並列で渡してよい。マージはCIグリーンだけではしない。Cursor bot終了かつコメント全部resolvedまで待つ。ユーザーへは日本語。ボット間はプロトコル。コードは書かない。入口は poteto-mode。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`監視`](./監視.md) | fleet.supervisor。PdMの上。フリートの停滞を見てPdMへJOB。平日 8,10,12,14,16,18,20,22 のsweep。新機能PRはdraft可。実装はしない。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`PdM`](./PdM.md) | チーフ・オブ・スタッフ。優先順位を決め、開発は 開発リーダー、PR は PR確認。ボットへの依頼は独立なら並列で渡してよい。マージはCIグリーンだけではしない。Cursor bot終了かつコメント全部resolvedまで待つ。ユーザーへは日本語。ボット間はプロトコル。コードは書かない。入口は poteto-mode。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`GTM`](./GTM.md) | product.gtm。公式 https://x.ai/bot/guides/grok-bot-for-gtm 。CoSはPdM。平日 06:00 JST（0 6 * * 1-5）の routine は gtm-morning 1本。中で ZuruNote / sauna-master / gakuse-ai の Cloud Agent を並列（model grok-4.6 effort xhigh、CA ENV は cloud、miniではない）。GTM docs は draft 可。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`開発リーダー`](./開発リーダー.md) | impl.conductor。開発リーダー。INはPdMまたは監視。ZuruNoteは開発ZuruNote、sauna-masterは開発sauna-master、gakuse-aiは開発gakuse-ai、grok-bot-opsは開発grok-bot-opsへ回す。独立したプロダクト仕事は並列。Cloud Agentは立てない。monkeyは自分で立てない。実装と調査は毎回 /poteto-mode。リポごとに pstack プラグイン必須。プロダクト実装の CA ENV default は machine zurunote-ios-mini。grok-bot-ops は Cursor cloud VM。Planner は Cursor VM。新機能PRはdraft可。残件・ユーザー可視・CI landerはready-for-review。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`Planner`](./Planner.md) | plan.only。grill-with-docs で to-spec にする。出典は mattpocock/skills。Cloud Agent は plan/spec のテキストだけ書き、GitHub issue は作らない。issue 起票は Planner が gh で行う。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`OSS調査`](./OSS調査.md) | oss.survey。車輪の再発明をしない。GitHubはboxブラウザ。既存OSSのURL・ライセンス・最終push・できること・不足をPdMへ。cloneしない。PRもマージもしない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`Planner`](./Planner.md) | plan.only。grill-with-docs で to-spec にする。出典は mattpocock/skills。Cloud Agent は plan/spec のテキストだけ書き、GitHub issue は作らない。issue 起票は Planner が gh で行う。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`OSS調査`](./OSS調査.md) | oss.survey。車輪の再発明をしない。GitHubはboxブラウザ。既存OSSのURL・ライセンス・最終push・できること・不足をPdMへ。cloneしない。PRもマージもしない。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`案件切り出し`](./案件切り出し.md) | issue.cut。INはPdMまたは監視。CI非依存のissueを最大3件、PdMとPlannerと監視へ渡す。新機能のdraft経路は可。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`開発ZuruNote`](./開発ZuruNote.md) | impl.via。https://github.com/maplefukku/ZuruNote を Cloud Agent で実装する。計画 issue は Planner から受ける。実装と調査は毎回 /poteto-mode。リポごとに pstack プラグイン必須。CA ENV default は machine zurunote-ios-mini。MONKEYは週夜 22:00 JST。monkeyではプロダクトコードを編集しない。新機能PRはdraft可。残件・ユーザー可視・CI landerはready-for-review。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`開発sauna-master`](./開発sauna-master.md) | impl.via。https://github.com/maplefukku/sauna-master を Cloud Agent で実装する。計画 issue は Planner から受ける。実装と調査は毎回 /poteto-mode。リポごとに pstack プラグイン必須。CA ENV default は machine zurunote-ios-mini。MONKEYは夜 23:00 JST。monkeyではプロダクトコードを編集しない。新機能PRはdraft可。残件・ユーザー可視・CI landerはready-for-review。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`開発gakuse-ai`](./開発gakuse-ai.md) | impl.via。https://github.com/maplefukku/gakuse-ai を Cloud Agent で実装する。計画issueはPlannerから。INは開発リーダーかPdM。実装と調査は毎回 /poteto-mode。リポごとに pstack プラグイン必須。CA ENV default は machine zurunote-ios-mini。MONKEYは 00:00 JST（火–土）。Playwright/Maestroはmini。iOS GUIはプロダクトにiOSがあるときだけ。monkeyではプロダクトコードを編集しない。新機能PRはdraft可。残件・ユーザー可視・CI landerはready-for-review。Linux CIは lima gakuse-ci / gakuse-ci-2。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`開発grok-bot-ops`](./開発grok-bot-ops.md) | impl.via。https://github.com/maplefukku/grok-bot-ops を Cloud Agent で実装する。INは開発リーダーかPdM。実装と調査は毎回 /poteto-mode。リポごとに pstack プラグイン必須。CA ENV default は Cursor cloud VM。新機能PRはdraft可。残件・ユーザー可視・CI landerはready-for-review。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`CI運用`](./CI運用.md) | ci.ops。対象は ZuruNote / sauna-master / gakuse-ai。担当は GitHub Actions と Ubicloud とセルフホスト runner の健全性。Swift の主は Xcode Cloud の Build-only（ZuruNote と sauna-master）。月次時間がほぼ0のときだけ Mac mini に切り替える。XC と Mac の Swift 二重実行はしない。ZuruNote の Linux は共有 Grok Bot Linux の zurunote-linux-1/2、溢れは Ubicloud。gakuse-ai の Linux は lima gakuse-ci / gakuse-ci-2（不要なら Stopped のまま、消さない）。bare の runs-on:self-hosted は使わない。同一 SHA の二重バックエンドはしない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`Apple運用`](./Apple運用.md) | apple.asc。Usage 時間を見る。残りがほぼ0なら PdM に知らせ、Mac mini が Swift を受ける。対象は ZuruNote と sauna-master。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`Cursor運用`](./Cursor運用.md) | cursor.dashboard。Cloud Agent・Bugbot・Automations を見る。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`CI運用`](./CI運用.md) | ci.ops。対象は ZuruNote / sauna-master / gakuse-ai。担当は GitHub Actions と Ubicloud とセルフホスト runner の健全性。Swift の主は Xcode Cloud の Build-only（ZuruNote と sauna-master）。月次時間がほぼ0のときだけ Mac mini に切り替える。XC と Mac の Swift 二重実行はしない。ZuruNote の Linux は共有 Grok Bot Linux の zurunote-linux-1/2、溢れは Ubicloud。gakuse-ai の Linux は lima gakuse-ci / gakuse-ci-2（不要なら Stopped のまま、消さない）。bare の runs-on:self-hosted は使わない。同一 SHA の二重バックエンドはしない。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`Apple運用`](./Apple運用.md) | apple.asc。Usage 時間を見る。残りがほぼ0なら PdM に知らせ、Mac mini が Swift を受ける。対象は ZuruNote と sauna-master。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`Cursor運用`](./Cursor運用.md) | cursor.dashboard。Cloud Agent・Bugbot・Automations を見る。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`Mini運用`](./Mini運用.md) | mini.ops。登録マシン fukku-mac-mini で Shell と Codex CUA。ssh-GUI禁止、余分な XC / Archive 開始禁止、15件PRキュー禁止。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`ChatGPT Pro`](./ChatGPT_Pro.md) | chatgpt.pro.advisor。行き詰まったときの相談。ChatGPT感性とも note執筆とも別。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`PR確認`](./PR確認.md) | 全プロダクト PR の目的・ユーザー変化・CI・コンフリクト・残課題と isDraft を見る。main 向けは ready。draft は捨て検証だけ。マージ可はグリーンかつ Cursor-bots 完了かつスレッド resolved のときだけ。自動で見続けない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
@@ -43,11 +43,11 @@
 | 名前 | 役割 | 回すまで動かない |
 |---|---|---|
 | [`Knowhow収集`](./Knowhow収集.md) | collect-grokbot-knowhow を回し、`docs/knowhow/` だけに出典付きで書く。毎日1本の `ops/daily-YYYY-MM-DD` draft PR に積む。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
-| [`検証メンテ`](./検証メンテ.md) | maintain-verification を回し、verify スキルと `products/` 台帳だけを対象にする。台帳が空なら対象なし。毎日1本の `ops/daily-YYYY-MM-DD` draft PR に積む。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
-| [`台帳更新`](./台帳更新.md) | ledger.grok-bot-ops。bots/ と routines/ を更新する。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`検証メンテ`](./検証メンテ.md) | maintain-verification を回し、verify スキルと `products/` 台帳だけを対象にする。台帳が空なら対象なし。毎日1本の `ops/daily-YYYY-MM-DD` draft PR に積む。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`台帳更新`](./台帳更新.md) | ledger.grok-bot-ops。bots/ と routines/ を更新する。CAは /poteto-mode 必須。pstack プラグインは grok-bot-ops に必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`最先端手法`](./最先端手法.md) | discord.cutting-edge。手法を1つ gakuse.ai の Discord へ出す。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`note執筆`](./note執筆.md) | note.writer。1次調査のあと chatgpt.com Pro で書く。「出して」まで投稿しない。ChatGPT Pro（相談）とも ChatGPT感性とも別。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`UI調査`](./UI調査.md) | ui.research。近い事例の URL と、なぜ近いかを返す。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`UI調査`](./UI調査.md) | ui.research。近い事例の URL と、なぜ近いかを返す。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 
 ## キャラクター生産工場
 
