@@ -23,7 +23,7 @@ Linux は docs / CI / draft PR だけ。Instagram に触れない。ボットは
 | [name.md](./name.md) | 表示名、溢れ規則、handle fallback。表示名のカタカナ 0 |
 | [bio.md](./bio.md) | 貼り付け用 bio。**非公式** 必須 |
 | [visual-lock.md](./visual-lock.md) | 見た目の候補。禁止リスト。ふっくー受理待ち |
-| [meta-taps.md](./meta-taps.md) | iPhone HITL。切替は Meta UI のみ。新規作成は公式アコーディオン |
+| [meta-taps.md](./meta-taps.md) | iPhone HITL。新規作成は公式 Accordion 1。切替は Meta UI のみ |
 | [ip-stance.md](./ip-stance.md) | オリジナル・コントロール / 三次 / 非公式。法律判断なし。API 切替なし |
 | [first-7-days.md](./first-7-days.md) | D0–D1 はプロフィールと設定。既定は投稿なし |
 | [account.md](./account.md) | 書き戻しテンプレート。いまは pending。トークンなし |
@@ -35,7 +35,7 @@ Linux は docs / CI / draft PR だけ。Instagram に触れない。ボットは
 ## HITL 順序
 
 1. ふっくーがメール / 電話を用意する。iPhone の Instagram アプリ。
-2. 新規作成。https://help.instagram.com/155940534568753 のアコーディオンに従う。欠けたタップを埋めない。
+2. 新規作成。iPhone Accordion 1（Facebook なし）。https://help.instagram.com/155940534568753/?cms_platform=iphone-app&helpref=platform_switcher （取得: 2026-08-31）。タップを足さない。Facebook 経由は勧めない。
 3. `@laststitch.lab`。拒否なら `@laststitchlab`。
 4. 名前と [bio.md](./bio.md)。
 5. 2FA Authentication app（有効化は Instagram アプリのみ）。バックアップコードはふっくーだけ。

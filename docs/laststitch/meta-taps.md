@@ -7,7 +7,7 @@
 ## 順序（LOCK）
 
 1. ふっくーがメール / 電話を用意する。iPhone の Instagram アプリ。
-2. 新規作成。公式アコーディオン https://help.instagram.com/155940534568753 に従う。欠けたタップをブログで埋めない。
+2. 新規作成。iPhone 公式アコーディオン（Accordion 1。Facebook なし）に従う。タップを足さない。
 3. username `@laststitch.lab`。拒否なら `@laststitchlab`。
 4. 名前と [bio.md](./bio.md)。
 5. 2FA Authentication app（有効化は Instagram アプリのみ）。バックアップコードはふっくーだけ。
@@ -20,30 +20,38 @@ Hub: Signing Up and Getting Started。
 - 出典: https://help.instagram.com/3257948324491837 （取得: 2026-08-31）
 - 出典: https://www.facebook.com/help/instagram/3257948324491837 （取得: 2026-08-31）
 
-## 1. 新規作成（タップを発明しない）
+## 1. 新規作成（iPhone アコーディオン。タップを足さない）
 
-アコーディオン本文は抽出できていない。**ライブの公式ページに従う。** 記憶で手順を埋めない。
+一次は iPhone タブの公式ページ。2026-08-31 にアコーディオン本文を取得した。**ここに無いタップを足さない。**
 
-公式ページ（HITL が開く）:
-
-https://help.instagram.com/155940534568753
-
-2026-08-31 に取得できたのは次だけ（help.instagram.com は 400。title + meta は事前取得分）:
-
+- 出典: https://help.instagram.com/155940534568753/?cms_platform=iphone-app&helpref=platform_switcher （取得: 2026-08-31）
 - Title: Create a new Instagram profile | Instagram Help Center
-- Meta: Find out how to create a new Instagram profile on desktop, mobile or tablet. You can create a profile even if you don't have Facebook.
 
-facebook.com/help ミラー（取得: 2026-08-31）で読めた本文:
+Notice（同ページ）:
 
-- 見出し: Create a new Instagram profile
-- 「You must be at least 13 years old to create an Instagram profile.」
-- 作り方は 2 つ: Instagram アプリまたは Instagram.com。既存の Facebook / Instagram アカウントからも作れる。
-- アコーディオン見出し「To create an account if you're new to Instagram and you don't have a Facebook account」「To create an account if you have a Facebook account」はある。**中のタップは未抽出。**
+- Meta Accounts / Accounts Center の文言が出ることがある。
+- Must be at least 13.
+- 作り方は 2 つ: アプリまたは instagram.com。既存の Facebook / Instagram からも、同じ Accounts Center に新しい IG を作れる。
+- 最近作ったアカウントは new と出ることがある。
+- login info の保存は任意。HITL の手元だけ。ボットは保存しない。
 
-HITL: iPhone で公式ページを開き、**iPhone App Help** のアコーディオンをその場で読む。username を聞かれたら [name.md](./name.md)。名前と bio は次節と [bio.md](./bio.md)。
+HITL は **Accordion 1**（new to Instagram, **NO Facebook account**）。Accordion 2（Facebook から作る）は公式の別経路として存在するが、勧めない。LOCK はオリジナル・コントロール + Page Skip。
 
-- 出典: https://help.instagram.com/155940534568753 （取得: 2026-08-31）
-- 出典: https://www.facebook.com/help/instagram/155940534568753 （取得: 2026-08-31）
+### Accordion 1（iPhone。verbatim）
+
+1. Download the Instagram app from the App Store (iPhone) or Google Play Store (Android).
+2. Once the app is installed, tap Instagram logo to open it.
+3. Tap Create New Account and enter your email address or mobile number, then tap Next. Note: If you sign up with email, make sure you enter your email address correctly and choose an email address that only you can access. If you log out and forget your password, you'll need to be able to access your email to get back into your Instagram account.
+4. Enter the confirmation code sent to your email address or mobile number, then tap Next.
+5. Create a password, then tap Next.
+6. Enter your birthday, then tap Next. Note: Use your own birthday, even if this account is for a business, a pet or something else.
+7. Add your name, then tap Next.（LOCK 名前: `最後の一針 / LAST STITCH LAB`。カタカナ 0。溢れ規則は [name.md](./name.md)）
+8. Create a username, then tap Next.（LOCK: `@laststitch.lab`。拒否なら `@laststitchlab`）
+9. Read Instagram’s terms and policies, then tap I agree, if you agree to the terms, to create your account.
+10. Add a profile picture, then tap Next. If you’d like to add a profile picture later, tap Skip.（[visual-lock.md](./visual-lock.md) を受理してから載せる。D0 は Skip でよい）
+11. If you want to share your profile picture as your first post, tap Toggle, then tap Done.（LOCK: プロフィール画像を初投稿にしない。toggle はオフのまま / 初投稿として共有しない。[first-7-days.md](./first-7-days.md)）
+
+確認コード・パスワード・誕生日・メール・電話はふっくーだけ。ボットは受け取らない。bio の貼り付けは作成後（次節と [bio.md](./bio.md)）。
 
 ## 2. 名前・username・bio（作成後）
 

@@ -11,7 +11,7 @@
 | 表示名 | [name.md](./name.md)。第一 `最後の一針 / LAST STITCH LAB`。ダメなら `最後の一針` | 画面の名前欄 |
 | handle | `@laststitch.lab` → 拒否なら `@laststitchlab` | [account.md](./account.md) |
 | bio | [bio.md](./bio.md)。**非公式** 必須 | 画面の bio |
-| プロフィール画像 | [visual-lock.md](./visual-lock.md) をふっくーが受理したあとだけ | 未受理なら空のまま可 |
+| プロフィール画像 | [visual-lock.md](./visual-lock.md) をふっくーが受理したあとだけ。作成時は公式 Skip 可。プロフィール画像を初投稿にしない（toggle オフ） | 未受理なら空のまま可 |
 | 2FA | Authentication app。バックアップコードはふっくーだけ | 方式名だけ書き戻す |
 | 種別 | Creator（Meta UI のみ。Business ではない） | professional は非公開にできない |
 | Facebook Page | Skip。今は繋がない | skipped |
@@ -32,6 +32,7 @@ Professional 切替は公開前提。非公開のままにする提案はしな�
 - 出典: https://www.facebook.com/help/instagram/728994388226960 （取得: 2026-08-31）
 - 出典: https://www.facebook.com/help/instagram/557544397610546 （取得: 2026-08-31）
 - 出典: https://www.facebook.com/help/instagram/347751748650214 （取得: 2026-08-31）
+- 出典: https://help.instagram.com/155940534568753/?cms_platform=iphone-app&helpref=platform_switcher （取得: 2026-08-31。作成時 Skip / first-post Toggle）
 
 2FA の Authentication app は Instagram アプリ（Android / iPhone）でのみオンにできる。追加デバイスは day-0 必須ではない。
 
@@ -40,7 +41,8 @@ Professional 切替は公開前提。非公開のままにする提案はしな�
 
 ## D0–D1（やらない）
 
-- 初投稿（既定）。ふっくーが後で HITL iPhone 手動と決めたときだけ例外
+- 初投稿（既定）。作成時の「share your profile picture as your first post」もやらない（公式 Accordion 1 の Toggle はオフ）
+- ふっくーが後で HITL iPhone 手動と決めたときだけ、別途投稿してよい
 - 予約投稿、publish-bot、Graph API、Instagram Login、Pika、工場、IG 運用ボット
 - Graph / API での personal → Professional 切替（手段として存在させない）
 - Page 接続、連絡先の公開、カテゴリラベルの表示
