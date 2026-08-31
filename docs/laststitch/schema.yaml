@@ -1,0 +1,62 @@
+# Generic Instagram professional profile layer.
+# laststitch is instance 1. Not a wrap of instagram-skills.
+# OSS-SURVEY 2026-08-31: no drop-in IG Professional SPEC.
+# Convert personal → professional is Meta UI only. Graph does not convert.
+
+meta:
+  layer: instagram-professional-profile
+  oss_survey: "2026-08-31"
+  convert: meta-ui-only
+  graph_converts_personal: false
+  field_list_source: https://github.com/sergebulaev/instagram-skills/blob/main/skills/ig-profile-optimizer/SKILL.md
+  brand_heading_source: https://github.com/caiopizzol/brand.md
+  brand_heading_license: MIT
+  wrap_oss_plugin: false
+
+fields:
+  account_type: [creator, business]
+  category: string
+  name_field: string
+  username: string
+  bio: string
+  links: list
+  highlights: list
+  pinned: list
+  grid_notes: string
+  pillar: [Reel, carousel, story]
+
+# bio 150: Meta 1° (not invented). NAME 30 is OSS-only; FLAG, unused as official.
+bio_char_note:
+  official_limit: 150
+  official_source: https://www.facebook.com/help/instagram/728994388226960
+  official_fetched: "2026-08-31"
+  name_field_oss_30: flag-not-official
+
+brand_optional_keys:
+  - positioning
+  - audience
+  - voice
+  - visual
+  - pillars
+
+instance:
+  id: laststitch
+  n: 1
+  account_type: creator
+  category: pending
+  name_field: 最後の一針 / LAST STITCH LAB
+  name_field_overflow: 最後の一針
+  username: laststitch.lab
+  username_fallback: laststitchlab
+  bio: オリジナル制作のラボ。三次創作あり。非公式。
+  links: []
+  highlights: []
+  pinned: []
+  grid_notes: ""
+  pillar: pending
+  brand_optional:
+    positioning: pending
+    audience: pending
+    voice: pending
+    visual: pending
+    pillars: pending

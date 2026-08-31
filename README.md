@@ -50,6 +50,7 @@ lessons/                     /reflect で受理された教訓
 docs/
   guide/                     pstack 公式ガイドの日本語訳
   knowhow/                   Grok Bot 全般のノウハウ（人に縛らない。出典リンク必須）
+  laststitch/                IG Creator HITL パック（最後の一針）。アカウントができるまで運用しない
 AGENTS.md                    エージェントが最初に読むもの
 ```
 
