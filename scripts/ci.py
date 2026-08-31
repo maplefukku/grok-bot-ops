@@ -52,7 +52,7 @@ def check_relative_links() -> list[str]:
         for match in LINK_RE.finditer(text):
             raw = match.group(1).strip()
             if raw.startswith(
-                ("http://", "https://", "mailto:", "grokbot://", "#")
+                ("http://", "https://", "mailto:", "grokbot://", "sand-workflow:", "#")
             ):
                 continue
             target = raw.split("#", 1)[0]

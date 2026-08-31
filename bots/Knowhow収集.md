@@ -9,3 +9,4 @@
 | 回すまで動かない | いいえ |
 | マージしない | はい |
 | 参照 | [routines/collect-grokbot-knowhow.md](../routines/collect-grokbot-knowhow.md) |
+| スキル | 無し |

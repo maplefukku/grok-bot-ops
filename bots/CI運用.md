@@ -9,3 +9,4 @@
 | 回すまで動かない | はい |
 | マージしない | はい |
 | 参照 | 無し |
+| スキル | [ci-health-sweep](sand-workflow:ci-health-sweep) |

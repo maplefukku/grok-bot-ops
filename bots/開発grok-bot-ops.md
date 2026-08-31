@@ -9,3 +9,4 @@
 | 回すまで動かない | はい |
 | マージしない | はい |
 | 参照 | 無し |
+| スキル | [Cloud開発](sand-workflow:cloud) / [開発からPRグリーン](sand-workflow:pr-2) |
