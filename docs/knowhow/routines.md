@@ -2,6 +2,12 @@
 
 Grok Bot の routine（定期実行・イベント・webhook）の公式の使い方。
 
+## 席を外しても clock で routine を回す
+
+- 内容: チャットで待たない。routine を時計で発火させ、出力ファイルを作業の証拠とする。
+- 出典: [x.com/DisruptConcept/status/2094926239190638760](https://x.com/DisruptConcept/status/2094926239190638760)（2026-09-01）
+- 確認: 未
+
 ## 担当ボットに付ける
 
 - 内容: routine は「その定期作業を持つ Bot」に作る。スケジュールとタイムゾーン、入力、期待結果、承認境界、ソース欠損時の振る舞いを確認する。1 Bot は最大 50 routine。直近 20 回の実行記録が残る。バックグラウンド routine はノート PC を閉じても動く。
