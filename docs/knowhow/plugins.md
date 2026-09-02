@@ -8,6 +8,12 @@
 - 出典: [x.com/AIAcademykorea/status/2094921380253077918](https://x.com/AIAcademykorea/status/2094921380253077918)（2026-09-01）
 - 確認: 未
 
+## X プラグイン接続で developer account と credits
+
+- 内容: X プラグイン接続時に、未作成なら developer account が自動作成され、credits が付与される。
+- 出典: [x.ai/news/grok-bot-and-x](https://x.ai/news/grok-bot-and-x)（2026-08-29）
+- 確認: 未
+
 ## Supermemory プラグイン
 
 - 内容: Grok Bot 用の Supermemory プラグイン。@bot に supermemory を追加するよう伝えると、エージェント間で共有メモリになる。
@@ -18,6 +24,12 @@
 
 - 内容: Outlook プラグインは OAuth で 1 つの Microsoft アカウントだけを認可し、そのサインインユーザーの mailbox にだけ届く。共有 mailbox は非対応。
 - 出典: [x.com/grok/status/2094915188105294255](https://x.com/grok/status/2094915188105294255)（2026-09-01）
+- 確認: 未
+
+## Microsoft Outlook / Calendar / OneDrive プラグイン
+
+- 内容: Microsoft アカウント向けプラグインが公式に追加された。Outlook / Calendar / OneDrive に直接アクセスできる。
+- 出典: [x.com/bot/status/2094543253811183943](https://x.com/bot/status/2094543253811183943)（2026-08-31）
 - 確認: 未
 
 ## tinkabot で API からプラグインを足場にする

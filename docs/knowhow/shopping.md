@@ -8,6 +8,12 @@
 - 出典: [Approvals, security, and privacy](https://docs.x.ai/grok-bot/approvals-security-and-privacy)（2026-08-29 確認）
 - 確認: 未
 
+## @link でネット購入
+
+- 内容: @link を接続すると Bot がネット購入できる。承認ごとに secure single-use card。現時点は US。mobile は順次。
+- 出典: [x.com/bot/status/2093419921007108385](https://x.com/bot/status/2093419921007108385)（2026-08-28）、[x.com/bot/status/2093419922470961421](https://x.com/bot/status/2093419922470961421)
+- 確認: 未
+
 ## 運用ルール（このリポジトリの採用ルール）
 
 - 内容: 決済権限は本物のカードに直結させない。承認なしの自動購入は設定しない。
