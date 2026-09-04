@@ -29,3 +29,4 @@ Planner が 1 日 1 回、候補を ADOPT または REJECT して残す台帳で
 |---|---|---|---|---|---|---|---|
 | 2026-09-05 | 最先端手法 | 判断の形を CI で強制する | https://github.com/cursor/plugins/blob/main/pstack/skills/principle-encode-lessons-in-structure/SKILL.md | ADOPT | 同じ指示を記憶に書き直していた。decision と理由と source_url を CI の検査にする。 | ops |  |
 | 2026-09-05 | Knowhow収集 | 調査用の第4ボットを立てる | https://github.com/maplefukku/grok-bot-ops/issues/19 | REJECT | 調査は最先端手法と Knowhow収集、判断は Planner、発火は PdM と開発リーダー。席は既にある。足す前に席を減らす。 | none |  |
+| 2026-09-05 | 最先端手法 | HydraFusion task patterns (Single/Cascade/Critique) | https://x.com/github/status/2095907113201496216 | ADOPT | Single / Cascade / Critique は CA・conductor の難易度ルーティングに写せる。安い下書き→品質ゲート→強いモデル、または別ファミリー批判→1回直し。Copilot HydraFusion 製品は採用しない。Cognition Fusion とは別。 | skill |  |
