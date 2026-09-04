@@ -10,6 +10,7 @@ Grok Bot 全般のノウハウ置き場です。**特定の人物に縛りませ
 | [`routines.md`](./routines.md) | routine（定期実行・イベント・webhook） |
 | [`plugins.md`](./plugins.md) | プラグイン |
 | [`bot-ui.md`](./bot-ui.md) | カスタム Bot UI |
+| [`computer.md`](./computer.md) | Bot のコンピュータ（Cloud Agent、ネットワーク、永続化） |
 | [`templates.md`](./templates.md) | ボットの共有、公開されているボット |
 | [`shopping.md`](./shopping.md) | 買い物と決済の承認 |
 | [`access.md`](./access.md) | アプリ・加入プラン |
