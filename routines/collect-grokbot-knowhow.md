@@ -2,10 +2,10 @@
 
 | 項目 | 値 |
 |---|---|
-| 目的 | X から Grok Bot のアップデートと活用法を集め、`docs/knowhow/` に貯める |
+| 目的 | X から Grok Bot のアップデートと活用法を集め、`docs/knowhow/` に貯める。fleet-actionable な発見は候補として Planner へ渡す。ADOPT と REJECT は書かない |
 | 担当ボット | Knowhow収集 |
 | スケジュール | 1 日 1 回 |
-| 出力先 | メインボットへの 1 通のダイジェスト + grok-bot-ops への追記 PR |
+| 出力先 | メインボットへの 1 通のダイジェスト + Planner への候補 + grok-bot-ops への追記 PR |
 | 状態 | 下書き |
 
 前提: 担当ボットに X plugin（`grokbot://app/v1/plugin/add?id=49086599`）と、このリポジトリへのアクセス。
@@ -44,8 +44,14 @@ concrete post link or another official http(s) URL (docs.x.ai, x.ai/news,
 x.ai/bot/..., Play Store, pstack GitHub). Drop vague hype. Do not invent
 links.
 
-Send me one message: the count of posts processed, then two short lists
-(updates / tips), each item one line with its link.
+From the same findings, send Planner a 候補 list. Each item is
+title, one 1° http(s) URL, and why it is fleet-actionable.
+Do not write ADOPT or REJECT. Planner decides in
+routines/decide-trend-adopt.md.
+
+Send me one message: the count of posts processed, the count of
+候補 sent to Planner, then two short lists (updates / tips),
+each item one line with its link.
 
 Launch a Cursor cloud agent on https://github.com/maplefukku/grok-bot-ops
 with this task:
@@ -63,6 +69,8 @@ with this task:
 ## 備考
 
 - 収集専用。試して検証するのは人間か、別途立てる cloud agent の仕事。検証したらエントリの `確認` を更新する。
+- ADOPT と REJECT は書かない。判断は Planner と [`decide-trend-adopt.md`](./decide-trend-adopt.md)。
+- 書き込み先は `docs/knowhow/` のまま。`docs/decisions/` は触らない。
 - [`examples/intake-x-feedback.md`](./examples/intake-x-feedback.md) は自分のプロダクトへの反応を集める routine の型見本。こちらは Grok Bot というプロダクト自体の知識を集める routine。混ぜない。
 - draft PR のマージは人間。ボットは draft のまま。ルールは [`AGENTS.md`](../AGENTS.md) の「draft PR のマージ」。
 - 毎日の collect と maintain は、ブランチ `ops/daily-YYYY-MM-DD` 1本と draft PR 1本に積む。
@@ -75,4 +83,5 @@ with this task:
 - [ ] X plugin を入れた
 - [ ] Cursor cloud agent をこのリポジトリで起動できる
 - [ ] 実際に draft PR が開く
+- [ ] fleet-actionable な発見を候補として Planner に送った。ADOPT と REJECT は書いていない
 - [ ] マージ担当は人間（オーナー）。毎日 draft を見る。ボットはマージしない

@@ -27,7 +27,7 @@
 | `lessons/` | `/reflect` を回し、人間が受理した教訓だけ |
 | `skills/` | `evals/` のゲートを通ったスキルだけ。1 スキル 1 PR |
 | `docs/guide/` | 原文（pstack 公式ガイド）の更新に追従するときだけ |
-| `docs/decisions/` | ADR を採択・追加するとき |
+| `docs/decisions/` | ADR を採択・追加するとき。trend-log は Planner の採否台帳。毎日の CA は `ops/daily-YYYY-MM-DD` 上でのみ追記する |
 | `docs/intent-memory/` | Intent/Memory の schema と読み方を変えるとき。感情をプロダクト DB に置かない |
 | `scripts/intent_memory/` | Intent/Memory の query contract と隔離テストを変えるとき |
 
