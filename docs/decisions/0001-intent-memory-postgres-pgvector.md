@@ -26,7 +26,7 @@ Phase0 の ingest は人間だけ。`critique_bot` は schema に予約し、`ap
 
 オーバーレイは GitHub LOCK URL を置き換えない。感情を ZuruNote / sauna / gakuse などのプロダクト DB に置かない。pstack を vendoring しない。
 
-読み方は [`read-recipe.md`](../intent-memory/read-recipe.md)（Linux CLI。iOS は対象外）。
+読み方は [`read-recipe.md`](../intent-memory/read-recipe.md)（Linux CLI。iOS は対象外）。Issue 本文の full-text 検索は Phase0 では置かない。tag の完全一致と `similar()` が完了条件である。
 
 ## 結果
 

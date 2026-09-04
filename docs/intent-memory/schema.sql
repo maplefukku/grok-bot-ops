@@ -49,7 +49,8 @@ STABLE
 AS $$
     SELECT *
     FROM intent_atom
-    WHERE source = p_source
+    WHERE cardinality(requested) >= 1
+      AND source = p_source
       AND (expires_at IS NULL OR expires_at > p_now)
       AND tags @> requested;
 $$;

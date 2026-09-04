@@ -291,6 +291,7 @@ class TestSchemaSql(unittest.TestCase):
         self.assertTrue(pairing_ok, "schema must encode pairing")
         self.assertTrue(feeling_ok, "schema must encode feeling expiry")
         self.assertTrue(critique_ok, "schema must encode critique_human")
+        self.assertIn("cardinality(requested) >= 1", text)
 
 
 class TestReadApiShape(unittest.TestCase):
