@@ -1,5 +1,3 @@
-# Markdown + plugin.json 司令室向け。フルアプリ CI は置かない。
-# 検査は scripts/ci.py と同じ（相対リンク、knowhow 出典、plugin.json）。
 name: CI
 
 on:

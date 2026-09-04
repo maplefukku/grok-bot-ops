@@ -1,17 +1,11 @@
 #!/usr/bin/env python3
-"""Local and CI checks for this Markdown + plugin.json ops repo.
-
-Checks:
-  1. Relative Markdown / image links resolve on disk
-  2. docs/knowhow forbids 「リンク要補完」 and requires an http(s) source
-  3. .cursor-plugin/plugin.json is valid JSON
-"""
-
 from __future__ import annotations
 
+import io
 import json
 import re
 import sys
+import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -147,12 +141,36 @@ def check_plugin_json() -> list[str]:
     return []
 
 
+def check_intent_memory_contract() -> list[str]:
+    scripts = str(ROOT / "scripts")
+    inserted = scripts not in sys.path
+    if inserted:
+        sys.path.insert(0, scripts)
+    buf = io.StringIO()
+    try:
+        suite = unittest.defaultTestLoader.loadTestsFromName(
+            "intent_memory.test_contract"
+        )
+        result = unittest.TextTestRunner(stream=buf, verbosity=1).run(suite)
+    except Exception as exc:
+        return [f"intent-memory tests could not run: {exc}"]
+    finally:
+        if inserted and sys.path and sys.path[0] == scripts:
+            sys.path.pop(0)
+    if result.testsRun < 1:
+        return ["intent-memory tests ran 0 tests"]
+    if result.wasSuccessful():
+        return []
+    return [f"intent-memory tests failed\n{buf.getvalue().rstrip()}"]
+
+
 def main() -> int:
     errors: list[str] = []
     for label, fn in (
         ("relative-md-links", check_relative_links),
         ("knowhow-sources", check_knowhow),
         ("plugin-json", check_plugin_json),
+        ("intent-memory-contract", check_intent_memory_contract),
     ):
         found = fn()
         if found:

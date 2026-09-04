@@ -1,0 +1,26 @@
+[
+  {
+    "kind": "intent",
+    "source": "human",
+    "tags": ["fleet", "lock"],
+    "body": "GitHub LOCK comment URLs stay legal SoT.",
+    "actor": "pdm",
+    "embedding": [1.0, 0.0, 0.0, 0.0]
+  },
+  {
+    "kind": "critique_human",
+    "source": "human",
+    "tags": ["fleet", "fail"],
+    "body": "Human critique does not expire.",
+    "actor": "pdm",
+    "embedding": [0.2, 0.8, 0.0, 0.0]
+  },
+  {
+    "kind": "critique_bot",
+    "source": "bot",
+    "tags": ["fleet", "lock"],
+    "body": "Bot row must not leak into human reads.",
+    "actor": "bot",
+    "embedding": [0.99, 0.01, 0.0, 0.0]
+  }
+]
