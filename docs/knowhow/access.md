@@ -2,6 +2,18 @@
 
 加入プランと、使えるアプリ。
 
+## Enterprise（2026-09-03）
+
+- 内容: Grok / Cursor Enterprise 顧客は今後 2 週間無料で組織を招待できる。既存シートが無いメンバーも含む。
+- 出典: [Grok Bot for Enterprise](https://x.ai/news/grok-bot-for-enterprise)（2026-09-03）
+- 確認: 未
+
+## Enterprise を live と扱う条件
+
+- 内容: Enterprise は、2 週間の無料ウィンドウ内の Grok または Cursor Enterprise シートでのみ live 扱いすべき、という運用注意。
+- 出典: [x.com/johnnynelai/status/2095675192039350349](https://x.com/johnnynelai/status/2095675192039350349)（2026-09-04）
+- 確認: 未
+
 ## 加入
 
 - 内容: 2026-08-26 の公式発表では、Grok Bot は SuperGrok / SuperGrok Plus / SuperGrok Heavy、Cursor Pro / Pro+ / Ultra、Cursor Teams（Standard と Premium）に含まれる。Enterprise はウェイトリスト。
