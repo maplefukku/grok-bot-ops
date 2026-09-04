@@ -37,8 +37,9 @@ Grok Bot でプロダクト開発を回すための **司令室リポジトリ**
 ```text
 .cursor-plugin/plugin.json   このリポジトリ自体が Cursor プラグイン
 .cursor/hooks.json           Cloud Agent が scripts/ci.py を回す（wrapper: .cursor/hooks/run-ci.py）
-.github/workflows/ci.yml     相対リンク・knowhow 出典・plugin.json
+.github/workflows/ci.yml     相対リンク・knowhow 出典・plugin.json・intent-memory 契約
 scripts/ci.py                上と同じ検査（ローカルでもこれを実行）
+scripts/intent_memory/       Intent/Memory の query contract と fixture テスト
 skills/                      自作スキル。スキル0から始め、evalを通ったものだけ足す
 routines/                    Grok Bot routine の原稿（外側ループの正本）。使いながら増やす
   examples/                  プロダクトを持ったとき用の型見本
@@ -51,6 +52,8 @@ docs/
   guide/                     pstack 公式ガイドの日本語訳
   knowhow/                   Grok Bot 全般のノウハウ（人に縛らない。出典リンク必須）
   laststitch/                IG Creator HITL パック（最後の一針）。アカウントができるまで運用しない
+  decisions/                 ADR。Intent/Memory は 0001
+  intent-memory/             schema.sql と read recipe。GitHub LOCK の代替ではない
 AGENTS.md                    エージェントが最初に読むもの
 ```
 

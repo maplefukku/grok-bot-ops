@@ -27,6 +27,9 @@
 | `lessons/` | `/reflect` を回し、人間が受理した教訓だけ |
 | `skills/` | `evals/` のゲートを通ったスキルだけ。1 スキル 1 PR |
 | `docs/guide/` | 原文（pstack 公式ガイド）の更新に追従するときだけ |
+| `docs/decisions/` | ADR を採択・追加するとき |
+| `docs/intent-memory/` | Intent/Memory の schema と読み方を変えるとき。感情をプロダクト DB に置かない |
+| `scripts/intent_memory/` | Intent/Memory の query contract と隔離テストを変えるとき |
 
 推測で箱を増やさないこと。必要になった瞬間に作ればよい。
 
