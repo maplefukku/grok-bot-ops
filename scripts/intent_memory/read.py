@@ -70,14 +70,15 @@ def main(argv: list[str] | None = None) -> int:
     _load_fixture(args.fixture, store)
     source = Source(args.source)
     if args.vector is not None:
-        atoms = store.similar(args.vector, source=source, limit=args.n)
+        fetch = sys.maxsize if args.tags else args.n
+        atoms = store.similar(args.vector, source=source, limit=fetch)
         if args.tags:
             wanted = tuple(args.tags)
             atoms = [
                 atom
                 for atom in atoms
                 if all(tag in atom.tags for tag in wanted)
-            ]
+            ][: args.n]
     else:
         atoms = store.by_tags(args.tags, source=source)[: args.n]
     json.dump(
