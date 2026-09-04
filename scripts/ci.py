@@ -141,6 +141,147 @@ def check_plugin_json() -> list[str]:
     return []
 
 
+def trend_log_errors(text: str) -> list[str]:
+    errors: list[str] = []
+    seen: set[str] = set()
+    in_section = False
+    in_decisions = False
+    idx_decision = idx_url = idx_reason = -1
+    for line in text.splitlines():
+        if line.startswith("## "):
+            in_section = line[3:].strip() == "判断記録"
+            in_decisions = False
+            continue
+        if not in_section or not line.startswith("|"):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if cells and all(c and set(c) <= {"-", ":"} for c in cells):
+            continue
+        labels = set(cells)
+        if {"decision", "source_url", "理由"} <= labels:
+            idx_decision = cells.index("decision")
+            idx_url = cells.index("source_url")
+            idx_reason = cells.index("理由")
+            in_decisions = True
+            continue
+        if not in_decisions:
+            continue
+        decision = cells[idx_decision] if idx_decision < len(cells) else ""
+        url = cells[idx_url] if idx_url < len(cells) else ""
+        reason = cells[idx_reason] if idx_reason < len(cells) else ""
+        if decision not in {"ADOPT", "REJECT"}:
+            errors.append(f"decision must be ADOPT or REJECT: {line}")
+        if not reason:
+            errors.append(f"empty 理由: {line}")
+        if not HTTP_RE.search(url):
+            errors.append(f"source_url must match https?://: {line}")
+        key = url.strip().rstrip("/")
+        if key:
+            if key in seen:
+                errors.append(f"duplicate source_url: {line}")
+            else:
+                seen.add(key)
+    return errors
+
+
+def _trend_log_parser_self_check() -> list[str]:
+    errors: list[str] = []
+    header = (
+        "## 判断記録\n"
+        "| date_jst | source_bot | title | source_url | decision | 理由 | route | fired |\n"
+        "| --- | --- | --- | --- | --- | --- | --- | --- |\n"
+    )
+    valid = header + (
+        "| 2026-09-05 | 最先端手法 | ok | https://example.com/ok | ADOPT | because | ops |  |\n"
+    )
+    if trend_log_errors(valid):
+        errors.append("trend-log parser self-check: valid row produced errors")
+    rules_ja = (
+        "| 欄 | 規則 |\n"
+        "| --- | --- |\n"
+        "| decision | ADOPT または REJECT |\n"
+        "| source_url | http(s) |\n"
+        "| 理由 | 空禁止 |\n"
+    )
+    if trend_log_errors(rules_ja):
+        errors.append(
+            "trend-log parser self-check: 欄/規則 table was parsed as decisions"
+        )
+    rules_en = (
+        "| field | rule |\n"
+        "| --- | --- |\n"
+        "| decision | ADOPT or REJECT |\n"
+        "| source_url | http(s) |\n"
+        "| 理由 | non-empty |\n"
+    )
+    if trend_log_errors(rules_en):
+        errors.append(
+            "trend-log parser self-check: field/rule table was parsed as decisions"
+        )
+    outside = (
+        "| date_jst | source_bot | title | source_url | decision | 理由 | route | fired |\n"
+        "| --- | --- | --- | --- | --- | --- | --- | --- |\n"
+        "| 2026-09-05 | 最先端手法 | x | https://example.com/out | WATCH |  | none |  |\n"
+    )
+    if trend_log_errors(outside):
+        errors.append(
+            "trend-log parser self-check: table outside 判断記録 was parsed"
+        )
+    cases = (
+        (
+            "missing 理由",
+            header
+            + "| 2026-09-05 | Knowhow収集 | t | https://example.com/a | REJECT |  | none |  |\n",
+            "理由",
+        ),
+        (
+            "illegal decision",
+            header
+            + "| 2026-09-05 | Knowhow収集 | t | https://example.com/b | WATCH | has reason | none |  |\n",
+            "decision",
+        ),
+        (
+            "non-http url",
+            header
+            + "| 2026-09-05 | Knowhow収集 | t | not-a-url | REJECT | has reason | none |  |\n",
+            "http",
+        ),
+        (
+            "duplicate source_url",
+            header
+            + "| 2026-09-05 | 最先端手法 | t1 | https://example.com/dup | ADOPT | one | ops |  |\n"
+            + "| 2026-09-05 | Knowhow収集 | t2 | https://example.com/dup/ | REJECT | two | none |  |\n",
+            "source_url",
+        ),
+    )
+    for name, snippet, needle in cases:
+        found = trend_log_errors(snippet)
+        if not found:
+            errors.append(f"trend-log parser self-check missed {name}")
+            continue
+        blob = "\n".join(found)
+        if needle not in blob:
+            errors.append(
+                f"trend-log parser self-check: {name} errors omitted {needle}"
+            )
+    return errors
+
+
+def check_trend_log() -> list[str]:
+    errors: list[str] = []
+    errors.extend(_trend_log_parser_self_check())
+    path = ROOT / "docs" / "decisions" / "trend-log.md"
+    try:
+        text = path.read_text(encoding="utf-8")
+    except FileNotFoundError:
+        errors.append("docs/decisions/trend-log.md: missing")
+        return errors
+    prefix = str(path.relative_to(ROOT))
+    for item in trend_log_errors(text):
+        errors.append(f"{prefix}: {item}")
+    return errors
+
+
 def check_intent_memory_contract() -> list[str]:
     scripts = str(ROOT / "scripts")
     inserted = scripts not in sys.path
@@ -171,6 +312,7 @@ def main() -> int:
         ("knowhow-sources", check_knowhow),
         ("plugin-json", check_plugin_json),
         ("intent-memory-contract", check_intent_memory_contract),
+        ("trend-log-decisions", check_trend_log),
     ):
         found = fn()
         if found:
