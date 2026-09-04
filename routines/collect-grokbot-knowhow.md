@@ -83,4 +83,5 @@ with this task:
 - [ ] X plugin を入れた
 - [ ] Cursor cloud agent をこのリポジトリで起動できる
 - [ ] 実際に draft PR が開く
+- [ ] fleet-actionable な発見を候補として Planner に送った。ADOPT と REJECT は書いていない
 - [ ] マージ担当は人間（オーナー）。毎日 draft を見る。ボットはマージしない

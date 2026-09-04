@@ -38,6 +38,8 @@ route は Planner が書く。値は skill、ADR、product-impl、ops、none。F
 
 Phase0 の [`schema.sql`](../intent-memory/schema.sql) に URL 列は無い。判断行は次の `intent_atom` に 1 対 1 で写す。ingest コードはこの ADR では書かない。
 
+いまの pairing は `source = bot` を `critique_bot` に限る。下の行は CHECK に入らない。ingest のとき #18 が pairing を直す。この PR は schema を変えない。
+
 | 判断記録 | intent_atom |
 |---|---|
 | （固定） | kind = `decision` |

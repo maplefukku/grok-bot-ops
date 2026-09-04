@@ -23,6 +23,8 @@ Planner が 1 日 1 回、候補を ADOPT または REJECT して残す台帳で
 
 ## 判断記録
 
+次の 2 行は足場の例である。列の形を固定する。日次の候補配信から書いた行ではない。
+
 | date_jst | source_bot | title | source_url | decision | 理由 | route | fired |
 |---|---|---|---|---|---|---|---|
 | 2026-09-05 | 最先端手法 | 判断の形を CI で強制する | https://github.com/cursor/plugins/blob/main/pstack/skills/principle-encode-lessons-in-structure/SKILL.md | ADOPT | 同じ指示を記憶に書き直していた。decision と理由と source_url を CI の検査にする。 | ops |  |

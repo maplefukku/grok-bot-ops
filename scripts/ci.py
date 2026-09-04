@@ -146,11 +146,15 @@ def trend_log_errors(text: str) -> list[str]:
     seen: set[str] = set()
     in_section = False
     in_decisions = False
+    found_section = False
+    found_header = False
     idx_decision = idx_url = idx_reason = -1
     for line in text.splitlines():
         if line.startswith("## "):
             in_section = line[3:].strip() == "判断記録"
             in_decisions = False
+            if in_section:
+                found_section = True
             continue
         if not in_section or not line.startswith("|"):
             continue
@@ -163,6 +167,7 @@ def trend_log_errors(text: str) -> list[str]:
             idx_url = cells.index("source_url")
             idx_reason = cells.index("理由")
             in_decisions = True
+            found_header = True
             continue
         if not in_decisions:
             continue
@@ -181,6 +186,10 @@ def trend_log_errors(text: str) -> list[str]:
                 errors.append(f"duplicate source_url: {line}")
             else:
                 seen.add(key)
+    if not found_section:
+        errors.append("missing ## 判断記録")
+    elif not found_header:
+        errors.append("## 判断記録 has no decision table")
     return errors
 
 
@@ -196,36 +205,25 @@ def _trend_log_parser_self_check() -> list[str]:
     )
     if trend_log_errors(valid):
         errors.append("trend-log parser self-check: valid row produced errors")
-    rules_ja = (
-        "| 欄 | 規則 |\n"
-        "| --- | --- |\n"
-        "| decision | ADOPT または REJECT |\n"
-        "| source_url | http(s) |\n"
-        "| 理由 | 空禁止 |\n"
-    )
-    if trend_log_errors(rules_ja):
-        errors.append(
-            "trend-log parser self-check: 欄/規則 table was parsed as decisions"
-        )
-    rules_en = (
-        "| field | rule |\n"
-        "| --- | --- |\n"
-        "| decision | ADOPT or REJECT |\n"
-        "| source_url | http(s) |\n"
-        "| 理由 | non-empty |\n"
-    )
-    if trend_log_errors(rules_en):
-        errors.append(
-            "trend-log parser self-check: field/rule table was parsed as decisions"
-        )
     outside = (
         "| date_jst | source_bot | title | source_url | decision | 理由 | route | fired |\n"
         "| --- | --- | --- | --- | --- | --- | --- | --- |\n"
         "| 2026-09-05 | 最先端手法 | x | https://example.com/out | WATCH |  | none |  |\n"
     )
-    if trend_log_errors(outside):
+    outside_err = "\n".join(trend_log_errors(outside))
+    if "WATCH" in outside_err or "empty 理由" in outside_err:
         errors.append(
             "trend-log parser self-check: table outside 判断記録 was parsed"
+        )
+    if "判断記録" not in outside_err:
+        errors.append(
+            "trend-log parser self-check: missing ## 判断記録 was accepted"
+        )
+    empty_section = "## 判断記録\n\nno table\n"
+    empty_err = "\n".join(trend_log_errors(empty_section))
+    if "decision table" not in empty_err:
+        errors.append(
+            "trend-log parser self-check: empty 判断記録 was accepted"
         )
     cases = (
         (
