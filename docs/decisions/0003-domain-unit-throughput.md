@@ -13,13 +13,14 @@
 
 ## 決定
 
-1. A、B、D の手順の正本は [`docs/process/README.md`](../process/README.md) である。書き込み箱は [`AGENTS.md`](../../AGENTS.md) である。
+1. A から D の手順の正本は [`docs/process/README.md`](../process/README.md) である。C の席ゲートはこの ADR にある。書き込み箱は [`AGENTS.md`](../../AGENTS.md) である。
 2. 出荷単位は機能 1 個、または domain 1 個であり、main への 1 merge である。tiny-slice packing は採らない。
 3. 契約 SoT は gakuse-ai#2063、sauna-master#197、ZuruNote#242 の 3 つだけである。第 4 を作らない。パスは process pack の表である。
-4. 席は提案のみである。提案は ADV closer と lane scheduler である。product CoS は既定 NO である。scheduler log が 2 週間で PdM をボトルネックと出したときだけ立てる。CreateAgent は CBO である。この ADR の Accepted は CreateAgent 承認ではない。新しい bot ファイルは作らない。PdM はクローンしない。監視、開発リーダー、編成評価は維持する。issue の「dr eggbot」は CBO 経由であり、席を増やさない。
-5. [`docs/knowhow/fleet.md`](../knowhow/fleet.md) は日付付きの観察である。食い違いは [`docs/process/README.md`](../process/README.md) が勝つ。
-6. [`bots/README.md`](../../bots/README.md) は LOCK ポインタだけである。規則を複製しない。
-7. glob-lock の live 表はこのリポジトリに置かない。
+4. 席は提案のみである。提案は ADV closer と lane scheduler である。product CoS は既定 NO である。scheduler log が 2 週間で PdM をボトルネックと出したときだけ立てる。
+5. CreateAgent は CBO である。この ADR の Accepted は CreateAgent 承認ではない。新しい bot ファイルは作らない。PdM はクローンしない。監視、開発リーダー、編成評価は維持する。issue の「dr eggbot」は CBO 経由であり、席を増やさない。
+6. [`docs/knowhow/fleet.md`](../knowhow/fleet.md) は日付付きの観察である。食い違いは [`docs/process/README.md`](../process/README.md) が勝つ。
+7. [`bots/README.md`](../../bots/README.md) は LOCK ポインタだけである。規則を複製しない。
+8. glob-lock の live 表はこのリポジトリに置かない。
 
 ## 結果
 
