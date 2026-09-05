@@ -2,14 +2,18 @@
 
 LOCK。bio に **非公式** を入れる。disclaimer であり、法的助言でも法的結論でもない。オリジナル・コントロールと三次ありは LOCK の運用方針。法律判断はしない。
 
-関連: [name.md](./name.md) · [ip-stance.md](./ip-stance.md) · [account.md](./account.md) · [schema.md](./schema.md)
+関連: [name.md](./name.md) · [ip-stance.md](./ip-stance.md) · [account.md](./account.md)
 
 公式は bio を最大 150 characters と書いている。誰でも見える。ウェブサイトは任意。URL は発明しない。今は置かない。
 
-- 出典: https://www.facebook.com/help/instagram/728994388226960 （取得: 2026-08-31）
-- 出典: https://www.facebook.com/help/instagram/362497417173378 （取得: 2026-08-31）
-- 出典: https://help.instagram.com/362497417173378/ （取得: 2026-08-31）
-- 出典: https://www.facebook.com/help/instagram/347751748650214 （取得: 2026-08-31）
+- 出典: https://www.facebook.com/help/instagram/728994388226960 （取得: 2026-09-05）
+- 出典: https://help.instagram.com/728994388226960 （取得: 2026-09-05）
+- 出典: https://www.facebook.com/help/instagram/347751748650214 （取得: 2026-09-05）
+
+ウェブサイト追加の公式ページは、コンピュータでは使えないと書いている。今は置かない。
+
+- 出典: https://www.facebook.com/help/instagram/362497417173378 （取得: 2026-09-05）
+- 出典: https://help.instagram.com/362497417173378/ （取得: 2026-09-05）
 
 ## 貼り付け A（名前欄が `最後の一針 / LAST STITCH LAB` のとき）
 
@@ -30,14 +34,14 @@ LAST STITCH LAB
 
 ## 入れ方（作成後）
 
-公式（取得した本文はデスクトップ表記）:
+公式（2026-09-05 に取得した本文はコンピュータ表記）:
 
 1. プロフィールへ行く
-2. Edit profile → Bio のテキストボックス
+2. Edit profile を開き、Bio のテキストボックスを開く
 3. 上の文を貼る
 4. Submit
 
-iPhone のラベルが違うときは、公式ヘルプの iPhone アコーディオンに従う。手順を記憶で埋めない。
+iPhone のラベルが違うときは、同じ公式ページの iPhone アコーディオンに従う。手順を記憶で埋めない。
 
-- 出典: https://www.facebook.com/help/instagram/728994388226960 （取得: 2026-08-31）
-- 出典: https://www.facebook.com/help/instagram/583107688369069 （取得: 2026-08-31）
+- 出典: https://www.facebook.com/help/instagram/728994388226960 （取得: 2026-09-05）
+- 出典: https://www.facebook.com/help/instagram/583107688369069 （取得: 2026-09-05）
