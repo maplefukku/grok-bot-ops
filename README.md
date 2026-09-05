@@ -52,6 +52,7 @@ docs/
   guide/                     pstack 公式ガイドの日本語訳
   knowhow/                   Grok Bot 全般のノウハウ（人に縛らない。出典リンク必須）
   laststitch/                IG Creator HITL パック（最後の一針）。アカウントができるまで運用しない
+  mini-ops/                  Mini運用の常設手順（worktree prune）
   decisions/                 ADR。Intent/Memory は 0001
   intent-memory/             schema.sql と read recipe。GitHub LOCK の代替ではない
 AGENTS.md                    エージェントが最初に読むもの
