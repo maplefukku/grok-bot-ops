@@ -280,27 +280,33 @@ def check_trend_log() -> list[str]:
     return errors
 
 
-def check_intent_memory_contract() -> list[str]:
+def _run_unittest_module(module: str, label: str) -> list[str]:
     scripts = str(ROOT / "scripts")
     inserted = scripts not in sys.path
     if inserted:
         sys.path.insert(0, scripts)
     buf = io.StringIO()
     try:
-        suite = unittest.defaultTestLoader.loadTestsFromName(
-            "intent_memory.test_contract"
-        )
+        suite = unittest.defaultTestLoader.loadTestsFromName(module)
         result = unittest.TextTestRunner(stream=buf, verbosity=1).run(suite)
     except Exception as exc:
-        return [f"intent-memory tests could not run: {exc}"]
+        return [f"{label} tests could not run: {exc}"]
     finally:
         if inserted and sys.path and sys.path[0] == scripts:
             sys.path.pop(0)
     if result.testsRun < 1:
-        return ["intent-memory tests ran 0 tests"]
+        return [f"{label} tests ran 0 tests"]
     if result.wasSuccessful():
         return []
-    return [f"intent-memory tests failed\n{buf.getvalue().rstrip()}"]
+    return [f"{label} tests failed\n{buf.getvalue().rstrip()}"]
+
+
+def check_intent_memory_contract() -> list[str]:
+    return _run_unittest_module("intent_memory.test_contract", "intent-memory")
+
+
+def check_local_worktree_prune() -> list[str]:
+    return _run_unittest_module("test_local_worktree_prune", "local-worktree-prune")
 
 
 def main() -> int:
@@ -310,6 +316,7 @@ def main() -> int:
         ("knowhow-sources", check_knowhow),
         ("plugin-json", check_plugin_json),
         ("intent-memory-contract", check_intent_memory_contract),
+        ("local-worktree-prune", check_local_worktree_prune),
         ("trend-log-decisions", check_trend_log),
     ):
         found = fn()
