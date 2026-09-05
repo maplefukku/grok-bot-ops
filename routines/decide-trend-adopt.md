@@ -76,3 +76,5 @@ source_url).
 - [ ] 人間が draft をマージする。ボットはマージしない
 - [ ] Planner は FIRE しない。実装しない
 - [ ] Discord へ書き戻さない
+
+2026-09-06。main の `## 判断記録` は足場 2 行に加え、最先端手法からの判断行 11（ADOPT 7、REJECT 4）がある。#19 の Planner コメントと PR #22 から #26 で入った。この原稿を Planner に貼って回した記録は無い。Knowhow収集 → Planner の判断行はまだ無い。
