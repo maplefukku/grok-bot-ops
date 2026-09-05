@@ -7,6 +7,7 @@ import re
 import sys
 import unittest
 from pathlib import Path
+from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
 SKIP_DIRS = {".git", ".github"}
@@ -309,6 +310,129 @@ def check_local_worktree_prune() -> list[str]:
     return _run_unittest_module("test_local_worktree_prune", "local-worktree-prune")
 
 
+LASTSTITCH_DIR = ROOT / "docs" / "laststitch"
+LASTSTITCH_FILES = (
+    "README.md",
+    "name.md",
+    "bio.md",
+    "visual-lock.md",
+    "meta-taps.md",
+    "ip-stance.md",
+    "first-7-days.md",
+    "account.md",
+)
+LASTSTITCH_OFFICIAL_HOSTS = {
+    "help.instagram.com",
+    "facebook.com",
+    "www.facebook.com",
+    "instagram.com",
+    "www.instagram.com",
+    "transparency.meta.com",
+}
+LASTSTITCH_DISPLAY_NAME = "最後の一針 / LAST STITCH LAB"
+LASTSTITCH_KATAKANA_RE = re.compile(r"[ァ-ンｧ-ﾝﾞﾟ]")
+LASTSTITCH_FETCH_RE = re.compile(r"取得:\s*\d{4}-\d{2}-\d{2}")
+LASTSTITCH_URL_TRAIL = "）。.,;\"'"
+
+
+def laststitch_url_allowed(url: str) -> bool:
+    parsed = urlparse(url)
+    host = (parsed.hostname or "").lower()
+    if host in LASTSTITCH_OFFICIAL_HOSTS:
+        return True
+    if host == "github.com":
+        return parsed.path.startswith("/maplefukku/grok-bot-ops")
+    return False
+
+
+def laststitch_http_urls(text: str) -> list[str]:
+    found: list[str] = []
+    for raw in HTTP_RE.findall(text):
+        found.append(raw.rstrip(LASTSTITCH_URL_TRAIL))
+    return found
+
+
+def _laststitch_parser_self_check() -> list[str]:
+    errors: list[str] = []
+    if not laststitch_url_allowed(
+        "https://www.facebook.com/business/help/502981923235522"
+    ):
+        errors.append("laststitch parser self-check: official Meta URL rejected")
+    if not laststitch_url_allowed(
+        "https://github.com/maplefukku/grok-bot-ops/issues/8"
+    ):
+        errors.append("laststitch parser self-check: issue #8 URL rejected")
+    if laststitch_url_allowed(
+        "https://github.com/sergebulaev/instagram-skills/blob/main/SKILL.md"
+    ):
+        errors.append("laststitch parser self-check: unofficial GitHub URL accepted")
+    if laststitch_url_allowed("https://example.com/blog"):
+        errors.append("laststitch parser self-check: example.com accepted")
+    return errors
+
+
+def check_laststitch() -> list[str]:
+    errors: list[str] = []
+    errors.extend(_laststitch_parser_self_check())
+    if not LASTSTITCH_DIR.is_dir():
+        errors.append("docs/laststitch/: missing directory")
+        return errors
+    present = {path.name for path in LASTSTITCH_DIR.iterdir() if path.is_file()}
+    for name in LASTSTITCH_FILES:
+        if name not in present:
+            errors.append(f"docs/laststitch/{name}: missing")
+    extra = sorted(present - set(LASTSTITCH_FILES))
+    for name in extra:
+        errors.append(f"docs/laststitch/{name}: extra file (LOCK is 8 md)")
+    if LASTSTITCH_KATAKANA_RE.search(LASTSTITCH_DISPLAY_NAME):
+        errors.append("laststitch display name contains katakana")
+    bodies: dict[str, str] = {}
+    for name in LASTSTITCH_FILES:
+        path = LASTSTITCH_DIR / name
+        if not path.is_file():
+            continue
+        text = path.read_text(encoding="utf-8")
+        bodies[name] = text
+        rel = f"docs/laststitch/{name}"
+        for url in laststitch_http_urls(text):
+            if not laststitch_url_allowed(url):
+                errors.append(f"{rel}: unofficial URL {url}")
+        for line in text.splitlines():
+            if "出典" not in line or not HTTP_RE.search(line):
+                continue
+            if not LASTSTITCH_FETCH_RE.search(line):
+                errors.append(f"{rel}: 出典 missing 取得 date: {line}")
+            for url in laststitch_http_urls(line):
+                host = (urlparse(url).hostname or "").lower()
+                if host not in LASTSTITCH_OFFICIAL_HOSTS:
+                    errors.append(f"{rel}: 出典 not official Meta/IG: {line}")
+    name_text = bodies.get("name.md", "")
+    if LASTSTITCH_DISPLAY_NAME not in name_text:
+        errors.append("docs/laststitch/name.md: missing display name")
+    if "laststitch.lab" not in name_text or "laststitchlab" not in name_text:
+        errors.append("docs/laststitch/name.md: missing handle fallback")
+    bio_text = bodies.get("bio.md", "")
+    if "非公式" not in bio_text:
+        errors.append("docs/laststitch/bio.md: missing 非公式")
+    visual = bodies.get("visual-lock.md", "")
+    for needle in ("蝶", "猫", "薔薇", "元動画"):
+        if needle not in visual:
+            errors.append(f"docs/laststitch/visual-lock.md: missing ban {needle}")
+    taps = bodies.get("meta-taps.md", "")
+    if "Creator" not in taps:
+        errors.append("docs/laststitch/meta-taps.md: missing Creator")
+    if "Don't use my contact info" not in taps:
+        errors.append("docs/laststitch/meta-taps.md: missing contact skip")
+    account = bodies.get("account.md", "")
+    if "pending" not in account:
+        errors.append("docs/laststitch/account.md: missing pending template")
+    if (ROOT / "products" / "laststitch.md").exists() or (
+        ROOT / "products" / "laststitch"
+    ).exists():
+        errors.append("products/ laststitch entry exists (LOCK Q7 forbids it)")
+    return errors
+
+
 def main() -> int:
     errors: list[str] = []
     for label, fn in (
@@ -318,6 +442,7 @@ def main() -> int:
         ("intent-memory-contract", check_intent_memory_contract),
         ("local-worktree-prune", check_local_worktree_prune),
         ("trend-log-decisions", check_trend_log),
+        ("laststitch-lock", check_laststitch),
     ):
         found = fn()
         if found:
