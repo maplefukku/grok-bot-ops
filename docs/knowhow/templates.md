@@ -8,6 +8,12 @@
 - 出典: [Create and manage Bots](https://docs.x.ai/grok-bot/bots)（2026-08-29 確認）
 - 確認: 未
 
+## テンプレート共有の公式発表（2026-08-28）
+
+- 内容: Bot のテンプレートを他の人と共有できるようになった。最新の desktop / mobile アプリへの更新が必要。
+- 出典: [x.com/bot/status/2093376523919323618](https://x.com/bot/status/2093376523919323618)（2026-08-28）、[x.com/bot/status/2093376525127266718](https://x.com/bot/status/2093376525127266718)
+- 確認: 未
+
 ## 公開例: dr eggbot
 
 - 内容: Lauren 作の「高品質な Grok Bot を設計するボット」。コーディング用には pstack の水準を、非コーディングにも同じ厳密さを適用する、とページに書いてある。第三者ボットであり、追加時は third-party bot terms に同意する。

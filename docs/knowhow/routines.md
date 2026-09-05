@@ -20,6 +20,24 @@ Grok Bot の routine（定期実行・イベント・webhook）の公式の使�
 - 出典: [pstack `/make-bot-ui`](https://github.com/cursor/plugins/blob/main/pstack/skills/make-bot-ui/SKILL.md)
 - 確認: 未
 
+## webhook の URL / sender key は desktop だけ
+
+- 内容: webhook routine の POST URL・sender key・Authorization ヘッダは desktop アプリの trigger カードにだけ出る。iOS アプリは Active / trigger 名 / 指示 / 実行履歴だけで URL・key は見えない。
+- 出典: [x.com/MartyEarthy/status/2094203371817513281](https://x.com/MartyEarthy/status/2094203371817513281)（2026-08-30）、[x.com/MartyEarthy/status/2094203369992999400](https://x.com/MartyEarthy/status/2094203369992999400)
+- 確認: 未
+
+## iPhone Shortcuts から webhook routine に位置を POST
+
+- 内容: iOS Shortcuts で現在地を取り、webhook routine の POST URL へ JSON（lat/lon/accuracy_m）を送る手順の実例。Authorization: Bearer と X-Automation-Key の両方に同じ sender key。通知やクリップボードに key/URL を出さない。
+- 出典: [x.com/MartyEarthy/status/2094203369992999400](https://x.com/MartyEarthy/status/2094203369992999400)（2026-08-30）、[x.com/MartyEarthy/status/2094203371817513281](https://x.com/MartyEarthy/status/2094203371817513281)
+- 確認: 未
+
+## GitHub PR 監視 routine でレビュー Bot
+
+- 内容: 専用 GitHub アカウントを Bot に渡し、新着/変更 PR を routine で監視 → カスタム prompt/skills でレビュー → GitHub review と Slack 通知、という運用例。
+- 出典: [x.com/dqlopez/status/2094137708432273474](https://x.com/dqlopez/status/2094137708432273474)（2026-08-30）
+- 確認: 未
+
 ## 運用の型（このリポジトリの採用ルール）
 
 - 内容: routine 1 本につき専用ボット 1 体。原稿は [`routines/`](../../routines/README.md) を正本にし、貼り付け先を実体とする。出力には毎回処理件数を含めさせ、コスト異常に気づけるようにする。
