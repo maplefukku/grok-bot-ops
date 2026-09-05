@@ -4,7 +4,9 @@ Grok Bot のプロダクトアップデートの時系列ログ。新しいも�
 
 | 時期 | 内容 | 出典 | 確認 |
 |---|---|---|---|
+| 2026-09-03 | Grok Bot for Enterprise を公開。Grok / Cursor Enterprise 顧客は今後 2 週間無料。既存シートが無い組織メンバーも招待できる。アクセス・ネットワーク・監査コントロールを追加 | [x.ai/news/grok-bot-for-enterprise](https://x.ai/news/grok-bot-for-enterprise) | 未 |
 | 2026-08-31 | Grok Bot が Microsoft アカウントを横断して読み書き・操作できるようになった。新しいプラグインで Outlook、Calendar、OneDrive に直接アクセス | [x.com/bot/status/2094543253811183943](https://x.com/bot/status/2094543253811183943) | 未 |
+| 2026-08-29 | Grok Bot が X と連携。X connector / X plugin で投稿検索・タイムライン・メンション・ブックマーク。有料ユーザーに無料 X API credits | [x.ai/news/grok-bot-and-x](https://x.ai/news/grok-bot-and-x) | 未 |
 | 2026-08-26 | SuperGrok / Cursor Pro / Cursor Teams の全プランに Grok Bot を拡大。Bot の利用枠は既存の Grok / Cursor プランと別 | [x.ai/news/grok-bot-more-plans](https://x.ai/news/grok-bot-more-plans) | 未 |
 | 2026-08-11 | Grok Bot ベータ公開。desktop と iOS。利用枠は既存プランと別。Enterprise はウェイトリスト | [x.ai/news/introducing-grok-bot](https://x.ai/news/introducing-grok-bot) | 未 |
 
