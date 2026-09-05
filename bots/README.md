@@ -19,16 +19,23 @@
 
 独立ジョブは並列で火を付ける。直列待ちしない。Cursor Cloud Agent は枠内で並列無制限（compete / 3-shot pick-best / nest 可）。ChatGPT web は HARD TAB 直列（既存 chatgpt.com タブ1つだけ。新ウィンドウ/タブ禁止。rate-limit は共有バックオフ）。スキル参照: [parallel-fire-fleet](sand-workflow:parallel-fire-fleet) / [chatgpt-web-existing-tab](sand-workflow:chatgpt-web-existing-tab)。
 
+## LOCK: DRAFT-STACK（#32 LOCK B）
+
+live tip = 最新 daily bots PR。live daily draft は ≤2。吸収済み residue は superseded-close（新しい tip をコメントで指す）。ROLE-CHANGE/LOCK が SoT になったら PdM が undraft。台帳ボットは merge しない。endless rewrite を一つの lander に積まない。
+
 ## 司令室
 
 | 名前 | 役割 | 回すまで動かない |
 |---|---|---|
+| [`CEO`](./CEO.md) | ceo。FLEET APEX。ONE JOBはふっくー HITL集約とorg優先。ROUTEのみ。tech→CTO、product→CPO、マーケ→CMO、eng CoS→PdM、bot-HR→CBO。独立ジョブは並列。ChatGPTはHARD TAB直列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`CTO`](./CTO.md) | cto。PdMの上（tech）。REPORT↑CEO。ONE JOBはtech-org戦略。実装もマージもしない。CreateAgentはCBO。独立ジョブは並列。ChatGPTはHARD TAB直列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`CPO`](./CPO.md) | cpo。プロダクト戦略。REPORT↑CEO。ONE JOBは何を作るか。実装もマージもしない。SNSはCMO。独立ジョブは並列。ChatGPTはHARD TAB直列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`監視`](./監視.md) | fleet.supervisor。ONE JOBはstall sweep→PdMへJOB。sweepは平日06-22を2時間おき JST（0 6,8,10,12,14,16,18,20,22 * * 1-5）。@every 2h ではない。回すまで待たない。FEATURE切り出しもmonkeyも自分ではしない。実装はしない。スキルは fleet-stall-sweep。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`PdM`](./PdM.md) | ONE JOBは優先順位・マージ判定・人待ちの整理。開発は開発リーダー、PRはPR確認。マージはCI緑かつCursor bot完了かつスレ0のときだけ。コードもcloneもCA launchもしない。入口は poteto-mode。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`CMO`](./CMO.md) | cmo。マーケ/SNSのCoS。開発はPdMのまま。入口はSNSリーダー。今はアカウント設計へ回す。ふっくーへは日本語。ボット間はプロトコル。コードもマージもIGログインもしない。独立した専門は並列で火を付ける。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`SNSリーダー`](./SNSリーダー.md) | sns.conductor。INはCMO。今は account.design → アカウント設計。後の動画・台本・世界観はボット未作成なので作らない。Cloud AgentはCMOのgrok-bot-ops docs JOB以外立てない。独立した専門は並列で火を付ける。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`dr eggbot`](./dr_eggbot.md) | bot.designer。PdMとCMOがCreateする入口。編成評価のsplitはPdM経由でここへ。自分以外はCreateAgentしない。コーディングボットは /poteto-mode 必須。1役、unslop、anti-job。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`スキル作成`](./スキル作成.md) | skill.author。INはPdMまたはCMO。共有SKILL.mdを書く。ボットにもroutineにもしない。CreateAgentはdr eggbot経由。CreateAgentしない。コーディング系スキルは /poteto-mode。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`CBO`](./CBO.md) | cbo。Chief Bot Officer。ONE JOBはCreateAgentと席設計。INはCEO、PdM、CMO、編成評価。自分以外はCreateAgentしない。独立ジョブは並列。ChatGPTはHARD TAB直列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`スキル作成`](./スキル作成.md) | skill.author。INはPdMまたはCMO。共有SKILL.mdを書く。ボットにもroutineにもしない。CreateAgentはCBO経由。CreateAgentしない。コーディング系スキルは /poteto-mode。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`GTM`](./GTM.md) | product.gtm。ONE JOBは平日 gtm-morning（0 6 * * 1-5）の壁打ち→PdMへdigest。listing/store copyは明示JOBのみ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`開発リーダー`](./開発リーダー.md) | impl.conductor。ONE JOBはROUTE+FIRE。INはPdMまたは監視。ZuruNote/sauna-master/gakuse-ai/grok-bot-opsは各開発ボットへ回す。最大並列。残り仕事があるのにアイドルはFAIL。Cloud Agentは立てない。monkeyは品質Drive。実装と調査は毎回 /poteto-mode。リポごとに pstack 必須。landerはready-for-review。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`Planner`](./Planner.md) | plan.only。grill-with-docs で to-spec にする。出典は mattpocock/skills。Cloud Agent は plan/spec のテキストだけ書き、GitHub issue は作らない。issue 起票は Planner が gh で行う。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
@@ -44,7 +51,7 @@
 | [`Mini運用`](./Mini運用.md) | mini.ops.CLI。ONE JOBは登録マシン fukku-mac-mini の CLI だけ。ListMachinesして Shell/Read。Codex/ChatGPT.app/GUIは Mini Codex。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`品質Drive`](./品質Drive.md) | monkey.ops。ONE JOBは weekday MonkeyTest Drive/E2E（zurunote-ios-mini）。ZuruNote/sauna-master/gakuse-ai。証拠はGitHub issue。プロダクトコードは編集しない。開発ボットはmonkeyしない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`Mini Codex`](./Mini_Codex.md) | mini.codex-cua。ONE JOBは fukku-mac-mini で ChatGPT.app Codex・CU ON。GUIはCodexが動かす。CLIはMini運用。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`ChatGPT Pro`](./ChatGPT_Pro.md) | chatgpt.pro.advisor。行き詰まったときの相談。ChatGPT感性とも note執筆とも別。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`ChatGPT Pro`](./ChatGPT_Pro.md) | chatgpt.pro.advisor。行き詰まったときの相談。ChatGPT感性とも note執筆リーダーとも別。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`PR確認`](./PR確認.md) | pr.review-status。ONE JOBはmerge-ok factsだけ。緑かつCursor-bots完了かつLIVE thr=0。マージはしない。main向けはready。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 
 ## 外側ループ
@@ -58,7 +65,8 @@
 | [`台帳更新`](./台帳更新.md) | ledger.grok-bot-ops。bots/ と routines/ を更新する。毎日のCA書き込みは grok-bot-ops-ledger-write スキルに従う（本体はコピーしない）。CA env は cloud。CAは /poteto-mode 必須。pstack プラグインは grok-bot-ops に必須。毎日の台帳が完了したら（PR積んだか変更なし）PdMと編成評価へ同じ本文で EVAL-READY。フィールドは kind / date_jst / branch / pr / counts / hold。同一 date_jst は再送しない。構成の評価はしない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`編成評価`](./編成評価.md) | fleet.review。SPEC https://github.com/maplefukku/grok-bot-ops/issues/11 。INは台帳更新のEVAL-READYまたはPdM JOB。毎日フル評価（変更なしでも）。台帳は書かない。エージェントの作成削除はPdMへ提案。開発はPdM、マーケ分割はCMO。役割のwhy調査は /poteto-mode 必須。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`最先端手法`](./最先端手法.md) | discord.cutting-edge。手法を1つ gakuse.ai の Discord へ出す。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
-| [`note執筆`](./note執筆.md) | note.writer。ONE JOBはnote.com下書きだけ。chatgpt.com Pro。「出して」まで投稿しない。ChatGPT Pro相談ともChatGPT感性とも別。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`note執筆リーダー`](./note執筆リーダー.md) | note.writer。REPORT↑CMO。ONE JOBはnote.com下書き。chatgpt.com Pro HARD TAB。アイキャッチはnoteサムネ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`noteサムネ`](./noteサムネ.md) | note.eyecatch。ONE JOBはnote.comアイキャッチ。REPORT↑note執筆リーダーとCMO。本文は書かない。ChatGPTはHARD TAB直列。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`UI調査`](./UI調査.md) | ui.research。近い事例の URL と、なぜ近いかを返す。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 
 ## キャラクター生産工場
