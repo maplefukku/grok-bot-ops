@@ -352,12 +352,17 @@ def _scan_lsof_cwds() -> tuple[str, ...] | None:
         capture_output=True,
         text=True,
     )
-    if completed.returncode != 0:
-        return None
     found: list[str] = []
     for line in completed.stdout.splitlines():
         if line.startswith("n/") or line.startswith("n~"):
             found.append(line[1:])
+    # Darwin lsof often exits 1 after SIP/mount warnings while still
+    # emitting valid -Fn cwd records. Discarding stdout then marks every
+    # tree live. Use the records we got; fail closed only when there are none.
+    if found:
+        return tuple(found)
+    if completed.returncode != 0:
+        return None
     return tuple(found)
 
 
@@ -564,8 +569,15 @@ def apply_planned(
     return rc
 
 
-def _default_apply_run(argv: Sequence[str]) -> int:
+def _default_apply_run(argv: Sequence[str], err: TextIO | None = None) -> int:
+    dest = err if err is not None else sys.stderr
     completed = subprocess.run(list(argv), capture_output=True, text=True)
+    for chunk in (completed.stdout, completed.stderr):
+        if not chunk:
+            continue
+        dest.write(chunk)
+        if not chunk.endswith("\n"):
+            dest.write("\n")
     return completed.returncode
 
 
@@ -587,6 +599,7 @@ def _print_human(
     dry_run: bool,
     out: TextIO,
     planned: Sequence[Sequence[str]],
+    apply_ok: bool = True,
 ) -> None:
     for fact, verdict in pairs:
         mark = "KEEP" if verdict.action == "keep" else "REMOVE"
@@ -601,7 +614,7 @@ def _print_human(
         out.write("Would run git worktree prune for stale metadata on --apply.\n")
         return
     if planned:
-        out.write("Applied:\n")
+        out.write("Applied:\n" if apply_ok else "Apply failed:\n")
         for cmd in planned:
             out.write("  " + " ".join(cmd) + "\n")
     else:
@@ -681,14 +694,25 @@ def run(
         return 1
     pairs = tuple((fact, decide(fact)) for fact in facts)
     planned = planned_commands(repo, pairs) if args.apply else ()
+    apply_rc = 0
+    if args.apply:
+        runner = (
+            apply_run
+            if apply_run is not None
+            else (lambda argv: _default_apply_run(argv, err))
+        )
+        apply_rc = apply_planned(repo, pairs, runner)
     if args.as_json:
         _print_json(pairs, dry_run=not args.apply, out=out, planned=planned)
     else:
-        _print_human(pairs, dry_run=not args.apply, out=out, planned=planned)
-    if not args.apply:
-        return 0
-    runner = apply_run if apply_run is not None else _default_apply_run
-    return apply_planned(repo, pairs, runner)
+        _print_human(
+            pairs,
+            dry_run=not args.apply,
+            out=out,
+            planned=planned,
+            apply_ok=apply_rc == 0,
+        )
+    return apply_rc if args.apply else 0
 
 
 def main(argv: Sequence[str] | None = None) -> int:

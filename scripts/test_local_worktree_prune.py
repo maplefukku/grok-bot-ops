@@ -9,6 +9,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 _SCRIPTS = Path(__file__).resolve().parent
 if str(_SCRIPTS) not in sys.path:
@@ -23,6 +24,8 @@ from local_worktree_prune import (  # noqa: E402
     Verdict,
     WorktreeFact,
     WorktreeRow,
+    _default_apply_run,
+    _scan_lsof_cwds,
     apply_planned,
     collect_facts,
     decide,
@@ -74,6 +77,19 @@ class RecordingRun:
         self.cmds: list[tuple[str, ...]] = []
 
     def __call__(self, argv: object) -> int:
+        self.cmds.append(tuple(str(x) for x in argv))
+        return 0
+
+
+class _OrderRecordingRun:
+    def __init__(self, out: io.StringIO) -> None:
+        self.out = out
+        self.cmds: list[tuple[str, ...]] = []
+        self.saw_applied_before_run = False
+
+    def __call__(self, argv: object) -> int:
+        if "Applied:" in self.out.getvalue():
+            self.saw_applied_before_run = True
         self.cmds.append(tuple(str(x) for x in argv))
         return 0
 
@@ -574,6 +590,35 @@ class TestPorcelainAndProcess(unittest.TestCase):
     def test_process_under_tree_is_live(self):
         self.assertTrue(path_has_live_process("/tmp/wt", ("/tmp/wt/src",)))
 
+    def test_lsof_exit_1_with_cwd_lines_is_not_scan_failure(self):
+        completed = subprocess.CompletedProcess(
+            args=["lsof", "-a", "-d", "cwd", "-Fn"],
+            returncode=1,
+            stdout="p123\nfcwd\nn/tmp/added-wt\n",
+            stderr="lsof: WARNING: output information may be incomplete.\n",
+        )
+        with (
+            patch("local_worktree_prune.shutil.which", return_value="/usr/sbin/lsof"),
+            patch("local_worktree_prune.subprocess.run", return_value=completed),
+        ):
+            cwds = _scan_lsof_cwds()
+        self.assertEqual(cwds, ("/tmp/added-wt",))
+        self.assertFalse(path_has_live_process("/tmp/other", cwds))
+        self.assertTrue(path_has_live_process("/tmp/added-wt", cwds))
+
+    def test_lsof_nonzero_without_cwd_lines_is_scan_failure(self):
+        completed = subprocess.CompletedProcess(
+            args=["lsof", "-a", "-d", "cwd", "-Fn"],
+            returncode=2,
+            stdout="",
+            stderr="lsof: unknown option\n",
+        )
+        with (
+            patch("local_worktree_prune.shutil.which", return_value="/usr/sbin/lsof"),
+            patch("local_worktree_prune.subprocess.run", return_value=completed),
+        ):
+            self.assertIsNone(_scan_lsof_cwds())
+
 
 class TestTempGitIntegration(unittest.TestCase):
     def test_primary_is_keep_and_lock_file_keeps_added(self):
@@ -691,6 +736,77 @@ class TestTempGitIntegration(unittest.TestCase):
             self.assertIn(str(primary.resolve()), listed.stdout)
             self.assertTrue(primary.is_dir())
             self.assertFalse(added.exists())
+
+    def test_apply_prints_applied_only_after_commands_run(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            primary = Path(tmp) / "repo"
+            added = Path(tmp) / "added"
+            _init_repo(primary)
+            _git(primary, "worktree", "add", "-b", "feature", str(added))
+            buf = io.StringIO()
+            rec = _OrderRecordingRun(buf)
+            code = run(
+                ["--repo", str(primary), "--apply"],
+                apply_run=rec,
+                probes=Probes(
+                    process_cwds=(),
+                    pr_by_branch={
+                        "feature": PrLookup(
+                            unknown=False, open_or_ci=False, merged=True
+                        ),
+                        "main": PrLookup(
+                            unknown=False, open_or_ci=False, merged=False
+                        ),
+                    },
+                ),
+                stdout=buf,
+            )
+            self.assertEqual(code, 0)
+            self.assertFalse(rec.saw_applied_before_run)
+            self.assertGreaterEqual(len(rec.cmds), 1)
+            self.assertIn("Applied:", buf.getvalue())
+
+    def test_apply_failure_does_not_claim_applied(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            primary = Path(tmp) / "repo"
+            added = Path(tmp) / "added"
+            _init_repo(primary)
+            _git(primary, "worktree", "add", "-b", "feature", str(added))
+            buf = io.StringIO()
+            code = run(
+                ["--repo", str(primary), "--apply"],
+                apply_run=lambda _argv: 128,
+                probes=Probes(
+                    process_cwds=(),
+                    pr_by_branch={
+                        "feature": PrLookup(
+                            unknown=False, open_or_ci=False, merged=True
+                        ),
+                        "main": PrLookup(
+                            unknown=False, open_or_ci=False, merged=False
+                        ),
+                    },
+                ),
+                stdout=buf,
+            )
+            self.assertEqual(code, 128)
+            text = buf.getvalue()
+            self.assertNotIn("Applied:", text)
+            self.assertIn("Apply failed:", text)
+            self.assertTrue(added.exists())
+
+    def test_default_apply_run_forwards_fatal_text(self):
+        err = io.StringIO()
+        code = _default_apply_run(
+            [
+                sys.executable,
+                "-c",
+                "import sys; sys.stderr.write('fatal: refused\\n'); sys.exit(128)",
+            ],
+            err,
+        )
+        self.assertEqual(code, 128)
+        self.assertIn("fatal: refused", err.getvalue())
 
 
 if __name__ == "__main__":
