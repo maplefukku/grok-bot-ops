@@ -30,6 +30,7 @@
 | `docs/decisions/` | ADR を採択・追加するとき。trend-log は Planner の採否台帳。毎日の CA は `ops/daily-YYYY-MM-DD` 上でのみ追記する |
 | `docs/intent-memory/` | Intent/Memory の schema と読み方を変えるとき。感情をプロダクト DB に置かない |
 | `scripts/intent_memory/` | Intent/Memory の query contract と隔離テストを変えるとき |
+| `docs/mini-ops/` | Mini運用の常設手順。ワンショット掃除の記録は置かない |
 
 推測で箱を増やさないこと。必要になった瞬間に作ればよい。
 
