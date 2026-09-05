@@ -4,6 +4,10 @@
 
 Lauren の指示はこうです。最初から全スキルを入れない。スキル 0 で観察し、効いたものだけ科学的に足す。
 
+## S1–S7（issue #12）
+
+`author-shared-skill` / `fleet-stall-sweep` / `completion-handoff` / `fleet-composition-review` / `job-brief` / `ci-health-sweep` / `account-design-pack` はフリートの sand-workflow。このディレクトリに SKILL.md は無い。足すのは スキル作成が eval を通したあと。1 スキル 1 PR。
+
 ## スキルを足すゲート
 
 1. 同じやり方が 2 回以上、実作業で効いたこと（1 回は逸話。`lessons/` 止まり）

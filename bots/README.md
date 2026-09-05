@@ -12,6 +12,7 @@
 - 回すまで待つか
 - このリポジトリに routine 原稿があるか。無ければ `無し`
 - 各ボットファイルに `スキル` 行があるか（共有スキル。本体は置かない。無ければ `無し`）
+- S1–S7 の対応は下の LOCK: S1–S7
 
 毎日の collect / maintain はブランチ `ops/daily-YYYY-MM-DD` 1本と draft PR 1本に積む。ボットはマージしない。
 
@@ -22,6 +23,22 @@
 ## LOCK: DRAFT-STACK（#32 LOCK B）
 
 live tip = 最新 daily bots PR。live daily draft は ≤2。吸収済み residue は superseded-close（新しい tip をコメントで指す）。ROLE-CHANGE/LOCK が SoT になったら PdM が undraft。台帳ボットは merge しない。endless rewrite を一つの lander に積まない。
+
+## LOCK: S1–S7（#12 Q2）
+
+共有 HOW-TO は各ボットファイルの `スキル` 1行。本体は置かない。このリポジトリの `skills/` に SKILL.md は無い。作成は スキル作成へ（eval 後、1 スキル 1 PR）。CreateAgent しない。Q5 の 46 体 slim は別パス。
+
+| S | スキル | ボット |
+|---|---|---|
+| S1 | [author-shared-skill](sand-workflow:author-shared-skill) | [`スキル作成`](./スキル作成.md) |
+| S2 | [fleet-composition-review](sand-workflow:fleet-composition-review) | [`編成評価`](./編成評価.md) |
+| S3 | [fleet-stall-sweep](sand-workflow:fleet-stall-sweep) | [`監視`](./監視.md) |
+| S4 | [completion-handoff](sand-workflow:completion-handoff) | [`台帳更新`](./台帳更新.md) |
+| S5 | [job-brief](sand-workflow:job-brief) | [`PdM`](./PdM.md) / [`CMO`](./CMO.md) / [`SNSリーダー`](./SNSリーダー.md) / [`開発リーダー`](./開発リーダー.md) / [`GTM`](./GTM.md) |
+| S6 | [account-design-pack](sand-workflow:account-design-pack) | [`アカウント設計`](./アカウント設計.md) |
+| S7 | [ci-health-sweep](sand-workflow:ci-health-sweep) | [`CI運用`](./CI運用.md) |
+
+JOB 順は S1 → S3 → S4 → S2 → S5 → S7 → S6。Q8 の Xネタ選別 / ネタ調査 は入れ替えない。
 
 ## 司令室
 
