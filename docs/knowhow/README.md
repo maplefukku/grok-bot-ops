@@ -13,6 +13,7 @@ Grok Bot 全般のノウハウ置き場です。**特定の人物に縛りませ
 | [`templates.md`](./templates.md) | ボットの共有、公開されているボット |
 | [`shopping.md`](./shopping.md) | 買い物と決済の承認 |
 | [`access.md`](./access.md) | アプリ・加入プラン |
+| [`fleet.md`](./fleet.md) | fleet stall / merge GATE / jenny-lite ADOPT\|REJECT |
 | [`.last-collect`](./.last-collect) | collect routine の前回実行日（`never` または `YYYY-MM-DD`） |
 
 新しいトピックは [`_template.md`](./_template.md) から作ってください。時系列の事実は `updates.md`、使い方の知恵はトピックファイル、が振り分けの基準です。
