@@ -160,8 +160,7 @@ def planned_commands(
             argv.append("--force")
         argv.append(fact.path)
         cmds.append(_ban_check(argv))
-    if cmds:
-        cmds.append(_ban_check(("git", "-C", repo, "worktree", "prune")))
+    cmds.append(_ban_check(("git", "-C", repo, "worktree", "prune")))
     return tuple(cmds)
 
 
@@ -251,9 +250,8 @@ def parse_jobs_document(data: object, repo: Path) -> tuple[Job, ...]:
             raise ValueError("job path is required")
         state_raw = item.get("state", "live")
         if state_raw not in {"live", "keep", "abandoned"}:
-            state: JobState = "live"
-        else:
-            state = state_raw
+            raise ValueError("job state must be live, keep, or abandoned")
+        state: JobState = state_raw
         name = item.get("name", "")
         if name is None:
             name = ""
@@ -293,10 +291,12 @@ def _jobs_for(path: str, jobs: Sequence[Job]) -> tuple[bool, bool, bool, bool]:
 
 
 def fact_from_signals(row: WorktreeRow, signals: TreeSignals) -> WorktreeFact:
-    dirty = signals.uncommitted or signals.unique_only_here
+    # Squash-merged commits stay local; the merged PR is the copy that matters.
+    unique_lost = signals.unique_only_here and not signals.pr_merged
+    dirty = signals.uncommitted or unique_lost
     locked = signals.lock_file or signals.git_locked or signals.job_keep
     abandoned_clean = (
-        signals.job_abandoned and not dirty and not signals.unique_only_here
+        signals.job_abandoned and not signals.uncommitted and not unique_lost
     )
     return WorktreeFact(
         path=row.path,
@@ -305,7 +305,7 @@ def fact_from_signals(row: WorktreeRow, signals: TreeSignals) -> WorktreeFact:
         pr_open_or_ci=signals.pr_open_or_ci,
         live_process=signals.live_process,
         dirty=dirty,
-        unique_only_here=signals.unique_only_here,
+        unique_only_here=unique_lost,
         branch_unmerged=signals.branch_unmerged,
         live_job_names_path=signals.job_live,
         locked=locked,

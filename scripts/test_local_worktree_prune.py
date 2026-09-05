@@ -36,24 +36,37 @@ from local_worktree_prune import (  # noqa: E402
 )
 
 
-def _removable(**overrides: object) -> WorktreeFact:
-    values: dict[str, object] = dict(
-        path="/tmp/added-wt",
-        is_primary=False,
-        is_added=True,
-        pr_open_or_ci=False,
-        live_process=False,
-        dirty=False,
-        unique_only_here=False,
-        branch_unmerged=False,
-        live_job_names_path=False,
-        locked=False,
-        pr_merged=True,
-        job_abandoned_clean=False,
-        job_force=False,
+def _removable(
+    *,
+    path: str = "/tmp/added-wt",
+    is_primary: bool = False,
+    is_added: bool = True,
+    pr_open_or_ci: bool = False,
+    live_process: bool = False,
+    dirty: bool = False,
+    unique_only_here: bool = False,
+    branch_unmerged: bool = False,
+    live_job_names_path: bool = False,
+    locked: bool = False,
+    pr_merged: bool = True,
+    job_abandoned_clean: bool = False,
+    job_force: bool = False,
+) -> WorktreeFact:
+    return WorktreeFact(
+        path=path,
+        is_primary=is_primary,
+        is_added=is_added,
+        pr_open_or_ci=pr_open_or_ci,
+        live_process=live_process,
+        dirty=dirty,
+        unique_only_here=unique_only_here,
+        branch_unmerged=branch_unmerged,
+        live_job_names_path=live_job_names_path,
+        locked=locked,
+        pr_merged=pr_merged,
+        job_abandoned_clean=job_abandoned_clean,
+        job_force=job_force,
     )
-    values.update(overrides)
-    return WorktreeFact(**values)  # type: ignore[arg-type]
 
 
 class RecordingRun:
@@ -280,7 +293,18 @@ class TestPlannedCommands(unittest.TestCase):
         fact = _removable(is_primary=True, is_added=True)
         fake = Verdict("remove", ("remove_ok",), True)
         cmds = planned_commands("/repo", [(fact, fake)])
-        self.assertEqual(cmds, ())
+        self.assertEqual(
+            cmds,
+            (("git", "-C", "/repo", "worktree", "prune"),),
+        )
+
+    def test_apply_without_removes_still_prunes_stale_metadata(self):
+        fact = _removable(locked=True)
+        cmds = planned_commands("/repo", [(fact, decide(fact))])
+        self.assertEqual(
+            cmds,
+            (("git", "-C", "/repo", "worktree", "prune"),),
+        )
 
     def test_script_source_never_deletes_branches(self):
         text = Path(_SCRIPTS / "local_worktree_prune.py").read_text(encoding="utf-8")
@@ -416,6 +440,42 @@ class TestLockAndJobs(unittest.TestCase):
         fact = fact_from_signals(row, signals)
         self.assertTrue(fact.locked)
         self.assertEqual(decide(fact).action, "keep")
+
+    def test_invalid_job_state_is_rejected(self):
+        with self.assertRaises(ValueError):
+            parse_jobs_document(
+                {"jobs": [{"path": "/tmp/added-wt", "state": "maybe"}]},
+                Path("/tmp"),
+            )
+
+    def test_merged_pr_does_not_treat_local_commits_as_unique_loss(self):
+        row = WorktreeRow(
+            path="/tmp/added-wt",
+            head="abc",
+            branch="refs/heads/feature",
+            git_locked=False,
+            is_primary=False,
+        )
+        fact = fact_from_signals(
+            row,
+            TreeSignals(
+                uncommitted=False,
+                unique_only_here=True,
+                branch_unmerged=True,
+                pr_open_or_ci=False,
+                pr_merged=True,
+                live_process=False,
+                lock_file=False,
+                git_locked=False,
+                job_live=False,
+                job_keep=False,
+                job_abandoned=False,
+                job_force=False,
+            ),
+        )
+        self.assertFalse(fact.unique_only_here)
+        self.assertFalse(fact.dirty)
+        self.assertEqual(decide(fact).action, "remove")
 
     def test_abandoned_sets_clean_only_when_not_unique(self):
         row = WorktreeRow(
@@ -598,6 +658,39 @@ class TestTempGitIntegration(unittest.TestCase):
             added_fact = next(f for f in facts if f.is_added)
             self.assertTrue(added_fact.pr_merged)
             self.assertFalse(added_fact.pr_open_or_ci)
+            self.assertEqual(decide(added_fact).action, "remove")
+
+    def test_apply_removes_added_worktree_when_remove_ok(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            primary = Path(tmp) / "repo"
+            added = Path(tmp) / "added"
+            _init_repo(primary)
+            _git(primary, "worktree", "add", "-b", "feature", str(added))
+            probes = Probes(
+                process_cwds=(),
+                pr_by_branch={
+                    "feature": PrLookup(
+                        unknown=False, open_or_ci=False, merged=True
+                    ),
+                    "main": PrLookup(
+                        unknown=False, open_or_ci=False, merged=False
+                    ),
+                },
+            )
+            buf = io.StringIO()
+            code = run(
+                ["--repo", str(primary), "--apply", "--json"],
+                probes=probes,
+                stdout=buf,
+            )
+            self.assertEqual(code, 0)
+            payload = json.loads(buf.getvalue())
+            self.assertFalse(payload["dry_run"])
+            listed = _git(primary, "worktree", "list", "--porcelain")
+            self.assertNotIn(str(added.resolve()), listed.stdout)
+            self.assertIn(str(primary.resolve()), listed.stdout)
+            self.assertTrue(primary.is_dir())
+            self.assertFalse(added.exists())
 
 
 if __name__ == "__main__":

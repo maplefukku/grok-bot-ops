@@ -26,7 +26,20 @@ python3 /path/to/grok-bot-ops/scripts/local_worktree_prune.py --repo /path/to/ch
 
 primary の行は必ず KEEP である。REMOVE と出た行だけが `--apply` の候補になる。
 
-JOB を渡すときは `--jobs` に JSON を付ける。省略すると主チェックアウトの `.worktree-prune-jobs.json` を読む。ファイルが無ければ、JOB はどのパスも指していない。
+JOB を渡すときは `--jobs` に JSON を付ける。省略すると主チェックアウトの `.worktree-prune-jobs.json` を読む。ファイルが無ければ、JOB はどのパスも指していない。`state` は `live`、`keep`、`abandoned` のいずれかである。
+
+```json
+{
+  "jobs": [
+    {
+      "name": "follow-up",
+      "path": "/path/to/added-worktree",
+      "state": "live",
+      "force": false
+    }
+  ]
+}
+```
 
 残したい木の中に `.worktree-prune-keep` を置くと、その木は locked として残る。
 
@@ -51,7 +64,7 @@ python3 /path/to/grok-bot-ops/scripts/local_worktree_prune.py --repo /path/to/ch
 - `.worktree-prune-keep` がある、JOB が keep と書いている、または git が locked にしている
 - 主チェックアウトである
 
-消してよいのは added worktree だけである。さらに PR が merged か、JOB が abandoned で残り作業が無いこと。プロセスが無く、汚れもその木だけのコミットも無く、JOB が live と書いておらず、locked でもないこと。
+消してよいのは added worktree だけである。さらに PR が merged か、JOB が abandoned で残り作業が無いこと。プロセスが無く、未コミットも無く、JOB が live と書いておらず、locked でもないこと。squash マージ済みの PR では、その木にだけ残るコミットは失われる作業とはみなさない。PR が merged でなければ、リモートに無いコミットは残す。
 
 信号が取れないときは残す。`gh` が無い、または PR 照会が失敗したら、開いている PR があるとみなして残す。プロセス走査が失敗したら、その木は使用中とみなして残す。
 
