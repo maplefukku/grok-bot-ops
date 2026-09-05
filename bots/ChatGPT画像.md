@@ -9,4 +9,4 @@
 | 回すまで動かない | いいえ |
 | マージしない | はい |
 | 参照 | 無し |
-| スキル | 無し |
+| スキル | [chatgpt-web-existing-tab](sand-workflow:chatgpt-web-existing-tab) |

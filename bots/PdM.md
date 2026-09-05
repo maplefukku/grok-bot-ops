@@ -9,4 +9,4 @@
 | 回すまで動かない | いいえ |
 | マージしない | はい |
 | 参照 | 無し |
-| スキル | [job-brief](sand-workflow:job-brief) |
+| スキル | [job-brief](sand-workflow:job-brief) / [parallel-fire-fleet](sand-workflow:parallel-fire-fleet) |

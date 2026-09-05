@@ -15,6 +15,10 @@
 
 毎日の collect / maintain はブランチ `ops/daily-YYYY-MM-DD` 1本と draft PR 1本に積む。ボットはマージしない。
 
+## LOCK: PARALLEL FIRE（ふっくー / PdM）
+
+独立ジョブは並列で火を付ける。直列待ちしない。Cursor Cloud Agent は枠内で並列無制限（compete / 3-shot pick-best / nest 可）。ChatGPT web は HARD TAB 直列（既存 chatgpt.com タブ1つだけ。新ウィンドウ/タブ禁止。rate-limit は共有バックオフ）。スキル参照: [parallel-fire-fleet](sand-workflow:parallel-fire-fleet) / [chatgpt-web-existing-tab](sand-workflow:chatgpt-web-existing-tab)。
+
 ## 司令室
 
 | 名前 | 役割 | 回すまで動かない |
