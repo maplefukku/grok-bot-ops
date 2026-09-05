@@ -40,6 +40,10 @@ live tip = 最新 daily bots PR。live daily draft は ≤2。吸収済み resid
 
 JOB 順は S1 → S3 → S4 → S2 → S5 → S7 → S6。Q8 の Xネタ選別 / ネタ調査 は入れ替えない。
 
+## LOCK: DOMAIN-UNIT（#16 PdM HARD CORRECT）
+
+出荷単位と ADV、lane、cadence の正本は [`docs/process/`](../docs/process/README.md)。採択理由は [ADR 0003](../docs/decisions/0003-domain-unit-throughput.md)。この台帳へ規則を複製しない。席は増やさない。
+
 ## 司令室
 
 | 名前 | 役割 | 回すまで動かない |
