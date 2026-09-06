@@ -1,0 +1,12 @@
+# bot: ChatGPT Astra Pro
+
+| 項目 | 値 |
+|---|---|
+| 名前 | ChatGPT Astra Pro |
+| id | b2170ab5-6162-4866-b896-add6aacc7f11 |
+| グループ | 司令室 |
+| 役割 | chatgpt.pro.advisor。行き詰まったときの相談。MODELは ChatGPT Pro（塞がれたら Astra）。HARD TABは既存 chatgpt.com タブ。ChatGPT感性とも note執筆リーダーとも別。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） |
+| 回すまで動かない | はい |
+| マージしない | はい |
+| 参照 | 無し |
+| スキル | [chatgpt-web-existing-tab](sand-workflow:chatgpt-web-existing-tab) |
