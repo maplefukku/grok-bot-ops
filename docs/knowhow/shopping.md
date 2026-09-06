@@ -8,6 +8,12 @@
 - 出典: [Approvals, security, and privacy](https://docs.x.ai/grok-bot/approvals-security-and-privacy)（2026-08-29 確認）
 - 確認: 未
 
+## 公式 Haggle Bot の anti-job
+
+- 内容: 公式 Haggle Bot は spend / sign / send（外部メール・Slack 含む）をオペレータの明示 go なしにしない、と marketplace に書いている。調達・決済系 Bot の anti-job の実例。
+- 出典: [Haggle Bot](https://x.ai/bot/marketplace/bots/haggle-bot)、[Setting Grok Bot loose on procurement](https://x.ai/news/grok-bot-procurement)（2026-09-04）
+- 確認: 未
+
 ## 運用ルール（このリポジトリの採用ルール）
 
 - 内容: 決済権限は本物のカードに直結させない。承認なしの自動購入は設定しない。
