@@ -6,12 +6,13 @@ A から D の手順の正本はこのファイルである。採択の理由は
 
 | 呼び手 | いつ | 見る節 |
 |---|---|---|
-| PdM | 平日 09:00 の leftover と merge sweep。Flag Y | 出荷単位、merge-ok、PR-body、D. 平日 JST |
+| PdM | 平日 09:00 の leftover と merge sweep。Flag Y | 出荷単位、merge-ok、PR-body、CI 梯子、D. 平日 JST |
 | Closer（今は `開発<product>` の CA） | bot スレッドが立ったとき | A. スレッドの分類 |
 | Planner | unit の spec を書くとき | B. lane と契約 |
-| job-brief | CA brief を書くとき | PR-body |
-| impl CA | lane を 1 本受けたとき。PR を書くとき | B. lane と契約、quiet-test、PR-body |
-| PR確認 | merge sweep | merge-ok、PR-body |
+| job-brief | CA brief を書くとき | PR-body、CI 梯子 |
+| 開発リーダー | ROUTE+FIRE のとき | CI 梯子、出荷単位 |
+| impl CA | lane を 1 本受けたとき。PR を書くとき | B. lane と契約、quiet-test、PR-body、CI 梯子 |
+| PR確認 | merge sweep | merge-ok、PR-body、CI 梯子 |
 | 編成評価 | 席の提案を出す前 | C. 席 |
 
 ## 出荷単位
@@ -20,7 +21,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 
 - 出荷単位はユーザーに見える機能 1 個、または bounded domain 1 個である。
 - 1 unit は main への 1 merge である。unit PR は 1 本である。中央 CI は 1 回払う。
-- 単位の内側では N CA を disjoint glob で並列にする。成果は同じ unit PR に畳む。
+- 単位の内側では N CA を disjoint glob で並列にする。成果は同じ unit PR に畳む。内側の並列は local worktree である。
 - 製品横断（ZuruNote、sauna-master、gakuse-ai）は独立した unit を並列にする。
 - docs、contract、impl という工程だけを理由に PR を割らない。
 - 指標は units merged / day である。PR 断片数でも bot 数でもない。日次の repo WRAP は [`scripts/merge-velocity-day.sh`](../../scripts/merge-velocity-day.sh) である。数え本体は box `/workspace/fleet-scripts/merge-count-jst.sh` である。
@@ -39,6 +40,8 @@ A から D の手順の正本はこのファイルである。採択の理由は
 ボットは merge しない。人だけが merge する。事実の観測は [`PR確認`](../../bots/PR確認.md) である。日付付きの観察は [`fleet.md`](../knowhow/fleet.md) である。fleet.md は正本ではない。
 
 Flag Y は [`pr-body.md`](./pr-body.md) である。PR 本文の 4 見出しが欠けたら Flag しない。merge しない。
+
+required CI の green は same-BC を畳んだ FULL tip である。LIGHT-WT の green は merge-ok ではない。Flag と E2E は FULL tip だけである。梯子の正本は [`ci-ladder.md`](./ci-ladder.md) である。
 
 ## 禁止
 
@@ -138,3 +141,5 @@ CA は MUST で WRAP を通す。CI の quiet stdout は任意。fail-cap B の 
 fail-cap B の LOCK は [`quiet-test.md`](./quiet-test.md) にあり、box の `/workspace/fleet-scripts/quiet-test.sh` が SoT である。
 
 PR-body HARD LOCK は [`pr-body.md`](./pr-body.md) である。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md` である。Flag Y の 4 見出しはそこだけである。
+
+CI 梯子 LIGHT→FULL は [`ci-ladder.md`](./ci-ladder.md) である。SPEED NORM の太い lander は出荷単位である。

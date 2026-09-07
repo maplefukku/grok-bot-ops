@@ -10,6 +10,8 @@ Lauren の指示はこうです。最初から全スキルを入れない。ス�
 
 `job-brief` / Cloud開発 (`sand-workflow:cloud`) / PR確認 (`sand-workflow:pr`) / 開発からPRグリーン (`sand-workflow:pr-2`) の PR 本文は [`docs/process/pr-body.md`](../docs/process/pr-body.md) である。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md` である。見出し表はそちらだけ。このディレクトリに第二のチェックリストは置かない。
 
+`job-brief` と Cloud開発 (`sand-workflow:cloud`) の CI 梯子は [`docs/process/ci-ladder.md`](../docs/process/ci-ladder.md) である。梯子の中身は invent しない。
+
 ## スキルを足すゲート
 
 1. 同じやり方が 2 回以上、実作業で効いたこと（1 回は逸話。`lessons/` 止まり）
