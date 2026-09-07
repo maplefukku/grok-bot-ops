@@ -6,11 +6,12 @@ A から D の手順の正本はこのファイルである。採択の理由は
 
 | 呼び手 | いつ | 見る節 |
 |---|---|---|
-| PdM | 平日 09:00 の leftover と merge sweep | 出荷単位、merge-ok、D. 平日 JST |
+| PdM | 平日 09:00 の leftover と merge sweep。Flag Y | 出荷単位、merge-ok、PR-body、D. 平日 JST |
 | Closer（今は `開発<product>` の CA） | bot スレッドが立ったとき | A. スレッドの分類 |
 | Planner | unit の spec を書くとき | B. lane と契約 |
-| impl CA | lane を 1 本受けたとき | B. lane と契約、quiet-test |
-| PR確認 | merge sweep | merge-ok |
+| job-brief | CA brief を書くとき | PR-body |
+| impl CA | lane を 1 本受けたとき。PR を書くとき | B. lane と契約、quiet-test、PR-body |
+| PR確認 | merge sweep | merge-ok、PR-body |
 | 編成評価 | 席の提案を出す前 | C. 席 |
 
 ## 出荷単位
@@ -36,6 +37,8 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | NIT threads | 各スレッド返信 ≤ 1 かつ resolved | Closer |
 
 ボットは merge しない。人だけが merge する。事実の観測は [`PR確認`](../../bots/PR確認.md) である。日付付きの観察は [`fleet.md`](../knowhow/fleet.md) である。fleet.md は正本ではない。
+
+Flag Y は [`pr-body.md`](./pr-body.md) である。PR 本文の 4 見出しが欠けたら Flag しない。merge しない。
 
 ## 禁止
 
@@ -133,3 +136,5 @@ CA は MUST で WRAP を通す。CI の quiet stdout は任意。fail-cap B の 
 手順の理由は [0003. ドメイン単位で出荷量を管理する](../decisions/0003-domain-unit-throughput.md) である。席の台帳は [`bots/README.md`](../../bots/README.md) である。書き込み箱は [`AGENTS.md`](../../AGENTS.md) である。日付付きの観察は [`fleet.md`](../knowhow/fleet.md) である。fleet.md は正本ではない。食い違ったときはこのファイルが勝つ。
 
 fail-cap B の LOCK は [`quiet-test.md`](./quiet-test.md) にあり、box の `/workspace/fleet-scripts/quiet-test.sh` が SoT である。
+
+PR-body HARD LOCK は [`pr-body.md`](./pr-body.md) である。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md` である。Flag Y の 4 見出しはそこだけである。
