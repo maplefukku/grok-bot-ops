@@ -47,7 +47,7 @@ fleet テンプレの見出しである。本文の書き方は humanlayer /show
 
 ## Dependabot stamp
 
-Dependabot の初期本文は fleet テンプレの 4 見出しを持たない。欠けたまま Flag Y は出さない。Soft-OK はしない。merge しない。
+Dependabot の初期本文は fleet テンプレの 4 見出しを持たない。欠けたまま Flag Y は出さない。Soft-OK は 4 見出し欠けのまま Flag することである。Soft-OK はしない。merge しない。
 
 stamp は GitHub の [Update a pull request](https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#update-a-pull-request) である。`PATCH /repos/{owner}/{repo}/pulls/{pull_number}` の `body` である。このリポジトリの WRAP は `gh api --method PATCH` である。新しい stamp スクリプトは置かない。見出しは invent しない。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md` である。
 
@@ -55,6 +55,6 @@ stamp は GitHub の [Update a pull request](https://docs.github.com/en/rest/pul
 gh api --method PATCH repos/{owner}/{repo}/pulls/{pull_number} -F body=@-
 ```
 
-`body` はテンプレの 4 見出しを文字どおり持つ。readable change は humanlayer /show-me である。pstack `/show-me-your-work` の TSV ではない。
+`body` はテンプレの 4 見出しを文字どおり持つ。readable change は humanlayer /show-me である。pstack `/show-me-your-work` の TSV ではない。観測の stamp は Dependabot の初期本文を残さない。PATCH の `body` が本文になる。
 
-観測は 2026-09-07 の [#54](https://github.com/maplefukku/grok-bot-ops/pull/54) [#55](https://github.com/maplefukku/grok-bot-ops/pull/55) [#56](https://github.com/maplefukku/grok-bot-ops/pull/56) [#57](https://github.com/maplefukku/grok-bot-ops/pull/57) である。editor は maplefukku である。#54 の `lastEditedAt` は 2026-09-07T17:11:37Z である。#55 は 17:11:52Z、#56 は 17:11:54Z、#57 は 17:11:55Z である。PdM Flag Y `CI CLEAN + 4-pack stamped` は #54 の review である。
+観測は 2026-09-07 の [#54](https://github.com/maplefukku/grok-bot-ops/pull/54) [#55](https://github.com/maplefukku/grok-bot-ops/pull/55) [#56](https://github.com/maplefukku/grok-bot-ops/pull/56) [#57](https://github.com/maplefukku/grok-bot-ops/pull/57) である。editor は maplefukku である。Flag Y の呼び手は PdM である。新しい席は置かない。#54 の `lastEditedAt` は 2026-09-07T17:11:37Z である。#55 は 17:11:52Z、#56 は 17:11:54Z、#57 は 17:11:55Z である。PdM Flag Y `CI CLEAN + 4-pack stamped` は #54 の review である。クライアントは GitHub に残らない。WRAP は `gh api --method PATCH` である。
