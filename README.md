@@ -36,9 +36,10 @@ Grok Bot でプロダクト開発を回すための **司令室リポジトリ**
 
 ```text
 .cursor-plugin/plugin.json   このリポジトリ自体が Cursor プラグイン
-.cursor/hooks.json           Cloud Agent が scripts/ci.py を回す（wrapper: .cursor/hooks/run-ci.py）
+.cursor/hooks.json           Cloud Agent が scripts/quiet-test.sh -- python3 scripts/ci.py を回す
 .github/workflows/ci.yml     相対リンク・knowhow 出典・plugin.json・intent-memory 契約・worktree prune 規則
 scripts/ci.py                上と同じ検査（ローカルでもこれを実行）
+scripts/quiet-test.sh        fleet quiet-test の薄い WRAP。新しいリポジトリの既定も同じ box を指す
 scripts/intent_memory/       Intent/Memory の query contract と fixture テスト
 skills/                      自作スキル。スキル0から始め、evalを通ったものだけ足す
 routines/                    Grok Bot routine の原稿（外側ループの正本）。使いながら増やす
