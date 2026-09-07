@@ -131,7 +131,7 @@ CA は MUST で WRAP を通す。CI の quiet stdout は任意。fail-cap B の 
 
 ## pr-body
 
-Purpose pack. 全リポの PR 本文は 4 MUST 欄である。正本は [`pr-body.md`](./pr-body.md) である。box の `/workspace/fleet-scripts/pr-show-me-template.md` と humanlayer show-me を WRAP する。本文は vendor しない。job-brief と cloud と pr は同じ正本を指す。第二のチェックリストは作らない。CreateAgent しない。`/show-me-your-work` の TSV ではない。
+Purpose pack. WRAP だけである。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md` である。readable change は humanlayer show-me である。指し先は [`pr-body.md`](./pr-body.md) である。本文は vendor しない。harness は invent しない。job-brief と cloud と pr は同じ WRAP を指す。CreateAgent しない。`/show-me-your-work` の TSV ではない。
 
 ## 関連
 

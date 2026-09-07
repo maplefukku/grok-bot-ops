@@ -46,7 +46,7 @@ JOB 順は S1 → S3 → S4 → S2 → S5 → S7 → S6。Q8 の Xネタ選別 /
 
 ## LOCK: PR-BODY（#46 HARD LOCK）
 
-全リポの PR 本文 4 MUST 欄の正本は [`docs/process/pr-body.md`](../docs/process/pr-body.md)。[job-brief](sand-workflow:job-brief)、[Cloud開発](sand-workflow:cloud)、[開発からPRグリーン](sand-workflow:pr-2)、[PR確認](sand-workflow:pr) はそれを指す。この台帳へ見出しを複製しない。CreateAgent しない。
+PR 本文は box `/workspace/fleet-scripts/pr-show-me-template.md` と humanlayer show-me を WRAP する。指し先は [`docs/process/pr-body.md`](../docs/process/pr-body.md)。[job-brief](sand-workflow:job-brief)、[Cloud開発](sand-workflow:cloud)、[開発からPRグリーン](sand-workflow:pr-2)、[PR確認](sand-workflow:pr) はそれを指す。見出し表は invent しない。harness は invent しない。CreateAgent しない。
 
 ## 司令室
 

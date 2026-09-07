@@ -16,9 +16,6 @@ SHOW_ME = (
     "plugins/show-me/skills/show-me/SKILL.md"
 )
 SOT_REL = "docs/process/pr-body.md"
-SOT_URL = (
-    "https://github.com/maplefukku/grok-bot-ops/blob/main/docs/process/pr-body.md"
-)
 
 HEADERS = (
     "## Readable change (show-me)",
@@ -34,22 +31,33 @@ SKILL_ENTRYPOINTS = (
     "sand-workflow:pr",
 )
 
+HARNESS_NAMES = (
+    "pr-show-me-template.md",
+    "pr-body.sh",
+    "show-me.sh",
+    "run-pr-body.sh",
+)
+
 NEEDLES = HEADERS + (
     BOX_TEMPLATE,
     SHOW_ME,
-    SOT_URL,
+    "OSS調査",
+    "MIT",
+    "2026-08-13",
     "show-me-your-work",
     "job-brief",
     "sand-workflow:cloud",
     "sand-workflow:pr",
-    "CA brief",
     "CreateAgent",
     "quiet-test.sh",
+    "WRAP",
+    "harness",
+    "FAIL",
 )
 
 POINTER_PATHS = (PROCESS_INDEX, BOTS_INDEX, SKILLS_INDEX, AGENTS)
 
-PARSER_MUST_FAIL_WITHOUT = HEADERS + (BOX_TEMPLATE, SHOW_ME, "show-me-your-work")
+PARSER_MUST_FAIL_WITHOUT = HEADERS + (BOX_TEMPLATE, SHOW_ME, "OSS調査")
 
 COMPLETE_FIXTURE = "\n".join(NEEDLES) + "\n"
 
@@ -73,6 +81,15 @@ class PrBodyLockTests(unittest.TestCase):
         self.assertTrue(LOCK_PAGE.is_file(), SOT_REL)
         self.assertEqual(lock_errors(LOCK_PAGE.read_text(encoding="utf-8")), [])
 
+    def test_oss_survey_comes_before_headers(self) -> None:
+        self.assertTrue(LOCK_PAGE.is_file(), SOT_REL)
+        text = LOCK_PAGE.read_text(encoding="utf-8")
+        oss = text.find("## OSS調査")
+        first = text.find(HEADERS[0])
+        self.assertGreaterEqual(oss, 0, "OSS調査")
+        self.assertGreaterEqual(first, 0, HEADERS[0])
+        self.assertLess(oss, first)
+
     def test_headers_are_exact_and_in_order(self) -> None:
         self.assertTrue(LOCK_PAGE.is_file(), SOT_REL)
         lines = LOCK_PAGE.read_text(encoding="utf-8").splitlines()
@@ -81,6 +98,25 @@ class PrBodyLockTests(unittest.TestCase):
             self.assertIn(header, lines, header)
             positions.append(lines.index(header))
         self.assertEqual(positions, sorted(positions))
+
+    def test_no_invented_ca_brief_template(self) -> None:
+        self.assertTrue(LOCK_PAGE.is_file(), SOT_REL)
+        text = LOCK_PAGE.read_text(encoding="utf-8")
+        self.assertNotIn("## CA brief", text)
+        fences = text.split("```")
+        for chunk in fences[1::2]:
+            copied = [header for header in HEADERS if header in chunk]
+            self.assertEqual(copied, [], "fenced second header list")
+
+    def test_no_invented_harness_file(self) -> None:
+        hits: list[Path] = []
+        for name in HARNESS_NAMES:
+            hits.extend(
+                path
+                for path in ROOT.rglob(name)
+                if ".git" not in path.parts
+            )
+        self.assertEqual(hits, [])
 
     def test_bots_lock_names_skill_entrypoints(self) -> None:
         text = BOTS_INDEX.read_text(encoding="utf-8")
@@ -93,14 +129,6 @@ class PrBodyLockTests(unittest.TestCase):
         for uri in SKILL_ENTRYPOINTS:
             with self.subTest(uri=uri):
                 self.assertIn(uri, section)
-
-    def test_template_body_is_not_vendored(self) -> None:
-        hits = [
-            path
-            for path in ROOT.rglob("pr-show-me-template.md")
-            if ".git" not in path.parts
-        ]
-        self.assertEqual(hits, [])
 
     def test_skills_dir_has_no_skill_md(self) -> None:
         hits = list((ROOT / "skills").rglob("SKILL.md"))
@@ -118,26 +146,10 @@ class PrBodyLockTests(unittest.TestCase):
 
     def test_pointers_do_not_invent_second_header_list(self) -> None:
         for path in POINTER_PATHS:
-            if path == LOCK_PAGE:
-                continue
             with self.subTest(path=str(path.relative_to(ROOT))):
                 text = path.read_text(encoding="utf-8")
                 copied = [header for header in HEADERS if header in text]
                 self.assertEqual(copied, [], f"{path.name} copied headers")
-
-    def test_ca_brief_fence_repeats_headers(self) -> None:
-        self.assertTrue(LOCK_PAGE.is_file(), SOT_REL)
-        text = LOCK_PAGE.read_text(encoding="utf-8")
-        start = text.find("## CA brief")
-        self.assertGreaterEqual(start, 0, "CA brief")
-        fence_start = text.find("```text", start)
-        self.assertGreaterEqual(fence_start, 0, "CA brief fence")
-        fence_end = text.find("```", fence_start + 7)
-        self.assertGreater(fence_end, fence_start)
-        fence = text[fence_start:fence_end]
-        for header in HEADERS:
-            with self.subTest(header=header):
-                self.assertIn(header, fence)
 
     def test_parser_accepts_complete_fixture(self) -> None:
         self.assertEqual(lock_errors(COMPLETE_FIXTURE), [])

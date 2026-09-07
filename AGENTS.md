@@ -12,7 +12,7 @@
 
 - 入口は `/poteto-mode`。スキルを列挙してマイクロマネジメントしない。
 - テストコマンドは `scripts/quiet-test.sh -- <cmd>` を通す。quiet は skip ではない。
-- PR 本文の 4 MUST 欄の正本は [`docs/process/pr-body.md`](./docs/process/pr-body.md) である。pstack の `/show-me-your-work` TSV ではない。
+- PR 本文は box `/workspace/fleet-scripts/pr-show-me-template.md` と humanlayer show-me を WRAP する。指し先は [`docs/process/pr-body.md`](./docs/process/pr-body.md) である。harness は invent しない。pstack の `/show-me-your-work` TSV ではない。
 - ゴールと、合否が確認できる完了条件を先に書く。時間の長さは完了条件ではない。
 - ビルドが通ったことは証拠にしない。本物のコマンド、画面、保存された値を取る。
 - 判断は `/show-me-your-work` のログに残す。差分より判断を監査する。
