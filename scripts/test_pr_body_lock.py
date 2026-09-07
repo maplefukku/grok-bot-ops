@@ -29,6 +29,7 @@ NEEDLES = (
     "sand-workflow:job-brief",
     "sand-workflow:cloud",
     "sand-workflow:pr",
+    "sand-workflow:pr-2",
     "quiet-test.sh --",
     *MUST_H2,
 )
@@ -39,6 +40,8 @@ PARSER_MUST_FAIL_WITHOUT = (
     BOX_TEMPLATE,
     "show-me-your-work",
     "sand-workflow:job-brief",
+    "sand-workflow:pr",
+    "sand-workflow:pr-2",
 )
 
 COMPLETE_FIXTURE = "\n".join(NEEDLES) + "\n"
@@ -50,8 +53,27 @@ POINTER_FILES = (
 )
 
 
+def _token_char(ch: str) -> bool:
+    return ch.isalnum() or ch in "-_"
+
+
+def _has_needle(text: str, needle: str) -> bool:
+    start = 0
+    n = len(needle)
+    while True:
+        i = text.find(needle, start)
+        if i < 0:
+            return False
+        left_ok = i == 0 or not _token_char(text[i - 1])
+        end = i + n
+        right_ok = end == len(text) or not _token_char(text[end])
+        if left_ok and right_ok:
+            return True
+        start = i + 1
+
+
 def lock_errors(text: str) -> list[str]:
-    return [f"missing {needle}" for needle in NEEDLES if needle not in text]
+    return [f"missing {needle}" for needle in NEEDLES if not _has_needle(text, needle)]
 
 
 def pointer_errors(text: str, rel: str) -> list[str]:
@@ -75,7 +97,7 @@ class PrBodyLockTests(unittest.TestCase):
     def test_parser_rejects_fixture_missing_required_token(self) -> None:
         for token in PARSER_MUST_FAIL_WITHOUT:
             with self.subTest(missing=token):
-                stripped = COMPLETE_FIXTURE.replace(token, "")
+                stripped = "\n".join(n for n in NEEDLES if n != token) + "\n"
                 found = lock_errors(stripped)
                 self.assertTrue(found, f"missing {token} was accepted")
                 self.assertIn(token, "\n".join(found))
@@ -106,8 +128,11 @@ class PrBodyLockTests(unittest.TestCase):
 
     def test_skills_index_names_job_brief_cloud_and_pr(self) -> None:
         text = SKILLS_INDEX.read_text(encoding="utf-8")
-        for skill in ("job-brief", "cloud", "pr"):
-            self.assertIn(skill, text, f"skills/README.md must name {skill}")
+        for skill in ("job-brief", "cloud", "pr", "pr-2"):
+            self.assertTrue(
+                _has_needle(text, skill),
+                f"skills/README.md must name {skill}",
+            )
 
 
 if __name__ == "__main__":
