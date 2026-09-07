@@ -13,7 +13,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | 開発リーダー | ROUTE+FIRE のとき | CI 梯子、出荷単位 |
 | impl CA | lane を 1 本受けたとき。PR を書くとき | B. lane と契約、quiet-test、PR-body、CI 梯子 |
 | PR確認 | merge sweep | merge-ok、PR-body、CI 梯子 |
-| Dependabot stamp | Dependabot が PR を開いたあと | PR-body Dependabot stamp |
+| 人 | Dependabot が PR を開いたあと。Flag の前 | PR-body Dependabot stamp |
 | 編成評価 | 席の提案を出す前 | C. 席 |
 
 ## 出荷単位
