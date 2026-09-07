@@ -1,0 +1,9 @@
+# gakuse-ai gold 404 with this token (2026-09-07).
+# Ecosystems = manifests in this repo. Schema:
+# https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
