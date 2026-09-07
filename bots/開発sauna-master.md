@@ -5,7 +5,7 @@
 | 名前 | 開発sauna-master |
 | id | 926dab14-6f77-4546-84d0-4ddd6d60d23b |
 | グループ | 司令室 |
-| 役割 | impl.via。ONE JOBはCAで実装+ADVクローズ。https://github.com/maplefukku/sauna-master 。計画はPlanner。/poteto-modeとpstack必須。CA ENVは machine zurunote-ios-mini。MONKEYは品質Drive。landerはready。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） |
+| 役割 | impl.via。ONE JOBはCAで実装+ADVクローズ。https://github.com/maplefukku/sauna-master 。計画はPlanner。/poteto-modeとpstack必須。CA ENVは machine zurunote-ios-mini。MONKEYは品質Drive。landerはready。CA実装はHARD（並列local worktree / BDDシナリオの太いPRで点滴micro-PR禁止 / merge-batch+CI梯子LIGHT→FULL）。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） |
 | 回すまで動かない | はい |
 | マージしない | はい |
 | 参照 | 無し |
