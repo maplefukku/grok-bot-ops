@@ -37,6 +37,11 @@ MUST H2 は次の 4 行である。全リポジトリのすべての PR descript
 
 Opening a PR の Why、Scope、Tradeoffs、Blast Radius、Verification は 4 つの H2 の下に置く。4 つの H2 の代わりにはしない。
 
+Readable change は humanlayer /show-me の diff、木、型である。長文で差分を語らない。
+Pseudocode は変更後の手続きである。
+Mermaid は流れまたは境界である。
+TDD / BDD evidence は落ちたテストと通ったテストである。`quiet-test.sh -- <cmd>` を通す。
+
 Beauty は show-me の visuals である。散文の壁は置かない。TDD と BDD の証拠は毎 PR で必須である。
 
 merge-ok の行は 4 のままである。PR-body を 5 行目にしない。
@@ -63,6 +68,9 @@ PR 本文の正本は docs/process/pr-body.md である。全リポジトリの�
 ## Pseudocode
 ## Mermaid
 ## TDD / BDD evidence
+
+Readable change は humanlayer /show-me である。/show-me-your-work の TSV ではない。
+Tests: quiet-test.sh -- <cmd>
 ```
 
 ## テスト

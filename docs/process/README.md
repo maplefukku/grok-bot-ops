@@ -11,6 +11,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | Planner | unit の spec を書くとき | B. lane と契約 |
 | impl CA | lane を 1 本受けたとき | B. lane と契約、quiet-test |
 | impl CA | unit PR を開くとき | pr-body |
+| PdM / 開発リーダー | CA を火付けするとき | pr-body |
 | PR確認 | merge sweep | merge-ok |
 | 編成評価 | 席の提案を出す前 | C. 席 |
 
@@ -138,4 +139,4 @@ PR 本文 HARD LOCK の正本は [`pr-body.md`](./pr-body.md) である。
 
 手順の理由は [0003. ドメイン単位で出荷量を管理する](../decisions/0003-domain-unit-throughput.md) である。席の台帳は [`bots/README.md`](../../bots/README.md) である。書き込み箱は [`AGENTS.md`](../../AGENTS.md) である。日付付きの観察は [`fleet.md`](../knowhow/fleet.md) である。fleet.md は正本ではない。食い違ったときはこのファイルが勝つ。
 
-fail-cap B の LOCK は [`quiet-test.md`](./quiet-test.md) にあり、box の `/workspace/fleet-scripts/quiet-test.sh` が SoT である。
+fail-cap B の LOCK は [`quiet-test.md`](./quiet-test.md) にあり、box の `/workspace/fleet-scripts/quiet-test.sh` が SoT である。PR 本文 HARD LOCK は [`pr-body.md`](./pr-body.md) である。
