@@ -33,15 +33,19 @@ WRAP_FILES: tuple[tuple[str, tuple[str, ...], tuple[str, ...]], ...] = (
         ".github/workflows/codeql.yml",
         (
             "github/codeql-action/init",
-            "javascript-typescript",
+            "language: python",
+            "language: actions",
         ),
-        ("merge_group",),
+        (
+            "merge_group",
+            "- language: javascript-typescript",
+        ),
     ),
     (
         ".github/workflows/scorecard.yml",
         (
             "ossf/scorecard-action",
-            "publish_results: true",
+            "publish_results: false",
         ),
         (),
     ),
@@ -51,12 +55,51 @@ WRAP_FILES: tuple[tuple[str, tuple[str, ...], tuple[str, ...]], ...] = (
         ("merge_group",),
     ),
     (
+        ".github/workflows/dependabot-auto-merge.yml",
+        (
+            "dependabot/fetch-metadata",
+            "gh pr merge --auto",
+        ),
+        ("merge_group",),
+    ),
+    (
+        "scripts/apply-main-pr-only-ruleset.sh",
+        (
+            "18800881",
+            "repos/${REPO}/rulesets",
+            "allow_auto_merge",
+            "delete_branch_on_merge",
+        ),
+        ("merge_queue",),
+    ),
+    (
+        "scripts/main-pr-only-ruleset.json",
+        (
+            '"name": "main-pr-only"',
+            '"type": "deletion"',
+            '"required_review_thread_resolution": true',
+            '"context": "check"',
+            "Cursor Approval Agent: Pull Request Router and Approver",
+        ),
+        (
+            "merge_queue",
+            "TypeScript",
+            "Drizzle",
+        ),
+    ),
+    (
         "docs/process/README.md",
         (
             "Dependabot",
-            "enable-secret-scanning",
+            "18800881",
+            "main-pr-only",
+            "Org+GHAS",
         ),
-        (),
+        (
+            "enable-secret-scanning",
+            "enable-push-protection",
+            "secret_scanning.yml",
+        ),
     ),
 )
 
@@ -75,7 +118,7 @@ class GithubSecurityWrapTests(unittest.TestCase):
                 for needle in must_not:
                     self.assertNotIn(needle, text)
 
-    def test_given_secret_scanning_yml_when_looked_up_then_file_is_absent(self) -> None:
+    def test_given_secret_scanning_when_looked_up_then_fully_dropped(self) -> None:
         for rel in ABSENT_PATHS:
             with self.subTest(path=rel):
                 self.assertFalse((ROOT / rel).exists(), rel)

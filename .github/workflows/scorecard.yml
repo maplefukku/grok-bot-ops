@@ -36,7 +36,8 @@ jobs:
           # Setting `publish_results: true` helps us scale by leveraging your workflow to
           # extract the results instead of relying on our own infrastructure to run scans.
           # And it's free for you!
-          publish_results: true
+          # Official private-repo behavior. Do not publish to make a public badge.
+          publish_results: false
 
       # Upload the results as artifacts (optional). Commenting out will disable
       # uploads of run results in SARIF format to the repository Actions tab.
