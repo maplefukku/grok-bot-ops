@@ -22,7 +22,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 - 単位の内側では N CA を disjoint glob で並列にする。成果は同じ unit PR に畳む。
 - 製品横断（ZuruNote、sauna-master、gakuse-ai）は独立した unit を並列にする。
 - docs、contract、impl という工程だけを理由に PR を割らない。
-- 指標は units merged / day である。PR 断片数でも bot 数でもない。
+- 指標は units merged / day である。PR 断片数でも bot 数でもない。日次の repo WRAP は [`scripts/merge-velocity-day.sh`](../../scripts/merge-velocity-day.sh) である。数え本体は box `/workspace/fleet-scripts/merge-count-jst.sh` である。
 
 ## merge-ok
 
