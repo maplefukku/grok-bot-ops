@@ -322,6 +322,10 @@ def check_quiet_test_lock() -> list[str]:
     return _run_unittest_module("test_quiet_test_lock", "quiet-test-lock")
 
 
+def check_devops_wrap() -> list[str]:
+    return _run_unittest_module("test_devops_wrap", "devops-wrap")
+
+
 LASTSTITCH_DIR = ROOT / "docs" / "laststitch"
 LASTSTITCH_FILES = (
     "README.md",
@@ -456,6 +460,7 @@ def main() -> int:
         ("merge-velocity-day", check_merge_velocity_day),
         ("quiet-test", check_quiet_test),
         ("quiet-test-lock", check_quiet_test_lock),
+        ("devops-wrap", check_devops_wrap),
         ("trend-log-decisions", check_trend_log),
         ("laststitch-lock", check_laststitch),
     ):
