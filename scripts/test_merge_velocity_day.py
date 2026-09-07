@@ -60,6 +60,7 @@ def _empty_by_repo() -> dict[str, list[dict[str, object]]]:
 def _run(
     args: list[str],
     fixtures: dict[str, list[dict[str, object]]],
+    extra_env: dict[str, str] | None = None,
 ) -> subprocess.CompletedProcess[str]:
     with tempfile.TemporaryDirectory() as raw:
         tmp = Path(raw)
@@ -77,6 +78,8 @@ def _run(
         env["MERGE_VELOCITY_GH_LOG"] = str(log_path)
         env.pop("GH_TOKEN", None)
         env.pop("GITHUB_TOKEN", None)
+        if extra_env:
+            env.update(extra_env)
         proc = subprocess.run(
             ["bash", str(SCRIPT), *args],
             check=False,
@@ -199,6 +202,39 @@ class MergeVelocityDayTests(unittest.TestCase):
         self.assertEqual(proc.returncode, 0, proc.stderr)
         self.assertTrue(_payload(proc)["pass"])
         self.assertNotIn("ACCELERATE", proc.stderr)
+
+    def test_box_sot_reshape_does_not_recount(self) -> None:
+        fleet = {
+            "day": "2026-09-07",
+            "prior_day": "2026-09-06",
+            "products": {
+                "ZuruNote": {"today": 1, "prior": 0},
+                "sauna-master": {"today": 0, "prior": 0},
+                "gakuse-ai": {"today": 0, "prior": 0},
+                "DevTogether": {"today": 0, "prior": 0},
+                "grok-bot-ops": {"today": 0, "prior": 0},
+            },
+        }
+        with tempfile.TemporaryDirectory() as raw:
+            box = Path(raw) / "merge-count-jst.sh"
+            box.write_text(
+                "#!/bin/sh\nprintf '%s\\n' '" + json.dumps(fleet) + "'\n",
+                encoding="utf-8",
+            )
+            box.chmod(box.stat().st_mode | stat.S_IXUSR)
+            proc = _run(
+                ["2026-09-07", "2026-09-06"],
+                _empty_by_repo(),
+                extra_env={"MERGE_COUNT_JST": str(box)},
+            )
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        payload = _payload(proc)
+        self.assertEqual(payload["total"], 1)
+        self.assertEqual(payload["by_repo"]["maplefukku/ZuruNote"], 1)
+        self.assertEqual(payload["prior"], 0)
+        self.assertEqual(payload["need_2x"], 1)
+        self.assertTrue(payload["pass"])
+        self.assertEqual(proc.gh_log, "")  # type: ignore[attr-defined]
 
     def test_wraps_gh_pr_list_only(self) -> None:
         proc = _run(["2026-09-07", "2026-09-06"], _empty_by_repo())
