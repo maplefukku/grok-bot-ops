@@ -42,8 +42,9 @@ def repo_root() -> Path:
 
 
 def run_ci(root: Path) -> tuple[int, str]:
+    wrap = root / "scripts" / "quiet-test.sh"
     proc = subprocess.run(
-        ["python3", "scripts/ci.py"],
+        [str(wrap), "--", "python3", "scripts/ci.py"],
         cwd=root,
         capture_output=True,
         text=True,

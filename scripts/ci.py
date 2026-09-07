@@ -314,6 +314,10 @@ def check_merge_velocity_day() -> list[str]:
     return _run_unittest_module("test_merge_velocity_day", "merge-velocity-day")
 
 
+def check_quiet_test() -> list[str]:
+    return _run_unittest_module("test_quiet_test", "quiet-test")
+
+
 LASTSTITCH_DIR = ROOT / "docs" / "laststitch"
 LASTSTITCH_FILES = (
     "README.md",
@@ -446,6 +450,7 @@ def main() -> int:
         ("intent-memory-contract", check_intent_memory_contract),
         ("local-worktree-prune", check_local_worktree_prune),
         ("merge-velocity-day", check_merge_velocity_day),
+        ("quiet-test", check_quiet_test),
         ("trend-log-decisions", check_trend_log),
         ("laststitch-lock", check_laststitch),
     ):

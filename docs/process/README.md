@@ -9,7 +9,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | PdM | 平日 09:00 の leftover と merge sweep | 出荷単位、merge-ok、D. 平日 JST |
 | Closer（今は `開発<product>` の CA） | bot スレッドが立ったとき | A. スレッドの分類 |
 | Planner | unit の spec を書くとき | B. lane と契約 |
-| impl CA | lane を 1 本受けたとき | B. lane と契約 |
+| impl CA | lane を 1 本受けたとき | B. lane と契約、quiet-test |
 | PR確認 | merge sweep | merge-ok |
 | 編成評価 | 席の提案を出す前 | C. 席 |
 
@@ -111,6 +111,22 @@ ADV closer と lane scheduler は提案である。product CoS は既定 NO で�
 | 22:00-08:00 と土日 | | 静穏 | 無し | | incident または deploy deadline だけ例外 |
 
 [`監視`](../../bots/監視.md) の sweep は平日 06-22 の 2 時間おきである。この時計は変えない。静穏のあいだ、監視は stall を PdM へ渡すだけである。FIRE と thrash kill と merge sweep は 09:00 まで待つ。incident または deploy deadline のときだけ動かす。
+
+## quiet-test
+
+Purpose pack. CA と bot のテストコマンドを fleet quiet-test に通す。本文は invent しない。Beauty は薄い exec である。TDD と BDD は [`scripts/test_quiet_test.py`](../../scripts/test_quiet_test.py) を同じ PR に置く。
+
+新しいリポジトリの既定は次である。
+
+```text
+/workspace/fleet-scripts/quiet-test.sh -- <cmd>
+```
+
+このリポジトリの薄い WRAP は [`scripts/quiet-test.sh`](../../scripts/quiet-test.sh) である。box があるときだけそれを exec する。exit code はそのまま通す。
+
+レーンの formatter を先に `<cmd>` へ入れる。vitest は `--silent=passed-only`、jest は `--silent`、xcbeautify、gotestsum。quiet は skip ではない。
+
+CA は MUST で WRAP を通す。CI の quiet stdout は任意。fail-cap B の `QUIET_FAIL_LINES` 既定 500 は [#45](https://github.com/maplefukku/grok-bot-ops/issues/45) の LOCK である。この WRAP は既定を持たない。親 LOCK は [#42](https://github.com/maplefukku/grok-bot-ops/issues/42) である。Cloud スキルと tool-path-prefer が入口である。
 
 ## 関連
 
