@@ -13,6 +13,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | 開発リーダー | ROUTE+FIRE のとき | CI 梯子、出荷単位 |
 | impl CA | lane を 1 本受けたとき。PR を書くとき | B. lane と契約、quiet-test、PR-body、CI 梯子 |
 | PR確認 | merge sweep | merge-ok、PR-body、CI 梯子 |
+| Dependabot stamp | Dependabot が PR を開いたあと | PR-body Dependabot stamp |
 | 編成評価 | 席の提案を出す前 | C. 席 |
 
 ## 出荷単位
@@ -39,7 +40,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 
 ボットは merge しない。人だけが merge する。事実の観測は [`PR確認`](../../bots/PR確認.md) である。日付付きの観察は [`fleet.md`](../knowhow/fleet.md) である。fleet.md は正本ではない。
 
-Flag Y は [`pr-body.md`](./pr-body.md) である。PR 本文の 4 見出しが欠けたら Flag しない。merge しない。
+Flag Y は [`pr-body.md`](./pr-body.md) である。PR 本文の 4 見出しが欠けたら Flag しない。merge しない。Dependabot も同じである。Soft-OK はしない。stamp は [`pr-body.md`](./pr-body.md) の Dependabot stamp である。
 
 required CI の green は same-BC を畳んだ FULL tip である。LIGHT-WT の green は merge-ok ではない。Flag と E2E は FULL tip だけである。梯子の正本は [`ci-ladder.md`](./ci-ladder.md) である。
 
@@ -54,6 +55,7 @@ required CI の green は same-BC を畳んだ FULL tip である。LIGHT-WT の
 | 第 4 の契約 SoT | 契約 SoT は ARCH issue 3 本だけである |
 | 新しい impl ボット | impl の席を増やさない |
 | PdM のクローン | PdM は CoS のままである |
+| Soft-OK（4 見出し欠けのまま Flag） | Flag Y は 4 見出し MUST。Dependabot は stamp してから Flag する |
 
 ## A. スレッドの分類
 
@@ -140,6 +142,6 @@ CA は MUST で WRAP を通す。CI の quiet stdout は任意。fail-cap B の 
 
 fail-cap B の LOCK は [`quiet-test.md`](./quiet-test.md) にあり、box の `/workspace/fleet-scripts/quiet-test.sh` が SoT である。
 
-PR-body HARD LOCK は [`pr-body.md`](./pr-body.md) である。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md` である。Flag Y の 4 見出しはそこだけである。
+PR-body HARD LOCK は [`pr-body.md`](./pr-body.md) である。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md` である。Flag Y の 4 見出しはそこだけである。Dependabot の stamp は同じ [`pr-body.md`](./pr-body.md) である。WRAP は `gh api --method PATCH` である。Soft-OK はしない。
 
 CI 梯子 LIGHT→FULL は [`ci-ladder.md`](./ci-ladder.md) である。SPEED NORM の太い lander は出荷単位である。

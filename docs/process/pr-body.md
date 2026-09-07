@@ -44,3 +44,17 @@ fleet テンプレの見出しである。本文の書き方は humanlayer /show
 ## TDD / BDD evidence
 
 テストがあるときだけ、既存の `quiet-test.sh -- <cmd>` を通す。quiet は skip ではない。新しい harness は FAIL である。
+
+## Dependabot stamp
+
+Dependabot の初期本文は fleet テンプレの 4 見出しを持たない。欠けたまま Flag Y は出さない。Soft-OK はしない。merge しない。
+
+stamp は GitHub の [Update a pull request](https://docs.github.com/en/rest/pulls/pulls?apiVersion=2022-11-28#update-a-pull-request) である。`PATCH /repos/{owner}/{repo}/pulls/{pull_number}` の `body` である。このリポジトリの WRAP は `gh api --method PATCH` である。新しい stamp スクリプトは置かない。見出しは invent しない。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md` である。
+
+```text
+gh api --method PATCH repos/{owner}/{repo}/pulls/{pull_number} -F body=@-
+```
+
+`body` はテンプレの 4 見出しを文字どおり持つ。readable change は humanlayer /show-me である。pstack `/show-me-your-work` の TSV ではない。
+
+観測は 2026-09-07 の [#54](https://github.com/maplefukku/grok-bot-ops/pull/54) [#55](https://github.com/maplefukku/grok-bot-ops/pull/55) [#56](https://github.com/maplefukku/grok-bot-ops/pull/56) [#57](https://github.com/maplefukku/grok-bot-ops/pull/57) である。editor は maplefukku。`lastEditedAt` は 2026-09-07T17:11:37Z である。PdM Flag Y は `CI CLEAN + 4-pack stamped` である。
