@@ -126,8 +126,10 @@ Purpose pack. CA と bot のテストコマンドを fleet quiet-test に通す�
 
 レーンの formatter を先に `<cmd>` へ入れる。vitest は `--silent=passed-only`、jest は `--silent`、xcbeautify、gotestsum。quiet は skip ではない。
 
-CA は MUST で WRAP を通す。CI の quiet stdout は任意。fail-cap B の `QUIET_FAIL_LINES` 既定 500 は [#45](https://github.com/maplefukku/grok-bot-ops/issues/45) の LOCK である。この WRAP は既定を持たない。親 LOCK は [#42](https://github.com/maplefukku/grok-bot-ops/issues/42) である。Cloud スキルと tool-path-prefer が入口である。
+CA は MUST で WRAP を通す。CI の quiet stdout は任意。fail-cap B の `QUIET_FAIL_LINES` 既定 500 は [`quiet-test.md`](./quiet-test.md)（[#45](https://github.com/maplefukku/grok-bot-ops/issues/45)）である。この WRAP は既定を持たない。親 LOCK は [#42](https://github.com/maplefukku/grok-bot-ops/issues/42) である。Cloud スキルと tool-path-prefer が入口である。
 
 ## 関連
 
 手順の理由は [0003. ドメイン単位で出荷量を管理する](../decisions/0003-domain-unit-throughput.md) である。席の台帳は [`bots/README.md`](../../bots/README.md) である。書き込み箱は [`AGENTS.md`](../../AGENTS.md) である。日付付きの観察は [`fleet.md`](../knowhow/fleet.md) である。fleet.md は正本ではない。食い違ったときはこのファイルが勝つ。
+
+fail-cap B の LOCK は [`quiet-test.md`](./quiet-test.md) にあり、box の `/workspace/fleet-scripts/quiet-test.sh` が SoT である。
