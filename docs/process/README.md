@@ -10,6 +10,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | Closer（今は `開発<product>` の CA） | bot スレッドが立ったとき | A. スレッドの分類 |
 | Planner | unit の spec を書くとき | B. lane と契約 |
 | impl CA | lane を 1 本受けたとき | B. lane と契約、quiet-test |
+| impl CA | unit PR を開くとき | pr-body |
 | PR確認 | merge sweep | merge-ok |
 | 編成評価 | 席の提案を出す前 | C. 席 |
 
@@ -48,6 +49,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | 第 4 の契約 SoT | 契約 SoT は ARCH issue 3 本だけである |
 | 新しい impl ボット | impl の席を増やさない |
 | PdM のクローン | PdM は CoS のままである |
+| 第2の PR-body チェックリスト | PR 本文の正本は [`pr-body.md`](./pr-body.md) だけである |
 
 ## A. スレッドの分類
 
@@ -127,6 +129,10 @@ Purpose pack. CA と bot のテストコマンドを fleet quiet-test に通す�
 レーンの formatter を先に `<cmd>` へ入れる。vitest は `--silent=passed-only`、jest は `--silent`、xcbeautify、gotestsum。quiet は skip ではない。
 
 CA は MUST で WRAP を通す。CI の quiet stdout は任意。fail-cap B の `QUIET_FAIL_LINES` 既定 500 は [`quiet-test.md`](./quiet-test.md)（[#45](https://github.com/maplefukku/grok-bot-ops/issues/45)）である。この WRAP は既定を持たない。親 LOCK は [#42](https://github.com/maplefukku/grok-bot-ops/issues/42) である。Cloud スキルと tool-path-prefer が入口である。
+
+## pr-body
+
+PR 本文 HARD LOCK の正本は [`pr-body.md`](./pr-body.md) である。
 
 ## 関連
 

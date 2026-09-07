@@ -8,6 +8,10 @@ Lauren の指示はこうです。最初から全スキルを入れない。ス�
 
 `author-shared-skill` / `fleet-stall-sweep` / `completion-handoff` / `fleet-composition-review` / `job-brief` / `ci-health-sweep` / `account-design-pack` はフリートの sand-workflow。このディレクトリに SKILL.md は無い。足すのは スキル作成が eval を通したあと。1 スキル 1 PR。
 
+## PR-body HARD LOCK
+
+`job-brief`、`cloud`、`pr`、`pr-2` は [`docs/process/pr-body.md`](../docs/process/pr-body.md) を引用する。第2のチェックリストは置かない。このディレクトリに SKILL.md は無い。
+
 ## スキルを足すゲート
 
 1. 同じやり方が 2 回以上、実作業で効いたこと（1 回は逸話。`lessons/` 止まり）
