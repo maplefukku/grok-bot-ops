@@ -20,6 +20,8 @@ FORBIDDEN = (
     ROOT / ".renovaterc",
     GITHUB / "workflows" / "merge-queue.yml",
     GITHUB / "merge-queue.yml",
+    GITHUB / "secret_scanning.yml",
+    GITHUB / "workflows" / "secret-scanning.yml",
 )
 
 DEPENDABOT_NEEDLES = (
@@ -40,7 +42,9 @@ SCORECARD_NEEDLES = (
     "ossf/scorecard-action@",
     "results_format: sarif",
     "results_file: results.sarif",
-    "publish_results:",
+    "publish_results: false",
+    "contents: read",
+    "actions: read",
 )
 CI_NEEDLES = (
     "check:",
@@ -55,7 +59,14 @@ FORBIDDEN_ECOSYSTEMS = (
     "package-ecosystem: cargo",
     "package-ecosystem: composer",
 )
-SCORECARD_FAIL_TOKENS = ("fail-on:", "fail_on:")
+SCORECARD_FAIL_TOKENS = ("fail-on:", "fail_on:", "publish_results: true")
+HOLD_TOKENS = (
+    "secret_scanning",
+    "secret-scanning",
+    "GHAS",
+    "push_protection",
+    "push-protection",
+)
 RENOVATE_TOKENS = ("renovate", "merge-queue", "merge_queue", "Merge Queue")
 
 
@@ -69,7 +80,6 @@ def wrap_errors() -> list[str]:
         (DEPENDABOT, DEPENDABOT_NEEDLES),
         (CODEOWNERS, CODEOWNERS_NEEDLES),
         (CODEQL, CODEQL_NEEDLES),
-        (SCORECARD, SCORECARD_NEEDLES),
         (CI_YML, CI_NEEDLES),
     ):
         if not path.is_file():
@@ -92,16 +102,27 @@ def wrap_errors() -> list[str]:
     for token in FORBIDDEN_ECOSYSTEMS:
         if token in dep:
             errors.append(f"dependabot.yml invents {token}")
-    score = _text(SCORECARD)
+    if not SCORECARD.is_file():
+        errors.append(f"missing {SCORECARD.relative_to(ROOT)}")
+        score_active = ""
+    else:
+        score_active = "\n".join(
+            line
+            for line in _text(SCORECARD).splitlines()
+            if not line.lstrip().startswith("#")
+        )
+        for needle in SCORECARD_NEEDLES:
+            if needle not in score_active:
+                errors.append(f"{SCORECARD.relative_to(ROOT)}: missing {needle}")
     for token in SCORECARD_FAIL_TOKENS:
-        if token in score:
+        if token in score_active:
             errors.append(f"scorecard.yml is not report-only: {token}")
     for path in FORBIDDEN:
         if path.exists():
             errors.append(f"SKIP target present: {path.relative_to(ROOT)}")
-    for path in (CODEQL, SCORECARD, DEPENDABOT, RULESET):
+    for path in (CODEQL, SCORECARD, DEPENDABOT, RULESET, CODEOWNERS, CI_YML):
         body = _text(path)
-        for token in RENOVATE_TOKENS:
+        for token in RENOVATE_TOKENS + HOLD_TOKENS:
             if token in body:
                 errors.append(f"{path.relative_to(ROOT)} mentions {token}")
     return errors
