@@ -44,6 +44,10 @@ JOB 順は S1 → S3 → S4 → S2 → S5 → S7 → S6。Q8 の Xネタ選別 /
 
 出荷単位と ADV、lane、cadence の正本は [`docs/process/`](../docs/process/README.md)。採択理由は [ADR 0003](../docs/decisions/0003-domain-unit-throughput.md)。この台帳へ規則を複製しない。席は増やさない。
 
+## LOCK: PR-BODY（#46 HARD LOCK）
+
+PR 本文の 4 見出しと Flag Y の正本は [`docs/process/pr-body.md`](../docs/process/pr-body.md)。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md`。job-brief / cloud / pr はそこを指す。見出しをボットファイルへコピーしない。
+
 ## 司令室
 
 | 名前 | 役割 | 回すまで動かない |

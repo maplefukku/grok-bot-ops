@@ -15,6 +15,7 @@
 - ゴールと、合否が確認できる完了条件を先に書く。時間の長さは完了条件ではない。
 - ビルドが通ったことは証拠にしない。本物のコマンド、画面、保存された値を取る。
 - 判断は `/show-me-your-work` のログに残す。差分より判断を監査する。
+- PR 本文の 4 見出しは [`docs/process/pr-body.md`](./docs/process/pr-body.md) である。pstack `/show-me-your-work` の TSV ではない。
 - プロダクトのコード変更はこのリポジトリでやらない。該当プロダクトのリポジトリで cloud agent を立てる。
 
 ## このリポジトリへの書き込みルール
@@ -32,7 +33,7 @@
 | `docs/intent-memory/` | Intent/Memory の schema と読み方を変えるとき。感情をプロダクト DB に置かない |
 | `scripts/intent_memory/` | Intent/Memory の query contract と隔離テストを変えるとき |
 | `docs/mini-ops/` | Mini運用の常設手順。ワンショット掃除の記録は置かない |
-| `docs/process/` | 出荷単位と ADV closer、lane、平日 cadence の手順。契約 SoT は置かない。毎日の CA はここへ書かない |
+| `docs/process/` | 出荷単位と ADV closer、lane、平日 cadence、PR-body Flag Y の手順。契約 SoT は置かない。毎日の CA はここへ書かない |
 
 推測で箱を増やさないこと。必要になった瞬間に作ればよい。
 

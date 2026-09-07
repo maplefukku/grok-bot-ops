@@ -8,6 +8,8 @@ Lauren の指示はこうです。最初から全スキルを入れない。ス�
 
 `author-shared-skill` / `fleet-stall-sweep` / `completion-handoff` / `fleet-composition-review` / `job-brief` / `ci-health-sweep` / `account-design-pack` はフリートの sand-workflow。このディレクトリに SKILL.md は無い。足すのは スキル作成が eval を通したあと。1 スキル 1 PR。
 
+`job-brief` / Cloud開発 (`sand-workflow:cloud`) / PR確認 (`sand-workflow:pr`) / 開発からPRグリーン (`sand-workflow:pr-2`) の PR 本文は [`docs/process/pr-body.md`](../docs/process/pr-body.md) である。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md` である。見出し表はそちらだけ。このディレクトリに第二のチェックリストは置かない。
+
 ## スキルを足すゲート
 
 1. 同じやり方が 2 回以上、実作業で効いたこと（1 回は逸話。`lessons/` 止まり）
