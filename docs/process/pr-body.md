@@ -57,4 +57,4 @@ gh api --method PATCH repos/{owner}/{repo}/pulls/{pull_number} -F body=@-
 
 `body` はテンプレの 4 見出しを文字どおり持つ。readable change は humanlayer /show-me である。pstack `/show-me-your-work` の TSV ではない。
 
-観測は 2026-09-07 の [#54](https://github.com/maplefukku/grok-bot-ops/pull/54) [#55](https://github.com/maplefukku/grok-bot-ops/pull/55) [#56](https://github.com/maplefukku/grok-bot-ops/pull/56) [#57](https://github.com/maplefukku/grok-bot-ops/pull/57) である。editor は maplefukku。`lastEditedAt` は 2026-09-07T17:11:37Z である。PdM Flag Y は `CI CLEAN + 4-pack stamped` である。
+観測は 2026-09-07 の [#54](https://github.com/maplefukku/grok-bot-ops/pull/54) [#55](https://github.com/maplefukku/grok-bot-ops/pull/55) [#56](https://github.com/maplefukku/grok-bot-ops/pull/56) [#57](https://github.com/maplefukku/grok-bot-ops/pull/57) である。editor は maplefukku である。#54 の `lastEditedAt` は 2026-09-07T17:11:37Z である。#55 は 17:11:52Z、#56 は 17:11:54Z、#57 は 17:11:55Z である。PdM Flag Y `CI CLEAN + 4-pack stamped` は #54 の review である。
