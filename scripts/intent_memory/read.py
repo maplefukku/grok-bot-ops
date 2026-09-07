@@ -37,6 +37,9 @@ def _load_fixture(path: Path, store: MemoryStore) -> None:
                 related_ids=tuple(row.get("related_ids") or ()),
                 created_at=_parse_time(row.get("created_at")),
                 expires_at=_parse_time(row.get("expires_at")),
+                source_url=row.get("source_url"),
+                github_url=row.get("github_url"),
+                gb_url=row.get("gb_url"),
             )
         )
 
@@ -53,6 +56,9 @@ def _atom_dict(atom: Atom) -> dict:
         "actor": atom.actor,
         "created_at": atom.created_at.isoformat(),
         "expires_at": atom.expires_at.isoformat() if atom.expires_at else None,
+        "source_url": atom.source_url,
+        "github_url": atom.github_url,
+        "gb_url": atom.gb_url,
     }
 
 

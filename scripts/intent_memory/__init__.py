@@ -1,5 +1,7 @@
 from .contract import (
+    EDGE_URL_KEYS,
     FEELING_TTL_DAYS,
+    HUMAN_KINDS,
     Atom,
     AtomDraft,
     ContractError,
@@ -10,7 +12,9 @@ from .contract import (
 )
 
 __all__ = [
+    "EDGE_URL_KEYS",
     "FEELING_TTL_DAYS",
+    "HUMAN_KINDS",
     "Atom",
     "AtomDraft",
     "ContractError",

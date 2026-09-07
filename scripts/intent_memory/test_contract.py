@@ -12,7 +12,9 @@ if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 from intent_memory import (  # noqa: E402
+    EDGE_URL_KEYS,
     FEELING_TTL_DAYS,
+    HUMAN_KINDS,
     AtomDraft,
     ContractError,
     IngestOff,
@@ -20,6 +22,7 @@ from intent_memory import (  # noqa: E402
     MemoryStore,
     Source,
 )
+from intent_memory.trend_log import drafts_from_trend_log  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 SCHEMA = ROOT / "docs" / "intent-memory" / "schema.sql"
@@ -292,6 +295,10 @@ class TestSchemaSql(unittest.TestCase):
         self.assertTrue(feeling_ok, "schema must encode feeling expiry")
         self.assertTrue(critique_ok, "schema must encode critique_human")
         self.assertIn("cardinality(requested) >= 1", text)
+        self.assertIn("related_ids uuid[]", text)
+        self.assertNotRegex(text, r"\bsource_url\s+text\b")
+        self.assertNotRegex(text, r"\bgithub_url\s+text\b")
+        self.assertNotRegex(text, r"\bgb_url\s+text\b")
 
 
 class TestReadApiShape(unittest.TestCase):
@@ -335,5 +342,141 @@ class TestCli(unittest.TestCase):
         )
 
 
+class TestHumanIngest(unittest.TestCase):
+    def test_append_accepts_each_human_kind(self):
+        for kind in HUMAN_KINDS:
+            with self.subTest(kind=kind):
+                store = MemoryStore()
+                extra = {}
+                if kind is Kind.FEELING:
+                    extra["expires_at"] = NOW + timedelta(days=90)
+                atom = store.append(_draft(kind=kind, body=kind.value, **extra))
+                self.assertIs(atom.source, Source.HUMAN)
+                self.assertIs(atom.kind, kind)
+                rows = store.by_tags(("fleet",), source=Source.HUMAN)
+                self.assertEqual([row.id for row in rows], [atom.id])
+
+    def test_human_kinds_exclude_critique_bot(self):
+        self.assertNotIn(Kind.CRITIQUE_BOT, HUMAN_KINDS)
+
+
+class TestEdges(unittest.TestCase):
+    def test_related_ids_and_body_url_fields_round_trip(self):
+        store = MemoryStore()
+        related = "11111111-1111-1111-1111-111111111111"
+        atom = store.append(
+            _draft(
+                body="edge body",
+                related_ids=(related,),
+                source_url="https://example.com/primary",
+                github_url="https://github.com/maplefukku/grok-bot-ops/issues/18#issuecomment-5543719022",
+                gb_url="https://github.com/maplefukku/grok-bot-ops/issues/18",
+            )
+        )
+        self.assertEqual(atom.related_ids, (related,))
+        self.assertEqual(atom.source_url, "https://example.com/primary")
+        self.assertEqual(
+            atom.github_url,
+            "https://github.com/maplefukku/grok-bot-ops/issues/18#issuecomment-5543719022",
+        )
+        self.assertEqual(
+            atom.gb_url, "https://github.com/maplefukku/grok-bot-ops/issues/18"
+        )
+        for key in EDGE_URL_KEYS:
+            self.assertIn(f"{key}:", atom.body)
+        tagged = store.by_tags(("fleet",), source=Source.HUMAN)
+        self.assertEqual(tagged[0].source_url, atom.source_url)
+
+    def test_fixture_human_filter_keeps_url_edges(self):
+        import json
+        import subprocess
+
+        proc = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "intent_memory" / "read.py"),
+                "--tags",
+                "fleet",
+                "lock",
+                "--n",
+                "5",
+                "--fixture",
+                str(ROOT / "scripts" / "intent_memory" / "fixtures.json"),
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        rows = json.loads(proc.stdout)
+        self.assertTrue(rows)
+        self.assertTrue(all(row["source"] == "human" for row in rows))
+        self.assertTrue(all(row["kind"] != "critique_bot" for row in rows))
+        self.assertTrue(any(row.get("source_url") for row in rows))
+        self.assertTrue(any(row.get("related_ids") for row in rows))
+
+
+class TestTrendLogDryRun(unittest.TestCase):
+    def test_trend_log_maps_to_bot_decision_and_append_rejects(self):
+        text = (ROOT / "docs" / "decisions" / "trend-log.md").read_text(
+            encoding="utf-8"
+        )
+        drafts = drafts_from_trend_log(text)
+        self.assertTrue(drafts)
+        store = MemoryStore()
+        for draft in drafts:
+            self.assertIs(draft.kind, Kind.DECISION)
+            self.assertIs(draft.source, Source.BOT)
+            self.assertEqual(draft.actor, "bot:Planner")
+            self.assertIn("trend-adopt", draft.tags)
+            self.assertIn("source_url:", draft.body)
+            self.assertIsNone(draft.expires_at)
+            with self.assertRaises(IngestOff):
+                store.append(draft)
+        self.assertEqual(store.by_tags(("trend-adopt",), source=Source.HUMAN), [])
+
+    def test_trend_log_cli_dry_run_prints_bot_drafts_only(self):
+        import json
+        import subprocess
+
+        proc = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "intent_memory" / "trend_log.py"),
+                "--dry-run",
+                "--path",
+                str(ROOT / "docs" / "decisions" / "trend-log.md"),
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        rows = json.loads(proc.stdout)
+        self.assertTrue(rows)
+        self.assertTrue(all(row["source"] == "bot" for row in rows))
+        self.assertTrue(all(row["kind"] == "decision" for row in rows))
+
+
+class TestPostgresWrap(unittest.TestCase):
+    def test_runbook_and_compose_wrap_official_pgvector(self):
+        runbook = ROOT / "docs" / "intent-memory" / "postgres.md"
+        compose = ROOT / "docs" / "intent-memory" / "docker-compose.yml"
+        recipe = ROOT / "docs" / "intent-memory" / "read-recipe.md"
+        text = runbook.read_text(encoding="utf-8")
+        yml = compose.read_text(encoding="utf-8")
+        recipe_text = recipe.read_text(encoding="utf-8")
+        self.assertIn("CREATE EXTENSION", text)
+        self.assertIn("pgvector/pgvector", text)
+        self.assertIn("https://github.com/pgvector/pgvector", text)
+        self.assertIn("pgvector/pgvector:pg18-trixie", yml)
+        self.assertIn("./schema.sql", yml)
+        self.assertNotIn("neo4j", text.lower())
+        self.assertNotIn("mem0", text.lower())
+        self.assertIn("by_tags", recipe_text)
+        self.assertIn("similar", recipe_text)
+        self.assertIn("Planner dry-run", recipe_text)
+        self.assertIn("RecallMemory", recipe_text)
+
+
 if __name__ == "__main__":
     unittest.main()
+

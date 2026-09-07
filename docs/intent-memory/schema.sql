@@ -34,7 +34,7 @@ CREATE TABLE intent_atom (
 );
 
 COMMENT ON TABLE intent_atom IS
-    '艦隊の intent/memory オーバーレイ。GitHub の LOCK コメント URL を法的・仕様の正本として置き換えない。';
+    '艦隊の intent/memory オーバーレイ。GitHub の LOCK コメント URL を法的・仕様の正本として置き換えない。source_url / github_url / gb_url は列にしない。body の行に書く。';
 
 CREATE INDEX intent_atom_tags_gin ON intent_atom USING GIN (tags);
 

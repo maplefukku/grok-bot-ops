@@ -32,6 +32,16 @@ class IngestOff(Exception):
     pass
 
 
+EDGE_URL_KEYS = ("source_url", "github_url", "gb_url")
+HUMAN_KINDS = (
+    Kind.INTENT,
+    Kind.DECISION,
+    Kind.BELIEF,
+    Kind.FEELING,
+    Kind.CRITIQUE_HUMAN,
+)
+
+
 @dataclass(frozen=True)
 class AtomDraft:
     kind: Kind
@@ -43,6 +53,9 @@ class AtomDraft:
     related_ids: tuple[str, ...] = ()
     created_at: datetime | None = None
     expires_at: datetime | None = None
+    source_url: str | None = None
+    github_url: str | None = None
+    gb_url: str | None = None
 
 
 @dataclass(frozen=True)
@@ -57,6 +70,9 @@ class Atom:
     actor: str
     created_at: datetime
     expires_at: datetime | None
+    source_url: str | None = None
+    github_url: str | None = None
+    gb_url: str | None = None
 
 
 def _cosine_similarity(left: Sequence[float], right: Sequence[float]) -> float:
@@ -80,6 +96,50 @@ def _as_embedding(value: Sequence[float] | None) -> tuple[float, ...] | None:
 
 def _pairing_ok(kind: Kind, source: Source) -> bool:
     return (kind is Kind.CRITIQUE_BOT) is (source is Source.BOT)
+
+
+def _clean_url(value: str | None) -> str | None:
+    if value is None:
+        return None
+    stripped = value.strip()
+    return stripped or None
+
+
+def _parse_edge_urls(body: str) -> dict[str, str | None]:
+    found = {key: None for key in EDGE_URL_KEYS}
+    for line in body.splitlines():
+        for key in EDGE_URL_KEYS:
+            prefix = f"{key}:"
+            if line.startswith(prefix):
+                found[key] = _clean_url(line[len(prefix) :])
+    return found
+
+
+def _merge_edge_urls(
+    body: str,
+    source_url: str | None,
+    github_url: str | None,
+    gb_url: str | None,
+) -> str:
+    incoming = {
+        "source_url": _clean_url(source_url),
+        "github_url": _clean_url(github_url),
+        "gb_url": _clean_url(gb_url),
+    }
+    kept: list[str] = []
+    for line in body.splitlines():
+        matched = next(
+            (key for key in EDGE_URL_KEYS if line.startswith(f"{key}:")),
+            None,
+        )
+        if matched is not None and incoming.get(matched):
+            continue
+        kept.append(line)
+    for key in EDGE_URL_KEYS:
+        value = incoming[key]
+        if value:
+            kept.append(f"{key}: {value}")
+    return "\n".join(kept)
 
 
 class MemoryStore:
@@ -145,17 +205,27 @@ class MemoryStore:
                 self._embedding_dim = len(embedding)
             elif len(embedding) != self._embedding_dim:
                 raise ContractError("embedding dimension mismatch")
+        body = _merge_edge_urls(
+            draft.body,
+            draft.source_url,
+            draft.github_url,
+            draft.gb_url,
+        )
+        edges = _parse_edge_urls(body)
         atom = Atom(
             id=str(uuid.uuid4()),
             kind=draft.kind,
             source=draft.source,
             tags=tuple(draft.tags),
-            body=draft.body,
+            body=body,
             related_ids=tuple(draft.related_ids),
             embedding=embedding,
             actor=draft.actor,
             created_at=created_at,
             expires_at=expires_at,
+            source_url=edges["source_url"],
+            github_url=edges["github_url"],
+            gb_url=edges["gb_url"],
         )
         self._atoms.append(atom)
         return atom
