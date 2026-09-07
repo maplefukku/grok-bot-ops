@@ -48,6 +48,10 @@ JOB 順は S1 → S3 → S4 → S2 → S5 → S7 → S6。Q8 の Xネタ選別 /
 
 PR 本文の 4 見出しと Flag Y の正本は [`docs/process/pr-body.md`](../docs/process/pr-body.md)。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md`。job-brief / cloud / pr はそこを指す。見出しをボットファイルへコピーしない。
 
+## LOCK: CI 梯子（LIGHT→FULL）
+
+SPEED NORM と CI 梯子の正本は [`docs/process/ci-ladder.md`](../docs/process/ci-ladder.md) である。CBO bake 2026-09-08 の席一行はそこを指す。この台帳へ規則を複製しない。
+
 ## 司令室
 
 | 名前 | 役割 | 回すまで動かない |
