@@ -2,6 +2,12 @@
 
 ボットの共有と、公開されているボットの例。
 
+## 公式: Figma photomosaic の作り方と template
+
+- 内容: SpaceXAI の matt palmer が、三分割 photomosaic を Grok Bot + Figma で作る手順を記事化した。再利用 template リンクあり。一般 Bot + Figma 接続で可。繰り返しなら specialist Bot を推奨。
+- 出典: [x.com/mattyp/status/2097083263361958087](https://x.com/mattyp/status/2097083263361958087) · [template](https://x.ai/bot/dYpPe1PCZv2WJDVTYDwhc)（2026-09-07）
+- 確認: 未
+
 ## 公式 Marketplace から templates を追加
 
 - 内容: 公式 Bot Marketplace から templates を追加できる。公開時約 69 bots。Grok Bot Team 枠に Haggle Bot（調達・SaaS spend、spend/sign/send は承認なしにしない）など。

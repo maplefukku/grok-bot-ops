@@ -2,6 +2,12 @@
 
 Grok Bot の routine（定期実行・イベント・webhook）の公式の使い方。
 
+## Teach a task（デモから skill）
+
+- 内容: Teach a task が使えるとき、ブラウザ作業を最大10分デモ録画して skill 下書きを作れる。マイク音声は録らない。秘密はデモ中に出さず secure handoff を使う。できた skill は draft。見えない場合は文章指示から skill を作らせる。
+- 出典: [Skills and routines](https://docs.x.ai/grok-bot/skills-routines-and-automations)（2026-09-07 確認）
+- 確認: 未
+
 ## 監視 webhook → Cloud Agent で PR
 
 - 内容: Laravel Nightwatch（web + telemetry）と Sentry（iOS + Android）から webhook を受け、Laravel Cloud のヘルスは API の定期チェック。エラーが出たら Cloud Agent を起こして PR を作る運用例。

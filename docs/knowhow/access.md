@@ -2,6 +2,18 @@
 
 加入プランと、使えるアプリ。
 
+## Cloud Agent 利用上限が UI で見えにくい
+
+- 内容: 開発は Cursor Cloud Agent 経由だと気づいたあと、"You've hit your Cloud Agent usage limit." のメールで上限に達した。limits が Grok Bot UI 上でははっきり見えない、という報告。
+- 出典: [x.com/NHv2Pro/status/2096948213282643975](https://x.com/NHv2Pro/status/2096948213282643975)（2026-09-07）
+- 確認: 未
+
+## 課金は Grok Bot / Grok Build / Cursor Cloud Agent で別
+
+- 内容: Grok Bot、Grok Build、Cursor Cloud Agent（model selector）は別々の課金だという説明（返信での主張）。
+- 出典: [x.com/icebakbum/status/2096507242820612547](https://x.com/icebakbum/status/2096507242820612547)（2026-09-06）
+- 確認: 未
+
 ## Enterprise（2026-09-03）
 
 - 内容: Grok / Cursor Enterprise 顧客は今後 2 週間無料で組織を招待できる。既存シートが無いメンバーも含む。
