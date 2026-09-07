@@ -20,7 +20,7 @@ fail-cap B の既定と呼び出し規則である。
 
 ## SoT
 
-SoT は box の `/workspace/fleet-scripts/quiet-test.sh` である。このリポジトリは script を vendor しない。WRAP のみである。
+SoT は box の `/workspace/fleet-scripts/quiet-test.sh` である。このリポジトリの薄い WRAP は [`scripts/quiet-test.sh`](../../scripts/quiet-test.sh) である。本体は vendor しない。
 
 ## fail-cap B
 
