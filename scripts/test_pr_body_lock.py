@@ -16,6 +16,9 @@ SHOW_ME = (
     "plugins/show-me/skills/show-me/SKILL.md"
 )
 SOT_REL = "docs/process/pr-body.md"
+SOT_URL = (
+    "https://github.com/maplefukku/grok-bot-ops/blob/main/docs/process/pr-body.md"
+)
 
 HEADERS = (
     "## Readable change (show-me)",
@@ -24,9 +27,17 @@ HEADERS = (
     "## TDD / BDD evidence",
 )
 
+SKILL_ENTRYPOINTS = (
+    "sand-workflow:job-brief",
+    "sand-workflow:cloud",
+    "sand-workflow:pr-2",
+    "sand-workflow:pr",
+)
+
 NEEDLES = HEADERS + (
     BOX_TEMPLATE,
     SHOW_ME,
+    SOT_URL,
     "show-me-your-work",
     "job-brief",
     "sand-workflow:cloud",
@@ -64,10 +75,36 @@ class PrBodyLockTests(unittest.TestCase):
 
     def test_headers_are_exact_and_in_order(self) -> None:
         self.assertTrue(LOCK_PAGE.is_file(), SOT_REL)
-        text = LOCK_PAGE.read_text(encoding="utf-8")
-        positions = [text.find(header) for header in HEADERS]
-        self.assertTrue(all(pos >= 0 for pos in positions), positions)
+        lines = LOCK_PAGE.read_text(encoding="utf-8").splitlines()
+        positions = []
+        for header in HEADERS:
+            self.assertIn(header, lines, header)
+            positions.append(lines.index(header))
         self.assertEqual(positions, sorted(positions))
+
+    def test_bots_lock_names_skill_entrypoints(self) -> None:
+        text = BOTS_INDEX.read_text(encoding="utf-8")
+        start = text.find("LOCK: PR-BODY")
+        self.assertGreaterEqual(start, 0, "LOCK: PR-BODY")
+        section = text[start:]
+        nxt = section.find("\n## ", 2)
+        if nxt != -1:
+            section = section[:nxt]
+        for uri in SKILL_ENTRYPOINTS:
+            with self.subTest(uri=uri):
+                self.assertIn(uri, section)
+
+    def test_template_body_is_not_vendored(self) -> None:
+        hits = [
+            path
+            for path in ROOT.rglob("pr-show-me-template.md")
+            if ".git" not in path.parts
+        ]
+        self.assertEqual(hits, [])
+
+    def test_skills_dir_has_no_skill_md(self) -> None:
+        hits = list((ROOT / "skills").rglob("SKILL.md"))
+        self.assertEqual(hits, [])
 
     def test_pointers_cite_same_sot(self) -> None:
         for path in POINTER_PATHS:
@@ -87,6 +124,20 @@ class PrBodyLockTests(unittest.TestCase):
                 text = path.read_text(encoding="utf-8")
                 copied = [header for header in HEADERS if header in text]
                 self.assertEqual(copied, [], f"{path.name} copied headers")
+
+    def test_ca_brief_fence_repeats_headers(self) -> None:
+        self.assertTrue(LOCK_PAGE.is_file(), SOT_REL)
+        text = LOCK_PAGE.read_text(encoding="utf-8")
+        start = text.find("## CA brief")
+        self.assertGreaterEqual(start, 0, "CA brief")
+        fence_start = text.find("```text", start)
+        self.assertGreaterEqual(fence_start, 0, "CA brief fence")
+        fence_end = text.find("```", fence_start + 7)
+        self.assertGreater(fence_end, fence_start)
+        fence = text[fence_start:fence_end]
+        for header in HEADERS:
+            with self.subTest(header=header):
+                self.assertIn(header, fence)
 
     def test_parser_accepts_complete_fixture(self) -> None:
         self.assertEqual(lock_errors(COMPLETE_FIXTURE), [])
