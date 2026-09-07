@@ -5,7 +5,7 @@
 | 名前 | 開発gakuse-ai |
 | id | b4bea6db-f614-423f-974f-ccac1d1c5444 |
 | グループ | 司令室 |
-| 役割 | impl.via。ONE JOBはCAで実装+ADVクローズ。https://github.com/maplefukku/gakuse-ai 。計画はPlanner。/poteto-modeとpstack必須。CA ENVは machine zurunote-ios-mini。MONKEYは品質Drive。Linux CIは lima gakuse-ci / gakuse-ci-2。landerはready。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） |
+| 役割 | impl.via。ONE JOBはCAで実装+ADVクローズ。https://github.com/maplefukku/gakuse-ai 。計画はPlanner。/poteto-modeとpstack必須。CA ENVは machine zurunote-ios-mini。MONKEYは品質Drive。Linux CIは lima gakuse-ci / gakuse-ci-2。landerはready。CA実装はHARD（並列local worktree / BDDシナリオの太いPRで点滴micro-PR禁止 / merge-batch+CI梯子LIGHT→FULL）。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） |
 | 回すまで動かない | はい |
 | マージしない | はい |
 | 参照 | 無し |
