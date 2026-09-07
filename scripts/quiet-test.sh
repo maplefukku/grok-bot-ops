@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Repo WRAP of box SoT /workspace/fleet-scripts/quiet-test.sh
-# Prefer lane formatters inside <cmd>. Do not invent a second quiet body.
+# Do not invent a second quiet body.
 # Usage: scripts/quiet-test.sh -- <cmd>
 set -euo pipefail
 FLEET="${QUIET_TEST:-/workspace/fleet-scripts/quiet-test.sh}"
