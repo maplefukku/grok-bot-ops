@@ -47,6 +47,7 @@ NEEDLES = HEADERS + (
     "show-me-your-work",
     "job-brief",
     "sand-workflow:cloud",
+    "sand-workflow:pr-2",
     "sand-workflow:pr",
     "CreateAgent",
     "quiet-test.sh",
@@ -61,9 +62,24 @@ PARSER_MUST_FAIL_WITHOUT = HEADERS + (BOX_TEMPLATE, SHOW_ME, "OSS調査")
 
 COMPLETE_FIXTURE = "\n".join(NEEDLES) + "\n"
 
+_TOKEN_FOLLOW = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_")
+
+
+def token_in(text: str, needle: str) -> bool:
+    start = 0
+    while True:
+        found = text.find(needle, start)
+        if found < 0:
+            return False
+        end = found + len(needle)
+        nxt = text[end] if end < len(text) else ""
+        if nxt == "" or nxt not in _TOKEN_FOLLOW:
+            return True
+        start = found + 1
+
 
 def lock_errors(text: str) -> list[str]:
-    return [f"missing {needle}" for needle in NEEDLES if needle not in text]
+    return [f"missing {needle}" for needle in NEEDLES if not token_in(text, needle)]
 
 
 def pointer_errors(text: str, rel: str) -> list[str]:
@@ -128,7 +144,7 @@ class PrBodyLockTests(unittest.TestCase):
             section = section[:nxt]
         for uri in SKILL_ENTRYPOINTS:
             with self.subTest(uri=uri):
-                self.assertIn(uri, section)
+                self.assertTrue(token_in(section, uri), uri)
 
     def test_skills_dir_has_no_skill_md(self) -> None:
         hits = list((ROOT / "skills").rglob("SKILL.md"))
@@ -150,6 +166,14 @@ class PrBodyLockTests(unittest.TestCase):
                 text = path.read_text(encoding="utf-8")
                 copied = [header for header in HEADERS if header in text]
                 self.assertEqual(copied, [], f"{path.name} copied headers")
+
+    def test_parser_does_not_treat_pr2_as_pr(self) -> None:
+        only_pr2 = COMPLETE_FIXTURE.replace("sand-workflow:pr\n", "")
+        self.assertIn("sand-workflow:pr-2", only_pr2)
+        self.assertFalse(token_in(only_pr2, "sand-workflow:pr"))
+        found = lock_errors(only_pr2)
+        self.assertTrue(found)
+        self.assertIn("sand-workflow:pr", "\n".join(found))
 
     def test_parser_accepts_complete_fixture(self) -> None:
         self.assertEqual(lock_errors(COMPLETE_FIXTURE), [])
