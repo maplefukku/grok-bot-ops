@@ -16,11 +16,13 @@
 
 ### 対象にしない
 
-product feature PR、CreateAgent、第 4 の契約 SoT、dual gate は対象外である。show-me の再実装は対象外である。
+product feature PR、CreateAgent、第 4 の契約 SoT、dual gate は対象外である。show-me の再実装は対象外である。invent harness は FAIL である。`run-pr-body.sh` も第二のテンプレ本体も置かない。
 
 ## SoT
 
-このファイルが SoT である。box の `/workspace/fleet-scripts/pr-show-me-template.md` を WRAP する。humanlayer の @dexhorthy /show-me を WRAP する。本体は [show-me SKILL.md](https://github.com/humanlayer/skills/blob/main/plugins/show-me/skills/show-me/SKILL.md) である。
+このファイルが SoT である。WRAP only である。box の `/workspace/fleet-scripts/pr-show-me-template.md` を WRAP する。humanlayer の @dexhorthy /show-me を WRAP する。本体は [show-me SKILL.md](https://github.com/humanlayer/skills/blob/main/plugins/show-me/skills/show-me/SKILL.md) である。
+
+OSS調査。show-me は pseudocode、call tree、file tree、Mermaid、diff を選ぶ。[describe_pr](https://github.com/humanlayer/humanlayer/blob/main/.claude/commands/describe_pr.md) はリポの既存テンプレを読む。新しい本文ハーネスは書かない。box テンプレはこの VM に無い。4 つの H2 は LOCK の文字であり、invent ではない。
 
 `/show-me-your-work` は pstack の TSV 判断ログである。PR-body HARD LOCK ではない。TSV を 4 つの H2 の代わりに置かない。
 

@@ -51,6 +51,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | 新しい impl ボット | impl の席を増やさない |
 | PdM のクローン | PdM は CoS のままである |
 | 第2の PR-body チェックリスト | PR 本文の正本は [`pr-body.md`](./pr-body.md) だけである |
+| invent PR-body harness | WRAP only である。`run-pr-body.sh` は置かない |
 
 ## A. スレッドの分類
 
