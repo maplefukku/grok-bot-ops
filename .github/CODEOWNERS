@@ -1,3 +1,2 @@
-# Default owner. Last match wins. Official CODEOWNERS syntax.
 * @maplefukku
 /.github/ @maplefukku

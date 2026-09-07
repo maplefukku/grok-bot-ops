@@ -1,6 +1,4 @@
 # WRAP of https://docs.github.com/en/code-security/tutorials/secure-your-dependencies/automate-dependabot-with-actions
-# Official example uses dependabot/fetch-metadata + gh pr merge --auto.
-# Repository pin is this repo. No invented dependency-name filter.
 name: Dependabot auto-merge
 on: pull_request
 

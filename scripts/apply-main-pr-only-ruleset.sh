@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
-# Thin WRAP of GitHub Rulesets REST API.
-# Gold shape: maplefukku/ZuruNote ruleset 18800881 (main-pr-only).
 # Docs: https://docs.github.com/en/rest/repos/rules#create-a-repository-ruleset
-# Usage: scripts/apply-main-pr-only-ruleset.sh
+# Gold: https://github.com/maplefukku/ZuruNote/rules/18800881
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 BODY="${ROOT}/scripts/main-pr-only-ruleset.json"
