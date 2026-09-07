@@ -201,13 +201,31 @@ class MergeVelocityDayTests(unittest.TestCase):
             self.assertNotIn("api", argv)
             self.assertIn("--state", argv)
             self.assertIn("merged", argv)
+            search = None
             repo = None
             for i, arg in enumerate(argv):
                 if arg in ("--repo", "-R"):
                     repo = argv[i + 1]
+                elif arg.startswith("--repo="):
+                    repo = arg.split("=", 1)[1]
+                if arg in ("--search", "-S") and i + 1 < len(argv):
+                    search = argv[i + 1]
+                elif arg.startswith("--search="):
+                    search = arg.split("=", 1)[1]
             self.assertIn(repo, REPOS)
+            self.assertEqual(search, "merged:2026-09-05..2026-09-07")
             seen.add(repo)
         self.assertEqual(seen, set(REPOS))
+
+    def test_full_page_is_an_error(self) -> None:
+        fixtures = _empty()
+        fixtures["maplefukku/ZuruNote"] = [
+            {"number": str(i), "mergedAt": "2026-09-06T15:00:00Z"}
+            for i in range(100)
+        ]
+        proc = _run(["2026-09-07", "2026-09-06"], fixtures)
+        self.assertNotEqual(proc.returncode, 0, proc.stdout)
+        self.assertIn("--limit 100", proc.stderr)
 
 
 if __name__ == "__main__":

@@ -18,6 +18,10 @@ if [[ -z "$PRIOR_DAY" ]]; then
   PRIOR_DAY="$(TZ=Asia/Tokyo date -d "${DAY} -1 day" +%F)"
 fi
 
+LIMIT=100
+search_start="$(TZ=UTC date -d "${PRIOR_DAY}T00:00:00+09:00" +%F)"
+search_end="$(TZ=UTC date -d "${DAY}T23:59:59+09:00" +%F)"
+
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 
@@ -25,11 +29,13 @@ index="$tmp/index.tsv"
 : >"$index"
 for repo in "${REPOS[@]}"; do
   out="$tmp/${repo//\//__}.json"
-  gh pr list --repo "$repo" --state merged --limit 100 --json number,mergedAt >"$out"
+  gh pr list --repo "$repo" --state merged --limit "$LIMIT" \
+    --search "merged:${search_start}..${search_end}" \
+    --json number,mergedAt >"$out"
   printf '%s\t%s\n' "$repo" "$out" >>"$index"
 done
 
-DAY="$DAY" PRIOR_DAY="$PRIOR_DAY" INDEX="$index" python3 - <<'PY'
+DAY="$DAY" PRIOR_DAY="$PRIOR_DAY" INDEX="$index" LIMIT="$LIMIT" python3 - <<'PY'
 from __future__ import annotations
 
 import json
@@ -100,6 +106,7 @@ for line in Path(os.environ["INDEX"]).read_text(encoding="utf-8").splitlines():
     repo, path = line.split("\t", 1)
     by_path[repo] = Path(path)
 
+limit = int(os.environ["LIMIT"])
 by_repo: dict[str, int] = {}
 prior_by_repo: dict[str, int] = {}
 for repo in REPOS:
@@ -107,6 +114,10 @@ for repo in REPOS:
     if path is None:
         raise SystemExit(f"missing gh dump for {repo}")
     items = json.loads(path.read_text(encoding="utf-8"))
+    if isinstance(items, list) and len(items) >= limit:
+        raise SystemExit(
+            f"{repo}: gh pr list hit --limit {limit}; merge window is incomplete"
+        )
     by_repo[repo] = count_in_window(items, today_start, today_end)
     prior_by_repo[repo] = count_in_window(items, prior_start, prior_end)
 
