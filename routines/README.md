@@ -20,6 +20,7 @@ Grok Bot の routine（外側ループ）の**原稿置き場**です。稼働�
 |---|---|---|
 | [`collect-grokbot-knowhow.md`](./collect-grokbot-knowhow.md) | Grok Bot のアップデート・活用法を X から収集し `docs/knowhow/` へ | 1 日 1 回 |
 | [`decide-trend-adopt.md`](./decide-trend-adopt.md) | 候補を ADOPT または REJECT し `docs/decisions/trend-log.md` へ残す | 1 日 1 回 |
+| [`watch-proposal-digest.md`](./watch-proposal-digest.md) | 監視が週次で proposal digest を PdM へ出す。PR も Guardian 実行もしない | 週次 1 回 |
 | [`maintain-verification.md`](./maintain-verification.md) | 各プロダクトの feature map を毎日更新（プロダクト登録後に有効） | 1 日 1 回 |
 
 ## 例（[`examples/`](./examples/)）

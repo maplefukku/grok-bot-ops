@@ -1,0 +1,13 @@
+# WRAP of https://github.com/pgvector/pgvector Docker image.
+# Not a new database product. CI does not start this service.
+services:
+  intent-memory:
+    image: pgvector/pgvector:pg18-trixie
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/001-schema.sql:ro

@@ -56,7 +56,7 @@ docs/
   mini-ops/                  Mini運用の常設手順（worktree prune）
   process/                   出荷単位（domain-unit）。ADV closer、lane、平日 cadence、PR-body Flag Y、CI 梯子
   decisions/                 ADR。Intent/Memory は 0001
-  intent-memory/             schema.sql と read recipe。GitHub LOCK の代替ではない
+  intent-memory/             schema.sql と read recipe と pgvector runbook。GitHub LOCK の代替ではない
 AGENTS.md                    エージェントが最初に読むもの
 ```
 

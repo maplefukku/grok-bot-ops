@@ -34,6 +34,7 @@ Phase0 の ingest は人間だけ。`critique_bot` は schema に予約し、`ap
 - Python の読みは毎回 `source` を渡す。全ソース一括のフラグは置かない。CLI の既定は `human`。
 - `by_tags` は空のタグ一覧を拒否する。忘れによる全件取得を防ぐ。
 - 本番行は Postgres。このリポジトリのテストは fixture と stdlib unittest。
+- 専用 Postgres の起動は [`postgres.md`](../intent-memory/postgres.md) である。公式 [pgvector](https://github.com/pgvector/pgvector) イメージの WRAP である。
 
 ## 却下した案
 
