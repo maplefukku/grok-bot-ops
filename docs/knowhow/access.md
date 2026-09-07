@@ -28,6 +28,6 @@
 
 ## アプリ
 
-- 内容: 公式ドキュメントは初期ローンチ時点で macOS・Windows のデスクトップと iPhone（iOS 18 以降）を対応とし、Linux デスクトップ・Android・iPad は非対応と書いている。Play Store にはパッケージ `ai.x.grok.bot` の掲載がある。
-- 出典: [Get started](https://docs.x.ai/grok-bot/get-started)、[Grok Bot for iOS](https://docs.x.ai/grok-bot/mobile)、[FAQ](https://docs.x.ai/grok-bot/faq)、[Play Store `ai.x.grok.bot`](https://play.google.com/store/apps/details?id=ai.x.grok.bot)（いずれも 2026-08-29 確認）
+- 内容: 公式 FAQ、get-started、mobile は macOS、Windows、Linux（`.deb`、`.rpm`、AppImage）、iPhone（iOS 18 以降）、Android 9 以降を対応と書いている。mobile は phones 向けで、iPad は非対応と明記している。FAQ も初期ローンチ時点で iPad は非対応と書いている。Android は 2026-09-02 に @bot が available on Android と告知している。Play Store にはパッケージ `ai.x.grok.bot` の掲載がある。
+- 出典: [FAQ](https://docs.x.ai/grok-bot/faq)、[Get started](https://docs.x.ai/grok-bot/get-started)、[Grok Bot for Mobile](https://docs.x.ai/grok-bot/mobile)（2026-09-07 確認）、[x.com/bot/status/2095168633559462197](https://x.com/bot/status/2095168633559462197)（2026-09-02）、[Play Store `ai.x.grok.bot`](https://play.google.com/store/apps/details?id=ai.x.grok.bot)
 - 確認: 未
