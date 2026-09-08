@@ -9,7 +9,7 @@
 | maintain routine | 検証メンテ・平日1回 |
 | automation パック | 無し |
 | intake の対象 | 無し |
-| 最終確認日 | 2026-09-07 |
+| 最終確認日 | 2026-09-08 |
 | 最終 outcome | clean |
 | 最終 PR | 無し |
 
