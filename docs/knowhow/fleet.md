@@ -3,6 +3,12 @@
 フリート停滞、merge GATE、jenny-lite の ADOPT と REJECT の置き場。
 対象窓は fleet stalls 2026-09-01..09-05（sauna#203 loop、ZN Swift cluster）。出典は各エントリの URL。
 
+## Astra が Codex と ChatGPT Work にフル展開
+
+- 内容: OpenAI 公式: Astra が Codex と ChatGPT Work の Plus / Pro / Business / Enterprise にフル展開。
+- 出典: [x.com/OpenAI/status/2097431322117476423](https://x.com/OpenAI/status/2097431322117476423) · [openai.com/gpt-tv](https://openai.com/gpt-tv/)（2026-09-08）
+- 確認: 未
+
 ## ADOPT — LIVE thr check
 
 - 内容: LIVE の unresolved-thread 判定は毎回実測する。「bots待ちIDLE」を thr=0 の誤判定で ACK しない。同じ sweep で thr を取り直してから restart / escalate する。false thr=0 での idle ACK は禁止。

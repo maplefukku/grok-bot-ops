@@ -2,6 +2,12 @@
 
 Grok Bot の routine（定期実行・イベント・webhook）の公式の使い方。
 
+## 例外監視 webhook → GitHub issue と fixer
+
+- 内容: 例外監視サービスから webhook を受け、GitHub issue を作りつつ Bot の webhook に投げて fixer を起こす運用例。incoming webhook が使える前提。
+- 出典: [x.com/claytonlz/status/2097381463847297443](https://x.com/claytonlz/status/2097381463847297443) · [raises.dev](https://raises.dev/)（2026-09-08）
+- 確認: 未
+
 ## Teach a task（デモから skill）
 
 - 内容: Teach a task が使えるとき、ブラウザ作業を最大10分デモ録画して skill 下書きを作れる。マイク音声は録らない。秘密はデモ中に出さず secure handoff を使う。できた skill は draft。見えない場合は文章指示から skill を作らせる。

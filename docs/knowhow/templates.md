@@ -2,6 +2,18 @@
 
 ボットの共有と、公開されているボットの例。
 
+## 共有テンプレ例: LG Laundry Specialist
+
+- 内容: 家電アプリ操作を Bot に任せる共有テンプレ例。
+- 出典: [x.com/Bwilson/status/2097121334748643683](https://x.com/Bwilson/status/2097121334748643683) · [x.ai/bot/TNPSVnX4Dm-adBvHJbng7](https://x.ai/bot/TNPSVnX4Dm-adBvHJbng7)（2026-09-08）
+- 確認: 未
+
+## Marketplace 公開例: ブルーベリー Bot
+
+- 内容: Marketplace に自作 Bot を公開した例。
+- 出典: [x.com/Bizuayeu/status/2097338867154309585](https://x.com/Bizuayeu/status/2097338867154309585) · [x.ai/bot/OQlGXzAbIq-IAsj9rSu-K](https://x.ai/bot/OQlGXzAbIq-IAsj9rSu-K)（2026-09-08）
+- 確認: 未
+
 ## 公式: Figma photomosaic の作り方と template
 
 - 内容: SpaceXAI の matt palmer が、三分割 photomosaic を Grok Bot + Figma で作る手順を記事化した。再利用 template リンクあり。一般 Bot + Figma 接続で可。繰り返しなら specialist Bot を推奨。

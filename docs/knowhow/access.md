@@ -2,6 +2,12 @@
 
 加入プランと、使えるアプリ。
 
+## コーディング時の token 消費と設定確認
+
+- 内容: Grok Bot でコーディングすると設定次第で token 消費が大きい。設定を確認するガイド記事あり。
+- 出典: [x.com/skunky/status/2097424315771994523](https://x.com/skunky/status/2097424315771994523) · [x.com/i/article/2097409599611830272](https://x.com/i/article/2097409599611830272)（2026-09-08）
+- 確認: 未
+
 ## Cloud Agent 利用上限が UI で見えにくい
 
 - 内容: 開発は Cursor Cloud Agent 経由だと気づいたあと、"You've hit your Cloud Agent usage limit." のメールで上限に達した。limits が Grok Bot UI 上でははっきり見えない、という報告。

@@ -4,6 +4,7 @@ Grok Bot のプロダクトアップデートの時系列ログ。新しいも�
 
 | 時期 | 内容 | 出典 | 確認 |
 |---|---|---|---|
+| 2026-09-08 | チャットを離れずにフォーム入力とログインができる。任意のパスワードマネージャに対応 | [x.com/bot/status/2097383980748382239](https://x.com/bot/status/2097383980748382239) | 未 |
 | 2026-09-05 | 全 Grok Bot ユーザーの usage limits をリセット | [x.com/bot/status/2096303514230423629](https://x.com/bot/status/2096303514230423629) | 未 |
 | 2026-09-04 | Bot Marketplace で templates を追加可能に。公式第1弾として調達特化の Haggle Bot を公開 | [x.com/bot/status/2095954887205138597](https://x.com/bot/status/2095954887205138597) · [marketplace](https://x.ai/bot/marketplace) · [Haggle Bot](https://x.ai/bot/marketplace/bots/haggle-bot) · [procurement news](https://x.ai/news/grok-bot-procurement) | 未 |
 | 2026-09-04 | Elon / SpaceXAI matt palmer が iPad 対応を告知。公式 mobile docs は現時点でも phones 向け・iPad 非対応と明記しており、告知と docs に差がある | [x.com/elonmusk/status/2096001766324064371](https://x.com/elonmusk/status/2096001766324064371) · [x.com/mattyp/status/2095878049619489278](https://x.com/mattyp/status/2095878049619489278) · [mobile docs](https://docs.x.ai/grok-bot/mobile) | 未 |
