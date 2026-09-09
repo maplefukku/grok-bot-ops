@@ -2,7 +2,7 @@
 
 このリポジトリの Architecture Decision Records。番号は採択順。
 
-日次の採否は [`trend-log.md`](./trend-log.md) に残す。Planner の台帳である。
+日次の採否は [`trend-log.md`](./trend-log.md) に残す。Planner の台帳である。判断行の Python は [`scripts/intent_memory/trend_log.py`](../../scripts/intent_memory/trend_log.py) である。
 
 読みの手順は [`docs/intent-memory/read-recipe.md`](../intent-memory/read-recipe.md)。表と制約は [`schema.sql`](../intent-memory/schema.sql)。Python の同じ述語は [`scripts/intent_memory/contract.py`](../../scripts/intent_memory/contract.py)。
 
