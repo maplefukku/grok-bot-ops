@@ -2,6 +2,7 @@ from .contract import (
     EDGE_URL_KEYS,
     FEELING_TTL_DAYS,
     HUMAN_KINDS,
+    HUMAN_WRITE_ACTORS,
     Atom,
     AtomDraft,
     ContractError,
@@ -9,12 +10,14 @@ from .contract import (
     Kind,
     MemoryStore,
     Source,
+    WriteAclHold,
 )
 
 __all__ = [
     "EDGE_URL_KEYS",
     "FEELING_TTL_DAYS",
     "HUMAN_KINDS",
+    "HUMAN_WRITE_ACTORS",
     "Atom",
     "AtomDraft",
     "ContractError",
@@ -22,4 +25,5 @@ __all__ = [
     "Kind",
     "MemoryStore",
     "Source",
+    "WriteAclHold",
 ]

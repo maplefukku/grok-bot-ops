@@ -81,3 +81,11 @@ near = store.similar((1.0, 0.0, 0.0, 0.0), source=Source.HUMAN, limit=5)
 `scripts/` を `PYTHONPATH` に入れるか、同じ import 経路で読む。本番の行は schema.sql どおり Postgres に置く。このモジュールは CI 可能な契約であり、プロダクト DB ではない。
 
 人間が `append` してよい kind は `intent`、`decision`、`belief`、`feeling`、`critique_human` である。`critique_bot` と `source=bot` の `append` は拒否する。
+
+## Write ACL（Q2）
+
+`append` が受け入れる人間の actor は Q2 の allowlist だけである。トークンは `pdm` と `user` である。GitHub の login や `PdM` ではない。
+
+それ以外の actor は `WriteAclHold` を上げる。行は入れない。HITL PARK である。`seed_fixture` はこの検査を通らない。隔離用の `actor="bot"` 行は `seed_fixture` が入れる。
+
+Planner は GitHub LOCK を自動転記しない。pairing の widen と live ingest は [#18](https://github.com/maplefukku/grok-bot-ops/issues/18) の ingest LOCK のままである。RecallMemory はホットパスのまま残す。
