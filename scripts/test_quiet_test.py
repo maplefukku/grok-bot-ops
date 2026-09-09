@@ -21,6 +21,8 @@ HARNESS_MARKERS = (
     "QUIET_FAIL_LINES",
     "tail -n",
     "tail -",
+    "QUIET_KEEP_FAIL_LOG",
+    "--log",
 )
 
 
@@ -125,6 +127,38 @@ class QuietTestWrapTests(unittest.TestCase):
         self.assertEqual(proc.returncode, 0, proc.stderr)
         lines = [ln for ln in proc.stdout.splitlines() if ln.startswith("LINE-")]
         self.assertEqual(len(lines), 20, "WRAP must not invent SUCCESS tail")
+
+    def test_given_fail_cmd_when_fleet_prints_many_lines_then_wrap_does_not_trim(
+        self,
+    ) -> None:
+        fleet = (
+            "#!/bin/sh\n"
+            "i=1\n"
+            "while [ \"$i\" -le 600 ]; do\n"
+            "  printf 'FAIL-LINE-%s\\n' \"$i\"\n"
+            "  i=$((i + 1))\n"
+            "done\n"
+            "exit 1\n"
+        )
+        proc = _run(["--", "sh", "-c", "exit 1"], fleet_text=fleet)
+        self.assertEqual(proc.returncode, 1, proc.stderr)
+        lines = [ln for ln in proc.stdout.splitlines() if ln.startswith("FAIL-LINE-")]
+        self.assertEqual(len(lines), 600, "WRAP must not invent FAIL tail")
+
+    def test_given_fleet_absent_when_cmd_fails_then_streams_pass_through_untouched(
+        self,
+    ) -> None:
+        proc = _run(
+            [
+                "--",
+                "sh",
+                "-c",
+                "printf 'out-1\\nout-2\\nout-3\\n'; printf 'err-1\\nerr-2\\n' >&2; exit 5",
+            ]
+        )
+        self.assertEqual(proc.returncode, 5, proc.stderr)
+        self.assertEqual(proc.stdout, "out-1\nout-2\nout-3\n")
+        self.assertEqual(proc.stderr, "err-1\nerr-2\n")
 
     def test_hook_and_gha_invoke_wrap(self) -> None:
         hook = HOOK.read_text(encoding="utf-8")
