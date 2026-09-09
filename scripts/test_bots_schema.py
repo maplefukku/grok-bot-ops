@@ -445,6 +445,91 @@ class BotsSchemaTests(unittest.TestCase):
             found = tree_errors(folder, TEMPLATE.read_text(encoding="utf-8"))
         self.assertTrue(any("missing link to Sample.md" in item for item in found), found)
 
+    def test_given_live_skill_shapes_when_parsed_then_refs_are_typed(self) -> None:
+        self.assertEqual(
+            parse_skill_row(
+                "tool-path-prefer / [parallel-fire-fleet](sand-workflow:parallel-fire-fleet) / [Cloud開発](sand-workflow:cloud)"
+            ),
+            (
+                (
+                    SkillRef(name="tool-path-prefer", workflow=""),
+                    SkillRef(
+                        name="parallel-fire-fleet",
+                        workflow="parallel-fire-fleet",
+                    ),
+                    SkillRef(name="Cloud開発", workflow="cloud"),
+                ),
+                [],
+            ),
+        )
+
+    def test_given_none_when_parsed_then_empty_refs(self) -> None:
+        self.assertEqual(parse_skill_row("無し"), ((), []))
+
+    def test_given_empty_link_name_when_validated_then_skill_fails(self) -> None:
+        broken = COMPLETE_LIVE.replace(
+            "| スキル | 無し |",
+            "| スキル | [](sand-workflow:x) |",
+        )
+        record = parse_bot_markdown(Path("Sample.md"), broken)
+        found = record_errors(record, _schema())
+        self.assertEqual(
+            found,
+            ["Sample.md: skill link has empty name: [](sand-workflow:x)"],
+        )
+
+    def test_given_readme_s_table_when_parsed_then_seats_are_file_id_pairs(self) -> None:
+        readme = (
+            "| S | スキル | ボット |\n"
+            "|---|---|---|\n"
+            "| S5 | [job-brief](sand-workflow:job-brief) | [`PdM`](./PdM.md) / [`CMO`](./CMO.md) |\n"
+            "| S9 | [orphan](sand-workflow:orphan) | |\n"
+        )
+        self.assertEqual(
+            required_skill_seats(readme),
+            frozenset({("PdM.md", "job-brief"), ("CMO.md", "job-brief")}),
+        )
+
+    def test_given_seat_missing_required_skill_when_tree_walked_then_seat_fails(
+        self,
+    ) -> None:
+        body = COMPLETE_LIVE.replace("# bot: Sample", "# bot: PdM").replace(
+            "| 名前 | Sample |", "| 名前 | PdM |"
+        )
+        readme = (
+            "| S5 | [job-brief](sand-workflow:job-brief) | [`PdM`](./PdM.md) |\n"
+            "[`PdM`](./PdM.md)\n"
+        )
+        with tempfile.TemporaryDirectory() as raw:
+            folder = Path(raw)
+            _write_tree(folder, {"PdM.md": body, "README.md": readme})
+            found = tree_errors(folder, TEMPLATE.read_text(encoding="utf-8"))
+        self.assertEqual(
+            found,
+            ["PdM.md: S table requires sand-workflow:job-brief in スキル"],
+        )
+
+    def test_given_seat_with_required_skill_when_tree_walked_then_no_seat_error(
+        self,
+    ) -> None:
+        body = (
+            COMPLETE_LIVE.replace("# bot: Sample", "# bot: PdM")
+            .replace("| 名前 | Sample |", "| 名前 | PdM |")
+            .replace(
+                "| スキル | 無し |",
+                "| スキル | [job-brief](sand-workflow:job-brief) |",
+            )
+        )
+        readme = (
+            "| S5 | [job-brief](sand-workflow:job-brief) | [`PdM`](./PdM.md) |\n"
+            "[`PdM`](./PdM.md)\n"
+        )
+        with tempfile.TemporaryDirectory() as raw:
+            folder = Path(raw)
+            _write_tree(folder, {"PdM.md": body, "README.md": readme})
+            found = tree_errors(folder, TEMPLATE.read_text(encoding="utf-8"))
+        self.assertEqual(found, [])
+
     def test_given_live_ledger_when_wrapped_then_no_errors(self) -> None:
         self.assertEqual(wrap_errors(), [])
 
