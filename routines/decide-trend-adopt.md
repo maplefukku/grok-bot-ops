@@ -5,7 +5,7 @@
 | 目的 | 候補を 1 日 1 回 ADOPT または REJECT し `docs/decisions/trend-log.md` に残す。実装と FIRE はしない |
 | 担当ボット | Planner |
 | スケジュール | 1 日 1 回 |
-| 出力先 | PdM への 1 通のダイジェスト + ops/daily 上の `docs/decisions/` 追記 |
+| 出力先 | PM への 1 通のダイジェスト + ops/daily 上の `docs/decisions/` 追記 |
 | 状態 | 下書き |
 
 前提: 担当ボットにこのリポジトリへのアクセス。最先端手法と Knowhow収集から候補を受け取れること。
@@ -49,7 +49,7 @@ with this task:
   source_url. If a row exists, do not add another.
   Never FIRE. Never implement. No Discord writeback.
 
-Send PdM one message: the counts of ADOPT, REJECT, and skipped
+Send PM one message: the counts of ADOPT, REJECT, and skipped
 duplicates, then one line per new row (title, decision, route,
 source_url).
 ```
@@ -71,7 +71,7 @@ source_url).
 - [ ] 最先端手法から候補を受け取った
 - [ ] Knowhow収集から候補を受け取った
 - [ ] 判断行が `docs/decisions/trend-log.md` に書かれた
-- [ ] PdM が ADOPT を 1 件 FIRE した
+- [ ] PM が ADOPT を 1 件 FIRE した
 - [ ] fired に URL を埋め戻した
 - [ ] 人間が draft をマージする。ボットはマージしない
 - [ ] Planner は FIRE しない。実装しない
