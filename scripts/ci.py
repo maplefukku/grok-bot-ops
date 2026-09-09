@@ -212,6 +212,10 @@ def check_bots_schema() -> list[str]:
     return _run_unittest_module("test_bots_schema", "bots-schema")
 
 
+def check_bots_persona_fields() -> list[str]:
+    return _run_unittest_module("test_bots_persona_fields", "bots-persona-fields")
+
+
 def check_trend_adopt_idempotency() -> list[str]:
     return _run_unittest_module("test_trend_adopt_idempotency", "trend-adopt-idempotency")
 
@@ -369,6 +373,7 @@ def main() -> int:
         ("devops-wrap", check_devops_wrap),
         ("bots-id-uniqueness", check_bots_id_uniqueness),
         ("bots-schema", check_bots_schema),
+        ("bots-persona-fields", check_bots_persona_fields),
         ("adv-closer", check_adv_closer),
         ("shared-computer-lock", check_shared_computer_lock),
         ("completion-handoff", check_completion_handoff),
