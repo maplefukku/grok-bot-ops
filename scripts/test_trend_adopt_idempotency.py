@@ -11,7 +11,7 @@ if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 from ci import trend_log_errors  # noqa: E402
-from intent_memory.trend_log import iter_trend_log_rows  # noqa: E402
+from intent_memory.trend_log import DecisionRow, iter_trend_log_rows  # noqa: E402
 from trend_adopt_idempotency import (  # noqa: E402
     apply_candidate,
     normalize_source_url,
@@ -22,6 +22,19 @@ TREND_LOG = _ROOT / "docs" / "decisions" / "trend-log.md"
 
 def _snapshot(rows: list[dict]) -> list[dict]:
     return [dict(row) for row in rows]
+
+
+def _ledger_row(row: DecisionRow) -> dict[str, str]:
+    return {
+        "date_jst": row.date_jst,
+        "source_bot": row.source_bot,
+        "title": row.title,
+        "source_url": row.source_url,
+        "decision": row.decision,
+        "理由": row.reason,
+        "route": row.route,
+        "fired": row.fired,
+    }
 
 
 class TrendAdoptIdempotencyTests(unittest.TestCase):
@@ -172,13 +185,13 @@ class TrendAdoptIdempotencyTests(unittest.TestCase):
     ) -> None:
         text = TREND_LOG.read_text(encoding="utf-8")
         live = iter_trend_log_rows(text)
-        ledger = [dict(row) for row in live]
+        ledger = [_ledger_row(row) for row in live]
         count = len(ledger)
         self.assertGreater(count, 0)
         keys_before = [normalize_source_url(row["source_url"]) for row in ledger]
         current = ledger
         for row in live:
-            result = apply_candidate(current, dict(row))
+            result = apply_candidate(current, _ledger_row(row))
             self.assertEqual(result.kind, "skipped")
             self.assertEqual(len(result.rows), count)
             current = result.rows
