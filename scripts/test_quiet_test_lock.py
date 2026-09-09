@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import os
+import re
 import unittest
 from pathlib import Path
 
@@ -13,7 +15,9 @@ PAGE_NEEDLES = (
     BOX_SOT,
     "fail-cap B",
     "QUIET_FAIL_LINES",
-    "500",
+    "`QUIET_FAIL_LINES` は 500",
+    "QUIET_OK_LINES",
+    "`QUIET_OK_LINES` は 10",
     "--log",
     "QUIET_KEEP_FAIL_LOG",
     "Quiet is not skip",
@@ -21,9 +25,19 @@ PAGE_NEEDLES = (
     "quiet-test.sh --",
     "run-quiet.sh",
     "issue 69",
+    "issue 45",
     "CI-independent",
     "HITL",
     "Soft-HOLD",
+)
+
+README_NEEDLES = (
+    BOX_SOT,
+    "500",
+    "quiet-test.md",
+    "issue 45",
+    "issue 69",
+    "fail-cap B",
 )
 
 FLEET_NEEDLES = (
@@ -33,8 +47,11 @@ FLEET_NEEDLES = (
     "QUIET_KEEP_FAIL_LOG",
 )
 
+FAIL_DEFAULT_RE = re.compile(r"QUIET_FAIL_LINES[^\n]*\b500\b")
+OK_DEFAULT_RE = re.compile(r"QUIET_OK_LINES[^\n]*\b10\b")
+
 PARSER_MUST_FAIL_WITHOUT = (
-    "500",
+    "`QUIET_FAIL_LINES` は 500",
     "--log",
     "Quiet is not skip",
     BOX_SOT,
@@ -44,15 +61,39 @@ PARSER_MUST_FAIL_WITHOUT = (
 )
 
 COMPLETE_FIXTURE = "\n".join(PAGE_NEEDLES) + "\n"
-COMPLETE_FLEET_FIXTURE = "\n".join(FLEET_NEEDLES) + "\n"
+COMPLETE_FLEET_FIXTURE = (
+    "QUIET_FAIL_LINES=500\n"
+    "QUIET_OK_LINES=10\n"
+    "--log\n"
+    "QUIET_KEEP_FAIL_LOG\n"
+)
+
+
+def fleet_sot_path() -> Path:
+    return Path(os.environ.get("QUIET_TEST", BOX_SOT))
 
 
 def lock_errors(text: str) -> list[str]:
     return [f"missing {needle}" for needle in PAGE_NEEDLES if needle not in text]
 
 
+def readme_lock_errors(text: str) -> list[str]:
+    return [f"missing {needle}" for needle in README_NEEDLES if needle not in text]
+
+
+def fleet_default_errors(text: str) -> list[str]:
+    errors: list[str] = []
+    if not FAIL_DEFAULT_RE.search(text):
+        errors.append("missing QUIET_FAIL_LINES default 500")
+    if not OK_DEFAULT_RE.search(text):
+        errors.append("missing QUIET_OK_LINES default 10")
+    return errors
+
+
 def fleet_lock_errors(text: str) -> list[str]:
-    return [f"missing {needle}" for needle in FLEET_NEEDLES if needle not in text]
+    missing = [f"missing {needle}" for needle in FLEET_NEEDLES if needle not in text]
+    missing.extend(fleet_default_errors(text))
+    return missing
 
 
 class QuietTestLockTests(unittest.TestCase):
@@ -64,15 +105,15 @@ class QuietTestLockTests(unittest.TestCase):
         self.assertEqual(lock_errors(LOCK_PAGE.read_text(encoding="utf-8")), [])
 
     def test_process_readme_points_at_lock_page(self) -> None:
-        text = PROCESS_README.read_text(encoding="utf-8")
-        self.assertIn("quiet-test.md", text)
-        self.assertIn("fail-cap B", text)
-        self.assertIn("issue 69", text)
+        self.assertEqual(
+            readme_lock_errors(PROCESS_README.read_text(encoding="utf-8")),
+            [],
+        )
 
     def test_fleet_sot_matches_fail_cap_b_when_present(self) -> None:
-        path = Path(BOX_SOT)
-        if not path.is_file():
-            return
+        path = fleet_sot_path()
+        if not (path.is_file() and os.access(path, os.X_OK)):
+            self.skipTest(f"box absent at {path}")
         self.assertEqual(fleet_lock_errors(path.read_text(encoding="utf-8")), [])
 
     def test_parser_accepts_complete_fixture(self) -> None:

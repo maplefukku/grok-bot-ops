@@ -50,6 +50,6 @@ CI と local の fail は `--log` または `QUIET_KEEP_FAIL_LOG` の一方を�
 
 LOCK は GitHub Actions に依存しない。ページと [`scripts/test_quiet_test_lock.py`](../../scripts/test_quiet_test_lock.py) が持つ。証拠は `scripts/quiet-test.sh -- python3 scripts/ci.py` である。
 
-box の `/workspace/fleet-scripts/quiet-test.sh` が無いときも docs の LOCK は落ちない。box があるときは SoT が fail-cap B の印（`QUIET_FAIL_LINES`、`QUIET_OK_LINES`、`--log`、`QUIET_KEEP_FAIL_LOG`）を持つ。
+box の `/workspace/fleet-scripts/quiet-test.sh` が無いときも docs の LOCK は落ちない。box があるときは SoT が fail-cap B の印（`QUIET_FAIL_LINES`、`QUIET_OK_LINES`、`--log`、`QUIET_KEEP_FAIL_LOG`）と既定 500 / 10 を持つ。box が無いときの `skipTest` は被験が無い宣言である。gate を静かに通す skip ではない。
 
 HITL は Soft-HOLD である。fail log を人が見る画面は置かない。
