@@ -28,7 +28,10 @@ MERGE_LOCK = "はい"
 NONE = "無し"
 HEADING_RE = re.compile(r"^# bot: (.+)$")
 LINK_RE = re.compile(r"^\[(?:[^\]]|\\])*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)$")
-SKILL_LINK_RE = re.compile(r"^\[(?:[^\]]|\\])*\]\(sand-workflow:[^)\s]+\)$")
+SKILL_LINK_RE = re.compile(r"^\[((?:[^\]]|\\])*)\]\(sand-workflow:([^)\s]+)\)$")
+S_ROW_RE = re.compile(r"^S\d+$")
+WORKFLOW_ID_RE = re.compile(r"sand-workflow:([^)\s]+)")
+README_BOT_LINK_RE = re.compile(r"\]\(\./([^)]+\.md)\)")
 TOKEN_SPLIT = re.compile(r"\s+/\s+")
 # Pin the one live HITL row. A fifth group for every file would invent seats.
 HOLD_SEATS = frozenset({("アカウント設計.md", "最後の一針")})
@@ -46,10 +49,17 @@ class BotRecord:
 
 
 @dataclass(frozen=True)
+class SkillRef:
+    name: str
+    workflow: str  # sand-workflow id. "" for a bare name
+
+
+@dataclass(frozen=True)
 class LedgerSchema:
     keys: tuple[str, ...]
     groups: frozenset[str]
     hold_seats: frozenset[tuple[str, str]]
+    skill_seats: frozenset[tuple[str, str]]
 
 
 def parse_bot_markdown(path: Path, text: str) -> BotRecord:
@@ -86,11 +96,30 @@ def template_groups(text: str) -> frozenset[str]:
     )
 
 
-def ledger_schema(template_text: str) -> LedgerSchema:
+def required_skill_seats(readme_text: str) -> frozenset[tuple[str, str]]:
+    seats: set[tuple[str, str]] = set()
+    for line in readme_text.splitlines():
+        if not line.startswith("|"):
+            continue
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if len(cells) < 3 or S_ROW_RE.match(cells[0]) is None:
+            continue
+        workflow_match = WORKFLOW_ID_RE.search(cells[1])
+        files = README_BOT_LINK_RE.findall(cells[2])
+        if workflow_match is None or not files:
+            continue
+        workflow = workflow_match.group(1)
+        for name in files:
+            seats.add((name, workflow))
+    return frozenset(seats)
+
+
+def ledger_schema(template_text: str, readme_text: str = "") -> LedgerSchema:
     return LedgerSchema(
         keys=FIELD_KEYS,
         groups=template_groups(template_text),
         hold_seats=HOLD_SEATS,
+        skill_seats=required_skill_seats(readme_text),
     )
 
 
@@ -130,21 +159,33 @@ def _ref_errors(rel: str, ref: str) -> list[str]:
     return errors
 
 
-def _skill_errors(rel: str, skill: str) -> list[str]:
-    if skill == NONE:
-        return []
-    if not skill.strip():
-        return [f"{rel}: empty スキル"]
+def parse_skill_row(raw: str) -> tuple[tuple[SkillRef, ...], list[str]]:
+    if raw == NONE:
+        return ((), [])
+    if not raw.strip():
+        return ((), ["empty スキル"])
+    refs: list[SkillRef] = []
     errors: list[str] = []
-    for token in _tokens(skill):
+    for token in _tokens(raw):
         if token == NONE:
-            errors.append(f"{rel}: スキル mixes 無し")
-        elif token.startswith("["):
-            if SKILL_LINK_RE.match(token) is None:
-                errors.append(f"{rel}: skill link missing sand-workflow: {token}")
-        elif " " in token:
-            errors.append(f"{rel}: bare skill has whitespace: {token}")
-    return errors
+            errors.append("スキル mixes 無し")
+            continue
+        if token.startswith("["):
+            match = SKILL_LINK_RE.match(token)
+            if match is None:
+                errors.append(f"skill link missing sand-workflow: {token}")
+                continue
+            name, workflow = match.group(1), match.group(2)
+            if not name:
+                errors.append(f"skill link has empty name: {token}")
+                continue
+            refs.append(SkillRef(name=name, workflow=workflow))
+            continue
+        if " " in token:
+            errors.append(f"bare skill has whitespace: {token}")
+            continue
+        refs.append(SkillRef(name=token, workflow=""))
+    return (tuple(refs), errors)
 
 
 def record_errors(record: BotRecord, schema: LedgerSchema) -> list[str]:
@@ -177,12 +218,22 @@ def record_errors(record: BotRecord, schema: LedgerSchema) -> list[str]:
     if merge != MERGE_LOCK:
         errors.append(f"{rel}: マージしない must be はい")
     errors.extend(_ref_errors(rel, record.fields["参照"]))
-    errors.extend(_skill_errors(rel, record.fields["スキル"]))
+    refs, skill_errs = parse_skill_row(record.fields["スキル"])
+    errors.extend(f"{rel}: {item}" for item in skill_errs)
+    have = {ref.workflow for ref in refs if ref.workflow}
+    for file, workflow in sorted(schema.skill_seats):
+        if file == rel and workflow not in have:
+            errors.append(
+                f"{rel}: S table requires sand-workflow:{workflow} in スキル"
+            )
     return errors
 
 
 def tree_errors(bots_dir: Path, template_text: str) -> list[str]:
-    schema = ledger_schema(template_text)
+    readme_path = bots_dir / "README.md"
+    has_readme = readme_path.is_file()
+    readme_text = readme_path.read_text(encoding="utf-8") if has_readme else ""
+    schema = ledger_schema(template_text, readme_text)
     errors: list[str] = []
     ids: dict[str, str] = {}
     names: dict[str, str] = {}
@@ -205,11 +256,10 @@ def tree_errors(bots_dir: Path, template_text: str) -> list[str]:
             errors.append(f"{path.name}: duplicate 名前 {name} ({names[name]})")
         elif name:
             names[name] = path.name
-    readme_path = bots_dir / "README.md"
-    if not readme_path.is_file():
+    if not has_readme:
         errors.append("README.md: missing")
         return errors
-    linked = set(re.findall(r"\]\(\./([^)]+\.md)\)", readme_path.read_text(encoding="utf-8")))
+    linked = set(README_BOT_LINK_RE.findall(readme_text))
     linked.discard(TEMPLATE_NAME)
     live_set = set(live)
     for name in sorted(live_set - linked):
@@ -227,6 +277,9 @@ def wrap_errors() -> list[str]:
     keys = template_keys(text)
     if keys != FIELD_KEYS:
         errors.append(f"bots/_template.md: keys {keys} != {FIELD_KEYS}")
+    readme = BOTS / "README.md"
+    if readme.is_file() and not required_skill_seats(readme.read_text(encoding="utf-8")):
+        errors.append("bots/README.md: S1–S7 table yields no seats")
     errors.extend(tree_errors(BOTS, text))
     return errors
 
@@ -444,6 +497,99 @@ class BotsSchemaTests(unittest.TestCase):
             )
             found = tree_errors(folder, TEMPLATE.read_text(encoding="utf-8"))
         self.assertTrue(any("missing link to Sample.md" in item for item in found), found)
+
+    def test_given_live_skill_shapes_when_parsed_then_refs_are_typed(self) -> None:
+        self.assertEqual(
+            parse_skill_row(
+                "tool-path-prefer / [parallel-fire-fleet](sand-workflow:parallel-fire-fleet) / [Cloud開発](sand-workflow:cloud)"
+            ),
+            (
+                (
+                    SkillRef(name="tool-path-prefer", workflow=""),
+                    SkillRef(
+                        name="parallel-fire-fleet",
+                        workflow="parallel-fire-fleet",
+                    ),
+                    SkillRef(name="Cloud開発", workflow="cloud"),
+                ),
+                [],
+            ),
+        )
+
+    def test_given_none_when_parsed_then_empty_refs(self) -> None:
+        self.assertEqual(parse_skill_row("無し"), ((), []))
+
+    def test_given_empty_link_name_when_validated_then_skill_fails(self) -> None:
+        broken = COMPLETE_LIVE.replace(
+            "| スキル | 無し |",
+            "| スキル | [](sand-workflow:x) |",
+        )
+        record = parse_bot_markdown(Path("Sample.md"), broken)
+        found = record_errors(record, _schema())
+        self.assertEqual(
+            found,
+            ["Sample.md: skill link has empty name: [](sand-workflow:x)"],
+        )
+
+    def test_given_readme_s_table_when_parsed_then_seats_are_file_id_pairs(self) -> None:
+        readme = (
+            "| S | スキル | ボット |\n"
+            "|---|---|---|\n"
+            "| S5 | [job-brief](sand-workflow:job-brief) | [`PdM`](./PdM.md) / [`CMO`](./CMO.md) |\n"
+            "| S9 | [orphan](sand-workflow:orphan) | |\n"
+        )
+        self.assertEqual(
+            required_skill_seats(readme),
+            frozenset({("PdM.md", "job-brief"), ("CMO.md", "job-brief")}),
+        )
+
+    def test_given_live_readme_when_parsed_then_s1_seat_is_present(self) -> None:
+        seats = required_skill_seats((BOTS / "README.md").read_text(encoding="utf-8"))
+        self.assertIn(("スキル作成.md", "author-shared-skill"), seats)
+
+    def test_given_s_row_without_workflow_when_parsed_then_no_seats(self) -> None:
+        readme = "| S1 | author-shared-skill | [`スキル作成`](./スキル作成.md) |\n"
+        self.assertEqual(required_skill_seats(readme), frozenset())
+
+    def test_given_seat_missing_required_skill_when_tree_walked_then_seat_fails(
+        self,
+    ) -> None:
+        body = COMPLETE_LIVE.replace("# bot: Sample", "# bot: PdM").replace(
+            "| 名前 | Sample |", "| 名前 | PdM |"
+        )
+        readme = (
+            "| S5 | [job-brief](sand-workflow:job-brief) | [`PdM`](./PdM.md) |\n"
+            "[`PdM`](./PdM.md)\n"
+        )
+        with tempfile.TemporaryDirectory() as raw:
+            folder = Path(raw)
+            _write_tree(folder, {"PdM.md": body, "README.md": readme})
+            found = tree_errors(folder, TEMPLATE.read_text(encoding="utf-8"))
+        self.assertEqual(
+            found,
+            ["PdM.md: S table requires sand-workflow:job-brief in スキル"],
+        )
+
+    def test_given_seat_with_required_skill_when_tree_walked_then_no_seat_error(
+        self,
+    ) -> None:
+        body = (
+            COMPLETE_LIVE.replace("# bot: Sample", "# bot: PdM")
+            .replace("| 名前 | Sample |", "| 名前 | PdM |")
+            .replace(
+                "| スキル | 無し |",
+                "| スキル | [job-brief](sand-workflow:job-brief) |",
+            )
+        )
+        readme = (
+            "| S5 | [job-brief](sand-workflow:job-brief) | [`PdM`](./PdM.md) |\n"
+            "[`PdM`](./PdM.md)\n"
+        )
+        with tempfile.TemporaryDirectory() as raw:
+            folder = Path(raw)
+            _write_tree(folder, {"PdM.md": body, "README.md": readme})
+            found = tree_errors(folder, TEMPLATE.read_text(encoding="utf-8"))
+        self.assertEqual(found, [])
 
     def test_given_live_ledger_when_wrapped_then_no_errors(self) -> None:
         self.assertEqual(wrap_errors(), [])
