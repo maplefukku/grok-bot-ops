@@ -11,7 +11,15 @@ _SCRIPTS = Path(__file__).resolve().parents[1]
 if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
-from intent_memory import Atom, AtomDraft, Kind, MemoryStore, Source
+from intent_memory import (
+    READ_ACL,
+    Atom,
+    AtomDraft,
+    Kind,
+    MemoryStore,
+    ReadAclHold,
+    Source,
+)
 
 
 def _parse_time(value: str | None) -> datetime | None:
@@ -68,6 +76,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--vector", nargs="+", type=float, default=None)
     parser.add_argument("-n", "--n", type=int, default=5)
     parser.add_argument("--source", default="human", choices=("human", "bot"))
+    parser.add_argument("--reader", default="cli", choices=sorted(READ_ACL))
     parser.add_argument("--fixture", required=True, type=Path)
     args = parser.parse_args(argv)
     if args.vector is None and not args.tags:
@@ -75,18 +84,25 @@ def main(argv: list[str] | None = None) -> int:
     store = MemoryStore()
     _load_fixture(args.fixture, store)
     source = Source(args.source)
-    if args.vector is not None:
-        fetch = sys.maxsize if args.tags else args.n
-        atoms = store.similar(args.vector, source=source, limit=fetch)
-        if args.tags:
-            wanted = tuple(args.tags)
-            atoms = [
-                atom
-                for atom in atoms
-                if all(tag in atom.tags for tag in wanted)
-            ][: args.n]
-    else:
-        atoms = store.by_tags(args.tags, source=source)[: args.n]
+    try:
+        if args.vector is not None:
+            fetch = sys.maxsize if args.tags else args.n
+            atoms = store.similar(
+                args.vector, source=source, reader=args.reader, limit=fetch
+            )
+            if args.tags:
+                wanted = tuple(args.tags)
+                atoms = [
+                    atom
+                    for atom in atoms
+                    if all(tag in atom.tags for tag in wanted)
+                ][: args.n]
+        else:
+            atoms = store.by_tags(args.tags, source=source, reader=args.reader)[
+                : args.n
+            ]
+    except ReadAclHold as exc:
+        parser.exit(2, f"read.py: {exc}\n")
     json.dump(
         [_atom_dict(atom) for atom in atoms],
         sys.stdout,

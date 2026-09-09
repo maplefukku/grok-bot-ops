@@ -5,7 +5,7 @@ import uuid
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from enum import Enum
-from typing import Sequence
+from typing import Mapping, Sequence
 
 FEELING_TTL_DAYS = 90
 
@@ -36,7 +36,26 @@ class WriteAclHold(Exception):
     pass
 
 
+class ReadAclHold(Exception):
+    pass
+
+
 HUMAN_WRITE_ACTORS = frozenset({"pdm", "user"})
+
+READ_ACL: Mapping[str, frozenset[Source]] = {
+    "pdm": frozenset({Source.HUMAN, Source.BOT}),
+    "user": frozenset({Source.HUMAN, Source.BOT}),
+    "planner": frozenset({Source.HUMAN}),
+    "kanshi": frozenset({Source.HUMAN}),
+    "cli": frozenset({Source.HUMAN}),
+}
+
+
+def _check_read(reader: str, source: Source) -> None:
+    if source not in READ_ACL.get(reader, frozenset()):
+        raise ReadAclHold(
+            f"HITL HOLD: reader {reader!r} may not read source={source.value}"
+        )
 
 
 EDGE_URL_KEYS = ("source_url", "github_url", "gb_url")
@@ -169,8 +188,10 @@ class MemoryStore:
         tags: Sequence[str],
         *,
         source: Source,
+        reader: str,
         now: datetime | None = None,
     ) -> list[Atom]:
+        _check_read(reader, source)
         as_of = now if now is not None else datetime.now(timezone.utc)
         wanted = tuple(tags)
         if not wanted:
@@ -188,9 +209,11 @@ class MemoryStore:
         vector: Sequence[float],
         *,
         source: Source,
+        reader: str,
         limit: int,
         now: datetime | None = None,
     ) -> list[Atom]:
+        _check_read(reader, source)
         as_of = now if now is not None else datetime.now(timezone.utc)
         query = tuple(float(x) for x in vector)
         scored: list[tuple[float, Atom]] = []
