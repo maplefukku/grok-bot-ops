@@ -81,3 +81,23 @@ Quiet is not skip。FAIL は 0 にならない。CI gate の exit code MUST は 
 LOCK はページと [`scripts/test_quiet_test_lock.py`](../../scripts/test_quiet_test_lock.py) が持つ。証拠は `scripts/quiet-test.sh -- python3 scripts/ci.py` である。LOCK は CI-independent である。挙動は [`scripts/test_quiet_test.py`](../../scripts/test_quiet_test.py) が持つ。
 
 HITL は Soft-HOLD PARK である。exit code を人が見る画面は置かない。CreateAgent は置かない。新しい harness は置かない。
+
+## FAIL verbose-tail
+
+親 SoT は [issue 42](https://github.com/maplefukku/grok-bot-ops/issues/42) である。Domain WRAP lander は [issue 93](https://github.com/maplefukku/grok-bot-ops/issues/93) である。sibling は [issue 69](https://github.com/maplefukku/grok-bot-ops/issues/69) と [issue 74](https://github.com/maplefukku/grok-bot-ops/issues/74) である。引用は [Cloud開発](sand-workflow:cloud)、tool-path-prefer、[parallel-fire-fleet](sand-workflow:parallel-fire-fleet) である。
+
+FAIL の chat は本体の tail である。本体の tail は box `/workspace/fleet-scripts/quiet-test.sh` である。最後の `QUIET_FAIL_LINES` は 500 行である。head でも full `cat` でもない。full `cat` は REJECT A である。full-log path を必ず印字する。full dump は `--log` または `QUIET_KEEP_FAIL_LOG` の disk に残る。exit code は wrapped cmd のままである。FAIL は drip である。bounded tail と path である。flood ではない。
+
+| 事実 | 値 |
+|---|---|
+| 出す面 | tail |
+| 行数 | `QUIET_FAIL_LINES` は 500 |
+| 出さないもの | head と full `cat`。REJECT A |
+| path | full-log path を必ず印字。`--log` と `QUIET_KEEP_FAIL_LOG` |
+| exit code | wrapped cmd のまま |
+| WRAP | [`scripts/quiet-test.sh`](../../scripts/quiet-test.sh) は tail を持たない。第二の tail を invent しない |
+| box 無し | cmd の stdout と stderr をそのまま通す。path も tail も足さない |
+
+LOCK はページと [`scripts/test_quiet_test_lock.py`](../../scripts/test_quiet_test_lock.py) が持つ。挙動は [`scripts/test_quiet_test.py`](../../scripts/test_quiet_test.py) が持つ。証拠は `scripts/quiet-test.sh -- python3 scripts/ci.py` である。LOCK は CI-independent である。box が無いときも docs の LOCK は落ちない。box があるときは SoT が `tail` と `QUIET_FAIL_LINES` を持つ。box が無いときの `skipTest` は被験が無い宣言である。Quiet is not skip。
+
+HITL は Soft-HOLD PARK である。fail log を人が見る画面は置かない。CreateAgent は置かない。新しい harness は置かない。
