@@ -326,6 +326,10 @@ def check_devops_wrap() -> list[str]:
     return _run_unittest_module("test_devops_wrap", "devops-wrap")
 
 
+def check_bots_id_uniqueness() -> list[str]:
+    return _run_unittest_module("test_bots_id_uniqueness", "bots-id-uniqueness")
+
+
 LASTSTITCH_DIR = ROOT / "docs" / "laststitch"
 LASTSTITCH_FILES = (
     "README.md",
@@ -461,6 +465,7 @@ def main() -> int:
         ("quiet-test", check_quiet_test),
         ("quiet-test-lock", check_quiet_test_lock),
         ("devops-wrap", check_devops_wrap),
+        ("bots-id-uniqueness", check_bots_id_uniqueness),
         ("trend-log-decisions", check_trend_log),
         ("laststitch-lock", check_laststitch),
     ):
