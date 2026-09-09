@@ -4,7 +4,7 @@ Linux の CLI と Python から、関連する atom を最大 N 件引く手順�
 
 表は [schema.sql](./schema.sql)。呼び出しの述語は [contract.py](../../scripts/intent_memory/contract.py)。なぜこの形かは [ADR 0001](../decisions/0001-intent-memory-postgres-pgvector.md)。専用 Postgres の起動は [postgres.md](./postgres.md) である。
 
-`source` は毎回必須。人間向けに読むときは `human` を渡す。
+`source` は毎回必須。人間向けに読むときは `human` を渡す。Planner / PdM / 監視は actor で再フィルタしない。`source=human`（Python は `Source.HUMAN`）を渡す。
 
 Grok Bot 本体の RecallMemory はホットパスのまま残す。このストアは overlay である。置き換えない。
 
@@ -47,7 +47,7 @@ scripts/quiet-test.sh -- python3 scripts/intent_memory/read.py --tags fleet lock
 scripts/quiet-test.sh -- python3 scripts/intent_memory/read.py --vector 1 0 0 0 --n 5 --fixture scripts/intent_memory/fixtures.json --source human
 ```
 
-返る行の `source` は `human` だけである。`critique_bot` は返らない。RecallMemory は触らない。
+返る行の `source` は `human` だけである。`critique_bot` は返らない。RecallMemory は触らない。読み側は actor で再フィルタしない。`source=human` を渡す。
 
 trend-log の写像は dry-run だけである。`append` しない。
 
@@ -88,4 +88,4 @@ near = store.similar((1.0, 0.0, 0.0, 0.0), source=Source.HUMAN, limit=5)
 
 それ以外の actor は `WriteAclHold` を上げる。行は入れない。HITL PARK である。`seed_fixture` はこの検査を通らない。隔離用の `actor="bot"` 行は `seed_fixture` が入れる。
 
-Planner は GitHub LOCK を自動転記しない。pairing の widen と live ingest は [#18](https://github.com/maplefukku/grok-bot-ops/issues/18) の ingest LOCK のままである。RecallMemory はホットパスのまま残す。
+Planner / 監視の読みは `source=human` を渡す。actor で再フィルタしない。Planner は GitHub LOCK を自動転記しない。pairing の widen と live ingest は [#18](https://github.com/maplefukku/grok-bot-ops/issues/18) の ingest LOCK のままである。RecallMemory はホットパスのまま残す。
