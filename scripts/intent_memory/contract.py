@@ -32,6 +32,13 @@ class IngestOff(Exception):
     pass
 
 
+class WriteAclHold(Exception):
+    pass
+
+
+HUMAN_WRITE_ACTORS = frozenset({"pdm", "user"})
+
+
 EDGE_URL_KEYS = ("source_url", "github_url", "gb_url")
 HUMAN_KINDS = (
     Kind.INTENT,
@@ -150,6 +157,8 @@ class MemoryStore:
     def append(self, draft: AtomDraft) -> Atom:
         if draft.kind is Kind.CRITIQUE_BOT or draft.source is Source.BOT:
             raise IngestOff("bot ingest is off")
+        if draft.actor not in HUMAN_WRITE_ACTORS:
+            raise WriteAclHold("HITL PARK: actor is not an allowlisted human writer")
         return self._insert(draft)
 
     def seed_fixture(self, draft: AtomDraft) -> Atom:

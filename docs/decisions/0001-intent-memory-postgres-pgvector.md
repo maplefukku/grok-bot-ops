@@ -35,6 +35,7 @@ Phase0 の ingest は人間だけ。`critique_bot` は schema に予約し、`ap
 - `by_tags` は空のタグ一覧を拒否する。忘れによる全件取得を防ぐ。
 - 本番行は Postgres。このリポジトリのテストは fixture と stdlib unittest。
 - 専用 Postgres の起動は [`postgres.md`](../intent-memory/postgres.md) である。公式 [pgvector](https://github.com/pgvector/pgvector) イメージの WRAP である。
+- Q2 の writer は構造である。`append` の actor は `pdm` か `user` だけを入れる。それ以外は `WriteAclHold` である。
 
 ## 却下した案
 

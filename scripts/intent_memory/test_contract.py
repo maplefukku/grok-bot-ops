@@ -21,6 +21,7 @@ from intent_memory import (  # noqa: E402
     Kind,
     MemoryStore,
     Source,
+    WriteAclHold,
 )
 from intent_memory.trend_log import drafts_from_trend_log  # noqa: E402
 
@@ -475,6 +476,162 @@ class TestPostgresWrap(unittest.TestCase):
         self.assertIn("similar", recipe_text)
         self.assertIn("Planner dry-run", recipe_text)
         self.assertIn("RecallMemory", recipe_text)
+
+
+class TestWriteAcl(unittest.TestCase):
+    def test_given_pdm_human_intent_when_append_then_row_is_stored(self):
+        store = MemoryStore()
+        atom = store.append(
+            _draft(
+                kind=Kind.INTENT,
+                source=Source.HUMAN,
+                actor="pdm",
+                body="pdm intent",
+            )
+        )
+        self.assertEqual(atom.actor, "pdm")
+        self.assertIs(atom.kind, Kind.INTENT)
+        self.assertIs(atom.source, Source.HUMAN)
+        self.assertEqual(atom.body, "pdm intent")
+        rows = store.by_tags(("fleet",), source=Source.HUMAN)
+        self.assertEqual([row.id for row in rows], [atom.id])
+
+    def test_given_user_human_decision_when_append_then_row_is_stored(self):
+        store = MemoryStore()
+        atom = store.append(
+            _draft(
+                kind=Kind.DECISION,
+                source=Source.HUMAN,
+                actor="user",
+                body="user decision",
+            )
+        )
+        self.assertEqual(atom.actor, "user")
+        self.assertIs(atom.kind, Kind.DECISION)
+        self.assertIs(atom.source, Source.HUMAN)
+        self.assertEqual(atom.body, "user decision")
+        rows = store.by_tags(("fleet",), source=Source.HUMAN)
+        self.assertEqual([row.id for row in rows], [atom.id])
+
+    def test_given_planner_human_intent_when_append_then_write_acl_hold_and_store_empty(
+        self,
+    ):
+        store = MemoryStore()
+        with self.assertRaises(WriteAclHold) as ctx:
+            store.append(
+                _draft(
+                    kind=Kind.INTENT,
+                    source=Source.HUMAN,
+                    actor="planner",
+                    body="planner intent",
+                )
+            )
+        self.assertIn("HITL PARK", str(ctx.exception))
+        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN), [])
+
+    def test_given_human_source_bot_actor_when_append_then_write_acl_hold_and_store_empty(
+        self,
+    ):
+        store = MemoryStore()
+        with self.assertRaises(WriteAclHold) as ctx:
+            store.append(
+                _draft(
+                    kind=Kind.INTENT,
+                    source=Source.HUMAN,
+                    actor="bot",
+                    body="spoofed bot actor",
+                )
+            )
+        self.assertIn("HITL PARK", str(ctx.exception))
+        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN), [])
+
+    def test_given_empty_actor_when_append_then_write_acl_hold_and_store_empty(self):
+        store = MemoryStore()
+        with self.assertRaises(WriteAclHold) as ctx:
+            store.append(
+                _draft(
+                    kind=Kind.INTENT,
+                    source=Source.HUMAN,
+                    actor="",
+                    body="empty actor",
+                )
+            )
+        self.assertIn("HITL PARK", str(ctx.exception))
+        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN), [])
+
+    def test_given_trend_log_shaped_draft_when_append_then_ingest_off_not_write_acl_hold(
+        self,
+    ):
+        store = MemoryStore()
+        with self.assertRaises(IngestOff) as ctx:
+            store.append(
+                _draft(
+                    kind=Kind.DECISION,
+                    source=Source.BOT,
+                    actor="bot:Planner",
+                    body="trend-log shaped",
+                )
+            )
+        self.assertNotIsInstance(ctx.exception, WriteAclHold)
+        self.assertEqual(str(ctx.exception), "bot ingest is off")
+        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN), [])
+        self.assertEqual(store.by_tags(("fleet",), source=Source.BOT), [])
+
+    def test_given_critique_bot_draft_when_seed_fixture_then_bot_row_is_stored(self):
+        store = MemoryStore()
+        atom = store.seed_fixture(
+            _draft(
+                kind=Kind.CRITIQUE_BOT,
+                source=Source.BOT,
+                tags=("fleet",),
+                body="seeded bot",
+                actor="bot",
+                embedding=(0.0, 1.0, 0.0, 0.0),
+            )
+        )
+        self.assertIs(atom.kind, Kind.CRITIQUE_BOT)
+        self.assertIs(atom.source, Source.BOT)
+        self.assertEqual(atom.actor, "bot")
+        self.assertEqual(atom.body, "seeded bot")
+        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN), [])
+        bot_rows = store.by_tags(("fleet",), source=Source.BOT)
+        self.assertEqual([row.id for row in bot_rows], [atom.id])
+
+    def test_given_each_human_kind_when_append_with_actor_pdm_then_row_is_stored(self):
+        for kind in HUMAN_KINDS:
+            with self.subTest(kind=kind):
+                store = MemoryStore()
+                extra = {}
+                if kind is Kind.FEELING:
+                    extra["expires_at"] = NOW + timedelta(days=90)
+                atom = store.append(
+                    _draft(kind=kind, actor="pdm", body=kind.value, **extra)
+                )
+                self.assertEqual(atom.actor, "pdm")
+                self.assertIs(atom.source, Source.HUMAN)
+                self.assertIs(atom.kind, kind)
+                self.assertEqual(atom.body, kind.value)
+                rows = store.by_tags(("fleet",), source=Source.HUMAN)
+                self.assertEqual([row.id for row in rows], [atom.id])
+
+    def test_given_read_recipe_when_opened_then_names_q2_allowlist_and_write_acl_hold(
+        self,
+    ):
+        recipe_text = (
+            ROOT / "docs" / "intent-memory" / "read-recipe.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("Q2", recipe_text)
+        self.assertIn("`pdm`", recipe_text)
+        self.assertIn("`user`", recipe_text)
+        self.assertIn("WriteAclHold", recipe_text)
+        self.assertIn("HITL PARK", recipe_text)
+        self.assertIn("seed_fixture", recipe_text)
+
+    def test_given_schema_sql_when_read_then_bot_actor_rows_remain_representable(self):
+        text = SCHEMA.read_text(encoding="utf-8")
+        self.assertNotIn("actor IN ('pdm','user')", text)
+        self.assertNotRegex(text, r"CHECK\s*\(\s*actor\s+IN")
+        self.assertIn("actor text NOT NULL", text)
 
 
 if __name__ == "__main__":
