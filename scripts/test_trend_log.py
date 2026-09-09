@@ -194,5 +194,21 @@ class TestMarketplacePrecheckWrap(unittest.TestCase):
                 self.assertIn(token, "\n".join(found))
 
 
+class TestMarketplaceAdoptFired(unittest.TestCase):
+    def test_given_marketplace_adopt_row_when_fired_then_wrap_needles_present(self) -> None:
+        rows = iter_trend_log_rows(TREND_LOG.read_text(encoding="utf-8"))
+        matches = [
+            row
+            for row in rows
+            if normalize_source_url(row.source_url) == MARKETPLACE_ADOPT_URL
+            and row.decision == "ADOPT"
+        ]
+        self.assertEqual(len(matches), 1, matches)
+        fired = matches[0].fired
+        self.assertTrue(fired.strip(), "fired must be filled")
+        self.assertIn("export-bot-template", fired)
+        self.assertIn("CreateAgent NONE", fired)
+
+
 if __name__ == "__main__":
     unittest.main()
