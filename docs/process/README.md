@@ -17,6 +17,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | 人 | Dependabot が PR を開いたあと。Flag の前 | PR-body Dependabot stamp |
 | 編成評価 | 席の提案を出す前 | C. 席、[shared-computer](./shared-computer.md) |
 | CBO | CreateAgent と席設計のとき | C. 席、[shared-computer](./shared-computer.md) |
+| 開発リーダー、PdM、impl CA | overnight の /goal を切るとき。一晩の brief を受けるとき | overnight /goal |
 
 ## 出荷単位
 
@@ -157,3 +158,7 @@ CI 梯子 LIGHT→FULL は [`ci-ladder.md`](./ci-ladder.md) である。SPEED NO
 ## anti-job
 
 spend / sign / send は都度の explicit go なしにしない。条項の本体は fleet の purchases、send-on-behalf、Auto-review である。Domain WRAP は [`anti-job.md`](./anti-job.md)（[issue 90](https://github.com/maplefukku/grok-bot-ops/issues/90)）である。go の形と却下はそこだけである。Haggle 調達ボットは CreateAgent しない。
+
+## overnight /goal
+
+一晩の /goal brief の形は [`overnight-goal.md`](./overnight-goal.md) である。6 見出しは Goal、done-when、touch scope、diff cap、mid-run verify、verifier である。判定は [`scripts/overnight_goal.py`](../../scripts/overnight_goal.py) である。適用 issue は [issue 89](https://github.com/maplefukku/grok-bot-ops/issues/89) である。runner は既存の [overnight-goal-cleanup](sand-workflow:overnight-goal-cleanup) と [Cloud開発](sand-workflow:cloud) である。verifier 席は Soft-HOLD である。新しい harness は置かない。
