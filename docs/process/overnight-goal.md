@@ -10,6 +10,8 @@ Planner の ADOPT 行は [`trend-log.md`](../decisions/trend-log.md) の 2026-09
 
 開発リーダー と PdM が overnight の /goal を切るとき。impl CA が一晩の brief を受けるとき。PR確認 が朝の merge sweep で見るとき。
 
+FIRE は [`README.md`](./README.md) D の平日 09:00 から 22:00 の内側である。CA だけが夜を走る。merge sweep と thrash kill は 09:00 まで待つ。静穏の時計は変えない。
+
 ## 範囲
 
 ### 対象にする
@@ -53,7 +55,7 @@ impl CA から独立した席。今は PR確認 の merge-ok 4 行と PdM の Fl
 | mid-run verify | 毎反復、commit の前に `quiet-test.sh -- <cmd>` を通す。Quiet is not skip | `npm test` |
 | verifier | 作者 CA ではない。独立の verdict が Done の前に入る | `self` |
 
-判定は [`scripts/overnight_goal.py`](../../scripts/overnight_goal.py) である。issue の本文をそのまま流す。
+判定は [`scripts/overnight_goal.py`](../../scripts/overnight_goal.py) である。issue の本文をそのまま流す。スクリプトが見るのは形である。見出しの有無、時間の長さ、unbounded glob、diff cap の型、quiet-test の経路、verifier の否定語である。述語の中身と glob の disjoint は人が見る。verifier は席を名指す。「作者ではない」のような否定形は落ちる。
 
 ```text
 gh issue view <n> --json body -q .body | python3 scripts/overnight_goal.py -
@@ -81,7 +83,7 @@ flowchart TD
 
 ## verifier（Soft-HOLD）
 
-verifier は作者 CA ではない。Done の前に独立の verdict が入る。今の verifier は [`PR確認`](../../bots/PR確認.md) の merge-ok 4 行と PdM の Flag Y である。人である。別モデル族の critique は CA の内側で行ってよい。
+verifier は作者 CA ではない。Done の前に独立の verdict が入る。今の verdict は [`PR確認`](../../bots/PR確認.md) の merge-ok 4 行と PdM の Flag Y である。人である。見るのは CI と PR の形である。done-when を独立に再評価する席は今は無い。それが Soft-HOLD の中身である。別モデル族の critique は CA の内側で行ってよい。
 
 verifier 席の自動化（Astra 型 verifier bot）は Soft-HOLD である。CreateAgent は置かない。新しい席は置かない。新しい harness は FAIL である。
 
