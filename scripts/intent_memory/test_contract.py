@@ -15,7 +15,6 @@ from intent_memory import (  # noqa: E402
     EDGE_URL_KEYS,
     FEELING_TTL_DAYS,
     HUMAN_KINDS,
-    HUMAN_WRITE_ACTORS,
     AtomDraft,
     ContractError,
     IngestOff,
