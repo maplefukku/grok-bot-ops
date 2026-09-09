@@ -12,6 +12,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | job-brief | CA brief を書くとき | PR-body、CI 梯子 |
 | 開発リーダー | ROUTE+FIRE のとき | CI 梯子、出荷単位 |
 | impl CA | lane を 1 本受けたとき。PR を書くとき | B. lane と契約、quiet-test、PR-body、CI 梯子 |
+| 全ボットと CA | spend / sign / send に触れる前 | anti-job |
 | PR確認 | merge sweep | merge-ok、PR-body、CI 梯子 |
 | 人 | Dependabot が PR を開いたあと。Flag の前 | PR-body Dependabot stamp |
 | 編成評価 | 席の提案を出す前 | C. 席、[shared-computer](./shared-computer.md) |
@@ -150,3 +151,7 @@ PR-body HARD LOCK は [`pr-body.md`](./pr-body.md) である。recipe SoT は bo
 CI 梯子 LIGHT→FULL は [`ci-ladder.md`](./ci-ladder.md) である。SPEED NORM の太い lander は出荷単位である。
 
 共有 1 マシンの owner 席 WRAP は [`shared-computer.md`](./shared-computer.md) である。CreateAgent と schedules-force-agency のチェックはそこだけである。新しい席は invent しない。
+
+## anti-job
+
+spend / sign / send は都度の explicit go なしにしない。条項の本体は fleet の purchases、send-on-behalf、Auto-review である。Domain WRAP は [`anti-job.md`](./anti-job.md)（[issue 90](https://github.com/maplefukku/grok-bot-ops/issues/90)）である。go の形と却下はそこだけである。Haggle 調達ボットは CreateAgent しない。
