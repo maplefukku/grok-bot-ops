@@ -16,6 +16,6 @@
 
 ## 運用ルール（このリポジトリの採用ルール）
 
-- 内容: 決済権限は本物のカードに直結させない。承認なしの自動購入は設定しない。
+- 内容: 決済権限は本物のカードに直結させない。承認なしの自動購入は設定しない。spend / sign / send の explicit go の形は [`docs/process/anti-job.md`](../process/anti-job.md)。
 - 出典: 上項の公式境界を、この司令室の規約にしたもの。[Approvals, security, and privacy](https://docs.x.ai/grok-bot/approvals-security-and-privacy)
 - 確認: 済（このリポジトリの規約）

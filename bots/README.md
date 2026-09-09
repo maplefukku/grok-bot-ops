@@ -60,6 +60,10 @@ PR 本文の 4 見出しと Flag Y の正本は [`docs/process/pr-body.md`](../d
 
 SPEED NORM と CI 梯子の正本は [`docs/process/ci-ladder.md`](../docs/process/ci-ladder.md) である。CBO bake 2026-09-08 の席一行はそこを指す。この台帳へ規則を複製しない。
 
+## LOCK: ANTI-JOB（spend / sign / send）
+
+全席は spend / sign / send を都度の explicit go なしにしない。条項の本体は fleet の purchases、send-on-behalf、Auto-review である。WRAP は [`docs/process/anti-job.md`](../docs/process/anti-job.md) である。Haggle 調達ボットは CreateAgent しない。この台帳へ動詞表を複製しない。
+
 ## 司令室
 
 | 名前 | 役割 | 回すまで動かない |
