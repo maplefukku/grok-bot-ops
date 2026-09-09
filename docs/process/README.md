@@ -16,7 +16,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | PR確認 | merge sweep | merge-ok、PR-body、CI 梯子 |
 | 人 | Dependabot が PR を開いたあと。Flag の前 | PR-body Dependabot stamp |
 | 編成評価 | 席の提案を出す前 | C. 席、[shared-computer](./shared-computer.md) |
-| CBO | CreateAgent と席設計のとき | C. 席、[shared-computer](./shared-computer.md) |
+| CBO | CreateAgent と席設計のとき | C. 席、[shared-computer](./shared-computer.md)、Marketplace survey |
 | 開発リーダー、PdM、impl CA | overnight の /goal を切るとき。一晩の brief を受けるとき | overnight /goal |
 
 ## 出荷単位
@@ -112,7 +112,7 @@ Planner の spec は FILES/globs と forbidden siblings を書く。
 
 PdM は CoS のままである。クローンしない。席の定義は [`PdM`](../../bots/PdM.md) である。
 
-ADV closer と lane scheduler は提案である。product CoS は既定 NO である。ゲートと「CreateAgent しない」は [ADR 0003](../decisions/0003-domain-unit-throughput.md) を見よ。CreateAgent は [`CBO`](../../bots/CBO.md) である。共有 1 マシンでは owner 席が 1 つ成果物を持ち、詰まったときだけ既存 specialist に渡す。チェックは [`shared-computer.md`](./shared-computer.md) である。新規席は作らない。
+ADV closer と lane scheduler は提案である。product CoS は既定 NO である。ゲートと「CreateAgent しない」は [ADR 0003](../decisions/0003-domain-unit-throughput.md) を見よ。CreateAgent は [`CBO`](../../bots/CBO.md) である。共有 1 マシンでは owner 席が 1 つ成果物を持ち、詰まったときだけ既存 specialist に渡す。チェックは [`shared-computer.md`](./shared-computer.md) である。新規席は作らない。CreateAgent 前の Marketplace survey は [`marketplace-precheck.md`](./marketplace-precheck.md) である。
 
 [`監視`](../../bots/監視.md)、[`開発リーダー`](../../bots/開発リーダー.md)、[`編成評価`](../../bots/編成評価.md) は維持する。新しい impl ボットは無い。
 
@@ -154,6 +154,8 @@ PR-body HARD LOCK は [`pr-body.md`](./pr-body.md) である。recipe SoT は bo
 CI 梯子 LIGHT→FULL は [`ci-ladder.md`](./ci-ladder.md) である。SPEED NORM の太い lander は出荷単位である。
 
 共有 1 マシンの owner 席 WRAP は [`shared-computer.md`](./shared-computer.md) である。CreateAgent と schedules-force-agency のチェックはそこだけである。新しい席は invent しない。
+
+Marketplace survey（CreateAgent precheck）は [`marketplace-precheck.md`](./marketplace-precheck.md) である。export-bot-template は KEEP。並列 Marketplace は invent しない。CreateAgent 量産は NONE。
 
 ## anti-job
 
