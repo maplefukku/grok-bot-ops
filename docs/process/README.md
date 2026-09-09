@@ -110,7 +110,7 @@ Planner の spec は FILES/globs と forbidden siblings を書く。
 
 ## C. 席
 
-PdM は CoS のままである。クローンしない。席の定義は [`PM`](../../bots/PM.md) である。
+PdM は CoS のままである。クローンしない。席の定義は [`PM`](../../bots/PdM.md) である。
 
 ADV closer と lane scheduler は提案である。product CoS は既定 NO である。ゲートと「CreateAgent しない」は [ADR 0003](../decisions/0003-domain-unit-throughput.md) を見よ。CreateAgent は [`CBO`](../../bots/CBO.md) である。共有 1 マシンでは owner 席が 1 つ成果物を持ち、詰まったときだけ既存 specialist に渡す。チェックは [`shared-computer.md`](./shared-computer.md) である。新規席は作らない。CreateAgent 前の Marketplace survey は [`marketplace-precheck.md`](./marketplace-precheck.md) である。
 
