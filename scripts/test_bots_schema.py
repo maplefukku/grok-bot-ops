@@ -277,6 +277,9 @@ def wrap_errors() -> list[str]:
     keys = template_keys(text)
     if keys != FIELD_KEYS:
         errors.append(f"bots/_template.md: keys {keys} != {FIELD_KEYS}")
+    readme = BOTS / "README.md"
+    if readme.is_file() and not required_skill_seats(readme.read_text(encoding="utf-8")):
+        errors.append("bots/README.md: S1–S7 table yields no seats")
     errors.extend(tree_errors(BOTS, text))
     return errors
 
@@ -539,6 +542,14 @@ class BotsSchemaTests(unittest.TestCase):
             required_skill_seats(readme),
             frozenset({("PdM.md", "job-brief"), ("CMO.md", "job-brief")}),
         )
+
+    def test_given_live_readme_when_parsed_then_s1_seat_is_present(self) -> None:
+        seats = required_skill_seats((BOTS / "README.md").read_text(encoding="utf-8"))
+        self.assertIn(("スキル作成.md", "author-shared-skill"), seats)
+
+    def test_given_s_row_without_workflow_when_parsed_then_no_seats(self) -> None:
+        readme = "| S1 | author-shared-skill | [`スキル作成`](./スキル作成.md) |\n"
+        self.assertEqual(required_skill_seats(readme), frozenset())
 
     def test_given_seat_missing_required_skill_when_tree_walked_then_seat_fails(
         self,
