@@ -63,3 +63,21 @@ success の chat は `QUIET_OK_LINES` 既定 10 行である。本体の tail �
 LOCK はページと [`scripts/test_quiet_test_lock.py`](../../scripts/test_quiet_test_lock.py) が持つ。証拠は `scripts/quiet-test.sh -- python3 scripts/ci.py` である。box が無いときも docs の LOCK は落ちない。box があるときは SoT が `QUIET_OK_LINES` を持つ。
 
 HITL は Soft-HOLD PARK である。success ログを人が見る画面は置かない。CreateAgent は置かない。新しい harness は置かない。
+
+## exit-code contract
+
+親 SoT は [issue 42](https://github.com/maplefukku/grok-bot-ops/issues/42) である。Domain WRAP lander は [issue 96](https://github.com/maplefukku/grok-bot-ops/issues/96) である。sibling は [issue 69](https://github.com/maplefukku/grok-bot-ops/issues/69) と [issue 74](https://github.com/maplefukku/grok-bot-ops/issues/74) である。引用は [Cloud開発](sand-workflow:cloud)、tool-path-prefer、[parallel-fire-fleet](sand-workflow:parallel-fire-fleet) である。
+
+WRAP は exec である。exit code は wrapped process のものである。WRAP は書き換えない。box があるときは box `/workspace/fleet-scripts/quiet-test.sh` の exit である。box が無いときは cmd の exit である。box が無く cmd も無いときだけ WRAP が `exit 2` と stderr `fleet missing` を出す。このリポジトリの WRAP は [`scripts/quiet-test.sh`](../../scripts/quiet-test.sh) である。box の内部は invent しない。
+
+| 状態 | exit code | 決める者 |
+|---|---|---|
+| SUCCESS | `0` | wrapped cmd, または box があるときの box SoT |
+| FAIL | nonzero `N`, unchanged | wrapped cmd, または box があるときの box SoT |
+| usage | `2` | WRAP 自身。box が無く cmd が無いときだけ |
+
+Quiet is not skip。FAIL は 0 にならない。CI gate の exit code MUST は fail-cap B の表である。ここには複製しない。
+
+LOCK はページと [`scripts/test_quiet_test_lock.py`](../../scripts/test_quiet_test_lock.py) が持つ。証拠は `scripts/quiet-test.sh -- python3 scripts/ci.py` である。LOCK は CI-independent である。挙動は [`scripts/test_quiet_test.py`](../../scripts/test_quiet_test.py) が持つ。
+
+HITL は Soft-HOLD PARK である。exit code を人が見る画面は置かない。CreateAgent は置かない。新しい harness は置かない。
