@@ -15,11 +15,13 @@ from intent_memory import (  # noqa: E402
     EDGE_URL_KEYS,
     FEELING_TTL_DAYS,
     HUMAN_KINDS,
+    READ_ACL,
     AtomDraft,
     ContractError,
     IngestOff,
     Kind,
     MemoryStore,
+    ReadAclHold,
     Source,
     WriteAclHold,
 )
@@ -61,7 +63,7 @@ class TestIsolation(unittest.TestCase):
                 embedding=(0.0, 1.0),
             )
         )
-        rows = store.by_tags(("fleet", "lock"), source=Source.HUMAN)
+        rows = store.by_tags(("fleet", "lock"), source=Source.HUMAN, reader="planner")
         self.assertTrue(rows)
         self.assertTrue(all(atom.source is Source.HUMAN for atom in rows))
         self.assertTrue(all(atom.kind is not Kind.CRITIQUE_BOT for atom in rows))
@@ -83,7 +85,7 @@ class TestIsolation(unittest.TestCase):
                 embedding=(1.0, 0.0, 0.0),
             )
         )
-        rows = store.similar(query, source=Source.HUMAN, limit=5)
+        rows = store.similar(query, source=Source.HUMAN, reader="planner", limit=5)
         self.assertEqual([atom.id for atom in rows], [human.id])
         self.assertTrue(all(atom.source is Source.HUMAN for atom in rows))
         self.assertTrue(all(atom.body != "near bot" for atom in rows))
@@ -121,8 +123,8 @@ class TestIngest(unittest.TestCase):
         )
         self.assertIs(atom.kind, Kind.CRITIQUE_BOT)
         self.assertIs(atom.source, Source.BOT)
-        human_rows = store.by_tags(("fleet",), source=Source.HUMAN)
-        bot_rows = store.by_tags(("fleet",), source=Source.BOT)
+        human_rows = store.by_tags(("fleet",), source=Source.HUMAN, reader="planner")
+        bot_rows = store.by_tags(("fleet",), source=Source.BOT, reader="pdm")
         self.assertEqual(human_rows, [])
         self.assertEqual([row.id for row in bot_rows], [atom.id])
 
@@ -148,8 +150,8 @@ class TestTtl(unittest.TestCase):
                 expires_at=NOW + timedelta(days=1),
             )
         )
-        tagged = store.by_tags(("mood",), source=Source.HUMAN, now=NOW)
-        near = store.similar((0.0, 1.0), source=Source.HUMAN, limit=5, now=NOW)
+        tagged = store.by_tags(("mood",), source=Source.HUMAN, reader="planner", now=NOW)
+        near = store.similar((0.0, 1.0), source=Source.HUMAN, reader="planner", limit=5, now=NOW)
         self.assertEqual([atom.body for atom in tagged], ["live feeling"])
         self.assertEqual([atom.id for atom in near], [live.id])
 
@@ -164,8 +166,8 @@ class TestTtl(unittest.TestCase):
             )
         )
         self.assertIsNone(atom.expires_at)
-        tagged = store.by_tags(("fail",), source=Source.HUMAN, now=FAR_FUTURE)
-        near = store.similar((1.0, 0.0), source=Source.HUMAN, limit=5, now=FAR_FUTURE)
+        tagged = store.by_tags(("fail",), source=Source.HUMAN, reader="planner", now=FAR_FUTURE)
+        near = store.similar((1.0, 0.0), source=Source.HUMAN, reader="planner", limit=5, now=FAR_FUTURE)
         self.assertEqual([row.id for row in tagged], [atom.id])
         self.assertEqual([row.id for row in near], [atom.id])
 
@@ -204,12 +206,12 @@ class TestTagsAndPairing(unittest.TestCase):
                 embedding=(1.0, 1.0, 0.0),
             )
         )
-        rows = store.by_tags(("fleet", "lock"), source=Source.HUMAN)
+        rows = store.by_tags(("fleet", "lock"), source=Source.HUMAN, reader="planner")
         self.assertEqual([atom.id for atom in rows], [both.id])
-        fleet = store.by_tags(("fleet",), source=Source.HUMAN)
+        fleet = store.by_tags(("fleet",), source=Source.HUMAN, reader="planner")
         self.assertEqual({atom.body for atom in fleet}, {"both", "fleet-only"})
         with self.assertRaises(ContractError):
-            store.by_tags((), source=Source.HUMAN)
+            store.by_tags((), source=Source.HUMAN, reader="planner")
 
     def test_pairing_critique_bot_iff_source_bot(self):
         store = MemoryStore()
@@ -264,7 +266,7 @@ class TestNoNetwork(unittest.TestCase):
             self.assertNotIn(name, sys.modules)
         store = MemoryStore()
         store.append(_draft(embedding=(1.0, 0.0)))
-        rows = store.similar((1.0, 0.0), source=Source.HUMAN, limit=1)
+        rows = store.similar((1.0, 0.0), source=Source.HUMAN, reader="planner", limit=1)
         self.assertEqual(len(rows), 1)
         for name in ("openai", "httpx", "requests"):
             self.assertNotIn(name, sys.modules)
@@ -309,6 +311,10 @@ class TestReadApiShape(unittest.TestCase):
             store.by_tags(("fleet",))
         with self.assertRaises(TypeError):
             store.similar((1.0, 0.0), limit=1)
+        with self.assertRaises(TypeError):
+            store.by_tags(("fleet",), source=Source.HUMAN)
+        with self.assertRaises(TypeError):
+            store.similar((1.0, 0.0), source=Source.HUMAN, limit=1)
 
 
 class TestCli(unittest.TestCase):
@@ -354,7 +360,7 @@ class TestHumanIngest(unittest.TestCase):
                 atom = store.append(_draft(kind=kind, body=kind.value, **extra))
                 self.assertIs(atom.source, Source.HUMAN)
                 self.assertIs(atom.kind, kind)
-                rows = store.by_tags(("fleet",), source=Source.HUMAN)
+                rows = store.by_tags(("fleet",), source=Source.HUMAN, reader="planner")
                 self.assertEqual([row.id for row in rows], [atom.id])
 
     def test_human_kinds_exclude_critique_bot(self):
@@ -385,7 +391,7 @@ class TestEdges(unittest.TestCase):
         )
         for key in EDGE_URL_KEYS:
             self.assertIn(f"{key}:", atom.body)
-        tagged = store.by_tags(("fleet",), source=Source.HUMAN)
+        tagged = store.by_tags(("fleet",), source=Source.HUMAN, reader="planner")
         self.assertEqual(tagged[0].source_url, atom.source_url)
 
     def test_fixture_human_filter_keeps_url_edges(self):
@@ -433,7 +439,7 @@ class TestTrendLogDryRun(unittest.TestCase):
             self.assertIsNone(draft.expires_at)
             with self.assertRaises(IngestOff):
                 store.append(draft)
-        self.assertEqual(store.by_tags(("trend-adopt",), source=Source.HUMAN), [])
+        self.assertEqual(store.by_tags(("trend-adopt",), source=Source.HUMAN, reader="planner"), [])
 
     def test_trend_log_cli_dry_run_prints_bot_drafts_only(self):
         import json
@@ -488,9 +494,9 @@ class TestHumanActorAllowlist(unittest.TestCase):
                 embedding=(1.0, 0.0, 0.0),
             )
         )
-        planner_rows = store.by_tags(("fleet", "lock"), source=Source.HUMAN)
+        planner_rows = store.by_tags(("fleet", "lock"), source=Source.HUMAN, reader="planner")
         kanshi_rows = store.similar(
-            (1.0, 0.0, 0.0), source=Source.HUMAN, limit=5
+            (1.0, 0.0, 0.0), source=Source.HUMAN, reader="kanshi", limit=5
         )
         self.assertEqual([atom.id for atom in planner_rows], [pdm.id])
         self.assertEqual([atom.id for atom in kanshi_rows], [pdm.id])
@@ -513,11 +519,11 @@ class TestHumanActorAllowlist(unittest.TestCase):
         self.assertEqual(atom.actor, "user")
         self.assertEqual(atom.expires_at, NOW + timedelta(days=FEELING_TTL_DAYS))
         self.assertEqual(
-            [row.id for row in store.by_tags(("mood",), source=Source.HUMAN, now=NOW)],
+            [row.id for row in store.by_tags(("mood",), source=Source.HUMAN, reader="planner", now=NOW)],
             [atom.id],
         )
         self.assertEqual(
-            store.by_tags(("mood",), source=Source.HUMAN, now=FAR_FUTURE), []
+            store.by_tags(("mood",), source=Source.HUMAN, reader="planner", now=FAR_FUTURE), []
         )
 
     def test_seed_fixture_inserts_bot_and_bot_planner_actors(self):
@@ -542,8 +548,8 @@ class TestHumanActorAllowlist(unittest.TestCase):
         )
         self.assertEqual(bot.actor, "bot")
         self.assertEqual(planner.actor, "bot:Planner")
-        human_rows = store.by_tags(("fleet",), source=Source.HUMAN)
-        bot_rows = store.by_tags(("fleet",), source=Source.BOT)
+        human_rows = store.by_tags(("fleet",), source=Source.HUMAN, reader="planner")
+        bot_rows = store.by_tags(("fleet",), source=Source.BOT, reader="pdm")
         self.assertEqual(human_rows, [])
         self.assertEqual({row.id for row in bot_rows}, {bot.id, planner.id})
 
@@ -568,6 +574,7 @@ class TestPostgresWrap(unittest.TestCase):
         self.assertIn("Planner dry-run", recipe_text)
         self.assertIn("RecallMemory", recipe_text)
         self.assertIn("WriteAclHold", recipe_text)
+        self.assertIn("ReadAclHold", recipe_text)
         self.assertIn("Q2", recipe_text)
         self.assertIn("Source.HUMAN", recipe_text)
         self.assertIn("source=human", recipe_text)
@@ -588,7 +595,7 @@ class TestWriteAcl(unittest.TestCase):
         self.assertIs(atom.kind, Kind.INTENT)
         self.assertIs(atom.source, Source.HUMAN)
         self.assertEqual(atom.body, "pdm intent")
-        rows = store.by_tags(("fleet",), source=Source.HUMAN)
+        rows = store.by_tags(("fleet",), source=Source.HUMAN, reader="planner")
         self.assertEqual([row.id for row in rows], [atom.id])
 
     def test_given_user_human_decision_when_append_then_row_is_stored(self):
@@ -605,7 +612,7 @@ class TestWriteAcl(unittest.TestCase):
         self.assertIs(atom.kind, Kind.DECISION)
         self.assertIs(atom.source, Source.HUMAN)
         self.assertEqual(atom.body, "user decision")
-        rows = store.by_tags(("fleet",), source=Source.HUMAN)
+        rows = store.by_tags(("fleet",), source=Source.HUMAN, reader="planner")
         self.assertEqual([row.id for row in rows], [atom.id])
 
     def test_given_planner_human_intent_when_append_then_write_acl_hold_and_store_empty(
@@ -622,7 +629,7 @@ class TestWriteAcl(unittest.TestCase):
                 )
             )
         self.assertIn("HITL PARK", str(ctx.exception))
-        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN), [])
+        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN, reader="planner"), [])
 
     def test_given_human_source_bot_actor_when_append_then_write_acl_hold_and_store_empty(
         self,
@@ -638,7 +645,7 @@ class TestWriteAcl(unittest.TestCase):
                 )
             )
         self.assertIn("HITL PARK", str(ctx.exception))
-        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN), [])
+        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN, reader="planner"), [])
 
     def test_given_empty_actor_when_append_then_write_acl_hold_and_store_empty(self):
         store = MemoryStore()
@@ -652,7 +659,7 @@ class TestWriteAcl(unittest.TestCase):
                 )
             )
         self.assertIn("HITL PARK", str(ctx.exception))
-        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN), [])
+        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN, reader="planner"), [])
 
     def test_given_trend_log_shaped_draft_when_append_then_ingest_off_not_write_acl_hold(
         self,
@@ -669,8 +676,8 @@ class TestWriteAcl(unittest.TestCase):
             )
         self.assertNotIsInstance(ctx.exception, WriteAclHold)
         self.assertEqual(str(ctx.exception), "bot ingest is off")
-        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN), [])
-        self.assertEqual(store.by_tags(("fleet",), source=Source.BOT), [])
+        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN, reader="planner"), [])
+        self.assertEqual(store.by_tags(("fleet",), source=Source.BOT, reader="pdm"), [])
 
     def test_given_critique_bot_draft_when_seed_fixture_then_bot_row_is_stored(self):
         store = MemoryStore()
@@ -688,8 +695,8 @@ class TestWriteAcl(unittest.TestCase):
         self.assertIs(atom.source, Source.BOT)
         self.assertEqual(atom.actor, "bot")
         self.assertEqual(atom.body, "seeded bot")
-        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN), [])
-        bot_rows = store.by_tags(("fleet",), source=Source.BOT)
+        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN, reader="planner"), [])
+        bot_rows = store.by_tags(("fleet",), source=Source.BOT, reader="pdm")
         self.assertEqual([row.id for row in bot_rows], [atom.id])
 
     def test_given_each_human_kind_when_append_with_actor_pdm_then_row_is_stored(self):
@@ -706,7 +713,7 @@ class TestWriteAcl(unittest.TestCase):
                 self.assertIs(atom.source, Source.HUMAN)
                 self.assertIs(atom.kind, kind)
                 self.assertEqual(atom.body, kind.value)
-                rows = store.by_tags(("fleet",), source=Source.HUMAN)
+                rows = store.by_tags(("fleet",), source=Source.HUMAN, reader="planner")
                 self.assertEqual([row.id for row in rows], [atom.id])
 
     def test_given_read_recipe_when_opened_then_names_q2_allowlist_and_write_acl_hold(
@@ -727,6 +734,248 @@ class TestWriteAcl(unittest.TestCase):
         self.assertNotIn("actor IN ('pdm','user')", text)
         self.assertNotRegex(text, r"CHECK\s*\(\s*actor\s+IN")
         self.assertIn("actor text NOT NULL", text)
+
+
+class TestReadAcl(unittest.TestCase):
+    def test_given_pdm_human_intent_when_planner_reads_by_tags_human_then_row_is_returned(
+        self,
+    ):
+        store = MemoryStore()
+        atom = store.append(
+            _draft(
+                kind=Kind.INTENT,
+                source=Source.HUMAN,
+                actor="pdm",
+                body="pdm intent for planner",
+            )
+        )
+        rows = store.by_tags(("fleet",), source=Source.HUMAN, reader="planner")
+        self.assertEqual([row.id for row in rows], [atom.id])
+
+    def test_given_seeded_critique_bot_when_planner_reads_bot_then_hold_and_pdm_gets_the_row(
+        self,
+    ):
+        store = MemoryStore()
+        atom = store.seed_fixture(
+            _draft(
+                kind=Kind.CRITIQUE_BOT,
+                source=Source.BOT,
+                tags=("fleet",),
+                body="seeded bot",
+                actor="bot",
+                embedding=(0.0, 1.0, 0.0, 0.0),
+            )
+        )
+        with self.assertRaises(ReadAclHold) as ctx:
+            store.by_tags(("fleet",), source=Source.BOT, reader="planner")
+        self.assertIn("HITL HOLD", str(ctx.exception))
+        rows = store.by_tags(("fleet",), source=Source.BOT, reader="pdm")
+        self.assertEqual([row.id for row in rows], [atom.id])
+
+    def test_given_bot_and_pdm_rows_when_kanshi_similar_then_bot_hold_and_human_returns_pdm(
+        self,
+    ):
+        store = MemoryStore()
+        pdm = store.append(
+            _draft(
+                tags=("fleet",),
+                body="pdm human",
+                actor="pdm",
+                embedding=(1.0, 0.0, 0.0),
+            )
+        )
+        store.seed_fixture(
+            _draft(
+                kind=Kind.CRITIQUE_BOT,
+                source=Source.BOT,
+                tags=("fleet",),
+                body="seeded bot",
+                actor="bot",
+                embedding=(0.0, 1.0, 0.0),
+            )
+        )
+        with self.assertRaises(ReadAclHold):
+            store.similar((1.0, 0.0, 0.0), source=Source.BOT, reader="kanshi", limit=5)
+        rows = store.similar(
+            (1.0, 0.0, 0.0), source=Source.HUMAN, reader="kanshi", limit=5
+        )
+        self.assertEqual([row.id for row in rows], [pdm.id])
+
+    def test_given_pdm_and_user_when_they_read_bot_then_seeded_bot_row_is_returned(
+        self,
+    ):
+        store = MemoryStore()
+        atom = store.seed_fixture(
+            _draft(
+                kind=Kind.CRITIQUE_BOT,
+                source=Source.BOT,
+                tags=("fleet",),
+                body="seeded bot",
+                actor="bot",
+                embedding=(0.0, 1.0, 0.0, 0.0),
+            )
+        )
+        for reader in ("pdm", "user"):
+            with self.subTest(reader=reader):
+                tagged = store.by_tags(("fleet",), source=Source.BOT, reader=reader)
+                near = store.similar(
+                    (0.0, 1.0, 0.0, 0.0),
+                    source=Source.BOT,
+                    reader=reader,
+                    limit=5,
+                )
+                self.assertEqual([row.id for row in tagged], [atom.id])
+                self.assertEqual([row.id for row in near], [atom.id])
+
+    def test_given_unknown_readers_when_by_tags_human_or_bot_then_read_acl_hold(
+        self,
+    ):
+        store = MemoryStore()
+        store.append(_draft(body="pdm human"))
+        store.seed_fixture(
+            _draft(
+                kind=Kind.CRITIQUE_BOT,
+                source=Source.BOT,
+                tags=("fleet",),
+                body="seeded bot",
+                actor="bot",
+            )
+        )
+        for reader in ("bot", "bot:Planner", "", "trend-log"):
+            self.assertNotIn(reader, READ_ACL)
+            for source in (Source.HUMAN, Source.BOT):
+                with self.subTest(reader=reader, source=source):
+                    with self.assertRaises(ReadAclHold):
+                        store.by_tags(("fleet",), source=source, reader=reader)
+
+    def test_given_reader_cli_when_by_tags_then_human_row_and_bot_hold(self):
+        store = MemoryStore()
+        atom = store.append(_draft(body="pdm human", actor="pdm"))
+        store.seed_fixture(
+            _draft(
+                kind=Kind.CRITIQUE_BOT,
+                source=Source.BOT,
+                tags=("fleet",),
+                body="seeded bot",
+                actor="bot",
+            )
+        )
+        rows = store.by_tags(("fleet",), source=Source.HUMAN, reader="cli")
+        self.assertEqual([row.id for row in rows], [atom.id])
+        with self.assertRaises(ReadAclHold):
+            store.by_tags(("fleet",), source=Source.BOT, reader="cli")
+
+    def test_given_empty_tags_and_planner_bot_when_by_tags_then_read_acl_hold_not_contract_error(
+        self,
+    ):
+        store = MemoryStore()
+        with self.assertRaises(ReadAclHold) as ctx:
+            store.by_tags((), source=Source.BOT, reader="planner")
+        self.assertIn("HITL HOLD", str(ctx.exception))
+        self.assertNotIsInstance(ctx.exception, ContractError)
+
+    def test_given_write_acl_when_planner_appends_then_write_acl_hold(self):
+        store = MemoryStore()
+        with self.assertRaises(WriteAclHold) as ctx:
+            store.append(_draft(actor="planner"))
+        self.assertIn("HITL PARK", str(ctx.exception))
+
+    def test_given_cli_when_source_bot_then_exit_2_and_pdm_sees_bot_and_planner_human(
+        self,
+    ):
+        import json
+        import subprocess
+
+        read_py = str(ROOT / "scripts" / "intent_memory" / "read.py")
+        fixture = str(ROOT / "scripts" / "intent_memory" / "fixtures.json")
+        held = subprocess.run(
+            [
+                sys.executable,
+                read_py,
+                "--tags",
+                "fleet",
+                "lock",
+                "--n",
+                "5",
+                "--fixture",
+                fixture,
+                "--source",
+                "bot",
+            ],
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(held.returncode, 2)
+        self.assertIn("HITL HOLD", held.stderr)
+        self.assertEqual(held.stdout.strip(), "")
+        allowed = subprocess.run(
+            [
+                sys.executable,
+                read_py,
+                "--tags",
+                "fleet",
+                "lock",
+                "--n",
+                "5",
+                "--fixture",
+                fixture,
+                "--source",
+                "bot",
+                "--reader",
+                "pdm",
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        bot_rows = json.loads(allowed.stdout)
+        self.assertTrue(all(row["source"] == "bot" for row in bot_rows))
+        self.assertEqual(
+            sum(
+                1
+                for row in bot_rows
+                if row["body"] == "Bot row must not leak into human reads."
+            ),
+            1,
+        )
+        human = subprocess.run(
+            [
+                sys.executable,
+                read_py,
+                "--reader",
+                "planner",
+                "--source",
+                "human",
+                "--tags",
+                "fleet",
+                "lock",
+                "--fixture",
+                fixture,
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        human_rows = json.loads(human.stdout)
+        self.assertTrue(human_rows)
+        self.assertTrue(all(row["source"] == "human" for row in human_rows))
+
+    def test_given_read_recipe_when_opened_then_names_read_acl_tokens(self):
+        recipe_text = (
+            ROOT / "docs" / "intent-memory" / "read-recipe.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("ReadAclHold", recipe_text)
+        self.assertIn("READ_ACL", recipe_text)
+        self.assertIn("--reader", recipe_text)
+        self.assertIn("HITL HOLD", recipe_text)
+        self.assertIn("`planner`", recipe_text)
+        self.assertIn("`kanshi`", recipe_text)
+        self.assertIn("`cli`", recipe_text)
+
+    def test_given_schema_sql_when_read_then_p_source_stays_and_no_p_reader(self):
+        text = SCHEMA.read_text(encoding="utf-8")
+        self.assertIn("p_source text", text)
+        self.assertNotIn("p_reader", text)
 
 
 if __name__ == "__main__":
