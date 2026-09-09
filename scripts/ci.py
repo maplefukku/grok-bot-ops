@@ -220,6 +220,10 @@ def check_adv_closer() -> list[str]:
     return _run_unittest_module("test_adv_closer", "adv-closer")
 
 
+def check_shared_computer_lock() -> list[str]:
+    return _run_unittest_module("test_shared_computer_lock", "shared-computer-lock")
+
+
 LASTSTITCH_DIR = ROOT / "docs" / "laststitch"
 LASTSTITCH_FILES = (
     "README.md",
@@ -358,6 +362,7 @@ def main() -> int:
         ("bots-id-uniqueness", check_bots_id_uniqueness),
         ("bots-schema", check_bots_schema),
         ("adv-closer", check_adv_closer),
+        ("shared-computer-lock", check_shared_computer_lock),
         ("trend-log-decisions", check_trend_log),
         ("trend-adopt-idempotency", check_trend_adopt_idempotency),
         ("laststitch-lock", check_laststitch),
