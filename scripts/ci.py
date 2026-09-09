@@ -208,6 +208,10 @@ def check_bots_id_uniqueness() -> list[str]:
     return _run_unittest_module("test_bots_id_uniqueness", "bots-id-uniqueness")
 
 
+def check_bots_schema() -> list[str]:
+    return _run_unittest_module("test_bots_schema", "bots-schema")
+
+
 def check_trend_adopt_idempotency() -> list[str]:
     return _run_unittest_module("test_trend_adopt_idempotency", "trend-adopt-idempotency")
 
@@ -348,6 +352,7 @@ def main() -> int:
         ("quiet-test-lock", check_quiet_test_lock),
         ("devops-wrap", check_devops_wrap),
         ("bots-id-uniqueness", check_bots_id_uniqueness),
+        ("bots-schema", check_bots_schema),
         ("trend-log-decisions", check_trend_log),
         ("trend-adopt-idempotency", check_trend_adopt_idempotency),
         ("laststitch-lock", check_laststitch),
