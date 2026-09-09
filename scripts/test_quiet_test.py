@@ -15,6 +15,7 @@ HOOK = _ROOT / ".cursor" / "hooks" / "run-ci.py"
 GHA = _ROOT / ".github" / "workflows" / "ci.yml"
 
 FLEET_STAMP = "FLEET-QUIET-TEST"
+EXIT_CODES = (0, 1, 2, 3, 42, 127, 255)
 HARNESS_MARKERS = (
     "QUIET_OK_LINES",
     "QUIET_FAIL_LINES",
@@ -132,6 +133,36 @@ class QuietTestWrapTests(unittest.TestCase):
         self.assertIn("quiet-test.sh", gha)
         self.assertIn('"--", "python3", "scripts/ci.py"', hook)
         self.assertIn("./scripts/quiet-test.sh -- python3 scripts/ci.py", gha)
+
+    def test_given_fleet_absent_when_cmd_exits_n_then_wrap_exits_n(self) -> None:
+        for code in EXIT_CODES:
+            with self.subTest(code=code):
+                proc = _run(["--", "sh", "-c", f"exit {code}"])
+                self.assertEqual(proc.returncode, code, proc.stderr)
+
+    def test_given_fleet_present_when_fleet_exits_n_then_wrap_exits_n(self) -> None:
+        for code in (0, 1, 7, 42):
+            with self.subTest(code=code):
+                proc = _run(
+                    ["--", "sh", "-c", "exit 0"],
+                    fleet_text=_fleet_echo_exit(code),
+                )
+                self.assertEqual(proc.returncode, code, proc.stderr)
+                self.assertIn(FLEET_STAMP, proc.stdout)
+
+    def test_given_fleet_absent_when_cmd_missing_then_wrap_exits_127(self) -> None:
+        proc = _run(["--", "definitely-not-a-command-xyz"])
+        self.assertEqual(proc.returncode, 127, proc.stderr)
+
+    def test_given_fleet_absent_when_cmd_succeeds_then_stdout_is_untouched(self) -> None:
+        proc = _run(["--", "printf", "hello %s\\n", "world"])
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertEqual(proc.stdout, "hello world\n")
+
+    def test_given_fleet_absent_when_no_args_then_stderr_names_fleet_path(self) -> None:
+        proc = _run([])
+        self.assertEqual(proc.returncode, 2, proc.stderr)
+        self.assertIn("missing-quiet-test.sh", proc.stderr)
 
 
 if __name__ == "__main__":
