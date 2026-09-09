@@ -48,6 +48,10 @@ JOB 順は S1 → S3 → S4 → S2 → S5 → S7 → S6。Q8 の Xネタ選別 /
 
 出荷単位と ADV、lane、cadence の正本は [`docs/process/`](../docs/process/README.md)。採択理由は [ADR 0003](../docs/decisions/0003-domain-unit-throughput.md)。この台帳へ規則を複製しない。席は増やさない。
 
+## LOCK: SHARED ONE COMPUTER（#91）
+
+共有 1 マシンの owner 席と、詰まったときだけの specialist と、成果物 handoff の正本は [`docs/process/shared-computer.md`](../docs/process/shared-computer.md)。この台帳へ規則を複製しない。CreateAgent しない。
+
 ## LOCK: PR-BODY（#46 HARD LOCK）
 
 PR 本文の 4 見出しと Flag Y の正本は [`docs/process/pr-body.md`](../docs/process/pr-body.md)。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md`。job-brief / cloud / pr はそこを指す。見出しをボットファイルへコピーしない。
@@ -67,7 +71,7 @@ SPEED NORM と CI 梯子の正本は [`docs/process/ci-ladder.md`](../docs/proce
 | [`PdM`](./PdM.md) | ONE JOBは優先順位・マージ判定・人待ちの整理。開発は開発リーダー、PRはPR確認。マージはCI緑かつCursor bot完了かつスレ0のときだけ。コードもcloneもCA launchもしない。入口は poteto-mode。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`CMO`](./CMO.md) | cmo。マーケ/SNSのCoS。開発はPdMのまま。HANDSはSNSリーダー、X運用、note執筆、noteサムネ、noteマーケ、最後の一針企画。入口はSNSリーダー。今はアカウント設計へ回す。ふっくーへは日本語。ボット間はプロトコル。コードもマージもIGログインもしない。独立した専門は並列で火を付ける。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`SNSリーダー`](./SNSリーダー.md) | sns.conductor。INはCMO。今は account.design → アカウント設計。後の動画・台本・世界観はボット未作成なので作らない。Cloud AgentはCMOのgrok-bot-ops docs JOB以外立てない。独立した専門は並列で火を付ける。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`CBO`](./CBO.md) | cbo。Chief Bot Officer。ONE JOBはCreateAgentと席設計。INはCEO、PdM、CMO、編成評価。自分以外はCreateAgentしない。席設計時はeng/CreateAgentテンプレへHARD bake（並列local worktree / BDDシナリオの太いPRで点滴micro-PR禁止 / merge-batch+CI梯子LIGHT→FULL）。空殻席は作らない。独立ジョブは並列。ChatGPTはHARD TAB直列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`CBO`](./CBO.md) | cbo。Chief Bot Officer。ONE JOBはCreateAgentと席設計。INはCEO、PdM、CMO、編成評価。自分以外はCreateAgentしない。席設計時はeng/CreateAgentテンプレへHARD bake（並列local worktree / BDDシナリオの太いPRで点滴micro-PR禁止 / merge-batch+CI梯子LIGHT→FULL）。空殻席は作らない。席設計は owner 席1つ+詰まりでのみ specialist、共有1マシンは成果物 handoff（CreateAgent/schedules-force-agency チェック、docs/process/shared-computer.md）。独立ジョブは並列。ChatGPTはHARD TAB直列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`スキル作成`](./スキル作成.md) | skill.author。INはPdMまたはCMO。共有SKILL.mdを書く。ボットにもroutineにもしない。CreateAgentはCBO経由。CreateAgentしない。コーディング系スキルは /poteto-mode。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`GTM`](./GTM.md) | product.gtm。ONE JOBは平日 gtm-morning（0 6 * * 1-5）の壁打ち→PdMへdigest。listing/store copyは明示JOBのみ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`開発リーダー`](./開発リーダー.md) | impl.conductor。ONE JOBはROUTE+FIRE。INはPdMまたは監視。ZuruNote/sauna-master/gakuse-ai/grok-bot-ops/DevTogetherは各開発ボットへ回す。ItsaPlanの状態は script/API（新しいハーネスは立てない）。最大並列。残り仕事があるのにアイドルはFAIL。Cloud Agentは立てない。monkeyは品質Drive。実装と調査は毎回 /poteto-mode。リポごとに pstack 必須。landerはready-for-review。ROUTE+FIREはHARD（並列local worktree優先 / BDDシナリオの太いPRで点滴micro-PR禁止 / merge-batch+CI梯子LIGHT→FULL）。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
