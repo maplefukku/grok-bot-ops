@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass
 from enum import Enum
 from typing import ClassVar, NewType
@@ -147,6 +148,91 @@ class Dup:
 
 
 Decision = Keep | Owed | Must | Nit | Thrash | Dup
+
+
+class State(Enum):
+    RESOLVED = "resolved"
+    OWED = "owed"
+    HOLD = "hold"
+
+
+@dataclass(frozen=True)
+class ThreadState:
+    thread: ThreadRef
+    weight: Weight
+    state: State
+    replies: int
+    label: str | None = None
+
+    def __post_init__(self) -> None:
+        if self.replies < 0:
+            raise ContractError("replies is negative")
+        if self.weight is Weight.NIT and self.replies > 1:
+            raise ContractError("NIT replies exceed 1")
+        if self.label is not None and self.label != ADV_THRASH:
+            raise ContractError(f"unknown label: {self.label}")
+
+    @property
+    def terminal(self) -> bool:
+        return self.state is State.RESOLVED
+
+
+def weight_of(fact: Fact) -> Weight:
+    if fact.new_failing_check or fact.theme.kind in MUST_KINDS:
+        return Weight.MUST
+    return Weight.NIT
+
+
+_SETTLE = {
+    Keep: (State.HOLD, 0, None),
+    Owed: (State.OWED, 0, None),
+    Must: (State.RESOLVED, 1, None),
+    Nit: (State.RESOLVED, 1, None),
+    Thrash: (State.RESOLVED, 0, Thrash.label),
+    Dup: (State.RESOLVED, 0, None),
+}
+
+
+def settle(fact: Fact) -> ThreadState:
+    before = 0 if fact.history is History.FRESH else 1
+    state, delta, label = _SETTLE[type(decide(fact))]
+    return ThreadState(
+        thread=fact.thread,
+        weight=weight_of(fact),
+        state=state,
+        replies=before + delta,
+        label=label,
+    )
+
+
+MUST_ROW = "MUST threads"
+NIT_ROW = "NIT threads"
+
+
+@dataclass(frozen=True)
+class Row:
+    name: str
+    blockers: tuple[ThreadRef, ...]
+
+    @property
+    def ok(self) -> bool:
+        return not self.blockers
+
+
+def closer_rows(states: Iterable[ThreadState]) -> tuple[Row, Row]:
+    must: list[ThreadRef] = []
+    nit: list[ThreadRef] = []
+    for item in states:
+        if item.terminal:
+            continue
+        if item.weight is Weight.MUST:
+            must.append(item.thread)
+        else:
+            nit.append(item.thread)
+    return (
+        Row(name=MUST_ROW, blockers=tuple(must)),
+        Row(name=NIT_ROW, blockers=tuple(nit)),
+    )
 
 
 def _must_path(fact: Fact) -> Decision:

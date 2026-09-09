@@ -12,7 +12,9 @@ if str(_SCRIPTS) not in sys.path:
 from adv_closer import (  # noqa: E402
     ADV_THRASH,
     MUST_KINDS,
+    MUST_ROW,
     NIT_KINDS,
+    NIT_ROW,
     Commit,
     ContractError,
     Dup,
@@ -25,13 +27,19 @@ from adv_closer import (  # noqa: E402
     Nit,
     Owed,
     Prior,
+    Row,
     Skip,
+    State,
     Theme,
     ThreadRef,
+    ThreadState,
     Thrash,
     Url,
     Weight,
+    closer_rows,
     decide,
+    settle,
+    weight_of,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -58,6 +66,11 @@ README_NEEDLES: tuple[str, ...] = (
     NIT_LINE_LOCK,
     "Closer は Resolve を所有する",
     "HOLD",
+    "Closer の終端は resolve である",
+    "Owed と HOLD は終端ではない",
+    MUST_ROW,
+    NIT_ROW,
+    "Closer は Flag しない",
 )
 ADR_NEEDLES: tuple[str, ...] = (
     "ADV closer",
@@ -71,6 +84,7 @@ PARSER_MUST_FAIL_WITHOUT: tuple[str, ...] = (
     "WONTFIX",
     "HOLD",
     NIT_LINE_LOCK,
+    "Closer は Flag しない",
 )
 COMPLETE_README_FIXTURE = "\n".join(README_NEEDLES) + "\n"
 
@@ -281,7 +295,7 @@ class NoChromeTests(unittest.TestCase):
     ) -> None:
         source = (_SCRIPTS / "adv_closer.py").read_text(encoding="utf-8")
         lower = source.lower()
-        for token in ("github", "httpx", "requests", "urllib", "subprocess", "createagent"):
+        for token in ("github", "httpx", "requests", "urllib", "subprocess", "createagent", "flag"):
             self.assertNotIn(token, lower)
         for name in ("github", "httpx", "requests"):
             self.assertNotIn(name, sys.modules)
@@ -307,6 +321,264 @@ class LockWrapTests(unittest.TestCase):
                 found = lock_errors(stripped)
                 self.assertTrue(found, f"missing {token} was accepted")
                 self.assertIn(token, "\n".join(found))
+
+
+class SettleTests(unittest.TestCase):
+    def test_given_fresh_rename_with_skip_when_settle_then_resolved_nit_and_terminal(
+        self,
+    ) -> None:
+        fact = _fact(
+            verdict=Skip(
+                reason="名前はモジュールの慣例に従っている",
+                ref=Url("https://github.com/maplefukku/ZuruNote/blob/main/STYLE.md"),
+            )
+        )
+        state = settle(fact)
+        self.assertEqual(
+            state,
+            ThreadState(
+                thread=SELF_REF,
+                weight=Weight.NIT,
+                state=State.RESOLVED,
+                replies=1,
+                label=None,
+            ),
+        )
+        self.assertTrue(state.terminal)
+
+    def test_given_fresh_rename_no_verdict_when_settle_then_owed_nit_and_not_terminal(
+        self,
+    ) -> None:
+        state = settle(_fact())
+        self.assertEqual(
+            state,
+            ThreadState(SELF_REF, Weight.NIT, State.OWED, replies=0),
+        )
+        self.assertFalse(state.terminal)
+
+    def test_given_human_hold_on_security_answered_when_settle_then_must_hold_not_terminal(
+        self,
+    ) -> None:
+        state = settle(
+            _fact(theme=SECURITY_THEME, history=History.ANSWERED, human_hold=True)
+        )
+        self.assertEqual(
+            state,
+            ThreadState(SELF_REF, Weight.MUST, State.HOLD, replies=1),
+        )
+        self.assertFalse(state.terminal)
+
+    def test_given_same_theme_prior_style_when_settle_then_resolved_thrash_no_reply(
+        self,
+    ) -> None:
+        fact = _fact(
+            thread=ThreadRef("PRRT_new"),
+            theme=STYLE_THEME,
+            prior=(Prior(thread=PRIOR_REF, theme=STYLE_THEME),),
+        )
+        self.assertEqual(
+            settle(fact),
+            ThreadState(
+                ThreadRef("PRRT_new"),
+                Weight.NIT,
+                State.RESOLVED,
+                replies=0,
+                label="adv-thrash",
+            ),
+        )
+
+    def test_given_reopened_style_with_no_new_check_when_settle_then_thrash_one_reply(
+        self,
+    ) -> None:
+        self.assertEqual(
+            settle(_fact(theme=STYLE_THEME, history=History.REOPENED)),
+            ThreadState(
+                SELF_REF,
+                Weight.NIT,
+                State.RESOLVED,
+                replies=1,
+                label="adv-thrash",
+            ),
+        )
+
+    def test_given_answered_thread_when_settle_then_dup_resolved_one_reply(self) -> None:
+        self.assertEqual(
+            settle(_fact(history=History.ANSWERED)),
+            ThreadState(SELF_REF, Weight.NIT, State.RESOLVED, replies=1),
+        )
+
+    def test_given_rename_new_failing_check_and_fix_when_settle_then_must_resolved(
+        self,
+    ) -> None:
+        fact = _fact(
+            new_failing_check=True,
+            verdict=Fix(commit=Commit("a1b2c3d"), reason="回帰テストを足した"),
+        )
+        self.assertEqual(
+            settle(fact),
+            ThreadState(SELF_REF, Weight.MUST, State.RESOLVED, replies=1),
+        )
+
+    def test_given_security_repeat_of_prior_when_settle_then_must_dup_no_reply(
+        self,
+    ) -> None:
+        fact = _fact(
+            theme=SECURITY_THEME,
+            prior=(Prior(thread=PRIOR_REF, theme=SECURITY_THEME),),
+        )
+        self.assertEqual(
+            settle(fact),
+            ThreadState(SELF_REF, Weight.MUST, State.RESOLVED, replies=0),
+        )
+
+
+class ConvergenceTests(unittest.TestCase):
+    def test_given_fresh_nit_skip_when_answered_then_reopened_then_each_settle_is_literal(
+        self,
+    ) -> None:
+        skip = Skip(
+            reason="名前はモジュールの慣例に従っている",
+            ref=Url("https://github.com/maplefukku/ZuruNote/blob/main/STYLE.md"),
+        )
+        self.assertEqual(
+            settle(_fact(verdict=skip)),
+            ThreadState(SELF_REF, Weight.NIT, State.RESOLVED, replies=1),
+        )
+        self.assertEqual(
+            settle(_fact(history=History.ANSWERED)),
+            ThreadState(SELF_REF, Weight.NIT, State.RESOLVED, replies=1),
+        )
+        self.assertEqual(
+            settle(_fact(history=History.REOPENED)),
+            ThreadState(
+                SELF_REF,
+                Weight.NIT,
+                State.RESOLVED,
+                replies=1,
+                label="adv-thrash",
+            ),
+        )
+
+    def test_given_every_kind_failing_history_hold_prior_verdict_when_settle_then_contracts_hold(
+        self,
+    ) -> None:
+        skip = Skip(reason="rename は別 unit", ref=Url("https://example.com/r"))
+        for kind in Kind:
+            for failing in (False, True):
+                for history in History:
+                    for hold in (False, True):
+                        theme = Theme("x.py", (1, 2), kind)
+                        for prior in ((), (Prior(PRIOR_REF, theme),)):
+                            for verdict in (None, skip):
+                                fact = _fact(
+                                    thread=SELF_REF,
+                                    theme=theme,
+                                    new_failing_check=failing,
+                                    history=history,
+                                    human_hold=hold,
+                                    prior=prior,
+                                    verdict=verdict,
+                                )
+                                with self.subTest(
+                                    kind=kind,
+                                    failing=failing,
+                                    history=history,
+                                    hold=hold,
+                                    prior=prior,
+                                    verdict=verdict,
+                                ):
+                                    state = settle(fact)
+                                    self.assertEqual(state.weight, weight_of(fact))
+                                    if state.weight is Weight.NIT:
+                                        self.assertLessEqual(state.replies, 1)
+                                    action = decide(fact)
+                                    self.assertEqual(
+                                        state.terminal,
+                                        isinstance(
+                                            action, (Must, Nit, Thrash, Dup)
+                                        ),
+                                    )
+                                    if isinstance(action, Owed):
+                                        self.assertEqual(action.weight, state.weight)
+
+
+class RowTests(unittest.TestCase):
+    def test_given_no_threads_when_closer_rows_then_both_ok(self) -> None:
+        rows = closer_rows(())
+        self.assertEqual(rows, (Row(MUST_ROW, ()), Row(NIT_ROW, ())))
+        self.assertTrue(rows[0].ok)
+        self.assertTrue(rows[1].ok)
+
+    def test_given_must_owed_nit_resolved_must_hold_when_closer_rows_then_must_blockers_keep_order(
+        self,
+    ) -> None:
+        t1 = ThreadRef("T1")
+        t2 = ThreadRef("T2")
+        t3 = ThreadRef("T3")
+        rows = closer_rows(
+            (
+                ThreadState(t1, Weight.MUST, State.OWED, replies=0),
+                ThreadState(t2, Weight.NIT, State.RESOLVED, replies=1),
+                ThreadState(t3, Weight.MUST, State.HOLD, replies=1),
+            )
+        )
+        self.assertEqual(
+            rows,
+            (Row("MUST threads", (t1, t3)), Row("NIT threads", ())),
+        )
+
+    def test_given_nit_owed_and_must_resolved_when_closer_rows_then_nit_blocks(
+        self,
+    ) -> None:
+        nit_thread = ThreadRef("NIT_owed")
+        must_thread = ThreadRef("MUST_resolved")
+        rows = closer_rows(
+            (
+                ThreadState(nit_thread, Weight.NIT, State.OWED, replies=0),
+                ThreadState(must_thread, Weight.MUST, State.RESOLVED, replies=1),
+            )
+        )
+        self.assertEqual(
+            rows,
+            (Row("MUST threads", ()), Row("NIT threads", (nit_thread,))),
+        )
+        self.assertTrue(rows[0].ok)
+        self.assertFalse(rows[1].ok)
+
+    def test_given_closer_rows_result_when_read_then_two_named_rows(self) -> None:
+        rows = closer_rows(())
+        self.assertEqual(len(rows), 2)
+        self.assertEqual([row.name for row in rows], ["MUST threads", "NIT threads"])
+
+
+class ThreadStateBoundaryTests(unittest.TestCase):
+    def test_given_nit_replies_two_when_building_then_contract_error(self) -> None:
+        with self.assertRaises(ContractError):
+            ThreadState(SELF_REF, Weight.NIT, State.RESOLVED, replies=2)
+
+    def test_given_negative_replies_when_building_then_contract_error(self) -> None:
+        with self.assertRaises(ContractError):
+            ThreadState(SELF_REF, Weight.MUST, State.RESOLVED, replies=-1)
+
+    def test_given_unknown_label_when_building_then_contract_error(self) -> None:
+        with self.assertRaises(ContractError):
+            ThreadState(
+                SELF_REF, Weight.MUST, State.RESOLVED, replies=0, label="other"
+            )
+
+    def test_given_reopened_security_with_new_check_and_fix_when_settle_then_must_two_replies(
+        self,
+    ) -> None:
+        fact = _fact(
+            theme=SECURITY_THEME,
+            history=History.REOPENED,
+            new_failing_check=True,
+            verdict=Fix(commit=Commit("a1b2c3d"), reason="回帰テストを足した"),
+        )
+        self.assertEqual(
+            settle(fact),
+            ThreadState(SELF_REF, Weight.MUST, State.RESOLVED, replies=2),
+        )
 
 
 if __name__ == "__main__":
