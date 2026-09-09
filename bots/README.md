@@ -38,7 +38,7 @@ CreateAgent/eng テンプレと、開発リーダーと product 開発* の役�
 | S2 | [fleet-composition-review](sand-workflow:fleet-composition-review) | [`編成評価`](./編成評価.md) |
 | S3 | [fleet-stall-sweep](sand-workflow:fleet-stall-sweep) | [`監視`](./監視.md) |
 | S4 | [completion-handoff](sand-workflow:completion-handoff) | [`台帳更新`](./台帳更新.md) |
-| S5 | [job-brief](sand-workflow:job-brief) | [`PM`](./PM.md) / [`CMO`](./CMO.md) / [`SNSリーダー`](./SNSリーダー.md) / [`開発リーダー`](./開発リーダー.md) / [`GTM`](./GTM.md) |
+| S5 | [job-brief](sand-workflow:job-brief) | [`PM`](./PdM.md) / [`CMO`](./CMO.md) / [`SNSリーダー`](./SNSリーダー.md) / [`開発リーダー`](./開発リーダー.md) / [`GTM`](./GTM.md) |
 | S6 | [account-design-pack](sand-workflow:account-design-pack) | [`アカウント設計`](./アカウント設計.md) |
 | S7 | [ci-health-sweep](sand-workflow:ci-health-sweep) | [`CI運用`](./CI運用.md) |
 
@@ -72,11 +72,11 @@ CreateAgent 前の Marketplace survey は [`docs/process/marketplace-precheck.md
 
 | 名前 | 役割 | 回すまで動かない |
 |---|---|---|
-| [`Buddy`](./Buddy.md) | ceo。FLEET APEX。ONE JOBはふっくー HITL集約とorg優先。ROUTEのみ。tech→CTO、product→CPO、マーケ→CMO、eng CoS→PM、bot-HR→CBO。独立ジョブは並列。ChatGPTはHARD TAB直列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`Buddy`](./CEO.md) | ceo。FLEET APEX。ONE JOBはふっくー HITL集約とorg優先。ROUTEのみ。tech→CTO、product→CPO、マーケ→CMO、eng CoS→PM、bot-HR→CBO。独立ジョブは並列。ChatGPTはHARD TAB直列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`CTO`](./CTO.md) | cto。PMの上（tech）。REPORT↑Buddy。ONE JOBはtech-org戦略。実装もマージもしない。CreateAgentはCBO。独立ジョブは並列。ChatGPTはHARD TAB直列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`CPO`](./CPO.md) | cpo。プロダクト戦略。REPORT↑Buddy。ONE JOBは何を作るか。実装もマージもしない。SNSはCMO。独立ジョブは並列。ChatGPTはHARD TAB直列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`監視`](./監視.md) | fleet.supervisor。ONE JOBはstall sweep→PMへJOB。sweepは平日06-22を2時間おき JST（0 6,8,10,12,14,16,18,20,22 * * 1-5）。@every 2h ではない。週次 watch-proposal-digest は LIVE。guardian-phase0-propose の Mon 10:00 JST（0 10 * * 1）に折り込む。月曜スロットは1つ。第二cronは置かない。proposal-onlyでPMへ。CreateAgent 0。回すまで待たない。FEATURE切り出しもmonkeyも自分ではしない。実装はしない。スキルは fleet-stall-sweep。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
-| [`PM`](./PM.md) | ONE JOBは優先順位・マージ判定・人待ちの整理。開発は開発リーダー、PRはPR確認。マージはCI緑かつCursor bot完了かつスレ0のときだけ。コードもcloneもCA launchもしない。入口は poteto-mode。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`PM`](./PdM.md) | ONE JOBは優先順位・マージ判定・人待ちの整理。開発は開発リーダー、PRはPR確認。マージはCI緑かつCursor bot完了かつスレ0のときだけ。コードもcloneもCA launchもしない。入口は poteto-mode。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`CMO`](./CMO.md) | cmo。マーケ/SNSのCoS。開発はPMのまま。HANDSはSNSリーダー、X運用、note執筆、noteサムネ、noteマーケ、最後の一針企画。入口はSNSリーダー。今はアカウント設計へ回す。ふっくーへは日本語。ボット間はプロトコル。コードもマージもIGログインもしない。独立した専門は並列で火を付ける。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`SNSリーダー`](./SNSリーダー.md) | sns.conductor。INはCMO。今は account.design → アカウント設計。後の動画・台本・世界観はボット未作成なので作らない。Cloud AgentはCMOのgrok-bot-ops docs JOB以外立てない。独立した専門は並列で火を付ける。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`CBO`](./CBO.md) | cbo。Chief Bot Officer。ONE JOBはCreateAgentと席設計。INはBuddy、PM、CMO、編成評価。自分以外はCreateAgentしない。席設計時はeng/CreateAgentテンプレへHARD bake（並列local worktree / BDDシナリオの太いPRで点滴micro-PR禁止 / merge-batch+CI梯子LIGHT→FULL）。空殻席は作らない。席設計は owner 席1つ+詰まりでのみ specialist、共有1マシンは成果物 handoff（CreateAgent/schedules-force-agency チェック、docs/process/shared-computer.md）。独立ジョブは並列。ChatGPTはHARD TAB直列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
