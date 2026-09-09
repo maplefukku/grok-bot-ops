@@ -12,6 +12,7 @@ if str(_SCRIPTS) not in sys.path:
 from intent_memory import IngestOff, MemoryStore
 from intent_memory.trend_log import (
     drafts_from_trend_log,
+    iter_trend_log_rows,
     normalize_source_url,
     trend_log_errors,
 )
@@ -20,6 +21,47 @@ ROOT = Path(__file__).resolve().parents[1]
 TREND_LOG = ROOT / "docs" / "decisions" / "trend-log.md"
 ADR_0002 = ROOT / "docs" / "decisions" / "0002-trend-adopt-loop.md"
 ROUTINE = ROOT / "routines" / "decide-trend-adopt.md"
+PROCESS_README = ROOT / "docs" / "process" / "README.md"
+PRECHECK_PAGE = ROOT / "docs" / "process" / "marketplace-precheck.md"
+CBO = ROOT / "bots" / "CBO.md"
+BOTS_README = ROOT / "bots" / "README.md"
+MARKETPLACE_ADOPT_URL = "https://x.ai/news/grok-bot-procurement"
+
+PRECHECK_PAGE_NEEDLES = (
+    "https://x.ai/bot/marketplace",
+    MARKETPLACE_ADOPT_URL,
+    "export-bot-template",
+    "CreateAgent NONE",
+    "KEEP",
+    "WRAP",
+    "/poteto-mode",
+    "sand-workflow:parallel-fire-fleet",
+    "sand-workflow:cloud",
+    "tool-path-prefer",
+    "quiet-test.sh",
+    "templates.md",
+    "issues/92",
+    "Haggle",
+)
+PRECHECK_POINTER_NEEDLES = ("marketplace-precheck.md",)
+PARSER_MUST_FAIL_WITHOUT = (
+    "https://x.ai/bot/marketplace",
+    "export-bot-template",
+    "CreateAgent NONE",
+    "issues/92",
+    "sand-workflow:cloud",
+)
+COMPLETE_PRECHECK_FIXTURE = "\n".join(PRECHECK_PAGE_NEEDLES) + "\n"
+
+
+def precheck_page_errors(text: str) -> list[str]:
+    return [f"missing {needle}" for needle in PRECHECK_PAGE_NEEDLES if needle not in text]
+
+
+def precheck_pointer_errors(text: str) -> list[str]:
+    return [
+        f"missing {needle}" for needle in PRECHECK_POINTER_NEEDLES if needle not in text
+    ]
 
 HEADER = (
     "## 判断記録\n"
@@ -112,6 +154,60 @@ class TestTrendLogHitlKeep(unittest.TestCase):
         self.assertIn("CreateAgent は使わない", adr)
         self.assertIn("Never FIRE. Never implement. No Discord writeback.", routine)
         self.assertIn("保留は WATCH にしない", log)
+
+
+class TestMarketplacePrecheckWrap(unittest.TestCase):
+    def test_given_live_page_when_needles_then_empty(self) -> None:
+        self.assertTrue(PRECHECK_PAGE.is_file(), "docs/process/marketplace-precheck.md")
+        self.assertEqual(
+            precheck_page_errors(PRECHECK_PAGE.read_text(encoding="utf-8")),
+            [],
+        )
+
+    def test_given_process_readme_when_linked_then_precheck_path_present(self) -> None:
+        self.assertEqual(
+            precheck_pointer_errors(PROCESS_README.read_text(encoding="utf-8")),
+            [],
+        )
+
+    def test_given_cbo_when_read_then_precheck_path_present(self) -> None:
+        self.assertEqual(
+            precheck_pointer_errors(CBO.read_text(encoding="utf-8")),
+            [],
+        )
+
+    def test_given_bots_readme_when_read_then_precheck_path_present(self) -> None:
+        self.assertEqual(
+            precheck_pointer_errors(BOTS_README.read_text(encoding="utf-8")),
+            [],
+        )
+
+    def test_parser_accepts_complete_fixture(self) -> None:
+        self.assertEqual(precheck_page_errors(COMPLETE_PRECHECK_FIXTURE), [])
+
+    def test_parser_rejects_fixture_missing_required_token(self) -> None:
+        for token in PARSER_MUST_FAIL_WITHOUT:
+            with self.subTest(missing=token):
+                stripped = COMPLETE_PRECHECK_FIXTURE.replace(token, "")
+                found = precheck_page_errors(stripped)
+                self.assertTrue(found, f"missing {token} was accepted")
+                self.assertIn(token, "\n".join(found))
+
+
+class TestMarketplaceAdoptFired(unittest.TestCase):
+    def test_given_marketplace_adopt_row_when_fired_then_wrap_needles_present(self) -> None:
+        rows = iter_trend_log_rows(TREND_LOG.read_text(encoding="utf-8"))
+        matches = [
+            row
+            for row in rows
+            if normalize_source_url(row.source_url) == MARKETPLACE_ADOPT_URL
+            and row.decision == "ADOPT"
+        ]
+        self.assertEqual(len(matches), 1, matches)
+        fired = matches[0].fired
+        self.assertTrue(fired.strip(), "fired must be filled")
+        self.assertIn("export-bot-template", fired)
+        self.assertIn("CreateAgent NONE", fired)
 
 
 if __name__ == "__main__":
