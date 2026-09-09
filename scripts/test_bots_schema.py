@@ -27,10 +27,11 @@ YES_NO = frozenset({"はい", "いいえ"})
 MERGE_LOCK = "はい"
 NONE = "無し"
 HEADING_RE = re.compile(r"^# bot: (.+)$")
-LINK_RE = re.compile(r"\[(?:[^\]]|\\])*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
+LINK_RE = re.compile(r"^\[(?:[^\]]|\\])*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)$")
+SKILL_LINK_RE = re.compile(r"^\[(?:[^\]]|\\])*\]\(sand-workflow:[^)\s]+\)$")
 TOKEN_SPLIT = re.compile(r"\s+/\s+")
-# アカウント設計 already uses this group on main. Issue #8 stays OOS.
-HOLD_GROUPS = frozenset({"最後の一針"})
+# Pin the one live HITL row. A fifth group for every file would invent seats.
+HOLD_SEATS = frozenset({("アカウント設計.md", "最後の一針")})
 
 
 @dataclass(frozen=True)
@@ -42,6 +43,13 @@ class BotRecord:
     @property
     def is_template(self) -> bool:
         return self.path.name == TEMPLATE_NAME
+
+
+@dataclass(frozen=True)
+class LedgerSchema:
+    keys: tuple[str, ...]
+    groups: frozenset[str]
+    hold_seats: frozenset[tuple[str, str]]
 
 
 def parse_bot_markdown(path: Path, text: str) -> BotRecord:
@@ -78,8 +86,19 @@ def template_groups(text: str) -> frozenset[str]:
     )
 
 
-def allowed_groups(template_text: str) -> frozenset[str]:
-    return template_groups(template_text) | HOLD_GROUPS
+def ledger_schema(template_text: str) -> LedgerSchema:
+    return LedgerSchema(
+        keys=FIELD_KEYS,
+        groups=template_groups(template_text),
+        hold_seats=HOLD_SEATS,
+    )
+
+
+def group_allowed(record: BotRecord, schema: LedgerSchema) -> bool:
+    group = record.fields["グループ"]
+    if group in schema.groups:
+        return True
+    return (record.path.name, group) in schema.hold_seats
 
 
 def _is_uuid(value: str) -> bool:
@@ -94,12 +113,46 @@ def _tokens(value: str) -> list[str]:
     return [part.strip() for part in TOKEN_SPLIT.split(value) if part.strip()]
 
 
-def record_errors(record: BotRecord, groups: frozenset[str]) -> list[str]:
+def _ref_errors(rel: str, ref: str) -> list[str]:
+    if ref == NONE:
+        return []
+    if not ref.strip():
+        return [f"{rel}: empty 参照"]
+    errors: list[str] = []
+    for token in _tokens(ref):
+        match = LINK_RE.match(token)
+        if match is None:
+            errors.append(f"{rel}: 参照 must be 無し or a markdown link")
+            continue
+        target = match.group(1)
+        if target.startswith(("http://", "https://", "mailto:", "sand-workflow:")):
+            errors.append(f"{rel}: 参照 must be in-repo: {token}")
+    return errors
+
+
+def _skill_errors(rel: str, skill: str) -> list[str]:
+    if skill == NONE:
+        return []
+    if not skill.strip():
+        return [f"{rel}: empty スキル"]
+    errors: list[str] = []
+    for token in _tokens(skill):
+        if token == NONE:
+            errors.append(f"{rel}: スキル mixes 無し")
+        elif token.startswith("["):
+            if SKILL_LINK_RE.match(token) is None:
+                errors.append(f"{rel}: skill link missing sand-workflow: {token}")
+        elif " " in token:
+            errors.append(f"{rel}: bare skill has whitespace: {token}")
+    return errors
+
+
+def record_errors(record: BotRecord, schema: LedgerSchema) -> list[str]:
     errors: list[str] = []
     rel = record.path.name
     keys = tuple(record.fields)
-    if keys != FIELD_KEYS:
-        errors.append(f"{rel}: keys {keys} != {FIELD_KEYS}")
+    if keys != schema.keys:
+        errors.append(f"{rel}: keys {keys} != {schema.keys}")
         return errors
     if not record.heading_name:
         errors.append(f"{rel}: missing # bot: heading")
@@ -113,9 +166,8 @@ def record_errors(record: BotRecord, groups: frozenset[str]) -> list[str]:
     ident = record.fields["id"]
     if not _is_uuid(ident):
         errors.append(f"{rel}: id is not a UUID: {ident}")
-    group = record.fields["グループ"]
-    if group not in groups:
-        errors.append(f"{rel}: unknown グループ {group}")
+    if not group_allowed(record, schema):
+        errors.append(f"{rel}: unknown グループ {record.fields['グループ']}")
     if not record.fields["役割"].strip():
         errors.append(f"{rel}: empty 役割")
     wait = record.fields["回すまで動かない"]
@@ -124,28 +176,13 @@ def record_errors(record: BotRecord, groups: frozenset[str]) -> list[str]:
     merge = record.fields["マージしない"]
     if merge != MERGE_LOCK:
         errors.append(f"{rel}: マージしない must be はい")
-    ref = record.fields["参照"]
-    if ref != NONE:
-        if not ref.strip():
-            errors.append(f"{rel}: empty 参照")
-        elif not LINK_RE.search(ref):
-            errors.append(f"{rel}: 参照 must be 無し or a markdown link")
-    skill = record.fields["スキル"]
-    if skill != NONE:
-        if not skill.strip():
-            errors.append(f"{rel}: empty スキル")
-        for token in _tokens(skill):
-            if token == NONE:
-                errors.append(f"{rel}: スキル mixes 無し")
-            elif token.startswith("[") and "sand-workflow:" not in token:
-                errors.append(f"{rel}: skill link missing sand-workflow: {token}")
-            elif not token.startswith("[") and " " in token:
-                errors.append(f"{rel}: bare skill has whitespace: {token}")
+    errors.extend(_ref_errors(rel, record.fields["参照"]))
+    errors.extend(_skill_errors(rel, record.fields["スキル"]))
     return errors
 
 
 def tree_errors(bots_dir: Path, template_text: str) -> list[str]:
-    groups = allowed_groups(template_text)
+    schema = ledger_schema(template_text)
     errors: list[str] = []
     ids: dict[str, str] = {}
     names: dict[str, str] = {}
@@ -154,7 +191,7 @@ def tree_errors(bots_dir: Path, template_text: str) -> list[str]:
         if path.name in SKIP_FILES:
             continue
         record = parse_bot_markdown(path, path.read_text(encoding="utf-8"))
-        errors.extend(record_errors(record, groups))
+        errors.extend(record_errors(record, schema))
         if record.is_template:
             continue
         live.append(path.name)
@@ -208,11 +245,11 @@ COMPLETE_LIVE = """# bot: Sample
 | スキル | 無し |
 """
 
-COMPLETE_HOLD = """# bot: HoldSeat
+COMPLETE_HOLD = """# bot: アカウント設計
 
 | 項目 | 値 |
 |---|---|
-| 名前 | HoldSeat |
+| 名前 | アカウント設計 |
 | id | 22222222-2222-2222-2222-222222222222 |
 | グループ | 最後の一針 |
 | 役割 | existing HITL seat |
@@ -223,8 +260,13 @@ COMPLETE_HOLD = """# bot: HoldSeat
 """
 
 
-def _groups() -> frozenset[str]:
-    return allowed_groups(TEMPLATE.read_text(encoding="utf-8"))
+def _schema() -> LedgerSchema:
+    return ledger_schema(TEMPLATE.read_text(encoding="utf-8"))
+
+
+def _write_tree(folder: Path, files: dict[str, str]) -> None:
+    for name, body in files.items():
+        (folder / name).write_text(body, encoding="utf-8")
 
 
 class BotsSchemaTests(unittest.TestCase):
@@ -246,16 +288,29 @@ class BotsSchemaTests(unittest.TestCase):
 
     def test_given_complete_row_when_validated_then_no_errors(self) -> None:
         record = parse_bot_markdown(Path("Sample.md"), COMPLETE_LIVE)
-        self.assertEqual(record_errors(record, _groups()), [])
+        self.assertEqual(record_errors(record, _schema()), [])
 
-    def test_given_hold_group_when_validated_then_no_errors(self) -> None:
-        record = parse_bot_markdown(Path("HoldSeat.md"), COMPLETE_HOLD)
-        self.assertEqual(record_errors(record, _groups()), [])
+    def test_given_pinned_hold_seat_when_validated_then_no_errors(self) -> None:
+        record = parse_bot_markdown(Path("アカウント設計.md"), COMPLETE_HOLD)
+        self.assertEqual(record_errors(record, _schema()), [])
+
+    def test_given_new_file_on_hold_group_when_validated_then_group_fails(self) -> None:
+        body = (
+            COMPLETE_HOLD.replace("# bot: アカウント設計", "# bot: 新HITL席")
+            .replace("| 名前 | アカウント設計 |", "| 名前 | 新HITL席 |")
+            .replace(
+                "22222222-2222-2222-2222-222222222222",
+                "33333333-3333-3333-3333-333333333333",
+            )
+        )
+        record = parse_bot_markdown(Path("新HITL席.md"), body)
+        found = record_errors(record, _schema())
+        self.assertTrue(any("グループ" in item for item in found), found)
 
     def test_given_missing_skill_row_when_validated_then_keys_fail(self) -> None:
         broken = COMPLETE_LIVE.replace("| スキル | 無し |\n", "")
         record = parse_bot_markdown(Path("Sample.md"), broken)
-        found = record_errors(record, frozenset({"司令室"}))
+        found = record_errors(record, _schema())
         self.assertTrue(any("keys" in item for item in found), found)
 
     def test_given_bad_uuid_when_validated_then_id_fails(self) -> None:
@@ -263,7 +318,7 @@ class BotsSchemaTests(unittest.TestCase):
             "11111111-1111-1111-1111-111111111111", "not-a-uuid"
         )
         record = parse_bot_markdown(Path("Sample.md"), broken)
-        found = record_errors(record, frozenset({"司令室"}))
+        found = record_errors(record, _schema())
         self.assertTrue(any("UUID" in item for item in found), found)
 
     def test_given_merge_no_when_validated_then_merge_fails(self) -> None:
@@ -271,36 +326,124 @@ class BotsSchemaTests(unittest.TestCase):
             "| マージしない | はい |", "| マージしない | いいえ |"
         )
         record = parse_bot_markdown(Path("Sample.md"), broken)
-        found = record_errors(record, frozenset({"司令室"}))
+        found = record_errors(record, _schema())
         self.assertTrue(any("マージしない" in item for item in found), found)
 
     def test_given_invented_group_when_validated_then_group_fails(self) -> None:
         broken = COMPLETE_LIVE.replace("司令室", "新席")
         record = parse_bot_markdown(Path("Sample.md"), broken)
-        found = record_errors(record, _groups())
+        found = record_errors(record, _schema())
         self.assertTrue(any("グループ" in item for item in found), found)
 
     def test_given_heading_mismatch_when_validated_then_heading_fails(self) -> None:
         broken = COMPLETE_LIVE.replace("# bot: Sample", "# bot: Other")
         record = parse_bot_markdown(Path("Sample.md"), broken)
-        found = record_errors(record, frozenset({"司令室"}))
+        found = record_errors(record, _schema())
         self.assertTrue(any("heading" in item for item in found), found)
 
+    def test_given_empty_role_when_validated_then_role_fails(self) -> None:
+        broken = COMPLETE_LIVE.replace("| 役割 | one line |", "| 役割 |  |")
+        record = parse_bot_markdown(Path("Sample.md"), broken)
+        found = record_errors(record, _schema())
+        self.assertTrue(any("役割" in item for item in found), found)
+
+    def test_given_bad_wait_flag_when_validated_then_wait_fails(self) -> None:
+        broken = COMPLETE_LIVE.replace(
+            "| 回すまで動かない | いいえ |", "| 回すまで動かない | たぶん |"
+        )
+        record = parse_bot_markdown(Path("Sample.md"), broken)
+        found = record_errors(record, _schema())
+        self.assertTrue(any("回すまで動かない" in item for item in found), found)
+
+    def test_given_external_ref_when_validated_then_ref_fails(self) -> None:
+        broken = COMPLETE_LIVE.replace(
+            "| 参照 | 無し |",
+            "| 参照 | [x](https://example.com/x.md) |",
+        )
+        record = parse_bot_markdown(Path("Sample.md"), broken)
+        found = record_errors(record, _schema())
+        self.assertTrue(any("in-repo" in item for item in found), found)
+
+    def test_given_junk_beside_ref_link_when_validated_then_ref_fails(self) -> None:
+        broken = COMPLETE_LIVE.replace(
+            "| 参照 | 無し |",
+            "| 参照 | junk / [routines/x.md](../routines/x.md) |",
+        )
+        record = parse_bot_markdown(Path("Sample.md"), broken)
+        found = record_errors(record, _schema())
+        self.assertTrue(any("参照" in item for item in found), found)
+
+    def test_given_garbage_after_skill_link_when_validated_then_skill_fails(self) -> None:
+        broken = COMPLETE_LIVE.replace(
+            "| スキル | 無し |",
+            "| スキル | [x](sand-workflow:x) garbage here |",
+        )
+        record = parse_bot_markdown(Path("Sample.md"), broken)
+        found = record_errors(record, _schema())
+        self.assertTrue(any("sand-workflow" in item for item in found), found)
+
     def test_given_duplicate_id_when_tree_walked_then_duplicate_fails(self) -> None:
-        other = COMPLETE_LIVE.replace("Sample", "Other").replace(
-            "11111111-1111-1111-1111-111111111111",
-            "11111111-1111-1111-1111-111111111111",
+        other = COMPLETE_LIVE.replace("# bot: Sample", "# bot: Other").replace(
+            "| 名前 | Sample |", "| 名前 | Other |"
         )
         with tempfile.TemporaryDirectory() as raw:
             folder = Path(raw)
-            (folder / "Sample.md").write_text(COMPLETE_LIVE, encoding="utf-8")
-            (folder / "Other.md").write_text(other, encoding="utf-8")
-            (folder / "README.md").write_text(
-                "[`Sample`](./Sample.md) [`Other`](./Other.md)\n",
-                encoding="utf-8",
+            _write_tree(
+                folder,
+                {
+                    "Sample.md": COMPLETE_LIVE,
+                    "Other.md": other,
+                    "README.md": "[`Sample`](./Sample.md) [`Other`](./Other.md)\n",
+                },
             )
             found = tree_errors(folder, TEMPLATE.read_text(encoding="utf-8"))
         self.assertTrue(any("duplicate id" in item for item in found), found)
+
+    def test_given_duplicate_name_when_tree_walked_then_duplicate_fails(self) -> None:
+        other = COMPLETE_LIVE.replace(
+            "11111111-1111-1111-1111-111111111111",
+            "44444444-4444-4444-4444-444444444444",
+        )
+        with tempfile.TemporaryDirectory() as raw:
+            folder = Path(raw)
+            _write_tree(
+                folder,
+                {
+                    "Sample.md": COMPLETE_LIVE,
+                    "Copy.md": other,
+                    "README.md": "[`Sample`](./Sample.md) [`Copy`](./Copy.md)\n",
+                },
+            )
+            found = tree_errors(folder, TEMPLATE.read_text(encoding="utf-8"))
+        self.assertTrue(any("duplicate 名前" in item for item in found), found)
+
+    def test_given_readme_without_live_file_when_tree_walked_then_link_fails(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            folder = Path(raw)
+            _write_tree(
+                folder,
+                {
+                    "Sample.md": COMPLETE_LIVE,
+                    "README.md": "[`Sample`](./Sample.md) [`Ghost`](./Ghost.md)\n",
+                },
+            )
+            found = tree_errors(folder, TEMPLATE.read_text(encoding="utf-8"))
+        self.assertTrue(any("links to missing Ghost.md" in item for item in found), found)
+
+    def test_given_live_file_absent_from_readme_when_tree_walked_then_link_fails(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            folder = Path(raw)
+            _write_tree(
+                folder,
+                {
+                    "Sample.md": COMPLETE_LIVE,
+                    "README.md": "no bot links\n",
+                },
+            )
+            found = tree_errors(folder, TEMPLATE.read_text(encoding="utf-8"))
+        self.assertTrue(any("missing link to Sample.md" in item for item in found), found)
 
     def test_given_live_ledger_when_wrapped_then_no_errors(self) -> None:
         self.assertEqual(wrap_errors(), [])
