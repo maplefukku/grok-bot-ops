@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -13,61 +14,26 @@ if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 from intent_memory.contract import AtomDraft, Kind, Source
+from trend_adopt_contract import TREND_HEADERS, DecisionRow, iter_decision_rows
 
 JST = ZoneInfo("Asia/Tokyo")
-TREND_HEADERS = (
-    "date_jst",
-    "source_bot",
-    "title",
-    "source_url",
-    "decision",
-    "理由",
-    "route",
-    "fired",
-)
 
 
 def iter_trend_log_rows(text: str) -> list[dict[str, str]]:
-    rows: list[dict[str, str]] = []
-    in_section = False
-    in_table = False
-    index: dict[str, int] = {}
-    for line in text.splitlines():
-        if line.startswith("## "):
-            in_section = line[3:].strip() == "判断記録"
-            in_table = False
-            index = {}
-            continue
-        if not in_section or not line.startswith("|"):
-            continue
-        cells = [c.strip() for c in line.strip("|").split("|")]
-        if cells and all(c and set(c) <= {"-", ":"} for c in cells):
-            continue
-        labels = set(cells)
-        if set(TREND_HEADERS) <= labels:
-            index = {name: cells.index(name) for name in TREND_HEADERS}
-            in_table = True
-            continue
-        if not in_table:
-            continue
-        row = {}
-        for name in TREND_HEADERS:
-            pos = index[name]
-            row[name] = cells[pos] if pos < len(cells) else ""
-        rows.append(row)
-    return rows
+    return [asdict(row) for row in iter_decision_rows(text)]
 
 
-def draft_from_trend_row(row: dict[str, str]) -> AtomDraft:
-    decision = row["decision"]
-    route = row["route"] or "none"
-    source_bot = row["source_bot"]
-    source_url = row["source_url"].strip()
-    fired = row["fired"].strip()
-    created = datetime.strptime(row["date_jst"], "%Y-%m-%d").replace(tzinfo=JST)
+def draft_from_trend_row(row: dict[str, str] | DecisionRow) -> AtomDraft:
+    data = asdict(row) if isinstance(row, DecisionRow) else row
+    decision = data["decision"]
+    route = data["route"] or "none"
+    source_bot = data["source_bot"]
+    source_url = data["source_url"].strip()
+    fired = data["fired"].strip()
+    created = datetime.strptime(data["date_jst"], "%Y-%m-%d").replace(tzinfo=JST)
     body = "\n".join(
         (
-            row["理由"],
+            data["理由"],
             f"source_url: {source_url}",
             f"fired: {fired}",
         )
@@ -90,7 +56,7 @@ def draft_from_trend_row(row: dict[str, str]) -> AtomDraft:
 
 
 def drafts_from_trend_log(text: str) -> list[AtomDraft]:
-    return [draft_from_trend_row(row) for row in iter_trend_log_rows(text)]
+    return [draft_from_trend_row(row) for row in iter_decision_rows(text)]
 
 
 def _draft_dict(draft: AtomDraft) -> dict:
