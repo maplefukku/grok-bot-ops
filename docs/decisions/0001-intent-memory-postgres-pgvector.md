@@ -36,6 +36,7 @@ Phase0 の ingest は人間だけ。`critique_bot` は schema に予約し、`ap
 - 本番行は Postgres。このリポジトリのテストは fixture と stdlib unittest。
 - 専用 Postgres の起動は [`postgres.md`](../intent-memory/postgres.md) である。公式 [pgvector](https://github.com/pgvector/pgvector) イメージの WRAP である。
 - Q2 の writer は構造である。`append` の actor は `pdm` か `user` だけを入れる。それ以外は `WriteAclHold` である。
+- 読みの reader も構造である。読みは毎回 `READ_ACL` を通り、表外は `ReadAclHold` である。`planner` / `kanshi` / `cli` は `human` だけ、`pdm` / `user` は両方である。
 
 ## 却下した案
 
