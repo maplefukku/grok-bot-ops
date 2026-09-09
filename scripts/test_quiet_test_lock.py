@@ -122,6 +122,46 @@ EXIT_PARSER_MUST_FAIL_WITHOUT = (
 
 COMPLETE_EXIT_FIXTURE = "\n".join(EXIT_PAGE_NEEDLES) + "\n"
 
+FAIL_TAIL_PAGE_NEEDLES = (
+    BOX_SOT,
+    "issue 93",
+    "FAIL verbose-tail",
+    "QUIET_FAIL_LINES",
+    "`QUIET_FAIL_LINES` は 500",
+    "tail",
+    "full-log path",
+    "--log",
+    "QUIET_KEEP_FAIL_LOG",
+    "REJECT A",
+    "drip",
+    "exit code",
+    "Quiet is not skip",
+    "parallel-fire-fleet",
+    "tool-path-prefer",
+    "Soft-HOLD",
+    "HITL",
+    "PARK",
+    "CreateAgent",
+)
+
+FAIL_TAIL_FLEET_NEEDLES = (
+    "tail",
+    "QUIET_FAIL_LINES",
+)
+
+FAIL_TAIL_PARSER_MUST_FAIL_WITHOUT = (
+    "issue 93",
+    "FAIL verbose-tail",
+    "`QUIET_FAIL_LINES` は 500",
+    "full-log path",
+    "REJECT A",
+    "drip",
+    "parallel-fire-fleet",
+)
+
+COMPLETE_FAIL_TAIL_FIXTURE = "\n".join(FAIL_TAIL_PAGE_NEEDLES) + "\n"
+COMPLETE_FAIL_TAIL_FLEET_FIXTURE = "\n".join(FAIL_TAIL_FLEET_NEEDLES) + "\n"
+
 
 def fleet_sot_path() -> Path:
     return Path(os.environ.get("QUIET_TEST", BOX_SOT))
@@ -160,6 +200,14 @@ def success_fleet_lock_errors(text: str) -> list[str]:
 
 def exit_lock_errors(text: str) -> list[str]:
     return [f"missing {needle}" for needle in EXIT_PAGE_NEEDLES if needle not in text]
+
+
+def fail_tail_lock_errors(text: str) -> list[str]:
+    return [f"missing {needle}" for needle in FAIL_TAIL_PAGE_NEEDLES if needle not in text]
+
+
+def fail_tail_fleet_lock_errors(text: str) -> list[str]:
+    return [f"missing {needle}" for needle in FAIL_TAIL_FLEET_NEEDLES if needle not in text]
 
 
 class QuietTestLockTests(unittest.TestCase):
@@ -261,6 +309,45 @@ class QuietTestLockTests(unittest.TestCase):
             with self.subTest(missing=token):
                 stripped = COMPLETE_EXIT_FIXTURE.replace(token, "")
                 found = exit_lock_errors(stripped)
+                self.assertTrue(found, f"missing {token} was accepted")
+                self.assertIn(token, "\n".join(found))
+
+    def test_lock_page_contains_fail_verbose_tail_needles(self) -> None:
+        self.assertTrue(LOCK_PAGE.is_file(), "docs/process/quiet-test.md")
+        self.assertEqual(fail_tail_lock_errors(LOCK_PAGE.read_text(encoding="utf-8")), [])
+
+    def test_process_readme_points_at_fail_verbose_tail(self) -> None:
+        text = PROCESS_README.read_text(encoding="utf-8")
+        self.assertIn("quiet-test.md", text)
+        self.assertIn("issue 93", text)
+        self.assertIn("FAIL verbose-tail", text)
+        self.assertIn("full-log path", text)
+
+    def test_fleet_sot_matches_fail_verbose_tail_when_present(self) -> None:
+        path = fleet_sot_path()
+        if not (path.is_file() and os.access(path, os.X_OK)):
+            self.skipTest(f"box absent at {path}")
+        self.assertEqual(fail_tail_fleet_lock_errors(path.read_text(encoding="utf-8")), [])
+
+    def test_fail_tail_parser_accepts_complete_fixture(self) -> None:
+        self.assertEqual(fail_tail_lock_errors(COMPLETE_FAIL_TAIL_FIXTURE), [])
+
+    def test_fail_tail_parser_rejects_fixture_missing_required_token(self) -> None:
+        for token in FAIL_TAIL_PARSER_MUST_FAIL_WITHOUT:
+            with self.subTest(missing=token):
+                stripped = COMPLETE_FAIL_TAIL_FIXTURE.replace(token, "")
+                found = fail_tail_lock_errors(stripped)
+                self.assertTrue(found, f"missing {token} was accepted")
+                self.assertIn(token, "\n".join(found))
+
+    def test_fail_tail_fleet_parser_accepts_complete_fixture(self) -> None:
+        self.assertEqual(fail_tail_fleet_lock_errors(COMPLETE_FAIL_TAIL_FLEET_FIXTURE), [])
+
+    def test_fail_tail_fleet_parser_rejects_fixture_missing_required_token(self) -> None:
+        for token in FAIL_TAIL_FLEET_NEEDLES:
+            with self.subTest(missing=token):
+                stripped = COMPLETE_FAIL_TAIL_FLEET_FIXTURE.replace(token, "")
+                found = fail_tail_fleet_lock_errors(stripped)
                 self.assertTrue(found, f"missing {token} was accepted")
                 self.assertIn(token, "\n".join(found))
 

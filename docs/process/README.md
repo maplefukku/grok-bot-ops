@@ -143,11 +143,15 @@ Purpose pack. CA と bot のテストコマンドを fleet quiet-test に通す�
 
 CA は MUST で WRAP を通す。CI の quiet stdout は任意。fail-cap B の `QUIET_FAIL_LINES` 既定 500 は [`quiet-test.md`](./quiet-test.md)（[issue 45](https://github.com/maplefukku/grok-bot-ops/issues/45)、Domain WRAP は [issue 69](https://github.com/maplefukku/grok-bot-ops/issues/69)）である。SUCCESS line-budget の `QUIET_OK_LINES` 既定 10 は同じ [`quiet-test.md`](./quiet-test.md)（[issue 74](https://github.com/maplefukku/grok-bot-ops/issues/74)）である。この WRAP は既定を持たない。exit code の SUCCESS/FAIL contract は同じ [`quiet-test.md`](./quiet-test.md)（[issue 96](https://github.com/maplefukku/grok-bot-ops/issues/96)）である。exit-code contract は WRAP の exec そのものである。親 LOCK は [#42](https://github.com/maplefukku/grok-bot-ops/issues/42) である。Cloud スキルと tool-path-prefer が入口である。
 
+FAIL verbose-tail の contract は同じ [`quiet-test.md`](./quiet-test.md)（[issue 93](https://github.com/maplefukku/grok-bot-ops/issues/93)）である。FAIL の chat は本体の tail 既定 500 行と full-log path である。この WRAP は tail を持たない。
+
 ## 関連
 
 手順の理由は [0003. ドメイン単位で出荷量を管理する](../decisions/0003-domain-unit-throughput.md) である。席の台帳は [`bots/README.md`](../../bots/README.md) である。書き込み箱は [`AGENTS.md`](../../AGENTS.md) である。日付付きの観察は [`fleet.md`](../knowhow/fleet.md) である。fleet.md は正本ではない。食い違ったときはこのファイルが勝つ。
 
 fail-cap B の LOCK は [`quiet-test.md`](./quiet-test.md) にあり、box の `/workspace/fleet-scripts/quiet-test.sh` が SoT である。Domain WRAP は [issue 69](https://github.com/maplefukku/grok-bot-ops/issues/69) である。SUCCESS line-budget の Domain WRAP は [issue 74](https://github.com/maplefukku/grok-bot-ops/issues/74) である。exit-code contract の Domain WRAP は [issue 96](https://github.com/maplefukku/grok-bot-ops/issues/96) である。LOCK は CI-independent である。HITL chrome は Soft-HOLD PARK のままである。
+
+FAIL verbose-tail の Domain WRAP は [issue 93](https://github.com/maplefukku/grok-bot-ops/issues/93) である。FAIL は drip である。REJECT A のままである。
 
 PR-body HARD LOCK は [`pr-body.md`](./pr-body.md) である。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md` である。Flag Y の 4 見出しはそこだけである。Dependabot の stamp は同じ [`pr-body.md`](./pr-body.md) である。WRAP は `gh api --method PATCH` である。Soft-OK はしない。
 
