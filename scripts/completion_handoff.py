@@ -7,7 +7,7 @@ from typing import ClassVar, NewType
 
 KIND = "EVAL-READY"
 FIELDS = ("kind", "date_jst", "branch", "pr", "counts", "hold")
-DESTINATIONS = ("PdM", "編成評価")
+DESTINATIONS = ("PM", "編成評価")
 LEDGER_REPO = "maplefukku/grok-bot-ops"
 NONE_MARK = "無し"
 NO_CHANGE_MARK = "変更なし"

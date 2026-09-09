@@ -36,7 +36,7 @@ LEDGER_NEEDLES: tuple[str, ...] = (
     "EVAL-READY",
     "kind / date_jst / branch / pr / counts / hold",
     "同一 date_jst は再送しない",
-    "PdMと編成評価へ同じ本文",
+    "PMと編成評価へ同じ本文",
     "sand-workflow:completion-handoff",
     "構成の評価はしない",
 )
@@ -299,7 +299,7 @@ class FanOutTests(unittest.TestCase):
     def test_given_empty_sent_when_fan_out_then_delivered_identical_body(self) -> None:
         self.assertEqual(
             fan_out(_stacked(), frozenset()),
-            Delivered(to=("PdM", "編成評価"), body=STACKED_BODY),
+            Delivered(to=("PM", "編成評価"), body=STACKED_BODY),
         )
 
     def test_given_sent_containing_the_date_when_fan_out_then_suppressed(self) -> None:
@@ -315,7 +315,7 @@ class FanOutTests(unittest.TestCase):
         first = fan_out(handoff, frozenset())
         self.assertEqual(
             first,
-            Delivered(to=("PdM", "編成評価"), body=STACKED_BODY),
+            Delivered(to=("PM", "編成評価"), body=STACKED_BODY),
         )
         second = fan_out(handoff, frozenset({date(2026, 9, 9)}))
         self.assertEqual(second, Suppressed(date(2026, 9, 9)))
@@ -351,7 +351,7 @@ class LockWrapTests(unittest.TestCase):
         fixture = (
             "kind / date_jst / branch / pr / counts / hold\n"
             "同一 date_jst は再送しない\n"
-            "PdMと編成評価へ同じ本文\n"
+            "PMと編成評価へ同じ本文\n"
             "sand-workflow:completion-handoff\n"
             "構成の評価はしない"
         )
