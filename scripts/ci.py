@@ -330,6 +330,10 @@ def check_bots_id_uniqueness() -> list[str]:
     return _run_unittest_module("test_bots_id_uniqueness", "bots-id-uniqueness")
 
 
+def check_trend_adopt_idempotency() -> list[str]:
+    return _run_unittest_module("test_trend_adopt_idempotency", "trend-adopt-idempotency")
+
+
 LASTSTITCH_DIR = ROOT / "docs" / "laststitch"
 LASTSTITCH_FILES = (
     "README.md",
@@ -467,6 +471,7 @@ def main() -> int:
         ("devops-wrap", check_devops_wrap),
         ("bots-id-uniqueness", check_bots_id_uniqueness),
         ("trend-log-decisions", check_trend_log),
+        ("trend-adopt-idempotency", check_trend_adopt_idempotency),
         ("laststitch-lock", check_laststitch),
     ):
         found = fn()
