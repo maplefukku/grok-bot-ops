@@ -94,6 +94,34 @@ COMPLETE_FLEET_FIXTURE = (
 COMPLETE_SUCCESS_FIXTURE = "\n".join(SUCCESS_PAGE_NEEDLES) + "\n"
 COMPLETE_SUCCESS_FLEET_FIXTURE = "\n".join(SUCCESS_FLEET_NEEDLES) + "\n"
 
+EXIT_PAGE_NEEDLES = (
+    BOX_SOT,
+    "issue 96",
+    "exit-code contract",
+    "SUCCESS",
+    "FAIL",
+    "exit 2",
+    "fleet missing",
+    "Quiet is not skip",
+    "exec",
+    "parallel-fire-fleet",
+    "tool-path-prefer",
+    "Soft-HOLD",
+    "HITL",
+    "CreateAgent",
+)
+
+EXIT_PARSER_MUST_FAIL_WITHOUT = (
+    "issue 96",
+    "exit-code contract",
+    "exit 2",
+    "fleet missing",
+    "Quiet is not skip",
+    "parallel-fire-fleet",
+)
+
+COMPLETE_EXIT_FIXTURE = "\n".join(EXIT_PAGE_NEEDLES) + "\n"
+
 
 def fleet_sot_path() -> Path:
     return Path(os.environ.get("QUIET_TEST", BOX_SOT))
@@ -128,6 +156,10 @@ def success_lock_errors(text: str) -> list[str]:
 
 def success_fleet_lock_errors(text: str) -> list[str]:
     return [f"missing {needle}" for needle in SUCCESS_FLEET_NEEDLES if needle not in text]
+
+
+def exit_lock_errors(text: str) -> list[str]:
+    return [f"missing {needle}" for needle in EXIT_PAGE_NEEDLES if needle not in text]
 
 
 class QuietTestLockTests(unittest.TestCase):
@@ -208,6 +240,27 @@ class QuietTestLockTests(unittest.TestCase):
             with self.subTest(missing=token):
                 stripped = COMPLETE_SUCCESS_FLEET_FIXTURE.replace(token, "")
                 found = success_fleet_lock_errors(stripped)
+                self.assertTrue(found, f"missing {token} was accepted")
+                self.assertIn(token, "\n".join(found))
+
+    def test_lock_page_contains_exit_code_contract_needles(self) -> None:
+        self.assertTrue(LOCK_PAGE.is_file(), "docs/process/quiet-test.md")
+        self.assertEqual(exit_lock_errors(LOCK_PAGE.read_text(encoding="utf-8")), [])
+
+    def test_process_readme_points_at_exit_code_contract(self) -> None:
+        text = PROCESS_README.read_text(encoding="utf-8")
+        self.assertIn("quiet-test.md", text)
+        self.assertIn("issue 96", text)
+        self.assertIn("exit-code contract", text)
+
+    def test_exit_parser_accepts_complete_fixture(self) -> None:
+        self.assertEqual(exit_lock_errors(COMPLETE_EXIT_FIXTURE), [])
+
+    def test_exit_parser_rejects_fixture_missing_required_token(self) -> None:
+        for token in EXIT_PARSER_MUST_FAIL_WITHOUT:
+            with self.subTest(missing=token):
+                stripped = COMPLETE_EXIT_FIXTURE.replace(token, "")
+                found = exit_lock_errors(stripped)
                 self.assertTrue(found, f"missing {token} was accepted")
                 self.assertIn(token, "\n".join(found))
 
