@@ -64,6 +64,10 @@ SPEED NORM と CI 梯子の正本は [`docs/process/ci-ladder.md`](../docs/proce
 
 全席は spend / sign / send を都度の explicit go なしにしない。条項の本体は fleet の purchases、send-on-behalf、Auto-review である。WRAP は [`docs/process/anti-job.md`](../docs/process/anti-job.md) である。Haggle 調達ボットは CreateAgent しない。この台帳へ動詞表を複製しない。
 
+## LOCK: MARKETPLACE PRECHECK（#92）
+
+CreateAgent 前の Marketplace survey は [`docs/process/marketplace-precheck.md`](../docs/process/marketplace-precheck.md)。export-bot-template は KEEP。並列 Marketplace は invent しない。CreateAgent 量産は NONE。
+
 ## 司令室
 
 | 名前 | 役割 | 回すまで動かない |
