@@ -224,6 +224,10 @@ def check_shared_computer_lock() -> list[str]:
     return _run_unittest_module("test_shared_computer_lock", "shared-computer-lock")
 
 
+def check_completion_handoff() -> list[str]:
+    return _run_unittest_module("test_completion_handoff", "completion-handoff")
+
+
 LASTSTITCH_DIR = ROOT / "docs" / "laststitch"
 LASTSTITCH_FILES = (
     "README.md",
@@ -363,6 +367,7 @@ def main() -> int:
         ("bots-schema", check_bots_schema),
         ("adv-closer", check_adv_closer),
         ("shared-computer-lock", check_shared_computer_lock),
+        ("completion-handoff", check_completion_handoff),
         ("trend-log-decisions", check_trend_log),
         ("trend-adopt-idempotency", check_trend_adopt_idempotency),
         ("laststitch-lock", check_laststitch),
