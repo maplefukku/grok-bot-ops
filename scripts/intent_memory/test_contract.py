@@ -457,6 +457,97 @@ class TestTrendLogDryRun(unittest.TestCase):
         self.assertTrue(all(row["kind"] == "decision" for row in rows))
 
 
+class TestHumanActorAllowlist(unittest.TestCase):
+    def test_pdm_append_planner_and_kanshi_human_read_keep_isolation(self):
+        store = MemoryStore()
+        pdm = store.append(
+            _draft(
+                tags=("fleet", "lock"),
+                body="pdm lock for planner and kanshi",
+                actor="pdm",
+                embedding=(1.0, 0.0, 0.0),
+            )
+        )
+        store.seed_fixture(
+            _draft(
+                kind=Kind.CRITIQUE_BOT,
+                source=Source.BOT,
+                tags=("fleet", "lock"),
+                body="bot lock",
+                actor="bot",
+                embedding=(0.0, 1.0, 0.0),
+            )
+        )
+        store.seed_fixture(
+            _draft(
+                kind=Kind.CRITIQUE_BOT,
+                source=Source.BOT,
+                tags=("fleet", "lock"),
+                body="bot planner lock",
+                actor="bot:Planner",
+                embedding=(1.0, 0.0, 0.0),
+            )
+        )
+        planner_rows = store.by_tags(("fleet", "lock"), source=Source.HUMAN)
+        kanshi_rows = store.similar(
+            (1.0, 0.0, 0.0), source=Source.HUMAN, limit=5
+        )
+        self.assertEqual([atom.id for atom in planner_rows], [pdm.id])
+        self.assertEqual([atom.id for atom in kanshi_rows], [pdm.id])
+        self.assertEqual(pdm.actor, "pdm")
+        self.assertTrue(all(atom.body != "bot lock" for atom in planner_rows))
+        self.assertTrue(all(atom.body != "bot planner lock" for atom in kanshi_rows))
+
+    def test_user_appends_feeling_and_ttl_still_applies(self):
+        store = MemoryStore()
+        atom = store.append(
+            _draft(
+                kind=Kind.FEELING,
+                tags=("mood",),
+                body="user feeling",
+                actor="user",
+                embedding=(1.0, 0.0),
+                created_at=NOW,
+            )
+        )
+        self.assertEqual(atom.actor, "user")
+        self.assertEqual(atom.expires_at, NOW + timedelta(days=FEELING_TTL_DAYS))
+        self.assertEqual(
+            [row.id for row in store.by_tags(("mood",), source=Source.HUMAN, now=NOW)],
+            [atom.id],
+        )
+        self.assertEqual(
+            store.by_tags(("mood",), source=Source.HUMAN, now=FAR_FUTURE), []
+        )
+
+    def test_seed_fixture_inserts_bot_and_bot_planner_actors(self):
+        store = MemoryStore()
+        bot = store.seed_fixture(
+            _draft(
+                kind=Kind.CRITIQUE_BOT,
+                source=Source.BOT,
+                body="seeded bot",
+                actor="bot",
+                embedding=(0.0, 1.0, 0.0, 0.0),
+            )
+        )
+        planner = store.seed_fixture(
+            _draft(
+                kind=Kind.CRITIQUE_BOT,
+                source=Source.BOT,
+                body="seeded bot planner",
+                actor="bot:Planner",
+                embedding=(1.0, 0.0, 0.0, 0.0),
+            )
+        )
+        self.assertEqual(bot.actor, "bot")
+        self.assertEqual(planner.actor, "bot:Planner")
+        human_rows = store.by_tags(("fleet",), source=Source.HUMAN)
+        bot_rows = store.by_tags(("fleet",), source=Source.BOT)
+        self.assertEqual(human_rows, [])
+        self.assertEqual({row.id for row in bot_rows}, {bot.id, planner.id})
+
+
 class TestPostgresWrap(unittest.TestCase):
     def test_runbook_and_compose_wrap_official_pgvector(self):
         runbook = ROOT / "docs" / "intent-memory" / "postgres.md"
@@ -476,6 +567,10 @@ class TestPostgresWrap(unittest.TestCase):
         self.assertIn("similar", recipe_text)
         self.assertIn("Planner dry-run", recipe_text)
         self.assertIn("RecallMemory", recipe_text)
+        self.assertIn("WriteAclHold", recipe_text)
+        self.assertIn("Q2", recipe_text)
+        self.assertIn("Source.HUMAN", recipe_text)
+        self.assertIn("source=human", recipe_text)
 
 
 class TestWriteAcl(unittest.TestCase):
