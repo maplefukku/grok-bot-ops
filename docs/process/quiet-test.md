@@ -53,3 +53,13 @@ LOCK は GitHub Actions に依存しない。ページと [`scripts/test_quiet_t
 box の `/workspace/fleet-scripts/quiet-test.sh` が無いときも docs の LOCK は落ちない。box があるときは SoT が fail-cap B の印（`QUIET_FAIL_LINES`、`QUIET_OK_LINES`、`--log`、`QUIET_KEEP_FAIL_LOG`）と既定 500 / 10 を持つ。box が無いときの `skipTest` は被験が無い宣言である。gate を静かに通す skip ではない。
 
 HITL は Soft-HOLD である。fail log を人が見る画面は置かない。
+
+## SUCCESS line-budget
+
+親 SoT は [issue 42](https://github.com/maplefukku/grok-bot-ops/issues/42) である。Domain WRAP lander は [issue 74](https://github.com/maplefukku/grok-bot-ops/issues/74) である。sibling は [issue 69](https://github.com/maplefukku/grok-bot-ops/issues/69) である。引用は [Cloud開発](sand-workflow:cloud)、tool-path-prefer である。
+
+success の chat は `QUIET_OK_LINES` 既定 10 行である。本体の tail は box `/workspace/fleet-scripts/quiet-test.sh` である。このリポジトリの WRAP は [`scripts/quiet-test.sh`](../../scripts/quiet-test.sh) である。SUCCESS line-budget の本体は invent しない。
+
+LOCK はページと [`scripts/test_quiet_test_lock.py`](../../scripts/test_quiet_test_lock.py) が持つ。証拠は `scripts/quiet-test.sh -- python3 scripts/ci.py` である。box が無いときも docs の LOCK は落ちない。box があるときは SoT が `QUIET_OK_LINES` を持つ。
+
+HITL は Soft-HOLD PARK である。success ログを人が見る画面は置かない。CreateAgent は置かない。新しい harness は置かない。
