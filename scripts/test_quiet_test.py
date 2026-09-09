@@ -103,11 +103,18 @@ class QuietTestWrapTests(unittest.TestCase):
         self.assertIn("/workspace/fleet-scripts/quiet-test.sh", text)
         self.assertIn("exec", text)
 
+    def test_given_no_args_when_fleet_absent_then_wrap_exits_2(self) -> None:
+        proc = _run([])
+        self.assertEqual(proc.returncode, 2, proc.stderr)
+        self.assertIn("fleet missing", proc.stderr)
+
     def test_hook_and_gha_invoke_wrap(self) -> None:
         hook = HOOK.read_text(encoding="utf-8")
         gha = GHA.read_text(encoding="utf-8")
         self.assertIn("quiet-test.sh", hook)
         self.assertIn("quiet-test.sh", gha)
+        self.assertIn('"--", "python3", "scripts/ci.py"', hook)
+        self.assertIn("./scripts/quiet-test.sh -- python3 scripts/ci.py", gha)
 
 
 if __name__ == "__main__":
