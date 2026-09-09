@@ -40,6 +40,22 @@ README_NEEDLES = (
     "fail-cap B",
 )
 
+SUCCESS_PAGE_NEEDLES = (
+    BOX_SOT,
+    "issue 74",
+    "SUCCESS line-budget",
+    "QUIET_OK_LINES",
+    "10",
+    "Soft-HOLD",
+    "HITL",
+    "PARK",
+    "tool-path-prefer",
+)
+
+SUCCESS_FLEET_NEEDLES = (
+    "QUIET_OK_LINES",
+)
+
 FLEET_NEEDLES = (
     "QUIET_FAIL_LINES",
     "QUIET_OK_LINES",
@@ -60,6 +76,14 @@ PARSER_MUST_FAIL_WITHOUT = (
     "issue 69",
 )
 
+SUCCESS_PARSER_MUST_FAIL_WITHOUT = (
+    "issue 74",
+    "SUCCESS line-budget",
+    "QUIET_OK_LINES",
+    "PARK",
+    "tool-path-prefer",
+)
+
 COMPLETE_FIXTURE = "\n".join(PAGE_NEEDLES) + "\n"
 COMPLETE_FLEET_FIXTURE = (
     "QUIET_FAIL_LINES=500\n"
@@ -67,6 +91,8 @@ COMPLETE_FLEET_FIXTURE = (
     "--log\n"
     "QUIET_KEEP_FAIL_LOG\n"
 )
+COMPLETE_SUCCESS_FIXTURE = "\n".join(SUCCESS_PAGE_NEEDLES) + "\n"
+COMPLETE_SUCCESS_FLEET_FIXTURE = "\n".join(SUCCESS_FLEET_NEEDLES) + "\n"
 
 
 def fleet_sot_path() -> Path:
@@ -94,6 +120,14 @@ def fleet_lock_errors(text: str) -> list[str]:
     missing = [f"missing {needle}" for needle in FLEET_NEEDLES if needle not in text]
     missing.extend(fleet_default_errors(text))
     return missing
+
+
+def success_lock_errors(text: str) -> list[str]:
+    return [f"missing {needle}" for needle in SUCCESS_PAGE_NEEDLES if needle not in text]
+
+
+def success_fleet_lock_errors(text: str) -> list[str]:
+    return [f"missing {needle}" for needle in SUCCESS_FLEET_NEEDLES if needle not in text]
 
 
 class QuietTestLockTests(unittest.TestCase):
@@ -135,6 +169,45 @@ class QuietTestLockTests(unittest.TestCase):
             with self.subTest(missing=token):
                 stripped = COMPLETE_FLEET_FIXTURE.replace(token, "")
                 found = fleet_lock_errors(stripped)
+                self.assertTrue(found, f"missing {token} was accepted")
+                self.assertIn(token, "\n".join(found))
+
+    def test_lock_page_contains_success_line_budget_needles(self) -> None:
+        self.assertTrue(LOCK_PAGE.is_file(), "docs/process/quiet-test.md")
+        self.assertEqual(success_lock_errors(LOCK_PAGE.read_text(encoding="utf-8")), [])
+
+    def test_process_readme_points_at_success_line_budget(self) -> None:
+        text = PROCESS_README.read_text(encoding="utf-8")
+        self.assertIn("quiet-test.md", text)
+        self.assertIn("issue 74", text)
+        self.assertIn("QUIET_OK_LINES", text)
+        self.assertIn("SUCCESS line-budget", text)
+
+    def test_fleet_sot_matches_success_line_budget_when_present(self) -> None:
+        path = fleet_sot_path()
+        if not (path.is_file() and os.access(path, os.X_OK)):
+            self.skipTest(f"box absent at {path}")
+        self.assertEqual(success_fleet_lock_errors(path.read_text(encoding="utf-8")), [])
+
+    def test_success_parser_accepts_complete_fixture(self) -> None:
+        self.assertEqual(success_lock_errors(COMPLETE_SUCCESS_FIXTURE), [])
+
+    def test_success_parser_rejects_fixture_missing_required_token(self) -> None:
+        for token in SUCCESS_PARSER_MUST_FAIL_WITHOUT:
+            with self.subTest(missing=token):
+                stripped = COMPLETE_SUCCESS_FIXTURE.replace(token, "")
+                found = success_lock_errors(stripped)
+                self.assertTrue(found, f"missing {token} was accepted")
+                self.assertIn(token, "\n".join(found))
+
+    def test_success_fleet_parser_accepts_complete_fixture(self) -> None:
+        self.assertEqual(success_fleet_lock_errors(COMPLETE_SUCCESS_FLEET_FIXTURE), [])
+
+    def test_success_fleet_parser_rejects_fixture_missing_required_token(self) -> None:
+        for token in SUCCESS_FLEET_NEEDLES:
+            with self.subTest(missing=token):
+                stripped = COMPLETE_SUCCESS_FLEET_FIXTURE.replace(token, "")
+                found = success_fleet_lock_errors(stripped)
                 self.assertTrue(found, f"missing {token} was accepted")
                 self.assertIn(token, "\n".join(found))
 

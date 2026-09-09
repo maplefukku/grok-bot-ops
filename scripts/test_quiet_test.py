@@ -108,6 +108,23 @@ class QuietTestWrapTests(unittest.TestCase):
         self.assertEqual(proc.returncode, 2, proc.stderr)
         self.assertIn("fleet missing", proc.stderr)
 
+    def test_given_success_cmd_when_fleet_prints_many_lines_then_wrap_does_not_trim(
+        self,
+    ) -> None:
+        fleet = (
+            "#!/bin/sh\n"
+            "i=1\n"
+            "while [ \"$i\" -le 20 ]; do\n"
+            "  printf 'LINE-%s\\n' \"$i\"\n"
+            "  i=$((i + 1))\n"
+            "done\n"
+            "exit 0\n"
+        )
+        proc = _run(["--", "sh", "-c", "exit 0"], fleet_text=fleet)
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        lines = [ln for ln in proc.stdout.splitlines() if ln.startswith("LINE-")]
+        self.assertEqual(len(lines), 20, "WRAP must not invent SUCCESS tail")
+
     def test_hook_and_gha_invoke_wrap(self) -> None:
         hook = HOOK.read_text(encoding="utf-8")
         gha = GHA.read_text(encoding="utf-8")
