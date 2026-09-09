@@ -9,7 +9,7 @@ import unittest
 from pathlib import Path
 from urllib.parse import urlparse
 
-from trend_adopt_contract import parser_self_check, trend_log_errors
+from intent_memory.trend_log import trend_log_errors
 
 ROOT = Path(__file__).resolve().parents[1]
 SKIP_DIRS = {".git", ".github"}
@@ -146,7 +146,7 @@ def check_plugin_json() -> list[str]:
 
 def check_trend_log() -> list[str]:
     errors: list[str] = []
-    errors.extend(parser_self_check())
+    errors.extend(_run_unittest_module("test_trend_log", "trend-log"))
     path = ROOT / "docs" / "decisions" / "trend-log.md"
     try:
         text = path.read_text(encoding="utf-8")
@@ -202,10 +202,6 @@ def check_quiet_test_lock() -> list[str]:
 
 def check_devops_wrap() -> list[str]:
     return _run_unittest_module("test_devops_wrap", "devops-wrap")
-
-
-def check_trend_adopt_contract() -> list[str]:
-    return _run_unittest_module("test_trend_adopt_contract", "trend-adopt-contract")
 
 
 LASTSTITCH_DIR = ROOT / "docs" / "laststitch"
@@ -344,7 +340,6 @@ def main() -> int:
         ("quiet-test-lock", check_quiet_test_lock),
         ("devops-wrap", check_devops_wrap),
         ("trend-log-decisions", check_trend_log),
-        ("trend-adopt-contract", check_trend_adopt_contract),
         ("laststitch-lock", check_laststitch),
     ):
         found = fn()

@@ -52,7 +52,7 @@ Phase0 の [`schema.sql`](../intent-memory/schema.sql) に URL 列は無い。�
 | fired | body の `fired:` 行。related_ids は後で |
 | （固定） | expires_at = null |
 
-Phase0 の dry-run は [`trend_log.py`](../../scripts/intent_memory/trend_log.py) である。判断行のパースは [`trend_adopt_contract.py`](../../scripts/trend_adopt_contract.py)。`append` はしない。pairing の widen は ingest LOCK のあとである。
+Phase0 の dry-run は [`trend_log.py`](../../scripts/intent_memory/trend_log.py) である。`append` はしない。pairing の widen は ingest LOCK のあとである。
 
 ## 却下した案
 
