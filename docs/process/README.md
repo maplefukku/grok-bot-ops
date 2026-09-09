@@ -77,6 +77,8 @@ DUP は先行スレッドへ畳む。
 
 人が HOLD したスレッドは Closer が触らない。返信も resolve もしない。
 
+Closer の終端は resolve である。verdict 待ちの Owed と HOLD は終端ではない。merge-ok の MUST threads 行と NIT threads 行は Closer が観測する。Flag Y は PdM である。Closer は Flag しない。
+
 Closer は Resolve を所有する。Closer は実装を増やさない。MUST の fix を超えるコードは [`開発リーダー`](../../bots/開発リーダー.md) へ戻す。今の Closer は `開発<product>` の CA である。提案席 ADV closer は [ADR 0003](../decisions/0003-domain-unit-throughput.md) である。
 
 NIT 1 回目の返信型は次の 1 行である。
