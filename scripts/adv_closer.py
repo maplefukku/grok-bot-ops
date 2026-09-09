@@ -1,9 +1,4 @@
 #!/usr/bin/env python3
-"""ADV closer WRAP of docs/process/README.md section A.
-
-Section A is the prose SoT. This module is the executable WRAP.
-No review-host client. No new seat. No closer UI.
-"""
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -182,16 +177,6 @@ def _repeat_of(fact: Fact) -> ThreadRef | None:
 
 
 def decide(fact: Fact) -> Decision:
-    """One thread, one instruction.
-
-    Precedence, top wins:
-
-    1. human_hold -> Keep
-    2. History.ANSWERED -> Dup(self)
-    3. new_failing_check -> MUST path
-    4. same theme prior, or REOPENED self: NIT -> Thrash, MUST -> Dup
-    5. fresh kind: MUST path or NIT path
-    """
     if fact.human_hold:
         return Keep()
     if fact.history is History.ANSWERED:
