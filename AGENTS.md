@@ -34,7 +34,7 @@
 | `docs/intent-memory/` | Intent/Memory の schema と読み方を変えるとき。感情をプロダクト DB に置かない |
 | `scripts/intent_memory/` | Intent/Memory の query contract と隔離テストを変えるとき |
 | `docs/mini-ops/` | Mini運用の常設手順。ワンショット掃除の記録は置かない |
-| `docs/process/` | 出荷単位と ADV closer、lane、平日 cadence、PR-body Flag Y、CI 梯子 LIGHT→FULL の手順、owner 席 shared-computer チェック。契約 SoT は置かない。毎日の CA はここへ書かない |
+| `docs/process/` | 出荷単位と ADV closer、lane、平日 cadence、PR-body Flag Y、CI 梯子 LIGHT→FULL、overnight /goal brief の手順、owner 席 shared-computer チェック。契約 SoT は置かない。毎日の CA はここへ書かない |
 
 推測で箱を増やさないこと。必要になった瞬間に作ればよい。
 
