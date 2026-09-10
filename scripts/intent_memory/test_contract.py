@@ -14,10 +14,13 @@ if str(_SCRIPTS) not in sys.path:
 from intent_memory import (  # noqa: E402
     EDGE_URL_KEYS,
     FEELING_TTL_DAYS,
+    HUMAN_DELETE_ACTORS,
     HUMAN_KINDS,
+    HUMAN_WRITE_ACTORS,
     READ_ACL,
     AtomDraft,
     ContractError,
+    DeleteAclHold,
     IngestOff,
     Kind,
     MemoryStore,
@@ -575,6 +578,7 @@ class TestPostgresWrap(unittest.TestCase):
         self.assertIn("RecallMemory", recipe_text)
         self.assertIn("WriteAclHold", recipe_text)
         self.assertIn("ReadAclHold", recipe_text)
+        self.assertIn("DeleteAclHold", recipe_text)
         self.assertIn("Q2", recipe_text)
         self.assertIn("Source.HUMAN", recipe_text)
         self.assertIn("source=human", recipe_text)
@@ -976,6 +980,207 @@ class TestReadAcl(unittest.TestCase):
         text = SCHEMA.read_text(encoding="utf-8")
         self.assertIn("p_source text", text)
         self.assertNotIn("p_reader", text)
+
+
+class TestDeleteAcl(unittest.TestCase):
+    def test_given_pdm_human_intent_when_pdm_deletes_then_store_empty(self):
+        store = MemoryStore()
+        atom = store.append(
+            _draft(
+                kind=Kind.INTENT,
+                source=Source.HUMAN,
+                actor="pdm",
+                body="pdm intent",
+            )
+        )
+        removed = store.delete(atom.id, actor="pdm")
+        self.assertEqual(removed.id, atom.id)
+        self.assertEqual(removed.body, "pdm intent")
+        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN, reader="planner"), [])
+
+    def test_given_user_human_decision_when_user_deletes_then_store_empty(self):
+        store = MemoryStore()
+        atom = store.append(
+            _draft(
+                kind=Kind.DECISION,
+                source=Source.HUMAN,
+                actor="user",
+                body="user decision",
+            )
+        )
+        removed = store.delete(atom.id, actor="user")
+        self.assertEqual(removed.id, atom.id)
+        self.assertEqual(store.by_tags(("fleet",), source=Source.HUMAN, reader="planner"), [])
+
+    def test_given_pdm_human_intent_when_planner_deletes_then_hold_and_row_remains(self):
+        store = MemoryStore()
+        atom = store.append(_draft(body="pdm intent", actor="pdm"))
+        with self.assertRaises(DeleteAclHold) as ctx:
+            store.delete(atom.id, actor="planner")
+        self.assertIn("HITL PARK", str(ctx.exception))
+        rows = store.by_tags(("fleet",), source=Source.HUMAN, reader="planner")
+        self.assertEqual([row.id for row in rows], [atom.id])
+
+    def test_given_pdm_human_intent_when_empty_or_bot_actor_deletes_then_hold(self):
+        store = MemoryStore()
+        atom = store.append(_draft(body="pdm intent", actor="pdm"))
+        for actor in ("", "bot", "kanshi", "cli", "bot:Planner"):
+            with self.subTest(actor=actor):
+                with self.assertRaises(DeleteAclHold) as ctx:
+                    store.delete(atom.id, actor=actor)
+                self.assertIn("HITL PARK", str(ctx.exception))
+        rows = store.by_tags(("fleet",), source=Source.HUMAN, reader="planner")
+        self.assertEqual([row.id for row in rows], [atom.id])
+
+    def test_given_seeded_bot_when_pdm_deletes_then_hold_and_row_remains(self):
+        store = MemoryStore()
+        atom = store.seed_fixture(
+            _draft(
+                kind=Kind.CRITIQUE_BOT,
+                source=Source.BOT,
+                tags=("fleet",),
+                body="seeded bot",
+                actor="bot",
+            )
+        )
+        with self.assertRaises(DeleteAclHold) as ctx:
+            store.delete(atom.id, actor="pdm")
+        self.assertIn("HITL HOLD", str(ctx.exception))
+        rows = store.by_tags(("fleet",), source=Source.BOT, reader="pdm")
+        self.assertEqual([row.id for row in rows], [atom.id])
+
+    def test_given_seeded_bot_when_planner_deletes_then_park_not_bot_hold(self):
+        store = MemoryStore()
+        atom = store.seed_fixture(
+            _draft(
+                kind=Kind.CRITIQUE_BOT,
+                source=Source.BOT,
+                tags=("fleet",),
+                body="seeded bot",
+                actor="bot",
+            )
+        )
+        with self.assertRaises(DeleteAclHold) as ctx:
+            store.delete(atom.id, actor="planner")
+        self.assertIn("HITL PARK", str(ctx.exception))
+        self.assertNotIn("bot rows", str(ctx.exception))
+        rows = store.by_tags(("fleet",), source=Source.BOT, reader="pdm")
+        self.assertEqual([row.id for row in rows], [atom.id])
+
+    def test_given_critique_human_when_pdm_deletes_then_contract_error_and_row_remains(
+        self,
+    ):
+        store = MemoryStore()
+        atom = store.append(
+            _draft(
+                kind=Kind.CRITIQUE_HUMAN,
+                tags=("fail",),
+                body="human critique stays",
+                actor="pdm",
+            )
+        )
+        with self.assertRaises(ContractError) as ctx:
+            store.delete(atom.id, actor="pdm")
+        self.assertEqual(str(ctx.exception), "critique_human must not be deleted")
+        self.assertNotIsInstance(ctx.exception, DeleteAclHold)
+        rows = store.by_tags(("fail",), source=Source.HUMAN, reader="planner")
+        self.assertEqual([row.id for row in rows], [atom.id])
+
+    def test_given_missing_id_when_pdm_deletes_then_contract_error(self):
+        store = MemoryStore()
+        store.append(_draft(body="pdm intent", actor="pdm"))
+        with self.assertRaises(ContractError) as ctx:
+            store.delete("missing-id", actor="pdm")
+        self.assertEqual(str(ctx.exception), "delete requires an existing atom")
+        rows = store.by_tags(("fleet",), source=Source.HUMAN, reader="planner")
+        self.assertEqual(len(rows), 1)
+
+    def test_given_missing_id_when_planner_deletes_then_park_not_contract_error(self):
+        store = MemoryStore()
+        with self.assertRaises(DeleteAclHold) as ctx:
+            store.delete("missing-id", actor="planner")
+        self.assertIn("HITL PARK", str(ctx.exception))
+        self.assertNotIsInstance(ctx.exception, ContractError)
+
+    def test_given_feeling_when_pdm_deletes_then_row_gone(self):
+        store = MemoryStore()
+        atom = store.append(
+            _draft(
+                kind=Kind.FEELING,
+                tags=("mood",),
+                body="live feeling",
+                actor="pdm",
+                expires_at=NOW + timedelta(days=1),
+            )
+        )
+        removed = store.delete(atom.id, actor="pdm")
+        self.assertEqual(removed.id, atom.id)
+        self.assertEqual(
+            store.by_tags(("mood",), source=Source.HUMAN, reader="planner", now=NOW),
+            [],
+        )
+
+    def test_given_each_deletable_human_kind_when_pdm_deletes_then_row_gone(self):
+        deletable = (Kind.INTENT, Kind.DECISION, Kind.BELIEF, Kind.FEELING)
+        for kind in deletable:
+            with self.subTest(kind=kind):
+                store = MemoryStore()
+                extra = {}
+                if kind is Kind.FEELING:
+                    extra["expires_at"] = NOW + timedelta(days=90)
+                atom = store.append(_draft(kind=kind, actor="pdm", body=kind.value, **extra))
+                store.delete(atom.id, actor="pdm")
+                self.assertEqual(
+                    store.by_tags(("fleet",), source=Source.HUMAN, reader="planner"),
+                    [],
+                )
+
+    def test_given_related_ids_when_pdm_deletes_one_then_other_row_stays(self):
+        store = MemoryStore()
+        first = store.append(_draft(body="keep related", actor="pdm"))
+        second = store.append(
+            _draft(body="points at first", actor="pdm", related_ids=(first.id,))
+        )
+        store.delete(first.id, actor="pdm")
+        rows = store.by_tags(("fleet",), source=Source.HUMAN, reader="planner")
+        self.assertEqual([row.id for row in rows], [second.id])
+        self.assertEqual(rows[0].related_ids, (first.id,))
+
+    def test_given_delete_without_actor_then_type_error(self):
+        store = MemoryStore()
+        atom = store.append(_draft(body="pdm intent", actor="pdm"))
+        with self.assertRaises(TypeError):
+            store.delete(atom.id)
+
+    def test_given_human_delete_actors_then_same_tokens_as_write(self):
+        self.assertIs(HUMAN_DELETE_ACTORS, HUMAN_WRITE_ACTORS)
+        self.assertEqual(HUMAN_DELETE_ACTORS, frozenset({"pdm", "user"}))
+
+    def test_given_write_acl_when_planner_appends_then_write_acl_hold_not_delete(self):
+        store = MemoryStore()
+        with self.assertRaises(WriteAclHold) as ctx:
+            store.append(_draft(actor="planner"))
+        self.assertIn("HITL PARK", str(ctx.exception))
+        self.assertNotIsInstance(ctx.exception, DeleteAclHold)
+
+    def test_given_read_recipe_when_opened_then_names_delete_acl_tokens(self):
+        recipe_text = (
+            ROOT / "docs" / "intent-memory" / "read-recipe.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("DeleteAclHold", recipe_text)
+        self.assertIn("HUMAN_DELETE_ACTORS", recipe_text)
+        self.assertIn("HITL PARK", recipe_text)
+        self.assertIn("HITL HOLD", recipe_text)
+        self.assertIn("critique_human must not be deleted", recipe_text)
+        self.assertIn("`pdm`", recipe_text)
+        self.assertIn("`user`", recipe_text)
+
+    def test_given_schema_sql_when_read_then_no_delete_function(self):
+        text = SCHEMA.read_text(encoding="utf-8")
+        self.assertNotIn("intent_atom_delete", text)
+        self.assertNotIn("DELETE FROM", text)
+        self.assertNotIn("p_actor", text)
+        self.assertIn("actor text NOT NULL", text)
 
 
 if __name__ == "__main__":

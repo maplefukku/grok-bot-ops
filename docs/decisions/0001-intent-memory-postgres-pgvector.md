@@ -37,6 +37,7 @@ Phase0 の ingest は人間だけ。`critique_bot` は schema に予約し、`ap
 - 専用 Postgres の起動は [`postgres.md`](../intent-memory/postgres.md) である。公式 [pgvector](https://github.com/pgvector/pgvector) イメージの WRAP である。
 - Q2 の writer は構造である。`append` の actor は `pdm` か `user` だけを入れる。それ以外は `WriteAclHold` である。
 - 読みの reader も構造である。読みは毎回 `READ_ACL` を通り、表外は `ReadAclHold` である。`planner` / `kanshi` / `cli` は `human` だけ、`pdm` / `user` は両方である。
+- 消しの actor も構造である。`delete` の actor は Q2 と同じ `pdm` と `user` だけである。表外は `DeleteAclHold` である。bot 行は消さない。`critique_human` は `ContractError` である。
 
 ## 却下した案
 

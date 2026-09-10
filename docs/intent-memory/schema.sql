@@ -37,7 +37,7 @@ COMMENT ON TABLE intent_atom IS
     '艦隊の intent/memory オーバーレイ。GitHub の LOCK コメント URL を法的・仕様の正本として置き換えない。source_url / github_url / gb_url は列にしない。body の行に書く。';
 
 COMMENT ON COLUMN intent_atom.actor IS
-    'append の allowlist は Python の契約である。SQL CHECK にはしない。bot fixture 行は actor=bot のまま入る。';
+    'append と delete の allowlist は Python の契約である。SQL CHECK にはしない。bot fixture 行は actor=bot のまま入る。delete 関数は置かない。';
 
 CREATE INDEX intent_atom_tags_gin ON intent_atom USING GIN (tags);
 
