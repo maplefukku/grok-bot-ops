@@ -162,6 +162,40 @@ FAIL_TAIL_PARSER_MUST_FAIL_WITHOUT = (
 COMPLETE_FAIL_TAIL_FIXTURE = "\n".join(FAIL_TAIL_PAGE_NEEDLES) + "\n"
 COMPLETE_FAIL_TAIL_FLEET_FIXTURE = "\n".join(FAIL_TAIL_FLEET_NEEDLES) + "\n"
 
+FAIL_EXIT_PAGE_NEEDLES = (
+    BOX_SOT,
+    "issue 114",
+    "FAIL exit contract",
+    "AI-readable",
+    "nonzero",
+    "unchanged",
+    "QUIET_FAIL_LINES",
+    "tail",
+    "full-log path",
+    "QUIET_OK_LINES",
+    "SUCCESS",
+    "minimal",
+    "REJECT A",
+    "drip",
+    "Quiet is not skip",
+    "parallel-fire-fleet",
+    "tool-path-prefer",
+    "Soft-HOLD",
+    "HITL",
+    "PARK",
+    "CreateAgent",
+)
+
+FAIL_EXIT_PARSER_MUST_FAIL_WITHOUT = (
+    "issue 114",
+    "FAIL exit contract",
+    "AI-readable",
+    "parallel-fire-fleet",
+    "Quiet is not skip",
+)
+
+COMPLETE_FAIL_EXIT_FIXTURE = "\n".join(FAIL_EXIT_PAGE_NEEDLES) + "\n"
+
 
 def fleet_sot_path() -> Path:
     return Path(os.environ.get("QUIET_TEST", BOX_SOT))
@@ -208,6 +242,10 @@ def fail_tail_lock_errors(text: str) -> list[str]:
 
 def fail_tail_fleet_lock_errors(text: str) -> list[str]:
     return [f"missing {needle}" for needle in FAIL_TAIL_FLEET_NEEDLES if needle not in text]
+
+
+def fail_exit_lock_errors(text: str) -> list[str]:
+    return [f"missing {needle}" for needle in FAIL_EXIT_PAGE_NEEDLES if needle not in text]
 
 
 class QuietTestLockTests(unittest.TestCase):
@@ -348,6 +386,28 @@ class QuietTestLockTests(unittest.TestCase):
             with self.subTest(missing=token):
                 stripped = COMPLETE_FAIL_TAIL_FLEET_FIXTURE.replace(token, "")
                 found = fail_tail_fleet_lock_errors(stripped)
+                self.assertTrue(found, f"missing {token} was accepted")
+                self.assertIn(token, "\n".join(found))
+
+    def test_lock_page_contains_fail_exit_contract_needles(self) -> None:
+        self.assertTrue(LOCK_PAGE.is_file(), "docs/process/quiet-test.md")
+        self.assertEqual(fail_exit_lock_errors(LOCK_PAGE.read_text(encoding="utf-8")), [])
+
+    def test_process_readme_points_at_fail_exit_contract(self) -> None:
+        text = PROCESS_README.read_text(encoding="utf-8")
+        self.assertIn("quiet-test.md", text)
+        self.assertIn("issue 114", text)
+        self.assertIn("FAIL exit contract", text)
+        self.assertIn("AI-readable", text)
+
+    def test_fail_exit_parser_accepts_complete_fixture(self) -> None:
+        self.assertEqual(fail_exit_lock_errors(COMPLETE_FAIL_EXIT_FIXTURE), [])
+
+    def test_fail_exit_parser_rejects_fixture_missing_required_token(self) -> None:
+        for token in FAIL_EXIT_PARSER_MUST_FAIL_WITHOUT:
+            with self.subTest(missing=token):
+                stripped = COMPLETE_FAIL_EXIT_FIXTURE.replace(token, "")
+                found = fail_exit_lock_errors(stripped)
                 self.assertTrue(found, f"missing {token} was accepted")
                 self.assertIn(token, "\n".join(found))
 

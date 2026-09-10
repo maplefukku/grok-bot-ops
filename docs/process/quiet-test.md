@@ -101,3 +101,26 @@ FAIL の chat は本体の tail である。本体の tail は box `/workspace/f
 LOCK はページと [`scripts/test_quiet_test_lock.py`](../../scripts/test_quiet_test_lock.py) が持つ。挙動は [`scripts/test_quiet_test.py`](../../scripts/test_quiet_test.py) が持つ。証拠は `scripts/quiet-test.sh -- python3 scripts/ci.py` である。LOCK は CI-independent である。box が無いときも docs の LOCK は落ちない。box があるときは SoT が `tail` と `QUIET_FAIL_LINES` を持つ。box が無いときの `skipTest` は被験が無い宣言である。Quiet is not skip。
 
 HITL は Soft-HOLD PARK である。fail log を人が見る画面は置かない。CreateAgent は置かない。新しい harness は置かない。
+
+## FAIL exit contract
+
+親 SoT は [issue 42](https://github.com/maplefukku/grok-bot-ops/issues/42) である。Domain WRAP lander は [issue 114](https://github.com/maplefukku/grok-bot-ops/issues/114) である。sibling は [issue 69](https://github.com/maplefukku/grok-bot-ops/issues/69)、[issue 74](https://github.com/maplefukku/grok-bot-ops/issues/74)、[issue 96](https://github.com/maplefukku/grok-bot-ops/issues/96)、[issue 93](https://github.com/maplefukku/grok-bot-ops/issues/93) である。引用は [Cloud開発](sand-workflow:cloud)、tool-path-prefer、[parallel-fire-fleet](sand-workflow:parallel-fire-fleet) である。
+
+FAIL の AI-readable bundle は exit code と bounded tail と full-log path である。SUCCESS は minimal である。`QUIET_OK_LINES` 既定 10 行である。FAIL は drip である。flood ではない。Quiet is not skip。FAIL は 0 にならない。
+
+| 事実 | 値 |
+|---|---|
+| SUCCESS | minimal。`QUIET_OK_LINES` は 10 |
+| exit code | nonzero `N`, unchanged |
+| chat | tail。最後の `QUIET_FAIL_LINES` は 500 |
+| path | full-log path を必ず印字。`--log` と `QUIET_KEEP_FAIL_LOG` |
+| AI-readable | exit + bounded tail + path。head でも full `cat` でもない |
+| REJECT A | full `cat` は既定ではない |
+| WRAP | [`scripts/quiet-test.sh`](../../scripts/quiet-test.sh) は bundle を持たない。第二の bundle を invent しない |
+| box 無し | cmd の stdout、stderr、exit code をそのまま通す |
+
+exit-code contract と FAIL verbose-tail を複製しない。ここは CA が FAIL を読む bundle だけである。box があるときは box `/workspace/fleet-scripts/quiet-test.sh` が SoT である。box の内部は invent しない。
+
+LOCK はページと [`scripts/test_quiet_test_lock.py`](../../scripts/test_quiet_test_lock.py) が持つ。挙動は [`scripts/test_quiet_test.py`](../../scripts/test_quiet_test.py) が持つ。証拠は `scripts/quiet-test.sh -- python3 scripts/ci.py` である。LOCK は CI-independent である。box が無いときも docs の LOCK は落ちない。box が無いときの `skipTest` は被験が無い宣言である。
+
+HITL は Soft-HOLD PARK である。FAIL bundle を人が見る画面は置かない。CreateAgent は置かない。新しい harness は置かない。
