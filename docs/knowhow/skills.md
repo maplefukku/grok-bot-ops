@@ -2,6 +2,12 @@
 
 Grok Bot の skill（再利用できる手順の単位）の作り方と使い方。Teach a task の手順は [`routines.md`](./routines.md) にある。
 
+## Grok Voice の3スキル（dictation / voice / read-aloud）
+
+- 内容: /add-dictation・/add-voice・/add-read-aloud でアプリに音声入力・リアルタイム音声・読み上げを足せる。
+- 出典: [x.com/ericzakariasson/status/2098080093562458445](https://x.com/ericzakariasson/status/2098080093562458445)（2026-09-10） · [marketplace](https://cursor.com/marketplace/cursor/grok-voice)
+- 確認: 未
+
 ## skill は再利用できるワークフローの単位
 
 - 内容: skill は「いつ使うか、手順、判断ルール、期待する出力、境界」を持つ再利用できるレシピ。自分で書く、直す、Teach a task で Bot のコンピュータ上の作業を録画してデモから下書きさせる、のいずれでも作れる。チャットの記憶は 1 会話に閉じるが、skill は自分の全 Bot で共有され、他の Bot が呼べ、routine が指せ、template に指示・skill・routine をまとめて同梱して配れる、という主張。
