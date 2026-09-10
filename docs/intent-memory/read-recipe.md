@@ -76,6 +76,7 @@ store.append(AtomDraft(
 
 human_rows = store.by_tags(("fleet",), source=Source.HUMAN, reader="planner")
 near = store.similar((1.0, 0.0, 0.0, 0.0), source=Source.HUMAN, limit=5, reader="kanshi")
+store.delete(human_rows[0].id, actor="pdm")
 ```
 
 `scripts/` を `PYTHONPATH` に入れるか、同じ import 経路で読む。本番の行は schema.sql どおり Postgres に置く。このモジュールは CI 可能な契約であり、プロダクト DB ではない。
@@ -103,3 +104,15 @@ Planner / 監視の読みは `source=human` を渡す。actor で再フィルタ
 | `cli` | `human` |
 
 `planner` / `kanshi` / `cli` は `human` だけ読む。`bot` 行の読みは [#18](https://github.com/maplefukku/grok-bot-ops/issues/18) の ingest LOCK（Q3 bot↔bot critique）まで HOLD である。`pdm` / `user` は監査のため両方読める。読みの許可は書きの許可ではない。`WriteAclHold` は変わらない。SQL に reader 列も引数も無い。`p_source` のままである。ACL は Python の契約である。
+
+## Delete ACL
+
+`delete` は毎回 `actor` を取る。`HUMAN_DELETE_ACTORS` は Q2 の `HUMAN_WRITE_ACTORS` と同じトークンである。`pdm` と `user` だけが人間行を消せる。それ以外は `DeleteAclHold` を上げる。メッセージは `HITL PARK` である。行は残る。
+
+`source=bot` の行は `pdm` / `user` でも消さない。`DeleteAclHold` で `HITL HOLD` である。Q3 ingest OFF のままである。
+
+`critique_human` は消さない。`ContractError` で `critique_human must not be deleted` である。Q5 の無期限と同じ不変条件である。feeling の TTL は `expires_at` のままである。delete ではない。
+
+見つからない id は `ContractError` である。actor が allowlist 外なら先に `DeleteAclHold` である。存在は漏らさない。
+
+SQL に delete 関数も `p_actor` も無い。ACL は Python の契約である。`read.py` に delete は置かない。`related_ids` の cascade はしない。新しい store も置かない。pairing の widen と live ingest は [#18](https://github.com/maplefukku/grok-bot-ops/issues/18) の ingest LOCK のままである。

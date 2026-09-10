@@ -40,7 +40,12 @@ class ReadAclHold(Exception):
     pass
 
 
+class DeleteAclHold(Exception):
+    pass
+
+
 HUMAN_WRITE_ACTORS = frozenset({"pdm", "user"})
+HUMAN_DELETE_ACTORS = HUMAN_WRITE_ACTORS
 
 READ_ACL: Mapping[str, frozenset[Source]] = {
     "pdm": frozenset({Source.HUMAN, Source.BOT}),
@@ -56,6 +61,11 @@ def _check_read(reader: str, source: Source) -> None:
         raise ReadAclHold(
             f"HITL HOLD: reader {reader!r} may not read source={source.value}"
         )
+
+
+def _check_delete(actor: str) -> None:
+    if actor not in HUMAN_DELETE_ACTORS:
+        raise DeleteAclHold("HITL PARK: actor is not an allowlisted human deleter")
 
 
 EDGE_URL_KEYS = ("source_url", "github_url", "gb_url")
@@ -182,6 +192,18 @@ class MemoryStore:
 
     def seed_fixture(self, draft: AtomDraft) -> Atom:
         return self._insert(draft)
+
+    def delete(self, atom_id: str, *, actor: str) -> Atom:
+        _check_delete(actor)
+        atom = next((item for item in self._atoms if item.id == atom_id), None)
+        if atom is None:
+            raise ContractError("delete requires an existing atom")
+        if atom.source is Source.BOT:
+            raise DeleteAclHold("HITL HOLD: bot rows may not be deleted")
+        if atom.kind is Kind.CRITIQUE_HUMAN:
+            raise ContractError("critique_human must not be deleted")
+        self._atoms.remove(atom)
+        return atom
 
     def by_tags(
         self,
