@@ -4,6 +4,13 @@ Grok Bot のプロダクトアップデートの時系列ログ。新しいも�
 
 | 時期 | 内容 | 出典 | 確認 |
 |---|---|---|---|
+| 2026-09-09 | Bot にメッセージをインラインで下書きさせ、送信前にユーザーが承認できる | [x.com/bot/status/2097759948189106686](https://x.com/bot/status/2097759948189106686) | 未 |
+| 2026-09-09 | Grok Bot アカウントをワンクリックで切り替えられる | [x.com/bot/status/2097759952375029917](https://x.com/bot/status/2097759952375029917) | 未 |
+| 2026-09-09 | アプリのパフォーマンスを改善 | [x.com/bot/status/2097759953687892090](https://x.com/bot/status/2097759953687892090) | 未 |
+| 2026-09-09 | harness の効率化で included usage が平均 10% 増。heavy user では最大 35% 増 | [x.com/bot/status/2097759955214590272](https://x.com/bot/status/2097759955214590272) | 未 |
+| 2026-09-09 | iPad にネイティブ対応 | [x.com/bot/status/2097759959220211726](https://x.com/bot/status/2097759959220211726) | 未 |
+| 2026-09-09 | 20 以上の言語に対応 | [x.com/bot/status/2097759963007598798](https://x.com/bot/status/2097759963007598798) | 未 |
+| 2026-09-09 | モバイルで Grok Bot にファイルを直接共有できる | [x.com/bot/status/2097759967214444724](https://x.com/bot/status/2097759967214444724) | 未 |
 | 2026-09-08 | チャットを離れずにフォーム入力とログインができる。任意のパスワードマネージャに対応 | [x.com/bot/status/2097383980748382239](https://x.com/bot/status/2097383980748382239) | 未 |
 | 2026-09-05 | 全 Grok Bot ユーザーの usage limits をリセット | [x.com/bot/status/2096303514230423629](https://x.com/bot/status/2096303514230423629) | 未 |
 | 2026-09-04 | Bot Marketplace で templates を追加可能に。公式第1弾として調達特化の Haggle Bot を公開 | [x.com/bot/status/2095954887205138597](https://x.com/bot/status/2095954887205138597) · [marketplace](https://x.ai/bot/marketplace) · [Haggle Bot](https://x.ai/bot/marketplace/bots/haggle-bot) · [procurement news](https://x.ai/news/grok-bot-procurement) | 未 |

@@ -8,6 +8,7 @@ Grok Bot 全般のノウハウ置き場です。**特定の人物に縛りませ
 |---|---|
 | [`updates.md`](./updates.md) | プロダクトアップデートの時系列ログ（新機能、提供範囲、アプリ） |
 | [`routines.md`](./routines.md) | routine（定期実行・イベント・webhook） |
+| [`skills.md`](./skills.md) | skill（再利用できる手順の単位） |
 | [`plugins.md`](./plugins.md) | プラグイン |
 | [`bot-ui.md`](./bot-ui.md) | カスタム Bot UI |
 | [`computer.md`](./computer.md) | Bot のコンピュータ（Cloud Agent、ネットワーク、永続化） |

@@ -2,6 +2,12 @@
 
 加入プランと、使えるアプリ。
 
+## Grok Heavy の usage pool は 3 つ
+
+- 内容: Grok Heavy 加入では usage pool が Grok Build / Imagine / chat、Grok Bot、Cursor Cloud Agent の 3 つに分かれる。Grok Build の quota のほうが Bot の quota より長持ちするように見えるので、作業を Grok Build に寄せて Bot の quota を温存している、という報告。
+- 出典: [x.com/justsomeguy2365/status/2097754146204193122](https://x.com/justsomeguy2365/status/2097754146204193122)（2026-09-09）
+- 確認: 未
+
 ## コーディング時の token 消費と設定確認
 
 - 内容: Grok Bot でコーディングすると設定次第で token 消費が大きい。設定を確認するガイド記事あり。

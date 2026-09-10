@@ -2,6 +2,18 @@
 
 Grok Bot の routine（定期実行・イベント・webhook）の公式の使い方。
 
+## ChatGPT → Grok Bot の bridge（Bridge Bot + webhook routine + skill）
+
+- 内容: Grok Bot に "Bridge Bot" を新設し、webhook trigger の routine を作り、ChatGPT 側にその webhook へコマンドを送る skill を作る。ChatGPT から Grok Bot へ routine の設定、状態確認、作業の委譲を送れる、という報告。
+- 出典: [x.com/moritzkremb/status/2097621535955833166](https://x.com/moritzkremb/status/2097621535955833166)（2026-09-09）
+- 確認: 未
+
+## webhook + iOS ショートカットでスマホの入力を Bot へ
+
+- 内容: Grok Bot の webhook で外部からの入力を受けてワークフローに繋ぎ、iOS ショートカットと組み合わせてスマホから Grok Bot へ入力しやすくする、という用法。
+- 出典: [x.com/0xlangeai/status/2097505793079931247](https://x.com/0xlangeai/status/2097505793079931247)（2026-09-09）
+- 確認: 未
+
 ## 例外監視 webhook → GitHub issue と fixer
 
 - 内容: 例外監視サービスから webhook を受け、GitHub issue を作りつつ Bot の webhook に投げて fixer を起こす運用例。incoming webhook が使える前提。
