@@ -2,6 +2,24 @@
 
 プラグインの入手と自作。
 
+## GTM connectors (Salesforce / HubSpot / Gong / Clay / Granola)
+
+- 内容: Bot を Salesforce、HubSpot、Gong、Clay、Granola など GTM ツールに接続し、アカウント把握・フォローアップ・調査ができる、という公式告知。
+- 出典: [x.com/bot/status/2098183353665261979](https://x.com/bot/status/2098183353665261979)（2026-09-10）
+- 確認: 未
+
+## Dialbot + Bland で Grok Bot に電話させる
+
+- 内容: Dialbot を入れ、Bland の voice を繋いで Bot から電話をかけるデモ。transcript / cost 確認と bot 連鎖まで。template: [x.ai/bot/NJXi2SWEuhNxjOjspMMPi](https://x.ai/bot/NJXi2SWEuhNxjOjspMMPi)
+- 出典: [x.com/mattyp/status/2098155792327381294](https://x.com/mattyp/status/2098155792327381294)（2026-09-10） · [template](https://x.ai/bot/NJXi2SWEuhNxjOjspMMPi) · [reply](https://x.com/mattyp/status/2098156079620542639)
+- 確認: 未
+
+## Grok Voice（Cursor marketplace）— dictation / realtime voice / read-aloud
+
+- 内容: Cursor marketplace の Grok Voice プラグイン。/add-dictation、/add-voice、/add-read-aloud。/debug-voice もある。コード: [github.com/cursor/plugins/tree/main/grok-voice](https://github.com/cursor/plugins/tree/main/grok-voice)
+- 出典: [x.com/ericzakariasson/status/2098080093562458445](https://x.com/ericzakariasson/status/2098080093562458445)（2026-09-10） · [marketplace](https://cursor.com/marketplace/cursor/grok-voice) · [code](https://github.com/cursor/plugins/tree/main/grok-voice) · [debug](https://x.com/ericzakariasson/status/2098080105654608018)
+- 確認: 未
+
 ## Microsoft Outlook / Calendar / OneDrive
 
 - 内容: 新しいプラグインで Bot が Outlook、Calendar、OneDrive に直接アクセスする。閲覧だけではなく読み書き・操作ができる。

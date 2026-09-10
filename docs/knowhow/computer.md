@@ -2,6 +2,18 @@
 
 Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の永続化）。
 
+## Cursor Projects をチャット用の特別フォルダとして使う
+
+- 内容: Projects をチャットの特別フォルダとみなし、sidebar の既存チャットを Project にドラッグできる。coordinator が Project 内エージェントを監督する、という poteto の使い方。
+- 出典: [x.com/poteto/status/2098186080839475568](https://x.com/poteto/status/2098186080839475568)（2026-09-10） · [tip](https://x.com/poteto/status/2098186602241822974) · [announce](https://x.com/cursor_ai/status/2098162488013455784)
+- 確認: 未
+
+## pstack を Projects と併用
+
+- 内容: Projects と pstack を併用し、先に /setup-pstack でモデルを選ぶ、という poteto の助言。
+- 出典: [x.com/poteto/status/2098181726782841254](https://x.com/poteto/status/2098181726782841254)（2026-09-10） · [pstack](https://cursor.com/marketplace/cursor/pstack)
+- 確認: 未
+
 ## Grok Bot hacks 動画（webhook bridge、plugins / Composio、marketplace、スマホからのコンピュータ操作 ほか）
 
 - 内容: 動画で扱う項目: webhook bridge、plugins と Composio、Bot marketplace、スマホからのコンピュータ操作、project channels、agent inboxes、Command K、token 効率のよいスクリプト。plugins の話（[`plugins.md`](./plugins.md)）と marketplace の話（[`templates.md`](./templates.md)）も同じ出典に含まれる。
