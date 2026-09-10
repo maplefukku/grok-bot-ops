@@ -8,5 +8,5 @@
 | 役割 | plan.only。grill-with-docs で to-spec にする。出典は mattpocock/skills。Cloud Agent は plan/spec のテキストだけ書き、GitHub issue は作らない。issue 起票は Planner が gh で行う。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。INは最先端手法とKnowhow収集の候補。OUTはPMへのADOPTまたはREJECTのダイジェスト1通。FIREしない。実装しない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） |
 | 回すまで動かない | はい |
 | マージしない | はい |
-| 参照 | [routines/decide-trend-adopt.md](../routines/decide-trend-adopt.md) / [docs/intent-memory/read-recipe.md](../docs/intent-memory/read-recipe.md) |
+| 参照 | [routines/decide-trend-adopt.md](../routines/decide-trend-adopt.md) / [docs/process/trend-adopt-reject.md](../docs/process/trend-adopt-reject.md) / [docs/intent-memory/read-recipe.md](../docs/intent-memory/read-recipe.md) |
 | スキル | 無し |

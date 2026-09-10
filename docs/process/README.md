@@ -8,7 +8,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 |---|---|---|
 | PdM | 平日 09:00 の leftover と merge sweep。Flag Y | 出荷単位、merge-ok、PR-body、CI 梯子、D. 平日 JST |
 | Closer（今は `開発<product>` の CA） | bot スレッドが立ったとき | A. スレッドの分類 |
-| Planner | unit の spec を書くとき | B. lane と契約 |
+| Planner | trend-adopt の REJECT 終端を書くとき。候補を ADOPT/REJECT するとき | [trend-adopt-reject](./trend-adopt-reject.md)、B. lane と契約 |
 | job-brief | CA brief を書くとき | PR-body、CI 梯子 |
 | 開発リーダー | ROUTE+FIRE のとき | CI 梯子、出荷単位 |
 | impl CA | lane を 1 本受けたとき。PR を書くとき | B. lane と契約、quiet-test、PR-body、CI 梯子 |
@@ -164,6 +164,10 @@ Marketplace survey（CreateAgent precheck）は [`marketplace-precheck.md`](./ma
 ## anti-job
 
 spend / sign / send は都度の explicit go なしにしない。条項の本体は fleet の purchases、send-on-behalf、Auto-review である。Domain WRAP は [`anti-job.md`](./anti-job.md)（[issue 90](https://github.com/maplefukku/grok-bot-ops/issues/90)）である。go の形と却下はそこだけである。Haggle 調達ボットは CreateAgent しない。
+
+## trend-adopt REJECT
+
+Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝ち、FIRE なし）は [`trend-adopt-reject.md`](./trend-adopt-reject.md) である。正本は [ADR 0002](../decisions/0002-trend-adopt-loop.md) と [issue 19](https://github.com/maplefukku/grok-bot-ops/issues/19) である。適用 issue は [issue 117](https://github.com/maplefukku/grok-bot-ops/issues/117) である。日常原稿は [`decide-trend-adopt.md`](../../routines/decide-trend-adopt.md) である。LOCK は [`scripts/test_trend_adopt_reject_lock.py`](../../scripts/test_trend_adopt_reject_lock.py) である。CreateAgent NONE。新しい harness は置かない。
 
 ## overnight /goal
 
