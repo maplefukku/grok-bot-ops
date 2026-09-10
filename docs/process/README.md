@@ -72,6 +72,12 @@ MUST は fix または WONTFIX（理由とテスト証拠）である。どち�
 
 NIT の返信は最大 1 回である。2 回目で同テーマかつ新しい failing check が無いときは返信しない。resolve する。PR に label `adv-thrash` を付ける。新しい failing check がある指摘は MUST である。
 
+Closer が返信済み（answered）のスレッドに bot が再度書いたときは返信しない。Dup として resolve する。ping-pong しない。
+
+reopen 後で新しい failing check が無いときは返信しない。Thrash として resolve する。PR に label `adv-thrash` を付ける。返信数は増えない。
+
+reopen 後で新しい failing check がある指摘は MUST である。MUST は再返信して終端する。
+
 同テーマは同じファイル範囲、同じ指摘種別、新しい failing check 無しである。bot が違っても同テーマである。
 
 DUP は先行スレッドへ畳む。
@@ -160,6 +166,8 @@ FAIL exit contract の Domain WRAP は [issue 114](https://github.com/maplefukku
 PR-body HARD LOCK は [`pr-body.md`](./pr-body.md) である。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md` である。Flag Y の 4 見出しはそこだけである。Dependabot の stamp は同じ [`pr-body.md`](./pr-body.md) である。WRAP は `gh api --method PATCH` である。Soft-OK はしない。
 
 CI 梯子 LIGHT→FULL は [`ci-ladder.md`](./ci-ladder.md) である。SPEED NORM の太い lander は出荷単位である。
+
+ADV closer reopen guard Domain WRAP は [issue 118](https://github.com/maplefukku/grok-bot-ops/issues/118) である。sibling は [issue 95](https://github.com/maplefukku/grok-bot-ops/issues/95) と [issue 73](https://github.com/maplefukku/grok-bot-ops/issues/73) である。引用は [parallel-fire-fleet](sand-workflow:parallel-fire-fleet)、[Cloud開発](sand-workflow:cloud)、[`quiet-test.md`](./quiet-test.md) である。
 
 共有 1 マシンの owner 席 WRAP は [`shared-computer.md`](./shared-computer.md) である。CreateAgent と schedules-force-agency のチェックはそこだけである。新しい席は invent しない。
 

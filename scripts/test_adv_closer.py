@@ -71,6 +71,11 @@ README_NEEDLES: tuple[str, ...] = (
     MUST_ROW,
     NIT_ROW,
     "Closer は Flag しない",
+    "返信済み",
+    "reopen",
+    "ping-pong",
+    "Thrash",
+    "issue 118",
 )
 ADR_NEEDLES: tuple[str, ...] = (
     "ADV closer",
@@ -78,6 +83,7 @@ ADR_NEEDLES: tuple[str, ...] = (
     "MUST は終端する。NIT は 1 回で終わる",
     "席は増えない。CreateAgent は動かない",
     "新しい bot ファイルは作らない",
+    "ping-pong",
 )
 PARSER_MUST_FAIL_WITHOUT: tuple[str, ...] = (
     ADV_THRASH,
@@ -85,6 +91,8 @@ PARSER_MUST_FAIL_WITHOUT: tuple[str, ...] = (
     "HOLD",
     NIT_LINE_LOCK,
     "Closer は Flag しない",
+    "reopen",
+    "ping-pong",
 )
 COMPLETE_README_FIXTURE = "\n".join(README_NEEDLES) + "\n"
 
@@ -149,6 +157,80 @@ class NitFirstReplyTests(unittest.TestCase):
         self.assertEqual(
             decide(fact),
             Nit(reply="NIT 直す。呼び手と同じ語に揃えた。a1b2c3d。resolve。"),
+        )
+
+
+class ReopenGuardTests(unittest.TestCase):
+    def test_given_answered_nit_when_decide_then_dup_self_no_ping_pong(self) -> None:
+        self.assertEqual(
+            decide(_fact(history=History.ANSWERED)),
+            Dup(prior=SELF_REF),
+        )
+
+    def test_given_answered_nit_when_settle_then_resolved_one_reply_not_nit(self) -> None:
+        state = settle(_fact(history=History.ANSWERED))
+        self.assertEqual(state, ThreadState(SELF_REF, Weight.NIT, State.RESOLVED, replies=1))
+        self.assertNotIsInstance(decide(_fact(history=History.ANSWERED)), Nit)
+
+    def test_given_reopened_nit_no_new_check_when_decide_then_thrash_not_nit(self) -> None:
+        self.assertEqual(
+            decide(_fact(theme=STYLE_THEME, history=History.REOPENED)),
+            Thrash(prior=SELF_REF),
+        )
+
+    def test_given_reopened_nit_no_new_check_when_settle_then_thrash_label_replies_stay_one(
+        self,
+    ) -> None:
+        self.assertEqual(
+            settle(_fact(theme=STYLE_THEME, history=History.REOPENED)),
+            ThreadState(
+                SELF_REF,
+                Weight.NIT,
+                State.RESOLVED,
+                replies=1,
+                label=ADV_THRASH,
+            ),
+        )
+
+    def test_given_reopened_must_with_new_check_and_fix_when_settle_then_must_two_replies(
+        self,
+    ) -> None:
+        fact = _fact(
+            theme=SECURITY_THEME,
+            history=History.REOPENED,
+            new_failing_check=True,
+            verdict=Fix(commit=Commit("a1b2c3d"), reason="回帰テストを足した"),
+        )
+        self.assertEqual(decide(fact), Must(close=fact.verdict))
+        self.assertEqual(
+            settle(fact),
+            ThreadState(SELF_REF, Weight.MUST, State.RESOLVED, replies=2),
+        )
+
+    def test_given_fresh_then_answered_then_reopened_when_each_settle_then_reopen_guard_literals(
+        self,
+    ) -> None:
+        skip = Skip(
+            reason="名前はモジュールの慣例に従っている",
+            ref=Url("https://github.com/maplefukku/ZuruNote/blob/main/STYLE.md"),
+        )
+        self.assertEqual(
+            settle(_fact(verdict=skip)),
+            ThreadState(SELF_REF, Weight.NIT, State.RESOLVED, replies=1),
+        )
+        self.assertEqual(
+            settle(_fact(history=History.ANSWERED)),
+            ThreadState(SELF_REF, Weight.NIT, State.RESOLVED, replies=1),
+        )
+        self.assertEqual(
+            settle(_fact(history=History.REOPENED)),
+            ThreadState(
+                SELF_REF,
+                Weight.NIT,
+                State.RESOLVED,
+                replies=1,
+                label=ADV_THRASH,
+            ),
         )
 
 

@@ -26,7 +26,7 @@
 
 - leftover と ADV ping-pong は unit の内側で切る。
 - 中央 CI は unit 1 本につき 1 回払う。
-- MUST は終端する。NIT は 1 回で終わる。
+- MUST は終端する。NIT は 1 回で終わる。reopen 後の ping-pong は Thrash または Dup で止める。
 - 席は増えない。CreateAgent は動かない。
 - 手順と観察が食い違うとき、読む先は process pack である。
 
