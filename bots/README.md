@@ -68,6 +68,10 @@ SPEED NORM と CI 梯子の正本は [`docs/process/ci-ladder.md`](../docs/proce
 
 CreateAgent 前の Marketplace survey は [`docs/process/marketplace-precheck.md`](../docs/process/marketplace-precheck.md)。export-bot-template は KEEP。並列 Marketplace は invent しない。CreateAgent 量産は NONE。
 
+## LOCK: TREND-ADOPT REJECT（#117）
+
+Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝ち、FIRE なし）は [`docs/process/trend-adopt-reject.md`](../docs/process/trend-adopt-reject.md) である。正本は ADR 0002 と issue #19 である。第 4 調査ボットは CreateAgent NONE。この台帳へ判断表を複製しない。
+
 ## 司令室
 
 | 名前 | 役割 | 回すまで動かない |
