@@ -198,6 +198,47 @@ class QuietTestWrapTests(unittest.TestCase):
         self.assertEqual(proc.returncode, 2, proc.stderr)
         self.assertIn("missing-quiet-test.sh", proc.stderr)
 
+    def test_given_fail_cmd_when_fleet_absent_then_exit_nonzero_unchanged_for_ai(
+        self,
+    ) -> None:
+        for code in (1, 2, 3, 42, 127):
+            with self.subTest(code=code):
+                proc = _run(
+                    [
+                        "--",
+                        "sh",
+                        "-c",
+                        f"printf 'FAIL-MARKER-{code}\\n' >&2; exit {code}",
+                    ]
+                )
+                self.assertEqual(proc.returncode, code, proc.stderr)
+                self.assertIn(f"FAIL-MARKER-{code}", proc.stderr)
+
+    def test_given_fail_cmd_when_fleet_present_then_exit_nonzero_unchanged_for_ai(
+        self,
+    ) -> None:
+        for code in (1, 7, 42):
+            with self.subTest(code=code):
+                proc = _run(
+                    ["--", "sh", "-c", "exit 0"],
+                    fleet_text=_fleet_echo_exit(code),
+                )
+                self.assertEqual(proc.returncode, code, proc.stderr)
+                self.assertIn(FLEET_STAMP, proc.stdout)
+
+    def test_given_success_cmd_when_fleet_absent_then_exit_zero_minimal_surface(
+        self,
+    ) -> None:
+        proc = _run(["--", "printf", "ok\\n"])
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertEqual(proc.stdout, "ok\n")
+        self.assertEqual(proc.stderr, "")
+
+    def test_fail_exit_contract_quiet_is_not_skip(self) -> None:
+        proc = _run(["--", "sh", "-c", "exit 17"])
+        self.assertEqual(proc.returncode, 17, proc.stderr)
+        self.assertNotEqual(proc.returncode, 0)
+
 
 if __name__ == "__main__":
     unittest.main()
