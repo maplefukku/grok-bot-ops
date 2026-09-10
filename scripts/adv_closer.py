@@ -254,6 +254,7 @@ def _nit_path(fact: Fact) -> Decision:
 
 
 def _repeat_of(fact: Fact) -> ThreadRef | None:
+    """Reopen guard: REOPENED without a new failing check repeats self -> Thrash."""
     for item in fact.prior:
         if item.theme == fact.theme:
             return item.thread
@@ -266,7 +267,7 @@ def decide(fact: Fact) -> Decision:
     if fact.human_hold:
         return Keep()
     if fact.history is History.ANSWERED:
-        return Dup(prior=fact.thread)
+        return Dup(prior=fact.thread)  # reopen guard: no ping-pong after Closer replied
     if fact.new_failing_check:
         return _must_path(fact)
     repeat = _repeat_of(fact)
