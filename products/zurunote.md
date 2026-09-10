@@ -9,9 +9,9 @@
 | maintain routine | 検証メンテ・平日1回 |
 | automation パック | 無し |
 | intake の対象 | 無し |
-| 最終確認日 | 2026-09-09 |
+| 最終確認日 | 2026-09-10 |
 | 最終 outcome | changed |
-| 最終 PR | https://github.com/maplefukku/ZuruNote/pull/430 |
+| 最終 PR | https://github.com/maplefukku/ZuruNote/pull/441 |
 
 `最終確認日` / `最終 outcome` / `最終 PR` は [`routines/maintain-verification.md`](../routines/maintain-verification.md) が毎日書き戻す。bootstrap 直後は `未` / `未` / `無し` のまま。outcome は `clean` / `changed` / `blocked` のどれか。
 
