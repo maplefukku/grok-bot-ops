@@ -8,7 +8,7 @@
 
 - そのボットの名前と id
 - どのグループか
-- 役割は何か（1行）
+- 役割は何か（1行、最大 504 文字。[`LOCK: ROLE MAX-LENGTH`](#lock-role-max-length115)）
 - 回すまで待つか
 - このリポジトリに routine 原稿があるか。無ければ `無し`
 - 各ボットファイルに `スキル` 行があるか（共有スキル。本体は置かない。無ければ `無し`）
@@ -43,6 +43,10 @@ CreateAgent/eng テンプレと、開発リーダーと product 開発* の役�
 | S7 | [ci-health-sweep](sand-workflow:ci-health-sweep) | [`CI運用`](./CI運用.md) |
 
 JOB 順は S1 → S3 → S4 → S2 → S5 → S7 → S6。Q8 の Xネタ選別 / ネタ調査 は入れ替えない。
+
+## LOCK: ROLE MAX-LENGTH（#115）
+
+`役割` cell max is 504 characters. live census 2026-09-10: longest is [`CI運用`](./CI運用.md) at 504. one line. No newline inside the cell. LOCK is this section and [`scripts/test_bots_description_max_length.py`](../scripts/test_bots_description_max_length.py) and [`scripts/test_bots_description_max_length_lock.py`](../scripts/test_bots_description_max_length_lock.py). Evidence is `scripts/quiet-test.sh -- python3 scripts/ci.py`. Cite [parallel-fire-fleet](sand-workflow:parallel-fire-fleet) / [Cloud開発](sand-workflow:cloud) / [`quiet-test.sh`](../scripts/quiet-test.sh). Quiet is not skip. New harness is FAIL. CreateAgent NONE. Soft-HOLD ASC KEEP. Apply issue is [issue 115](https://github.com/maplefukku/grok-bot-ops/issues/115).
 
 ## LOCK: DOMAIN-UNIT（#16 PdM HARD CORRECT）
 

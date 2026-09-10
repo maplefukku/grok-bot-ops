@@ -216,6 +216,19 @@ def check_bots_persona_fields() -> list[str]:
     return _run_unittest_module("test_bots_persona_fields", "bots-persona-fields")
 
 
+def check_bots_description_max_length() -> list[str]:
+    return _run_unittest_module(
+        "test_bots_description_max_length", "bots-description-max-length"
+    )
+
+
+def check_bots_description_max_length_lock() -> list[str]:
+    return _run_unittest_module(
+        "test_bots_description_max_length_lock",
+        "bots-description-max-length-lock",
+    )
+
+
 def check_trend_adopt_idempotency() -> list[str]:
     return _run_unittest_module("test_trend_adopt_idempotency", "trend-adopt-idempotency")
 
@@ -382,6 +395,8 @@ def main() -> int:
         ("bots-id-uniqueness", check_bots_id_uniqueness),
         ("bots-schema", check_bots_schema),
         ("bots-persona-fields", check_bots_persona_fields),
+        ("bots-description-max-length", check_bots_description_max_length),
+        ("bots-description-max-length-lock", check_bots_description_max_length_lock),
         ("adv-closer", check_adv_closer),
         ("shared-computer-lock", check_shared_computer_lock),
         ("completion-handoff", check_completion_handoff),
