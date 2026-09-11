@@ -4,6 +4,8 @@ Grok Bot のプロダクトアップデートの時系列ログ。新しいも�
 
 | 時期 | 内容 | 出典 | 確認 |
 |---|---|---|---|
+| 2026-09-10 | Salesforce、HubSpot、Gong、Clay、Granola など GTM ツールに接続し、セールスフォローアップとアカウント調査ができる | [x.com/bot/status/2098183353665261979](https://x.com/bot/status/2098183353665261979) | 未 |
+| 2026-09-10 | Cursor が Projects を出荷。常時稼働の coordinator agent スレッド（always-on、subagent を管理）。Grok Bot との比較あり。関連: scheduled tasks / PR CI / Slack watch · shared memory / artifacts | [x.com/cursor_ai/status/2098162488013455784](https://x.com/cursor_ai/status/2098162488013455784) · [2098162490026697134](https://x.com/cursor_ai/status/2098162490026697134) · [2098162491754741780](https://x.com/cursor_ai/status/2098162491754741780) | 未 |
 | 2026-09-09 | Bot にメッセージをインラインで下書きさせ、送信前にユーザーが承認できる | [x.com/bot/status/2097759948189106686](https://x.com/bot/status/2097759948189106686) | 未 |
 | 2026-09-09 | Grok Bot アカウントをワンクリックで切り替えられる | [x.com/bot/status/2097759952375029917](https://x.com/bot/status/2097759952375029917) | 未 |
 | 2026-09-09 | アプリのパフォーマンスを改善 | [x.com/bot/status/2097759953687892090](https://x.com/bot/status/2097759953687892090) | 未 |
