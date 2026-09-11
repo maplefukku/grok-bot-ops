@@ -1,7 +1,35 @@
 # fleet
 
 フリート停滞、merge GATE、jenny-lite の ADOPT と REJECT の置き場。
-対象窓は fleet stalls 2026-09-01..09-05（sauna#203 loop、ZN Swift cluster）。出典は各エントリの URL。
+対象窓は fleet stalls 2026-09-01..09-05（sauna#203 loop、ZN Swift cluster）および jenny-lite 2026-09-07..09-11。出典は各エントリの URL。
+
+## ADOPT — named *-HOLD + enabled=false = intentional GAP
+
+- 内容: 名前付き `*-HOLD` かつ enabled=false は intentional GAP。stall leftover 一覧に載せない。monkey *-HOLD no OUT は stall ではない。
+- 決定: ADOPT
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-11）
+- 確認: 未
+
+## ADOPT — ACK-then-stop after CORR flood → JOB again SAME sweep
+
+- 内容: PM/conductor が inbound CORR flood のあと leftover があるのに ACK-then-stop したら、同じ sweep で JOB し直す（次 sweep 待ち禁止）。cite parallel-fire-fleet。
+- 決定: ADOPT
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-11; PdM ACK-then-stop after squash/CORR 09-10 16:12 文脈）
+- 確認: 未
+
+## ADOPT — overnight babysit CA count ≠ lane moving
+
+- 内容: overnight babysit の CA 本数は lane moving の証拠にしない。leftover があり product idle age が閾値超なら same-sweep で CoS（PM）へ nudge。
+- 決定: ADOPT
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-11; idle-with-leftover evening/overnight 09-10..09-11）
+- 確認: 未
+
+## ALREADY LIVE — GATE tip-sot behind=0 + ADV SUCCESS (jenny-lite 2026-09-07..09-11)
+
+- 内容: tip-sot behind=0 と ADV SUCCESS 必須は既存 LIVE thr check + ADOPT D（GATE IFF）でカバー済み。behind>0 次手は STEER rebase only。新スキル不要。
+- 決定: ADOPT（既存 LIVE）
+- 出典: https://github.com/maplefukku/sauna-master/pull/362 · https://github.com/maplefukku/sauna-master/pull/406 · https://github.com/maplefukku/ZuruNote/pull/328 · https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-11; modes false-GATE tip-sot behind miss / ADV skip≠SUCCESS）
+- 確認: 未
 
 ## Astra が Codex と ChatGPT Work にフル展開
 
@@ -39,7 +67,7 @@
 
 ## REJECT — new QA bot / auto-merge / 監視 monkey / Mac-Swift-TF leftover / GTM drafts as stall
 
-- 内容: jenny-lite / repeated-stall の答えは knowhow と skills。CreateAgent・新 QA ボットで穴を埋めない。auto-merge しない。監視に monkey / Drive を走らせない。Mac-Swift-TF leftover path を残さない。GTM drafts を stall 扱いしない。
+- 内容: jenny-lite / repeated-stall の答えは knowhow と skills。CreateAgent NONE・Jenny seat を増やさない。Soft Flag invent しない。auto-merge しない。監視に monkey / Drive を走らせない。Mac-Swift-TF leftover path を残さない。GTM drafts を stall 扱いしない。false-thr0 LIVE check の再 ADOPT しない（既存 LIVE）。
 - 決定: REJECT
 - 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-06）
 - 確認: 未
