@@ -4,6 +4,9 @@ Grok Bot のプロダクトアップデートの時系列ログ。新しいも�
 
 | 時期 | 内容 | 出典 | 確認 |
 |---|---|---|---|
+| 2026-09-11 | Grok Bot が Microsoft Teams のチャット・チャネルを検索・操作できる（Teams for Grok Bot プラグイン） | [x.com/bot/status/2098481256417866145](https://x.com/bot/status/2098481256417866145) · [Teams plugin](https://x.ai/bot/plugin/63354504) | 未 |
+| 2026-09-10 | Salesforce、HubSpot、Gong、Clay、Granola など GTM ツールに Bot を接続できる | [x.com/bot/status/2098183353665261979](https://x.com/bot/status/2098183353665261979) | 未 |
+| 2026-09-10 | 社内 sales チームの Bot を Marketplace templates として公開（context・connectors・routines 付き） | [x.com/bot/status/2098183355942703565](https://x.com/bot/status/2098183355942703565) · [sales marketplace](https://x.ai/bot/marketplace/sales) | 未 |
 | 2026-09-09 | Bot にメッセージをインラインで下書きさせ、送信前にユーザーが承認できる | [x.com/bot/status/2097759948189106686](https://x.com/bot/status/2097759948189106686) | 未 |
 | 2026-09-09 | Grok Bot アカウントをワンクリックで切り替えられる | [x.com/bot/status/2097759952375029917](https://x.com/bot/status/2097759952375029917) | 未 |
 | 2026-09-09 | アプリのパフォーマンスを改善 | [x.com/bot/status/2097759953687892090](https://x.com/bot/status/2097759953687892090) | 未 |

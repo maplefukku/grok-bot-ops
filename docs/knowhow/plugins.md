@@ -2,6 +2,12 @@
 
 プラグインの入手と自作。
 
+## Microsoft Teams
+
+- 内容: Teams for Grok Bot プラグインでチャット・チャネルメッセージの検索・閲覧・送信ができる。
+- 出典: [x.com/bot/status/2098481256417866145](https://x.com/bot/status/2098481256417866145) · [Teams plugin](https://x.ai/bot/plugin/63354504)（2026-09-11）
+- 確認: 未
+
 ## Microsoft Outlook / Calendar / OneDrive
 
 - 内容: 新しいプラグインで Bot が Outlook、Calendar、OneDrive に直接アクセスする。閲覧だけではなく読み書き・操作ができる。

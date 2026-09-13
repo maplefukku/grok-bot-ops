@@ -2,6 +2,12 @@
 
 加入プランと、使えるアプリ。
 
+## weekly limit 前に usage の使い方を直す（Ultra への安易なアップグレードを避ける）
+
+- 内容: Grok Bot の weekly limit で Cursor Ultra に上げる前に、公式 docs 由来の使い方ルールを直す。メーターは message 数ではなく agent steps と tokens。曖昧タスクは wander して枠を食う、という要点。
+- 出典: [x.com/unicodef1wn/status/2098087818564182038](https://x.com/unicodef1wn/status/2098087818564182038)（2026-09-10）
+- 確認: 未
+
 ## Grok Heavy の usage pool は 3 つ
 
 - 内容: Grok Heavy 加入では usage pool が Grok Build / Imagine / chat、Grok Bot、Cursor Cloud Agent の 3 つに分かれる。Grok Build の quota のほうが Bot の quota より長持ちするように見えるので、作業を Grok Build に寄せて Bot の quota を温存している、という報告。
