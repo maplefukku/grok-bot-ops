@@ -24,16 +24,16 @@
 - 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-11; idle-with-leftover evening/overnight 09-10..09-11）
 - 確認: 未
 
-## ADOPT — tip-sot behind0 WRAP #127（jenny-lite 2026-09-07..09-11 観測）
+## GATE 観測 — ADV skip≠SUCCESS は ADOPT D 済み、tip-sot behind=0 は未カバー (jenny-lite 2026-09-07..09-11)
 
-- 内容: ADV skip≠SUCCESS の必須化は既存 ADOPT D（GATE IFF = CI + bots + thr0）でカバー済み。2026-09-11 時点では tip-sot behind=0 が process WRAP に無く、behind>0 時の STEER rebase only が false-GATE miss として観測された。Planner writeback [#127](https://github.com/maplefukku/grok-bot-ops/issues/127) で PdM Flag Y ONLY（behind0+thr0 paginate+FULL CLEAN+APPROVED+ADV SUCCESS）を [`pr-body.md`](../process/pr-body.md) と [`README.md`](../process/README.md) merge-ok 対応に WRAP した。merge-ok 4 行表の行数は変えない。新スキルは invent しない。
-- 決定: ADOPT（behind0 半分を #127 process WRAP で記録。ADV 半分は従来 ADOPT D のまま）
-- 出典: https://github.com/maplefukku/sauna-master/pull/362 · https://github.com/maplefukku/sauna-master/pull/406 · https://github.com/maplefukku/ZuruNote/pull/328 · https://github.com/maplefukku/grok-bot-ops/issues/16 · https://github.com/maplefukku/grok-bot-ops/issues/127 （2026-09-11 観測; 2026-09-14 WRAP）
+- 内容: ADV skip≠SUCCESS の必須化は既存 ADOPT D（GATE IFF = CI + bots + thr0）でカバー済み。tip-sot behind=0 は当時 process WRAP に無い — 正本 merge-ok 4 行（required CI / Cursor bots / MUST threads / NIT threads）にも `bots/PR確認.md` にも LIVE thr check にも behind の行は無く、カバー済みと書かない。behind>0 時の STEER rebase only は miss の観測であり、merge-ok 表へ行を足すかは Planner の decide-trend-adopt。新スキルはここで invent しない。
+- 決定: ADV 半分は既存 ADOPT D。behind 半分は観測のみ（ADOPT しない）
+- 出典: https://github.com/maplefukku/sauna-master/pull/362 · https://github.com/maplefukku/sauna-master/pull/406 · https://github.com/maplefukku/ZuruNote/pull/328 · https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-11; modes false-GATE tip-sot behind miss / ADV skip≠SUCCESS）
 - 確認: 未
 
 ## ADOPT — PdM Flag Y ONLY behind0+thr0+FULL CLEAN+APPROVED+ADV SUCCESS (#127)
 
-- 内容: merge sweep の PdM Flag Y ONLY は behind0、thr0（reviewThreads paginate、unresolved∧¬outdated=0）、FULL CLEAN（FULL tip CI）、APPROVED（人/PM、`cursor[bot]` 単独 self-approve 不可）、ADV SUCCESS。Flag≠Bugbot。4 見出し MUST が先。HOLD merge=PM。#127 slice A thr-close は issue 本文であり Flag Y 述語に含めない。cite cloud / pr-2 / pr / pr-status-dedupe-quiet / conductor-keep-moving / parallel-fire-fleet Merge Gate / tool-path-prefer。harness・scanner・hourly cron・第二 Flag 定義は invent しない。
+- 内容: merge sweep の PdM Flag Y ONLY は behind0、thr0（reviewThreads paginate、unresolved∧¬outdated=0）、FULL CLEAN（FULL tip CI）、APPROVED（人/CoS、approval ボット不可）、ADV SUCCESS。Flag≠Bugbot。4 見出し MUST が先。merge-ok 4 行 false なら Flag しない。HOLD merge=PM。#127 slice A thr-close は issue 本文であり Flag Y 述語に含めない。decide-trend writeback は `ops/daily-*` owed。cite cloud / pr-2 / pr / pr-status-dedupe-quiet / conductor-keep-moving / parallel-fire-fleet Merge Gate / tool-path-prefer。harness・scanner・hourly cron・第二 Flag 定義は invent しない。
 - 決定: ADOPT
 - 出典: https://github.com/maplefukku/grok-bot-ops/issues/127 （2026-09-14）
 - 確認: 未

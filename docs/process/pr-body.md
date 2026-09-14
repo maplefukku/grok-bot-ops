@@ -34,10 +34,10 @@ PdM が merge sweep で Flag Y するときの条件 ONLY である。[#127](htt
 | behind0 | PR head が base tip-sot に behind 0 | [pr-2](sand-workflow:pr-2) / [pr-status-dedupe-quiet](sand-workflow:pr-status-dedupe-quiet) LIVE |
 | thr0 | `reviewThreads` を paginate し、unresolved かつ outdated でないスレッドが 0 | [pr](sand-workflow:pr) / [pr-status-dedupe-quiet](sand-workflow:pr-status-dedupe-quiet) LIVE |
 | FULL CLEAN | required CI green が same-BC を畳んだ FULL tip | [PR確認](sand-workflow:pr)、[`ci-ladder.md`](./ci-ladder.md) |
-| APPROVED | 人または PM の GitHub PR review が `APPROVED`。`cursor[bot]` 単独の self-approve は APPROVED に数えない | [pr-2](sand-workflow:pr-2) LIVE（`reviews` / `latestReviews` で author が `[bot]` でない `APPROVED`、または人の `reviewDecision`） |
+| APPROVED | 人（または CoS）の GitHub PR review が `APPROVED`。approval ボット（`cursor[bot]` 等 `[bot]` login）は数えない | [pr-2](sand-workflow:pr-2) LIVE（`reviews` / `latestReviews` で author login が `[bot]` でない `APPROVED` ≥1） |
 | ADV SUCCESS | ADV が SUCCESS。skip / dismiss は SUCCESS ではない | [parallel-fire-fleet](sand-workflow:parallel-fire-fleet) Merge Gate、[`fleet.md`](../knowhow/fleet.md) ADOPT D |
 
-[`README.md`](./README.md) の merge-ok 4 行（required CI / Cursor bots / MUST threads / NIT threads）は PR確認と Closer が出す事実である。Flag Y ONLY の必要十分は上表 5 行だけである。対応は次のとおりである。FULL CLEAN は merge-ok の required CI（FULL tip）と同じ観測である。ADV SUCCESS は merge-ok の Cursor bots 行に加え ADV が skip/dismiss でないことである。thr0 は merge-ok の MUST/NIT threads 行と同じ PR を LIVE paginate で数え直す（outdated を除外）。behind0 と APPROVED は merge-ok 表に行が無く、PdM が Flag Y の前に LIVE で足す。merge-ok 4 行が true でも上表 5 行が全部 true でなければ Flag Y しない。
+[`README.md`](./README.md) の merge-ok 4 行（required CI / Cursor bots / MUST threads / NIT threads）は PR確認と Closer が出す事実である。merge-ok 4 行のいずれかが false なら Flag Y しない。Flag Y ONLY の必要十分は上表 5 行だけである。対応は次のとおりである。FULL CLEAN は merge-ok の required CI（FULL tip）と同じ観測である。ADV SUCCESS は merge-ok の Cursor bots 行に加え ADV が skip/dismiss でないことである。thr0 は merge-ok の MUST/NIT threads 行と同じ PR を LIVE paginate で数え直す（outdated を除外）。behind0 と APPROVED は merge-ok 表に行が無く、PdM が Flag Y の前に LIVE で足す。merge-ok 4 行が true でも上表 5 行が全部 true でなければ Flag Y しない。PdM の ONE JOB 文言は [`bots/PdM.md`](../../bots/PdM.md) ではなく本表への pointer である。表を `bots/` へコピーしない。
 
 4 見出し MUST が先である。上表 5 行が全部 true のときだけ PdM が Flag Y する。HOLD merge=PM である。ボットは merge しない。Soft Flag invent しない。引用は [Cloud開発](sand-workflow:cloud)、[pr-2](sand-workflow:pr-2)、tool-path-prefer、[conductor-keep-moving](sand-workflow:conductor-keep-moving) である。#127 slice A（thr-close 手順）は issue 本文にあり、Flag Y 述語には含めない。
 

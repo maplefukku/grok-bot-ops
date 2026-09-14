@@ -45,7 +45,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 
 Flag Y は [`pr-body.md`](./pr-body.md) である。PR 本文の 4 見出しが欠けたら Flag しない。merge しない。Dependabot も同じである。Soft-OK はしない。stamp は [`pr-body.md`](./pr-body.md) の Dependabot stamp である。
 
-PdM の merge sweep Flag Y ONLY は [`pr-body.md`](./pr-body.md) の 5 行表のみである。APPROVED は人または PM の review（`cursor[bot]` 単独 self-approve は不可）。Flag≠Bugbot。引用は [Cloud開発](sand-workflow:cloud)、[pr-2](sand-workflow:pr-2)、[pr-status-dedupe-quiet](sand-workflow:pr-status-dedupe-quiet)、[conductor-keep-moving](sand-workflow:conductor-keep-moving)、[parallel-fire-fleet](sand-workflow:parallel-fire-fleet) Merge Gate、tool-path-prefer である。HOLD merge=PM である。
+PdM の merge sweep Flag Y ONLY は [`pr-body.md`](./pr-body.md) の 5 行表のみである。APPROVED は人（または CoS）の review（approval ボットは不可）。Flag≠Bugbot。D. 平日 JST の merge sweep が出す merge-ok 4 行が false なら Flag しない。引用は [Cloud開発](sand-workflow:cloud)、[pr-2](sand-workflow:pr-2)、[pr-status-dedupe-quiet](sand-workflow:pr-status-dedupe-quiet)、[conductor-keep-moving](sand-workflow:conductor-keep-moving)、[parallel-fire-fleet](sand-workflow:parallel-fire-fleet) Merge Gate、tool-path-prefer である。HOLD merge=PM である。
 
 required CI の green は same-BC を畳んだ FULL tip である。LIGHT-WT の green は merge-ok ではない。Flag と E2E は FULL tip だけである。梯子の正本は [`ci-ladder.md`](./ci-ladder.md) である。
 
