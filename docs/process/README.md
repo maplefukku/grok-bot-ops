@@ -9,7 +9,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | PdM | 平日 09:00 の leftover と merge sweep。Flag Y | 出荷単位、merge-ok、PR-body、CI 梯子、D. 平日 JST |
 | Closer（今は `開発<product>` の CA） | bot スレッドが立ったとき | A. スレッドの分類 |
 | Planner | trend-adopt の REJECT 終端を書くとき。候補を ADOPT/REJECT するとき | [trend-adopt-reject](./trend-adopt-reject.md)、B. lane と契約 |
-| job-brief | CA brief を書くとき | PR-body、CI 梯子 |
+| job-brief | CA brief を書くとき | PR-body、CI 梯子、[security-audit-wrap](./security-audit-wrap.md)（初回 push 前 done-when MUST） |
 | 開発リーダー | ROUTE+FIRE のとき | CI 梯子、出荷単位 |
 <<<<<<< HEAD
 | impl CA | lane を 1 本受けたとき。PR を書くとき | B. lane と契約、quiet-test、PR-body、CI 梯子 |

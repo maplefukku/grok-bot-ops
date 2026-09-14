@@ -12,7 +12,7 @@ Fleet WRAP [security-audit-wrap](sand-workflow:security-audit-wrap) の手順正
 
 **プロダクトリポジトリ**で lane を受けた impl CA である。初回 `git push` の前に必ず通す。司令室（grok-bot-ops）で product コードを書く CA は対象外である（そもそも product コードはここに置かない）。
 
-[job-brief](sand-workflow:job-brief) が brief を書くとき、done-when に初回 push 前ゲートを含めるなら本ページを指す。[Cloud開発](sand-workflow:cloud) と [pr-2](sand-workflow:pr-2) の CA 手順と矛盾させない。
+[job-brief](sand-workflow:job-brief) が brief を書くとき、done-when に初回 push 前ゲートとして本ページを **MUST** で含める。[Cloud開発](sand-workflow:cloud) と [pr-2](sand-workflow:pr-2) の CA 手順と矛盾させない。
 
 ## upstream（OSS）
 
@@ -35,11 +35,11 @@ Skills CLI の project scope は当該リポの `.agents/skills/` 等へ書く�
 ## 手順（初回 push 前 MUST）
 
 1. **親 impl CA** は監査本体を自分で最後まで走らせない。subagent に委譲する（[security-audit-wrap](sand-workflow:security-audit-wrap) + upstream）。
-2. subagent は対象を **プロダクトリポ** とし、変更 diff / trust boundary に沿って upstream の workflow を起動する。成果物はプロダクト側の監査出力先（upstream 既定または brief で明示した path）に留める。
-3. ゲートが PASS するまで **初回 push しない**。判断は `/show-me-your-work` に残す。
+2. subagent は対象を **プロダクトリポ** とし、変更 diff / trust boundary に沿って upstream の workflow を起動する。成果物の置き場は upstream [SKILL.md — Output directory](https://github.com/cloudflare/security-audit-skill/blob/main/skills/security-audit/SKILL.md) のみである。既定は target 外 `~/security-audit-skill/<repo-name>/run-<N>`。target 内は利用者が明示し、**親**が VCS がその directory 全体を ignore することを確認したときだけ。それ以外は外の path を要求して止まる。brief が path を書くときも ignore 確認は MUST。
+3. **初回 push しない**条件は upstream 終端と同型である。(a) Phase 6 成果物が揃い `validate-findings.cjs` と `validate-coverage-ledger.cjs` が exit 0、かつ `run_status` が `incomplete` でない。(b) `run_status: "incomplete"` と理由を残すときは push しない。(a) のとき brief が書いた severity 閾値を超える `confirmed` が 0 件（brief 無指定なら `confirmed` 0）。`needs_validation` だけでは (a) とみなさない。判断は `/show-me-your-work` に残す。
 4. grok-bot-ops への PR では本手順を実行しない（docs-only 変更は subagent によるメタレビューで足りる）。
 
-Quiet is not skip。テスト証拠が brief にあるときは `scripts/quiet-test.sh -- <cmd>` である。
+Quiet is not skip。テスト証拠は [Cloud開発](sand-workflow:cloud) と [pr-2](sand-workflow:pr-2) の quiet-test 規約に従う（プロダクトリポの process / 薄い WRAP。司令室の `scripts/quiet-test.sh` を字面どおり打たない）。SoT の読み方は [`quiet-test.md`](./quiet-test.md) である。
 
 ## 禁止
 
