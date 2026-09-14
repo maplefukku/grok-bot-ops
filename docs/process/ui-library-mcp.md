@@ -1,114 +1,120 @@
 # ui-library MCP（callable UI library）
 
-ユーザー言語コンテキスト **`ui-library`** 1 枚。CreateAgent NONE。第二 MCP 席は invent しない。DT #84 / product apps / 画面 invent は **PARK**（fleet ops ONLY）。
+CBO + CPO + Buddy SPEC LOCK。ユーザー言語 **`ui-library`**。CreateAgent NONE。DT #84 / ZN / sauna / gakuse / product apps **PARK**。Mem0 / Discord-as-DB / 第二 library skill / 第二 MCP 席 — **invent しない**。
+
+## gbo survey（invent=N）
+
+| 既存 | パス | 役割 |
+|---|---|---|
+| 索引 + ingest + query WRAP | [`scripts/ui_library/`](../../scripts/ui_library/) | `@ui-refs` registry JSON |
+| 手順 | 本ページ | MCP wire + ownership |
+| ノウハウ | [`docs/knowhow/ui-library.md`](../knowhow/ui-library.md) | find WRAP + 境界 |
+| 自作 skill | [`skills/`](../../skills/README.md) | **0 個のまま**（ui-library-invoke は skill ファイルにしない） |
+
+ギャップは **fleet curated registry** のみ。custom MCP server は WRAP 不足時だけ — 現状 `query.py` + shadcn MCP で done-when を満たす。
+
+## Buddy pattern（1° cite）
+
+find → implement → index → remote MCP invoke。
+
+- 1°: [x.com/taiyo_ai_gakuse/status/2098811650484863400](https://x.com/taiyo_ai_gakuse/status/2098811650484863400) · [2098423635338002618](https://x.com/taiyo_ai_gakuse/status/2098423635338002618)
+- fleet WRAP 種: `ref-seed-buddy-taiyo-find-index-mcp`（fixture、`meta.fleet.seedPosts`）
+
+## Ownership（WRAP EXISTING）
+
+| 段 | 誰 | 何 |
+|---|---|---|
+| find | **X UI収集** + [**UI調査**](../../bots/UI調査.md) | X plugin / 調査 skill。新 seat なし |
+| implement | **ui-library CA**（本 PR） | gbo registry + docs + query WRAP のみ。Grok Bot 本体・product code なし |
+| index | **gbo** `@ui-refs` | URL + why + optional `source`；use-case **kebab** + **description** |
+| invoke | **ui-library-invoke**（手順名） | **MCP 第一**（shadcn）。CA VM で MCP 不可 → **registry 読み**（`query.py`）fallback。Mem0 禁止 |
+| wire | Cursor運用 + add-connector | 下記。connector seat invent 禁止 |
 
 ## OSS調査
 
 | 項目 | 値 |
 |---|---|
-| Primary URL（1°） | https://ui.shadcn.com/docs/mcp |
-| Primary URL（registry） | https://ui.shadcn.com/docs/registry/mcp |
-| Alt | https://github.com/search?q=shadcn-ui-mcp-server&type=repositories |
-| ライセンス | shadcn/ui MIT（registry ツールは CLI 同梱） |
-| できること | registry 上の list / fuzzy search / view / get_add |
-| 不足 | X UI収集 ingest → `@ui-refs` JSON（本リポ WRAP） |
+| Primary（1°） | https://ui.shadcn.com/docs/mcp |
+| Primary（registry） | https://ui.shadcn.com/docs/registry/mcp |
+| Cursor plugin | `/add-plugin shadcn` — [marketplace](https://cursor.com/marketplace/shadcn)（CBO: plugin id **6948** / InstallPlugin WRAP） |
+| ライセンス | shadcn/ui MIT |
 | clone | しない |
 
-## 呼び手
+**Fleet curated refs（X/KAWAI URL+why）≠ shadcn コンポーネント。** 同じ MCP 席から `@shadcn` と `@ui-refs`（別名 `@fleet-ui` 可）を読む。
 
-| 呼び手 | いつ | 見るもの |
-|---|---|---|
-| impl CA（ui-library unit） | lane を受けたとき | 本ページ、[`docs/knowhow/ui-library.md`](../knowhow/ui-library.md) |
-| fleet CA | リモート UI 参照が欲しいとき | Cursor MCP（shadcn）+ `@ui-refs` |
-| X UI収集 | find（既存 X plugin）→ handoff **URL+why** | ingest contract（下） |
-| PdM | merge sweep | [`pr-body.md`](./pr-body.md)、[`ci-ladder.md`](./ci-ladder.md) |
+## MCP wire（Cursor運用 — HARD Prefer）
 
-## 索引と MCP 席
+順序: **InstallPlugin / add-connector より shadcn 公式 WRAP を先**。
 
-```mermaid
-flowchart LR
-  XFind["X plugin find\n(existing WRAP)"] --> Handoff["URL + why"]
-  Handoff --> Ingest["ui_library.ingest"]
-  Ingest --> JSON["registry.json\n@ui-refs"]
-  JSON --> PerItem["{name}.json"]
-  PerItem --> ShadcnMCP["shadcn CLI MCP\nsearch / view / get_add"]
-  ShadcnMCP --> CA["Fleet CA / Cursor"]
-  UIResearch["UI調査"] -.->|does not replace| CA
-```
-
-1. **MCP 席（1 つ）**: [`npx shadcn@latest mcp`](https://ui.shadcn.com/docs/mcp)（Cursor は `.cursor/mcp.json` の `npx shadcn@latest mcp`）。自前 MCP プロトコルは invent しない。
-2. **索引 namespace**: **`@ui-refs`** — [`scripts/ui_library/data/registry.json`](../../scripts/ui_library/data/registry.json)。
-3. **MCP tool WRAP（CI・fleet ops）**: [`query.py`](../../scripts/ui_library/query.py) — invent MCP なし。
-
-| shadcn MCP tool | fleet `query.py` |
-|---|---|
-| `search_items_in_registries` | `search`（use-case **kebab** + **description** 索引） |
-| `view_items_in_registries` | `view`（full registry-item JSON） |
-| `get_item_examples_from_registries` | `examples`（`docs` + description） |
-| `list_items_in_registries` | `list` |
-
-### components.json（CA 作業ツリー WRAP 例）
-
-Grok Bot 本体や product apps には書かない。connector 席は invent しない。
+1. **Cursor plugin（推奨）**: `/add-plugin shadcn` — MCP `npx shadcn@latest mcp` を同梱（[plugin.json](https://github.com/shadcn-ui/ui/blob/main/.cursor-plugin/plugin.json)）。
+2. **手動 AddMcpServer**: プロジェクト [`.cursor/mcp.json`](https://ui.shadcn.com/docs/mcp) に `"command": "npx", "args": ["shadcn@latest", "mcp"]`。
+3. **Registry namespace** — `components.json`:
 
 ```json
 {
   "registries": {
-    "@ui-refs": "https://raw.githubusercontent.com/maplefukku/grok-bot-ops/main/scripts/ui_library/data/{name}.json"
+    "@ui-refs": "https://raw.githubusercontent.com/maplefukku/grok-bot-ops/main/scripts/ui_library/data/{name}.json",
+    "@fleet-ui": "https://raw.githubusercontent.com/maplefukku/grok-bot-ops/main/scripts/ui_library/data/{name}.json"
   }
 }
 ```
 
-### Cursor 運用（wire notes）
+`@fleet-ui` は CBO 別名；正本 catalog name は `@ui-refs`。
 
-- Cursor Settings → MCP: [shadcn 公式手順](https://ui.shadcn.com/docs/mcp) の `.cursor/mcp.json` のみ。fleet 第二 MCP 定義は増やさない。
-- Grok Bot add-connector / Plugins: [`plugins.md`](../knowhow/plugins.md)。GTM 用 connector 席は作らない。
-- X plugin: UI収集 **find** のみ。索引 + MCP query は ui-library lane。
+Grok Bot: Settings → Plugins / add-connector — [`plugins.md`](../knowhow/plugins.md)。**connector 席は増やさない。**
 
-## Ingest contract（X UI収集 → `@ui-refs`）
+## 索引と invoke
 
-| 入力 | 必須 | 説明 |
-|---|---|---|
-| `url` | yes | http(s)。索引する UI 参照先（X 投稿 URL ではない） |
-| `why` | yes | なぜ近いか / 載せる理由 |
-| `use_cases` | no | use-case タグ（`landing`, `hero`, …） |
-
-```text
-pseudocode ingest(url, why, use_cases?):
-  assert url is http(s)
-  assert why non-empty
-  item.meta.fleet = { sourceUrl: url, ingestedWhy: why, useCases, context: "ui-library" }
-  upsert @ui-refs registry.json; write data/{name}.json
+```mermaid
+flowchart LR
+  Find["find: X UI収集 + UI調査"] --> Handoff["URL + why (+ source?)"]
+  Handoff --> Index["index: ingest → @ui-refs"]
+  Index --> JSON["registry.json + item JSON"]
+  JSON --> MCP["invoke: shadcn MCP search/view/examples"]
+  JSON --> Fallback["invoke fallback: query.py"]
+  MCP --> CA["Fleet CA"]
+  Fallback --> CA
 ```
 
-実装: [`ingest.py`](../../scripts/ui_library/ingest.py)。**Fixture**（live ingest 不可時）: `meta.fleet.fixture: true` + `xCollectPost` で X 由来を明示。例: `ref-fixture-x-ui-blocks-hero`。
+| shadcn MCP tool | fleet `query.py`（fallback / CI 証明） |
+|---|---|
+| `search_items_in_registries` | `search` |
+| `view_items_in_registries` | `view` |
+| `get_item_examples_from_registries` | `examples` |
 
-## done-when（CPO SPEC）
+CA VM で live MCP が起動しない場合: **exact wire は上記 1–3** + `quiet-test.sh -- python3 scripts/ui_library/query.py view <name>` で registry schema と fixture を証明する。
+
+## Memory shape（index entry）
+
+| フィールド | 必須 | 格納 |
+|---|---|---|
+| URL | MUST | `meta.fleet.sourceUrl` |
+| why | MUST | `meta.fleet.ingestedWhy` + `description`（索引） |
+| source | optional | `meta.fleet.source`（X cite 等） |
+
+Mem0 / Discord-as-DB — 禁止。
+
+## Ingest contract
+
+[`ingest.py`](../../scripts/ui_library/ingest.py) — `IngestInput(url, why, use_cases?, source?)`.
+
+## done-when（CBO）
 
 | 条件 | 観測 |
 |---|---|
-| `@ui-refs` registry | `registry.json` の `"name": "@ui-refs"` |
-| ingest サンプル | `ref-fixture-x-ui-blocks-hero`（URL+why、fixture 明示） |
-| MCP search/view/examples | `search hero --use-case landing`；`view ref-fixture-x-ui-blocks-hero`；`examples FIXTURE --use-case landing` |
-| PR 4 見出し | [`pr-body.md`](./pr-body.md) / fleet `pr-show-me-template.md` |
-| merge | しない（HOLD merge=PM） |
-
-## 禁止
-
-| 禁止 | 理由 |
-|---|---|
-| 第二 MCP 席 | CPO SPEC |
-| UI調査の置換 | 調査 vs 索引 |
-| Discord drip / 画面 invent / copy-as-is | CPO PARK |
-| connector 席 invent | plugins WRAP のみ |
+| `@ui-refs` + item JSON | [`registry.json`](../../scripts/ui_library/data/registry.json) |
+| ingest ≥1 URL+why | `ref-seed-buddy-taiyo-*` + `ref-fixture-x-ui-blocks-hero` |
+| search/view/examples | 下記テスト |
+| PR 4 見出し | [`pr-body.md`](./pr-body.md) |
+| merge | しない |
 
 ## テスト
 
 ```bash
-./scripts/quiet-test.sh -- python3 -m unittest ui_library.test_registry
-./scripts/quiet-test.sh -- python3 scripts/ui_library/query.py search hero --use-case landing
-./scripts/quiet-test.sh -- python3 scripts/ui_library/query.py view ref-fixture-x-ui-blocks-hero
-./scripts/quiet-test.sh -- python3 scripts/ui_library/query.py examples FIXTURE --use-case landing
+./scripts/quiet-test.sh -- bash -c 'cd scripts && python3 -m unittest ui_library.test_registry'
+./scripts/quiet-test.sh -- python3 scripts/ui_library/query.py search mcp-invoke --use-case workflow
+./scripts/quiet-test.sh -- python3 scripts/ui_library/query.py view ref-seed-buddy-taiyo-find-index-mcp
+./scripts/quiet-test.sh -- python3 scripts/ui_library/query.py examples Buddy --use-case workflow
 ```
 
 quiet は skip ではない。

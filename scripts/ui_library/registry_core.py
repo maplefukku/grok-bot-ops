@@ -24,7 +24,10 @@ class RegistryItemRef:
     raw: Mapping[str, Any]
 
     def as_public(self) -> dict[str, Any]:
-        return {
+        fleet = self.raw.get("meta", {}).get("fleet", {}) if isinstance(
+            self.raw.get("meta"), dict
+        ) else {}
+        out: dict[str, Any] = {
             "name": self.name,
             "title": self.title,
             "description": self.description,
@@ -33,6 +36,9 @@ class RegistryItemRef:
             "why": self.why,
             "useCases": list(self.use_cases),
         }
+        if isinstance(fleet, dict) and fleet.get("source"):
+            out["source"] = fleet["source"]
+        return out
 
 
 class RegistryError(ValueError):

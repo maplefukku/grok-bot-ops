@@ -14,12 +14,13 @@ from ui_library.registry_core import (
 
 @dataclass(frozen=True)
 class IngestInput:
-    """Public contract: X UI収集 lane hands URL+why only; index lives here."""
+    """Public contract: X UI収集 / UI調査 handoff — URL+why required; source optional."""
 
     url: str
     why: str
     use_cases: tuple[str, ...] = ()
     title: str | None = None
+    source: str | None = None
 
 
 def _validate_url(url: str) -> None:
@@ -56,6 +57,11 @@ def ingest_ref(
                 "ingestedWhy": why,
                 "useCases": list(use_cases),
                 "context": "ui-library",
+                **(
+                    {"source": payload.source.strip()}
+                    if payload.source and payload.source.strip()
+                    else {}
+                ),
             }
         },
         "docs": f"Source: {payload.url.strip()}\n\nWhy: {why}",

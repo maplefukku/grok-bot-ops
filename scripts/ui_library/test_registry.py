@@ -108,6 +108,17 @@ class TestUiLibraryRegistry(unittest.TestCase):
         self.assertEqual(fleet.get("sourceUrl"), "https://ui.shadcn.com/blocks")
         self.assertIn("x.com", str(fleet.get("xCollectPost", "")))
 
+    def test_buddy_seed_search_view(self):
+        catalog = RegistryCatalog()
+        hits = catalog.search("remote MCP", use_case="workflow")
+        names = [h.name for h in hits]
+        self.assertIn("ref-seed-buddy-taiyo-find-index-mcp", names)
+        item = catalog.get("ref-seed-buddy-taiyo-find-index-mcp")
+        assert item is not None
+        self.assertEqual(item.source_url, "https://ui.shadcn.com/docs/mcp")
+        pub = item.as_public()
+        self.assertIn("source", pub)
+
     def test_view_and_examples_mcp_wrap(self):
         catalog = RegistryCatalog()
         viewed = catalog.view("ref-fixture-x-ui-blocks-hero")

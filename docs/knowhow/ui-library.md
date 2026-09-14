@@ -1,6 +1,18 @@
 # ui-library
 
-Fleet が **use-case で索引した UI 参照** を、既存の shadcn registry MCP 席から問い合わせるための置き場。第二の MCP プロトコル席や mcp-ui（Apps UI host SDK）をライブラリ索引としては使わない。
+Fleet が **use-case kebab + description** で索引した UI 参照（URL+why+optional source）を、**1 つの shadcn MCP 席**から invoke する置き場。Buddy pattern: find → implement → index → remote MCP invoke（[2098811650484863400](https://x.com/taiyo_ai_gakuse/status/2098811650484863400) · [2098423635338002618](https://x.com/taiyo_ai_gakuse/status/2098423635338002618)）。Mem0 / 第二 library skill / 第二 MCP — invent しない。
+
+## find（既存 WRAP）
+
+- 内容: **X UI収集**（X plugin find）と [**UI調査**](../../bots/UI調査.md) が find。新 seat なし。handoff は **URL MUST + why MUST + source optional**。
+- 出典: [Grok Bot now works with X](https://x.ai/news/grok-bot-and-x) · https://github.com/maplefukku/grok-bot-ops/blob/main/bots/UI調査.md（2026-09-14）
+- 確認: 未
+
+## invoke（ui-library-invoke 手順 — skill ファイルは置かない）
+
+- 内容: **第一** Cursor `/add-plugin shadcn` または `npx shadcn@latest mcp` + `@ui-refs` registry。CA VM で MCP 不可時は [`query.py`](../../scripts/ui_library/query.py) で registry 読み（[`skills/`](../../skills/README.md) に第二 skill は足さない）。
+- 出典: [MCP Server - shadcn/ui](https://ui.shadcn.com/docs/mcp) · [Cursor marketplace shadcn](https://cursor.com/marketplace/shadcn)（2026-09-14）
+- 確認: 未
 
 ## shadcn MCP（Primary WRAP — 1° docs）
 
