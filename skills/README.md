@@ -8,6 +8,8 @@ Lauren の指示はこうです。最初から全スキルを入れない。ス�
 
 `author-shared-skill` / `fleet-stall-sweep` / `completion-handoff` / `fleet-composition-review` / `job-brief` / `ci-health-sweep` / `account-design-pack` はフリートの sand-workflow。このディレクトリに SKILL.md は無い。足すのは スキル作成が eval を通したあと。1 スキル 1 PR。
 
+初回 push 前セキュリティ監査の手順 WRAP は S1–S7 外である。[`docs/process/security-audit-wrap.md`](../docs/process/security-audit-wrap.md)（Fleet [security-audit-wrap](sand-workflow:security-audit-wrap)）。
+
 `job-brief` / Cloud開発 (`sand-workflow:cloud`) / PR確認 (`sand-workflow:pr`) / 開発からPRグリーン (`sand-workflow:pr-2`) の PR 本文は [`docs/process/pr-body.md`](../docs/process/pr-body.md) である。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md` である。見出し表はそちらだけ。このディレクトリに第二のチェックリストは置かない。
 
 `job-brief` と Cloud開発 (`sand-workflow:cloud`) の CI 梯子は [`docs/process/ci-ladder.md`](../docs/process/ci-ladder.md) である。梯子の中身は invent しない。
