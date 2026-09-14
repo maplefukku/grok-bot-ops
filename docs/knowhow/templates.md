@@ -2,6 +2,12 @@
 
 ボットの共有と、公開されているボットの例。
 
+## 公式: Sales Marketplace templates
+
+- 内容: Sales カテゴリに Outbound Prospecting / GTM Loop Closer / Sales Call Coach / Meeting Recap Deck / Pitch Deck Coach などが並ぶ。社内 sales Bot を templates として公開し、context・connectors・routines 付きで導入できる。
+- 出典: [x.com/bot/status/2098183355942703565](https://x.com/bot/status/2098183355942703565) · [sales marketplace](https://x.ai/bot/marketplace/sales)（2026-09-10）
+- 確認: 未
+
 ## 共有テンプレ例: LG Laundry Specialist
 
 - 内容: 家電アプリ操作を Bot に任せる共有テンプレ例。
