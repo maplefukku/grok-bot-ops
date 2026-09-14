@@ -8,12 +8,6 @@
 - 出典: [x.com/bot/status/2098183355942703565](https://x.com/bot/status/2098183355942703565) · [sales marketplace](https://x.ai/bot/marketplace/sales)（2026-09-10）
 - 確認: 未
 
-## 公式ガイド: Grok Bot 101（outer loop → Cursor Cloud Agent）
-
-- 内容: Matt Palmer（SpaceXAI DevRel）の公式ガイド。Bot を outer loop にして Slack/Notion/GitHub などから文脈を集め、クリーンな prompt を Cursor Cloud Agent（inner loop）へ渡す。Grok Bot 自体にコードを書かせない運用の一次出典。
-- 出典: [Grok Bot 101](https://x.ai/bot/guides/grok-bot-101)（2026-09-11）
-- 確認: 未
-
 ## 共有テンプレ例: LG Laundry Specialist
 
 - 内容: 家電アプリ操作を Bot に任せる共有テンプレ例。
