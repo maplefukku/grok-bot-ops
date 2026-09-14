@@ -27,19 +27,19 @@ pstack `/show-me-your-work` の TSV ではない。
 
 ### PdM merge sweep（Flag Y ONLY）
 
-PdM が merge sweep で Flag Y するときの条件 ONLY である。[#127](https://github.com/maplefukku/grok-bot-ops/issues/127) の WRAP である。第二の Flag 定義、harness、scanner、hourly cron は invent しない。Bugbot の green は Flag ではない（Flag≠Bugbot）。
+PdM が merge sweep で Flag Y するときの条件 ONLY である。[#127](https://github.com/maplefukku/grok-bot-ops/issues/127) の WRAP である。行は次の 5 つだけである。6 行目以降の Flag 行は invent しない。第二の Flag 定義、harness、scanner、hourly cron は invent しない。Bugbot の green は Flag ではない（Flag≠Bugbot）。
 
 | 条件 | true の意味 | 観測 |
 |---|---|---|
 | behind0 | PR head が base tip-sot に behind 0 | [pr-2](sand-workflow:pr-2) / [pr-status-dedupe-quiet](sand-workflow:pr-status-dedupe-quiet) LIVE |
 | thr0 | `reviewThreads` を paginate し、unresolved かつ outdated でないスレッドが 0 | [pr](sand-workflow:pr) / [pr-status-dedupe-quiet](sand-workflow:pr-status-dedupe-quiet) LIVE |
 | FULL CLEAN | required CI green が same-BC を畳んだ FULL tip | [PR確認](sand-workflow:pr)、[`ci-ladder.md`](./ci-ladder.md) |
-| APPROVED | GitHub PR review APPROVED | [pr-2](sand-workflow:pr-2) |
+| APPROVED | 人または PM の GitHub PR review が `APPROVED`。`cursor[bot]` 単独の self-approve は APPROVED に数えない | [pr-2](sand-workflow:pr-2) LIVE（`reviews` / `latestReviews` で author が `[bot]` でない `APPROVED`、または人の `reviewDecision`） |
 | ADV SUCCESS | ADV が SUCCESS。skip / dismiss は SUCCESS ではない | [parallel-fire-fleet](sand-workflow:parallel-fire-fleet) Merge Gate、[`fleet.md`](../knowhow/fleet.md) ADOPT D |
 
-4 見出し MUST が先である。上表が全部 true のときだけ PdM が Flag Y する。HOLD merge=PM である。ボットは merge しない。Soft Flag invent しない。
+[`README.md`](./README.md) の merge-ok 4 行（required CI / Cursor bots / MUST threads / NIT threads）は PR確認と Closer が出す事実である。Flag Y ONLY の必要十分は上表 5 行だけである。対応は次のとおりである。FULL CLEAN は merge-ok の required CI（FULL tip）と同じ観測である。ADV SUCCESS は merge-ok の Cursor bots 行に加え ADV が skip/dismiss でないことである。thr0 は merge-ok の MUST/NIT threads 行と同じ PR を LIVE paginate で数え直す（outdated を除外）。behind0 と APPROVED は merge-ok 表に行が無く、PdM が Flag Y の前に LIVE で足す。merge-ok 4 行が true でも上表 5 行が全部 true でなければ Flag Y しない。
 
-impl CA が credits EXHAUST のときは、Closer の thr-close を Mini WRAP で続ける（tool-path-prefer）。on-demand impl CA は REJECT である。[conductor-keep-moving](sand-workflow:conductor-keep-moving) は same-sweep で ACK-then-stop しない。
+4 見出し MUST が先である。上表 5 行が全部 true のときだけ PdM が Flag Y する。HOLD merge=PM である。ボットは merge しない。Soft Flag invent しない。引用は [Cloud開発](sand-workflow:cloud)、[pr-2](sand-workflow:pr-2)、tool-path-prefer、[conductor-keep-moving](sand-workflow:conductor-keep-moving) である。#127 slice A（thr-close 手順）は issue 本文にあり、Flag Y 述語には含めない。
 
 テスト証拠は既存の `/workspace/fleet-scripts/quiet-test.sh -- <cmd>` である。このリポジトリの WRAP は [`scripts/quiet-test.sh`](../../scripts/quiet-test.sh) である。新しい test harness は置かない。
 

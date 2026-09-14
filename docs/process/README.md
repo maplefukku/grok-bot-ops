@@ -32,20 +32,20 @@ A から D の手順の正本はこのファイルである。採択の理由は
 
 ## merge-ok
 
-4 行が全部 true のときだけ merge-ok である。
+4 行が全部 true のときだけ merge-ok である。merge-ok は PR確認と Closer の事実行である。PdM の Flag Y ONLY（[#127](https://github.com/maplefukku/grok-bot-ops/issues/127)）は [`pr-body.md`](./pr-body.md) の 5 行表（behind0、thr0、FULL CLEAN、APPROVED、ADV SUCCESS）が別途全部 true であることである。merge-ok 4 行 true は Flag Y の必要十分ではない。Flag 行を 6 行目以降 invent しない。
 
-| 行 | true の条件 | 観測 |
-|---|---|---|
-| required CI | green | PR確認 |
-| Cursor bots | done。skip と dismiss は done ではない | PR確認 |
-| MUST threads | 未 resolve が 0 | Closer |
-| NIT threads | 各スレッド返信 ≤ 1 かつ resolved | Closer |
+| 行 | true の条件 | 観測 | Flag Y ONLY との関係 |
+|---|---|---|---|
+| required CI | green（FULL tip） | PR確認 | FULL CLEAN と同じ観測 |
+| Cursor bots | done。skip と dismiss は done ではない | PR確認 | ADV SUCCESS の一部（ADV skip/dismiss 除外） |
+| MUST threads | 未 resolve が 0 | Closer | thr0 の Closer 分類側 |
+| NIT threads | 各スレッド返信 ≤ 1 かつ resolved | Closer | thr0 の Closer 分類側 |
 
 ボットは merge しない。人だけが merge する。事実の観測は [`PR確認`](../../bots/PR確認.md) である。日付付きの観察は [`fleet.md`](../knowhow/fleet.md) である。fleet.md は正本ではない。
 
 Flag Y は [`pr-body.md`](./pr-body.md) である。PR 本文の 4 見出しが欠けたら Flag しない。merge しない。Dependabot も同じである。Soft-OK はしない。stamp は [`pr-body.md`](./pr-body.md) の Dependabot stamp である。
 
-PdM の merge sweep Flag Y ONLY は [`pr-body.md`](./pr-body.md) の PdM merge sweep 表である。behind0、thr0（`reviewThreads` を paginate、unresolved かつ outdated でない件数 0）、FULL CLEAN、APPROVED、ADV SUCCESS が全部 true のときだけ Flag する。Flag≠Bugbot。引用は [Cloud開発](sand-workflow:cloud)、[pr-2](sand-workflow:pr-2)、[pr-status-dedupe-quiet](sand-workflow:pr-status-dedupe-quiet)、[conductor-keep-moving](sand-workflow:conductor-keep-moving)、[parallel-fire-fleet](sand-workflow:parallel-fire-fleet) Merge Gate、tool-path-prefer である。適用 issue は [#127](https://github.com/maplefukku/grok-bot-ops/issues/127) である。HOLD merge=PM である。
+PdM の merge sweep Flag Y ONLY は [`pr-body.md`](./pr-body.md) の 5 行表のみである。APPROVED は人または PM の review（`cursor[bot]` 単独 self-approve は不可）。Flag≠Bugbot。引用は [Cloud開発](sand-workflow:cloud)、[pr-2](sand-workflow:pr-2)、[pr-status-dedupe-quiet](sand-workflow:pr-status-dedupe-quiet)、[conductor-keep-moving](sand-workflow:conductor-keep-moving)、[parallel-fire-fleet](sand-workflow:parallel-fire-fleet) Merge Gate、tool-path-prefer である。HOLD merge=PM である。
 
 required CI の green は same-BC を畳んだ FULL tip である。LIGHT-WT の green は merge-ok ではない。Flag と E2E は FULL tip だけである。梯子の正本は [`ci-ladder.md`](./ci-ladder.md) である。
 
@@ -169,7 +169,7 @@ PR-body HARD LOCK は [`pr-body.md`](./pr-body.md) である。recipe SoT は bo
 
 CI 梯子 LIGHT→FULL は [`ci-ladder.md`](./ci-ladder.md) である。SPEED NORM の太い lander は出荷単位である。
 
-merge bottleneck Flag Y ONLY Domain WRAP は [issue 127](https://github.com/maplefukku/grok-bot-ops/issues/127) である。正本は [`pr-body.md`](./pr-body.md) の PdM merge sweep 表である。引用は [Cloud開発](sand-workflow:cloud)、[pr-2](sand-workflow:pr-2)、[pr-status-dedupe-quiet](sand-workflow:pr-status-dedupe-quiet)、[conductor-keep-moving](sand-workflow:conductor-keep-moving)、[parallel-fire-fleet](sand-workflow:parallel-fire-fleet) Merge Gate、tool-path-prefer である。CreateAgent NONE。新しい harness は置かない。
+merge bottleneck Flag Y ONLY の process WRAP は [issue 127](https://github.com/maplefukku/grok-bot-ops/issues/127) である。正本は [`pr-body.md`](./pr-body.md) と本ファイル merge-ok 節の対応表である。`scripts/ci.py` に Flag Y 針は置かない。docs 削除が CI を黙らせないのは意図である。harness invent しない。CreateAgent NONE。
 
 ADV closer reopen guard Domain WRAP は [issue 118](https://github.com/maplefukku/grok-bot-ops/issues/118) である。sibling は [issue 95](https://github.com/maplefukku/grok-bot-ops/issues/95) と [issue 73](https://github.com/maplefukku/grok-bot-ops/issues/73) である。引用は [parallel-fire-fleet](sand-workflow:parallel-fire-fleet)、[Cloud開発](sand-workflow:cloud)、[`quiet-test.md`](./quiet-test.md) である。
 
