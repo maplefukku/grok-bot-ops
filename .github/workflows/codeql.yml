@@ -11,13 +11,14 @@
 #
 # WRAP of https://github.com/actions/starter-workflows/blob/main/code-scanning/codeql.yml
 # fetched 2026-09-07. Placeholders filled for grok-bot-ops (python / none / main).
+# Trigger policy: push main + weekly schedule only (no pull_request). Required merge
+# gate is ci.yml `check` only (.github/rulesets/main-pr-only.json). PR CI stays ~10s.
+# Runner: ubuntu-latest (SoftHOLD ubicloud until CI運用 confirms App for this repo).
 #
 name: "CodeQL Advanced"
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
     branches: [ main ]
   schedule:
     - cron: '27 4 * * 1'

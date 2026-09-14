@@ -37,6 +37,9 @@ CODEQL_NEEDLES = (
     "github/codeql-action/analyze@",
     "language: python",
     "build-mode: none",
+    "|| 'ubuntu-latest' }}",
+    "schedule:",
+    "cron: '27 4 * * 1'",
 )
 SCORECARD_NEEDLES = (
     "ossf/scorecard-action@",
@@ -74,6 +77,65 @@ def _text(path: Path) -> str:
     return path.read_text(encoding="utf-8") if path.is_file() else ""
 
 
+def _active_lines(text: str) -> list[str]:
+    return [
+        line
+        for line in text.splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+
+
+def workflow_on_triggers(text: str) -> set[str]:
+    """Parse top-level on: trigger keys (comment lines ignored)."""
+    lines = _active_lines(text)
+    triggers: set[str] = set()
+    i = 0
+    while i < len(lines):
+        stripped = lines[i].strip()
+        if not stripped.startswith("on:"):
+            i += 1
+            continue
+        rest = stripped[3:].strip()
+        if rest.startswith("[") and rest.endswith("]"):
+            for part in rest[1:-1].split(","):
+                key = part.strip()
+                if key:
+                    triggers.add(key)
+            i += 1
+            continue
+        if rest and rest != "on:":
+            triggers.add(rest)
+            i += 1
+            continue
+        base_indent = len(lines[i]) - len(lines[i].lstrip())
+        i += 1
+        while i < len(lines):
+            ln = lines[i]
+            indent = len(ln) - len(ln.lstrip())
+            if indent <= base_indent:
+                break
+            child = ln.strip()
+            if child.endswith(":") and not child.startswith("-"):
+                triggers.add(child[:-1].strip())
+            i += 1
+        continue
+    return triggers
+
+
+def codeql_trigger_errors(body: str) -> list[str]:
+    errors: list[str] = []
+    triggers = workflow_on_triggers(body)
+    if "pull_request" in triggers:
+        errors.append(
+            ".github/workflows/codeql.yml: on.pull_request forbidden (push-main-only lander)"
+        )
+    if "push" not in triggers:
+        errors.append(".github/workflows/codeql.yml: on.push missing")
+    if "schedule" not in triggers:
+        errors.append(".github/workflows/codeql.yml: on.schedule missing")
+    return errors
+
+
 def wrap_errors() -> list[str]:
     errors: list[str] = []
     for path, needles in (
@@ -89,6 +151,8 @@ def wrap_errors() -> list[str]:
         for needle in needles:
             if needle not in body:
                 errors.append(f"{path.relative_to(ROOT)}: missing {needle}")
+        if path == CODEQL:
+            errors.extend(codeql_trigger_errors(body))
     if not RULESET.is_file():
         errors.append(f"missing {RULESET.relative_to(ROOT)}")
     else:
@@ -171,6 +235,25 @@ class DevopsWrapTests(unittest.TestCase):
 
     def test_parser_accepts_complete_fixture(self) -> None:
         self.assertEqual(ruleset_errors(COMPLETE_RULESET), [])
+
+    def test_codeql_on_parser_ignores_commented_pull_request(self) -> None:
+        yaml = "\n".join(
+            [
+                "on:",
+                "  push:",
+                "    branches: [ main ]",
+                "  # pull_request:",
+                "  schedule:",
+                "    - cron: '0 0 * * 0'",
+            ]
+        )
+        self.assertNotIn("pull_request", workflow_on_triggers(yaml))
+        self.assertEqual(codeql_trigger_errors(yaml), [])
+
+    def test_codeql_on_parser_rejects_pull_request_trigger(self) -> None:
+        yaml = "on: [push, pull_request]\n"
+        found = codeql_trigger_errors(yaml)
+        self.assertTrue(any("pull_request" in item for item in found))
 
     def test_parser_rejects_wrong_required_check(self) -> None:
         broken = {
