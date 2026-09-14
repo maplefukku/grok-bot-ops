@@ -11,7 +11,7 @@
   "meta": {
     "fleet": {
       "sourceUrl": "https://ui.shadcn.com/docs/registry/mcp",
-      "ingestedWhy": "Primary OSS WRAP for callable UI library MCP; fleet index is another registry namespace.",
+      "ingestedWhy": "Primary OSS WRAP for callable UI library MCP; @ui-refs is the fleet namespace on the same MCP seat.",
       "useCases": [
         "mcp",
         "registry",
@@ -20,5 +20,5 @@
       "context": "ui-library"
     }
   },
-  "docs": "Configure @fleet-ui in components.json and run `npx shadcn@latest mcp init --client cursor`."
+  "docs": "Configure @ui-refs in components.json and run `npx shadcn@latest mcp init --client cursor`. See https://ui.shadcn.com/docs/mcp"
 }

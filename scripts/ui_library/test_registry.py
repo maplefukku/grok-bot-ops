@@ -32,7 +32,7 @@ class TestUiLibraryRegistry(unittest.TestCase):
                 json.dumps(
                     {
                         "$schema": "https://ui.shadcn.com/schema/registry.json",
-                        "name": "@fleet-ui",
+                        "name": "@ui-refs",
                         "items": [
                             {
                                 "name": "a",
@@ -74,7 +74,7 @@ class TestUiLibraryRegistry(unittest.TestCase):
                 json.dumps(
                     {
                         "$schema": "https://ui.shadcn.com/schema/registry.json",
-                        "name": "@fleet-ui",
+                        "name": "@ui-refs",
                         "items": [],
                     }
                 ),
@@ -95,6 +95,18 @@ class TestUiLibraryRegistry(unittest.TestCase):
             assert item is not None
             self.assertEqual(item.why, "Similar spacing to our checkout")
             self.assertIn("checkout", item.use_cases)
+
+    def test_fixture_sample_search_and_get(self):
+        catalog = RegistryCatalog()
+        hits = catalog.search("hero", use_case="landing")
+        names = [h.name for h in hits]
+        self.assertIn("ref-fixture-x-ui-blocks-hero", names)
+        item = catalog.get("ref-fixture-x-ui-blocks-hero")
+        assert item is not None
+        fleet = item.raw.get("meta", {}).get("fleet", {})
+        self.assertTrue(fleet.get("fixture"))
+        self.assertEqual(fleet.get("sourceUrl"), "https://ui.shadcn.com/blocks")
+        self.assertIn("x.com", str(fleet.get("xCollectPost", "")))
 
 
 if __name__ == "__main__":

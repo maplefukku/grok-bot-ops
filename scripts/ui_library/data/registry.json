@@ -1,6 +1,6 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "@fleet-ui",
+  "name": "@ui-refs",
   "homepage": "https://github.com/maplefukku/grok-bot-ops",
   "items": [
     {
@@ -8,24 +8,35 @@
       "type": "registry:item",
       "title": "shadcn registry MCP (primary WRAP)",
       "description": "Official shadcn MCP exposes list/search/view/get_add against any shadcn-compatible registry index.",
-      "categories": [
-        "mcp",
-        "registry",
-        "component-index"
-      ],
+      "categories": ["mcp", "registry", "component-index"],
       "meta": {
         "fleet": {
           "sourceUrl": "https://ui.shadcn.com/docs/registry/mcp",
-          "ingestedWhy": "Primary OSS WRAP for callable UI library MCP; fleet index is another registry namespace.",
-          "useCases": [
-            "mcp",
-            "registry",
-            "component-index"
-          ],
+          "ingestedWhy": "Primary OSS WRAP for callable UI library MCP; @ui-refs is the fleet namespace on the same MCP seat.",
+          "useCases": ["mcp", "registry", "component-index"],
           "context": "ui-library"
         }
       },
-      "docs": "Configure @fleet-ui in components.json and run `npx shadcn@latest mcp init --client cursor`."
+      "docs": "Configure @ui-refs in components.json and run `npx shadcn@latest mcp init --client cursor`. See https://ui.shadcn.com/docs/mcp"
+    },
+    {
+      "name": "ref-fixture-x-ui-blocks-hero",
+      "type": "registry:item",
+      "title": "shadcn blocks — hero sections (X UI収集 fixture)",
+      "description": "Public block gallery for hero layouts; ingested as a fixture sample from the X UI収集 lane (URL+why).",
+      "categories": ["landing", "hero", "marketing-site"],
+      "meta": {
+        "fleet": {
+          "fixture": true,
+          "fixtureNote": "Live X→ingest automation not in grok-bot-ops; sample models X UI収集 handoff URL+why.",
+          "xCollectPost": "https://x.com/pcefancom/status/2096819736596398276",
+          "sourceUrl": "https://ui.shadcn.com/blocks",
+          "ingestedWhy": "Hero and card block patterns from a public Grok Bot UI workflow thread; close reference for fleet marketing landing comps (spacing + section rhythm).",
+          "useCases": ["landing", "hero", "marketing-site"],
+          "context": "ui-library"
+        }
+      },
+      "docs": "FIXTURE: X post is collection provenance only. Indexed UI URL: https://ui.shadcn.com/blocks"
     }
   ]
 }
