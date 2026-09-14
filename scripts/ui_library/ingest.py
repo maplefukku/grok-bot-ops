@@ -1,0 +1,73 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from urllib.parse import urlparse
+
+from ui_library.registry_core import (
+    RegistryCatalog,
+    RegistryError,
+    slug_from_url,
+    to_kebab_tag,
+    validate_item_name,
+)
+
+
+@dataclass(frozen=True)
+class IngestInput:
+    """Public contract: X UI収集 / UI調査 handoff — URL+why required; source optional."""
+
+    url: str
+    why: str
+    use_cases: tuple[str, ...] = ()
+    title: str | None = None
+    source: str | None = None
+
+
+def _validate_url(url: str) -> None:
+    parsed = urlparse(url.strip())
+    if parsed.scheme not in ("http", "https") or not parsed.netloc:
+        raise RegistryError("url must be http(s) with host")
+
+
+def ingest_ref(
+    catalog: RegistryCatalog,
+    payload: IngestInput,
+    *,
+    name: str | None = None,
+) -> str:
+    _validate_url(payload.url)
+    why = payload.why.strip()
+    if not why:
+        raise RegistryError("why is required")
+    url = payload.url.strip()
+    item_name = validate_item_name(name) if name else f"ref-{slug_from_url(url)}"
+    use_cases = tuple(
+        to_kebab_tag(u) for u in payload.use_cases if u and u.strip()
+    )
+    host = urlparse(url).hostname or "ref"
+    title = (payload.title or f"UI ref {host}").strip()
+    description = f"{why} URL: {url}"
+    item = {
+        "name": item_name,
+        "type": "registry:item",
+        "title": title,
+        "description": description,
+        "categories": list(use_cases),
+        "meta": {
+            "fleet": {
+                "sourceUrl": url,
+                "ingestedWhy": why,
+                "useCases": list(use_cases),
+                "context": "ui-library",
+                **(
+                    {"source": payload.source.strip()}
+                    if payload.source and payload.source.strip()
+                    else {}
+                ),
+            }
+        },
+        "docs": f"Source: {url}\n\nWhy: {why}",
+    }
+    catalog.upsert_item(item)
+    catalog.save()
+    return item_name

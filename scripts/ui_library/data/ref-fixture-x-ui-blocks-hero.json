@@ -1,0 +1,27 @@
+{
+  "name": "ref-fixture-x-ui-blocks-hero",
+  "type": "registry:item",
+  "title": "shadcn blocks — hero sections (X UI収集 fixture)",
+  "description": "Public block gallery for hero layouts; ingested as a fixture sample from the X UI収集 lane (URL+why).",
+  "categories": [
+    "landing",
+    "hero",
+    "marketing-site"
+  ],
+  "meta": {
+    "fleet": {
+      "fixture": true,
+      "fixtureNote": "Live X→ingest automation not in grok-bot-ops; sample models X UI収集 handoff URL+why.",
+      "xCollectPost": "https://x.com/pcefancom/status/2096819736596398276",
+      "sourceUrl": "https://ui.shadcn.com/blocks",
+      "ingestedWhy": "Hero and card block patterns from a public Grok Bot UI workflow thread; close reference for fleet marketing landing comps (spacing + section rhythm).",
+      "useCases": [
+        "landing",
+        "hero",
+        "marketing-site"
+      ],
+      "context": "ui-library"
+    }
+  },
+  "docs": "FIXTURE: X post is collection provenance only. Indexed UI URL: https://ui.shadcn.com/blocks"
+}

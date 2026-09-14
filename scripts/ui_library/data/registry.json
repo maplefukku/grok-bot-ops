@@ -1,0 +1,65 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "@ui-refs",
+  "homepage": "https://github.com/maplefukku/grok-bot-ops",
+  "items": [
+    {
+      "name": "ref-ui-shadcn-registry-mcp",
+      "type": "registry:item",
+      "title": "shadcn registry MCP (primary WRAP)",
+      "description": "Official shadcn MCP exposes list/search/view/get_add against any shadcn-compatible registry index. URL: https://ui.shadcn.com/docs/registry/mcp",
+      "categories": ["mcp", "registry", "component-index"],
+      "meta": {
+        "fleet": {
+          "sourceUrl": "https://ui.shadcn.com/docs/registry/mcp",
+          "ingestedWhy": "Primary OSS WRAP for callable UI library MCP; @ui-refs is the fleet namespace on the same MCP seat.",
+          "useCases": ["mcp", "registry", "component-index"],
+          "context": "ui-library"
+        }
+      },
+      "docs": "Configure @ui-refs in components.json and run `npx shadcn@latest mcp init --client cursor`. See https://ui.shadcn.com/docs/mcp"
+    },
+    {
+      "name": "ref-fixture-x-ui-blocks-hero",
+      "type": "registry:item",
+      "title": "shadcn blocks — hero sections (X UI収集 fixture)",
+      "description": "Public block gallery for hero layouts; ingested fixture from X UI収集 (URL+why). URL: https://ui.shadcn.com/blocks",
+      "categories": ["landing", "hero", "marketing-site"],
+      "meta": {
+        "fleet": {
+          "fixture": true,
+          "fixtureNote": "Live X→ingest automation not in grok-bot-ops; sample models X UI収集 handoff URL+why.",
+          "xCollectPost": "https://x.com/pcefancom/status/2096819736596398276",
+          "sourceUrl": "https://ui.shadcn.com/blocks",
+          "ingestedWhy": "Hero and card block patterns from a public Grok Bot UI workflow thread; close reference for fleet marketing landing comps (spacing + section rhythm).",
+          "useCases": ["landing", "hero", "marketing-site"],
+          "context": "ui-library"
+        }
+      },
+      "docs": "FIXTURE: X post is collection provenance only. Indexed UI URL: https://ui.shadcn.com/blocks"
+    },
+    {
+      "name": "ref-seed-buddy-taiyo-find-index-mcp",
+      "type": "registry:item",
+      "title": "find → index → remote MCP invoke (Buddy 1° seed)",
+      "description": "Pattern cite: curate UI refs from X, index for reuse, invoke through one MCP seat—not Mem0 or a second library skill. URL: https://ui.shadcn.com/docs/mcp",
+      "categories": ["workflow", "mcp-invoke", "ui-collection"],
+      "meta": {
+        "fleet": {
+          "fixture": true,
+          "fixtureNote": "Buddy 1° X cites; indexed URL is fleet invoke WRAP (shadcn MCP docs).",
+          "seedPosts": [
+            "https://x.com/taiyo_ai_gakuse/status/2098811650484863400",
+            "https://x.com/taiyo_ai_gakuse/status/2098423635338002618"
+          ],
+          "sourceUrl": "https://ui.shadcn.com/docs/mcp",
+          "ingestedWhy": "Xで良いUIを見つけたら実装し、索引化してリモートMCPから呼び出す—fleet ops WRAPは @ui-refs registry + shadcn MCP 1席（Mem0/第二skillなし）。",
+          "source": "https://x.com/taiyo_ai_gakuse/status/2098811650484863400",
+          "useCases": ["workflow", "mcp-invoke", "ui-collection"],
+          "context": "ui-library"
+        }
+      },
+      "docs": "Buddy pattern seed. Memory shape: sourceUrl (URL MUST) + ingestedWhy (why MUST) + source (optional X cite)."
+    }
+  ]
+}

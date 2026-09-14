@@ -184,6 +184,27 @@ def check_intent_memory_contract() -> list[str]:
     return _run_unittest_module("intent_memory.test_contract", "intent-memory")
 
 
+def check_ui_library_registry() -> list[str]:
+    errors: list[str] = []
+    errors.extend(_run_unittest_module("ui_library.test_registry", "ui-library"))
+    errors.extend(_run_unittest_module("ui_library.test_query", "ui-library-query"))
+    registry_path = ROOT / "scripts" / "ui_library" / "data" / "registry.json"
+    try:
+        import json as _json
+
+        from ui_library.registry_core import validate_registry_shape
+
+        scripts = str(ROOT / "scripts")
+        if scripts not in sys.path:
+            sys.path.insert(0, scripts)
+        data = _json.loads(registry_path.read_text(encoding="utf-8"))
+        for item in validate_registry_shape(data):
+            errors.append(f"scripts/ui_library/data/registry.json: {item}")
+    except Exception as exc:
+        errors.append(f"ui-library-registry-shape: {exc}")
+    return errors
+
+
 def check_local_worktree_prune() -> list[str]:
     return _run_unittest_module("test_local_worktree_prune", "local-worktree-prune")
 
@@ -391,6 +412,7 @@ def main() -> int:
         ("knowhow-sources", check_knowhow),
         ("plugin-json", check_plugin_json),
         ("intent-memory-contract", check_intent_memory_contract),
+        ("ui-library-registry", check_ui_library_registry),
         ("local-worktree-prune", check_local_worktree_prune),
         ("merge-velocity-day", check_merge_velocity_day),
         ("quiet-test", check_quiet_test),

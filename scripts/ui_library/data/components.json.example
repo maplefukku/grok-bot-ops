@@ -1,0 +1,6 @@
+{
+  "$comment": "Copy into a product CA worktree root for shadcn MCP + @ui-refs wire. Not used by grok-bot-ops CI.",
+  "registries": {
+    "@ui-refs": "https://raw.githubusercontent.com/maplefukku/grok-bot-ops/main/scripts/ui_library/data/{name}.json"
+  }
+}

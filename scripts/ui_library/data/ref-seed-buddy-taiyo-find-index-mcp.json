@@ -1,0 +1,31 @@
+{
+  "name": "ref-seed-buddy-taiyo-find-index-mcp",
+  "type": "registry:item",
+  "title": "find → index → remote MCP invoke (Buddy 1° seed)",
+  "description": "Pattern cite: curate UI refs from X, index for reuse, invoke through one MCP seat—not Mem0 or a second library skill.",
+  "categories": [
+    "workflow",
+    "mcp-invoke",
+    "ui-collection"
+  ],
+  "meta": {
+    "fleet": {
+      "fixture": true,
+      "fixtureNote": "Buddy 1° X cites; indexed URL is fleet invoke WRAP (shadcn MCP docs).",
+      "seedPosts": [
+        "https://x.com/taiyo_ai_gakuse/status/2098811650484863400",
+        "https://x.com/taiyo_ai_gakuse/status/2098423635338002618"
+      ],
+      "sourceUrl": "https://ui.shadcn.com/docs/mcp",
+      "ingestedWhy": "Xで良いUIを見つけたら実装し、索引化してリモートMCPから呼び出す—fleet ops WRAPは @ui-refs registry + shadcn MCP 1席（Mem0/第二skillなし）。",
+      "source": "https://x.com/taiyo_ai_gakuse/status/2098811650484863400",
+      "useCases": [
+        "workflow",
+        "mcp-invoke",
+        "ui-collection"
+      ],
+      "context": "ui-library"
+    }
+  },
+  "docs": "Buddy pattern seed. Memory shape: sourceUrl (URL MUST) + ingestedWhy (why MUST) + source (optional X cite)."
+}
