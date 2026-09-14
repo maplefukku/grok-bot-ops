@@ -7,7 +7,7 @@
       "name": "ref-ui-shadcn-registry-mcp",
       "type": "registry:item",
       "title": "shadcn registry MCP (primary WRAP)",
-      "description": "Official shadcn MCP exposes list/search/view/get_add against any shadcn-compatible registry index.",
+      "description": "Official shadcn MCP exposes list/search/view/get_add against any shadcn-compatible registry index. URL: https://ui.shadcn.com/docs/registry/mcp",
       "categories": ["mcp", "registry", "component-index"],
       "meta": {
         "fleet": {
@@ -23,7 +23,7 @@
       "name": "ref-fixture-x-ui-blocks-hero",
       "type": "registry:item",
       "title": "shadcn blocks — hero sections (X UI収集 fixture)",
-      "description": "Public block gallery for hero layouts; ingested as a fixture sample from the X UI収集 lane (URL+why).",
+      "description": "Public block gallery for hero layouts; ingested fixture from X UI収集 (URL+why). URL: https://ui.shadcn.com/blocks",
       "categories": ["landing", "hero", "marketing-site"],
       "meta": {
         "fleet": {
@@ -42,7 +42,7 @@
       "name": "ref-seed-buddy-taiyo-find-index-mcp",
       "type": "registry:item",
       "title": "find → index → remote MCP invoke (Buddy 1° seed)",
-      "description": "Pattern cite: curate UI refs from X, index for reuse, invoke through one MCP seat—not Mem0 or a second library skill.",
+      "description": "Pattern cite: curate UI refs from X, index for reuse, invoke through one MCP seat—not Mem0 or a second library skill. URL: https://ui.shadcn.com/docs/mcp",
       "categories": ["workflow", "mcp-invoke", "ui-collection"],
       "meta": {
         "fleet": {

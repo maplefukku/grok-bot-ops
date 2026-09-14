@@ -185,7 +185,24 @@ def check_intent_memory_contract() -> list[str]:
 
 
 def check_ui_library_registry() -> list[str]:
-    return _run_unittest_module("ui_library.test_registry", "ui-library")
+    errors: list[str] = []
+    errors.extend(_run_unittest_module("ui_library.test_registry", "ui-library"))
+    errors.extend(_run_unittest_module("ui_library.test_query", "ui-library-query"))
+    registry_path = ROOT / "scripts" / "ui_library" / "data" / "registry.json"
+    try:
+        import json as _json
+
+        from ui_library.registry_core import validate_registry_shape
+
+        scripts = str(ROOT / "scripts")
+        if scripts not in sys.path:
+            sys.path.insert(0, scripts)
+        data = _json.loads(registry_path.read_text(encoding="utf-8"))
+        for item in validate_registry_shape(data):
+            errors.append(f"scripts/ui_library/data/registry.json: {item}")
+    except Exception as exc:
+        errors.append(f"ui-library-registry-shape: {exc}")
+    return errors
 
 
 def check_local_worktree_prune() -> list[str]:

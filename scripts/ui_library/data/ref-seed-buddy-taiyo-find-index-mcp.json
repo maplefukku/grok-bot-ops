@@ -3,7 +3,11 @@
   "type": "registry:item",
   "title": "find → index → remote MCP invoke (Buddy 1° seed)",
   "description": "Pattern cite: curate UI refs from X, index for reuse, invoke through one MCP seat—not Mem0 or a second library skill.",
-  "categories": ["workflow", "mcp-invoke", "ui-collection"],
+  "categories": [
+    "workflow",
+    "mcp-invoke",
+    "ui-collection"
+  ],
   "meta": {
     "fleet": {
       "fixture": true,
@@ -15,7 +19,11 @@
       "sourceUrl": "https://ui.shadcn.com/docs/mcp",
       "ingestedWhy": "Xで良いUIを見つけたら実装し、索引化してリモートMCPから呼び出す—fleet ops WRAPは @ui-refs registry + shadcn MCP 1席（Mem0/第二skillなし）。",
       "source": "https://x.com/taiyo_ai_gakuse/status/2098811650484863400",
-      "useCases": ["workflow", "mcp-invoke", "ui-collection"],
+      "useCases": [
+        "workflow",
+        "mcp-invoke",
+        "ui-collection"
+      ],
       "context": "ui-library"
     }
   },

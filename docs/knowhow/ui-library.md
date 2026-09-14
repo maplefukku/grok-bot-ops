@@ -28,8 +28,8 @@ Fleet が **use-case kebab + description** で索引した UI 参照（URL+why+o
 
 ## 代替（survey の Alt）
 
-- 内容: コミュニティ実装 `Jpisnice/shadcn-ui-mcp-server` は同種の registry 操作を提供する。Primary が足りないときだけ Alt として検討する。fleet は shadcn CLI MCP を正とする。
-- 出典: [shadcn-ui-mcp-server（GitHub 検索）](https://github.com/search?q=shadcn-ui-mcp-server&type=repositories)（2026-09-14）
+- 内容: コミュニティ Alt [Jpisnice/shadcn-ui-mcp-server](https://github.com/Jpisnice/shadcn-ui-mcp-server)（MIT）。Primary が足りないときだけ。fleet は shadcn CLI MCP を正とする。
+- 出典: https://github.com/Jpisnice/shadcn-ui-mcp-server（2026-09-14）
 - 確認: 未
 
 ## fleet 索引 JSON の置き場

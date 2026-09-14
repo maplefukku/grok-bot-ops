@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Sequence
 from urllib.parse import urlparse
 
 from ui_library.registry_core import (
@@ -9,6 +8,7 @@ from ui_library.registry_core import (
     RegistryError,
     slug_from_url,
     to_kebab_tag,
+    validate_item_name,
 )
 
 
@@ -39,12 +39,14 @@ def ingest_ref(
     why = payload.why.strip()
     if not why:
         raise RegistryError("why is required")
-    item_name = name or f"ref-{slug_from_url(payload.url)}"
+    url = payload.url.strip()
+    item_name = validate_item_name(name) if name else f"ref-{slug_from_url(url)}"
     use_cases = tuple(
         to_kebab_tag(u) for u in payload.use_cases if u and u.strip()
     )
-    title = (payload.title or item_name).strip()
-    description = why.strip()
+    host = urlparse(url).hostname or "ref"
+    title = (payload.title or f"UI ref {host}").strip()
+    description = f"{why} URL: {url}"
     item = {
         "name": item_name,
         "type": "registry:item",
@@ -53,7 +55,7 @@ def ingest_ref(
         "categories": list(use_cases),
         "meta": {
             "fleet": {
-                "sourceUrl": payload.url.strip(),
+                "sourceUrl": url,
                 "ingestedWhy": why,
                 "useCases": list(use_cases),
                 "context": "ui-library",
@@ -64,7 +66,7 @@ def ingest_ref(
                 ),
             }
         },
-        "docs": f"Source: {payload.url.strip()}\n\nWhy: {why}",
+        "docs": f"Source: {url}\n\nWhy: {why}",
     }
     catalog.upsert_item(item)
     catalog.save()

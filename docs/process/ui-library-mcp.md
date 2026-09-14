@@ -78,11 +78,13 @@ flowchart LR
 
 | shadcn MCP tool | fleet `query.py`（fallback / CI 証明） |
 |---|---|
-| `search_items_in_registries` | `search` |
-| `view_items_in_registries` | `view` |
-| `get_item_examples_from_registries` | `examples` |
+| `search_items_in_registries` | `search`（name / title / **description** — URL は description に含める） |
+| `view_items_in_registries` | `view`（**disk** `scripts/ui_library/data/{name}.json` — MCP wire と同じパス） |
+| `get_item_examples_from_registries` | `examples`（**local subset**: `docs` テキストのみ。`files[].content` は shadcn 本家 MCP のみ） |
 
-CA VM で live MCP が起動しない場合: **exact wire は上記 1–3** + `quiet-test.sh -- python3 scripts/ui_library/query.py view <name>` で registry schema と fixture を証明する。
+MCP wire 正本: [`components.json.example`](../../scripts/ui_library/data/components.json.example) の `@ui-refs` → `…/data/{name}.json`。
+
+CA VM で live MCP 不可: **wire 手順は上記** + `query.py view <name>` が disk item JSON（`meta.fleet.sourceUrl` 含む）を返すことで証明。
 
 ## Memory shape（index entry）
 
