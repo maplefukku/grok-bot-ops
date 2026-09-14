@@ -12,6 +12,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | job-brief | CA brief を書くとき | PR-body、CI 梯子 |
 | 開発リーダー | ROUTE+FIRE のとき | CI 梯子、出荷単位 |
 | impl CA | lane を 1 本受けたとき。PR を書くとき | B. lane と契約、quiet-test、PR-body、CI 梯子 |
+| impl CA（ui-library） | UI 参照索引 / MCP lander | [ui-library-mcp](./ui-library-mcp.md) |
 | 全ボットと CA | spend / sign / send に触れる前 | anti-job |
 | PR確認 | merge sweep | merge-ok、PR-body、CI 梯子 |
 | 人 | Dependabot が PR を開いたあと。Flag の前 | PR-body Dependabot stamp |

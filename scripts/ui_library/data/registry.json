@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "@fleet-ui",
+  "homepage": "https://github.com/maplefukku/grok-bot-ops",
+  "items": [
+    {
+      "name": "ref-ui-shadcn-registry-mcp",
+      "type": "registry:item",
+      "title": "shadcn registry MCP (primary WRAP)",
+      "description": "Official shadcn MCP exposes list/search/view/get_add against any shadcn-compatible registry index.",
+      "categories": [
+        "mcp",
+        "registry",
+        "component-index"
+      ],
+      "meta": {
+        "fleet": {
+          "sourceUrl": "https://ui.shadcn.com/docs/registry/mcp",
+          "ingestedWhy": "Primary OSS WRAP for callable UI library MCP; fleet index is another registry namespace.",
+          "useCases": [
+            "mcp",
+            "registry",
+            "component-index"
+          ],
+          "context": "ui-library"
+        }
+      },
+      "docs": "Configure @fleet-ui in components.json and run `npx shadcn@latest mcp init --client cursor`."
+    }
+  ]
+}

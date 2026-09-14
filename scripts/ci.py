@@ -184,6 +184,10 @@ def check_intent_memory_contract() -> list[str]:
     return _run_unittest_module("intent_memory.test_contract", "intent-memory")
 
 
+def check_ui_library_registry() -> list[str]:
+    return _run_unittest_module("ui_library.test_registry", "ui-library")
+
+
 def check_local_worktree_prune() -> list[str]:
     return _run_unittest_module("test_local_worktree_prune", "local-worktree-prune")
 
@@ -391,6 +395,7 @@ def main() -> int:
         ("knowhow-sources", check_knowhow),
         ("plugin-json", check_plugin_json),
         ("intent-memory-contract", check_intent_memory_contract),
+        ("ui-library-registry", check_ui_library_registry),
         ("local-worktree-prune", check_local_worktree_prune),
         ("merge-velocity-day", check_merge_velocity_day),
         ("quiet-test", check_quiet_test),
