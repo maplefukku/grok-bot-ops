@@ -38,7 +38,14 @@ flowchart LR
 
 1. **MCP 席（1 つ）**: [`npx shadcn@latest mcp`](https://ui.shadcn.com/docs/mcp)（Cursor は `.cursor/mcp.json` の `npx shadcn@latest mcp`）。自前 MCP プロトコルは invent しない。
 2. **索引 namespace**: **`@ui-refs`** — [`scripts/ui_library/data/registry.json`](../../scripts/ui_library/data/registry.json)。
-3. **query/get WRAP（CI・fleet ops）**: [`query.py`](../../scripts/ui_library/query.py) が shadcn MCP の search/view に相当する最小 surface（`search`, `get`, `list`）。
+3. **MCP tool WRAP（CI・fleet ops）**: [`query.py`](../../scripts/ui_library/query.py) — invent MCP なし。
+
+| shadcn MCP tool | fleet `query.py` |
+|---|---|
+| `search_items_in_registries` | `search`（use-case **kebab** + **description** 索引） |
+| `view_items_in_registries` | `view`（full registry-item JSON） |
+| `get_item_examples_from_registries` | `examples`（`docs` + description） |
+| `list_items_in_registries` | `list` |
 
 ### components.json（CA 作業ツリー WRAP 例）
 
@@ -82,7 +89,7 @@ pseudocode ingest(url, why, use_cases?):
 |---|---|
 | `@ui-refs` registry | `registry.json` の `"name": "@ui-refs"` |
 | ingest サンプル | `ref-fixture-x-ui-blocks-hero`（URL+why、fixture 明示） |
-| MCP search/get | `quiet-test.sh -- python3 scripts/ui_library/query.py search hero --use-case landing` が fixture を返す；`get ref-fixture-x-ui-blocks-hero` |
+| MCP search/view/examples | `search hero --use-case landing`；`view ref-fixture-x-ui-blocks-hero`；`examples FIXTURE --use-case landing` |
 | PR 4 見出し | [`pr-body.md`](./pr-body.md) / fleet `pr-show-me-template.md` |
 | merge | しない（HOLD merge=PM） |
 
@@ -100,7 +107,8 @@ pseudocode ingest(url, why, use_cases?):
 ```bash
 ./scripts/quiet-test.sh -- python3 -m unittest ui_library.test_registry
 ./scripts/quiet-test.sh -- python3 scripts/ui_library/query.py search hero --use-case landing
-./scripts/quiet-test.sh -- python3 scripts/ui_library/query.py get ref-fixture-x-ui-blocks-hero
+./scripts/quiet-test.sh -- python3 scripts/ui_library/query.py view ref-fixture-x-ui-blocks-hero
+./scripts/quiet-test.sh -- python3 scripts/ui_library/query.py examples FIXTURE --use-case landing
 ```
 
 quiet は skip ではない。

@@ -9,6 +9,7 @@ from urllib.parse import urlparse
 
 DEFAULT_REGISTRY = Path(__file__).resolve().parent / "data" / "registry.json"
 _SLUG_RE = re.compile(r"[^a-z0-9]+")
+_KEBAB_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
 @dataclass(frozen=True)
@@ -36,6 +37,15 @@ class RegistryItemRef:
 
 class RegistryError(ValueError):
     pass
+
+
+def to_kebab_tag(value: str) -> str:
+    tag = _SLUG_RE.sub("-", value.strip().lower()).strip("-")
+    if not tag:
+        raise RegistryError("use-case tag must be non-empty")
+    if not _KEBAB_RE.match(tag):
+        raise RegistryError(f"use-case must be kebab-case: {value!r}")
+    return tag
 
 
 def slug_from_url(url: str) -> str:
@@ -100,6 +110,36 @@ class RegistryCatalog:
             if item.name == name:
                 return item
         return None
+
+    def view(self, name: str) -> dict[str, Any] | None:
+        """shadcn MCP `view_items_in_registries` WRAP — full registry-item JSON."""
+        item = self.get(name)
+        if item is None:
+            return None
+        payload = dict(item.raw)
+        payload["registry"] = self.load().get("name", "@ui-refs")
+        payload["registryItem"] = f"{payload['registry']}/{name}"
+        return payload
+
+    def examples(
+        self,
+        query: str,
+        *,
+        use_case: str | None = None,
+        limit: int = 10,
+    ) -> list[RegistryItemRef]:
+        """shadcn MCP `get_item_examples_from_registries` WRAP — docs + description."""
+        hits = self.search(query, use_case=use_case, limit=limit * 3)
+        out: list[RegistryItemRef] = []
+        q = query.strip().lower()
+        for item in hits:
+            docs = str(item.raw.get("docs") or "").lower()
+            desc = item.description.lower()
+            if not q or q in docs or q in desc or any(t in docs for t in q.split()):
+                out.append(item)
+            if len(out) >= limit:
+                break
+        return out
 
     def list_names(self) -> list[str]:
         return [item.name for item in self.items()]
@@ -206,4 +246,15 @@ def validate_registry_shape(data: Mapping[str, Any]) -> list[str]:
             errors.append(f"items[{idx}].name required")
         if not item.get("type"):
             errors.append(f"items[{idx}].type required")
+        desc = item.get("description")
+        if not isinstance(desc, str) or not desc.strip():
+            errors.append(f"items[{idx}].description required for index")
+        for tag in item.get("categories") or []:
+            if isinstance(tag, str) and tag and not _KEBAB_RE.match(tag):
+                errors.append(f"items[{idx}].categories not kebab: {tag}")
+        fleet = (item.get("meta") or {}).get("fleet") if isinstance(item.get("meta"), dict) else {}
+        if isinstance(fleet, dict):
+            for tag in fleet.get("useCases") or []:
+                if isinstance(tag, str) and tag and not _KEBAB_RE.match(tag):
+                    errors.append(f"items[{idx}].meta.fleet.useCases not kebab: {tag}")
     return errors

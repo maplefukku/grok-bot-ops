@@ -4,7 +4,12 @@ from dataclasses import dataclass
 from typing import Sequence
 from urllib.parse import urlparse
 
-from ui_library.registry_core import RegistryCatalog, RegistryError, slug_from_url
+from ui_library.registry_core import (
+    RegistryCatalog,
+    RegistryError,
+    slug_from_url,
+    to_kebab_tag,
+)
 
 
 @dataclass(frozen=True)
@@ -34,9 +39,11 @@ def ingest_ref(
     if not why:
         raise RegistryError("why is required")
     item_name = name or f"ref-{slug_from_url(payload.url)}"
-    use_cases = tuple(u.strip() for u in payload.use_cases if u and u.strip())
+    use_cases = tuple(
+        to_kebab_tag(u) for u in payload.use_cases if u and u.strip()
+    )
     title = (payload.title or item_name).strip()
-    description = why
+    description = why.strip()
     item = {
         "name": item_name,
         "type": "registry:item",

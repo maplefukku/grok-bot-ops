@@ -108,6 +108,42 @@ class TestUiLibraryRegistry(unittest.TestCase):
         self.assertEqual(fleet.get("sourceUrl"), "https://ui.shadcn.com/blocks")
         self.assertIn("x.com", str(fleet.get("xCollectPost", "")))
 
+    def test_view_and_examples_mcp_wrap(self):
+        catalog = RegistryCatalog()
+        viewed = catalog.view("ref-fixture-x-ui-blocks-hero")
+        assert viewed is not None
+        self.assertEqual(viewed.get("registry"), "@ui-refs")
+        self.assertIn("docs", viewed)
+        examples = catalog.examples("FIXTURE", use_case="landing")
+        names = [e.name for e in examples]
+        self.assertIn("ref-fixture-x-ui-blocks-hero", names)
+
+    def test_ingest_kebab_use_cases(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "registry.json"
+            path.write_text(
+                json.dumps(
+                    {
+                        "$schema": "https://ui.shadcn.com/schema/registry.json",
+                        "name": "@ui-refs",
+                        "items": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            catalog = RegistryCatalog(path)
+            ingest_ref(
+                catalog,
+                IngestInput(
+                    url="https://example.com/x",
+                    why="Indexed description for search.",
+                    use_cases=("Marketing Site",),
+                ),
+            )
+            item = catalog.get(list(catalog.list_names())[0])
+            assert item is not None
+            self.assertEqual(item.use_cases, ("marketing-site",))
+
 
 if __name__ == "__main__":
     unittest.main()
