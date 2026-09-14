@@ -10,8 +10,8 @@ Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の�
 
 ## Cursor Projects をチャット用の特別フォルダとして使う
 
-- 内容: Projects をチャットの特別フォルダとみなし、sidebar の既存チャットを Project にドラッグできる。coordinator が Project 内エージェントを監督する、という poteto の使い方。
-- 出典: [x.com/poteto/status/2098186080839475568](https://x.com/poteto/status/2098186080839475568)（2026-09-10） · [tip](https://x.com/poteto/status/2098186602241822974) · [announce](https://x.com/cursor_ai/status/2098162488013455784)
+- 内容: Projects をチャットの特別フォルダとみなし、sidebar の既存チャットを Project にドラッグできる、という poteto の比喩・使い方。公式の定義ではない。公式は coordinator（コードは書かず、独自コンピュータ上で subagent を監督し、Slack / schedule / PR CI の Subscriptions で未プロンプト動作する）であり、公式発表の記録は [`updates.md`](./updates.md) にある。
+- 出典: [x.com/poteto/status/2098186080839475568](https://x.com/poteto/status/2098186080839475568)（2026-09-10） · [tip](https://x.com/poteto/status/2098186602241822974)
 - 確認: 未
 
 ## pstack を Projects と併用
