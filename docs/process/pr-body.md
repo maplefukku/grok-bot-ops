@@ -2,7 +2,7 @@
 
 ## Purpose
 
-ふっくー HARD LOCK 2026-09-08 である。適用 issue は [#46](https://github.com/maplefukku/grok-bot-ops/issues/46) である。引用は [job-brief](sand-workflow:job-brief)、[Cloud開発](sand-workflow:cloud)、[PR確認](sand-workflow:pr)、[parallel-fire-fleet](sand-workflow:parallel-fire-fleet)、tool-path-prefer、GB、OSS調査 である。
+ふっくー HARD LOCK 2026-09-08 である。適用 issue は [#46](https://github.com/maplefukku/grok-bot-ops/issues/46) と merge sweep の [#127](https://github.com/maplefukku/grok-bot-ops/issues/127) である。引用は [job-brief](sand-workflow:job-brief)、[Cloud開発](sand-workflow:cloud)、[PR確認](sand-workflow:pr)、[開発からPRグリーン](sand-workflow:pr-2)、[pr-status-dedupe-quiet](sand-workflow:pr-status-dedupe-quiet)、[conductor-keep-moving](sand-workflow:conductor-keep-moving)、[parallel-fire-fleet](sand-workflow:parallel-fire-fleet) Merge Gate、tool-path-prefer、GB、OSS調査 である。
 
 このページは WRAP だけである。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md` である。readable change の OSS は [humanlayer /show-me](https://github.com/humanlayer/skills/blob/main/plugins/show-me/skills/show-me/SKILL.md) である。第二のチェックリストは置かない。harness は invent しない。
 
@@ -23,7 +23,25 @@ pstack `/show-me-your-work` の TSV ではない。
 
 全リポジトリの PR 本文は、fleet テンプレの 4 見出しを文字どおり MUST で持つ。欠けたら Flag Y は出さない。merge しない。Quiet is not skip。
 
-[job-brief](sand-workflow:job-brief) と [Cloud開発](sand-workflow:cloud) と [PR確認](sand-workflow:pr) は、box `/workspace/fleet-scripts/pr-show-me-template.md` を指す。見出し表は invent しない。readable change は humanlayer /show-me で書く。
+[job-brief](sand-workflow:job-brief) と [Cloud開発](sand-workflow:cloud) と [PR確認](sand-workflow:pr) と [開発からPRグリーン](sand-workflow:pr-2) は、box `/workspace/fleet-scripts/pr-show-me-template.md` を指す。見出し表は invent しない。readable change は humanlayer /show-me で書く。
+
+### PdM merge sweep（Flag Y ONLY）
+
+PdM が merge sweep で Flag Y するときの条件 ONLY である。[#127](https://github.com/maplefukku/grok-bot-ops/issues/127) の WRAP である。行は次の 5 つだけである。6 行目以降の Flag 行は invent しない。第二の Flag 定義、harness、scanner、hourly cron は invent しない。Bugbot の green は Flag ではない（Flag≠Bugbot）。
+
+| 条件 | true の意味 | 観測 |
+|---|---|---|
+| behind0 | PR head が base tip-sot に behind 0 | [pr-2](sand-workflow:pr-2) / [pr-status-dedupe-quiet](sand-workflow:pr-status-dedupe-quiet) LIVE |
+| thr0 | `reviewThreads` を paginate し、unresolved かつ outdated でないスレッドが 0 | [pr](sand-workflow:pr) / [pr-status-dedupe-quiet](sand-workflow:pr-status-dedupe-quiet) LIVE |
+| FULL CLEAN | required CI green が same-BC を畳んだ FULL tip | [PR確認](sand-workflow:pr)、[`ci-ladder.md`](./ci-ladder.md) |
+| APPROVED | `PullRequestReview` で `state`=`APPROVED` かつ `author.__typename`=`User` が ≥1。`Bot` の APPROVED は数えない。`reviewDecision` 単体では Flag しない | [pr-2](sand-workflow:pr-2) LIVE GraphQL のみ（[PullRequestReview.author](https://docs.github.com/en/graphql/reference/interfaces#actor) の `User` / `Bot`） |
+| ADV SUCCESS | ADV が SUCCESS。skip / dismiss は SUCCESS ではない | [parallel-fire-fleet](sand-workflow:parallel-fire-fleet) Merge Gate、[`fleet.md`](../knowhow/fleet.md) ADOPT D |
+
+**PdM Flag Y 述語（1 つ）。** fleet 4 見出し MUST を満たし、かつ [`README.md`](./README.md) の merge-ok 4 行（required CI / Cursor bots / MUST threads / NIT threads）がすべて true、かつ上表 5 行がすべて true のときだけ Flag Y する。いずれか false なら Flag Y しない。第二の Flag 定義は置かない。
+
+thr0 は `reviewThreads` paginate で unresolved∧¬outdated を数える。Closer の MUST 行は unresolved=0（outdated 不問）。NIT 行は返信 ≤ 1 かつ resolved。unresolved∧outdated の MUST では thr0 は true になり得るが merge-ok MUST 行は false のままである。返信 > 1 のあと resolve した NIT では thr0 は true になり得るが merge-ok NIT 行は false のままである。いずれも merge-ok が false なので Flag Y しない。FULL CLEAN は merge-ok の required CI（FULL tip）と同じ観測である。ADV SUCCESS は merge-ok の Cursor bots 行に加え ADV skip/dismiss 除外である。behind0 と APPROVED は merge-ok 表に行が無い。PdM の ONE JOB 文言は [`bots/PdM.md`](../../bots/PdM.md) ではなく本節への pointer である。表を `bots/` へコピーしない。
+
+HOLD merge=PM である。ボットは merge しない。Soft Flag invent しない。針は [`scripts/test_flag_y_only_lock.py`](../../scripts/test_flag_y_only_lock.py) が [`scripts/ci.py`](../../scripts/ci.py) 経由で pin する。scanner は置かない。引用は [Cloud開発](sand-workflow:cloud)、[pr-2](sand-workflow:pr-2)、tool-path-prefer、[conductor-keep-moving](sand-workflow:conductor-keep-moving) である。#127 slice A（thr-close 手順）は issue 本文にあり、Flag Y 述語には含めない。
 
 テスト証拠は既存の `/workspace/fleet-scripts/quiet-test.sh -- <cmd>` である。このリポジトリの WRAP は [`scripts/quiet-test.sh`](../../scripts/quiet-test.sh) である。新しい test harness は置かない。
 

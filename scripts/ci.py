@@ -257,6 +257,10 @@ def check_trend_adopt_reject_lock() -> list[str]:
     return _run_unittest_module("test_trend_adopt_reject_lock", "trend-adopt-reject-lock")
 
 
+def check_flag_y_only_lock() -> list[str]:
+    return _run_unittest_module("test_flag_y_only_lock", "flag-y-only-lock")
+
+
 LASTSTITCH_DIR = ROOT / "docs" / "laststitch"
 LASTSTITCH_FILES = (
     "README.md",
@@ -403,6 +407,7 @@ def main() -> int:
         ("anti-job-lock", check_anti_job_lock),
         ("overnight-goal", check_overnight_goal),
         ("trend-adopt-reject-lock", check_trend_adopt_reject_lock),
+        ("flag-y-only-lock", check_flag_y_only_lock),
         ("trend-log-decisions", check_trend_log),
         ("trend-adopt-idempotency", check_trend_adopt_idempotency),
         ("laststitch-lock", check_laststitch),
