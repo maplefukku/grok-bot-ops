@@ -11,8 +11,12 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | Planner | trend-adopt の REJECT 終端を書くとき。候補を ADOPT/REJECT するとき | [trend-adopt-reject](./trend-adopt-reject.md)、B. lane と契約 |
 | job-brief | CA brief を書くとき | PR-body、CI 梯子 |
 | 開発リーダー | ROUTE+FIRE のとき | CI 梯子、出荷単位 |
+<<<<<<< HEAD
 | impl CA | lane を 1 本受けたとき。PR を書くとき | B. lane と契約、quiet-test、PR-body、CI 梯子 |
 | impl CA（ui-library） | UI 参照索引 / MCP lander | [ui-library-mcp](./ui-library-mcp.md) |
+=======
+| impl CA | lane を 1 本受けたとき。PR を書くとき。初回 push 前 | B. lane と契約、quiet-test、PR-body、CI 梯子、[security-audit-wrap](./security-audit-wrap.md) |
+>>>>>>> 3ea24f1 (docs: security-audit-wrap process SoT + AGENTS pointer only)
 | 全ボットと CA | spend / sign / send に触れる前 | anti-job |
 | PR確認 | merge sweep | merge-ok、PR-body、CI 梯子 |
 | 人 | Dependabot が PR を開いたあと。Flag の前 | PR-body Dependabot stamp |
@@ -189,3 +193,7 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 ## overnight /goal
 
 一晩の /goal brief の形は [`overnight-goal.md`](./overnight-goal.md) である。6 見出しは Goal、done-when、touch scope、diff cap、mid-run verify、verifier である。判定は [`scripts/overnight_goal.py`](../../scripts/overnight_goal.py) である。適用 issue は [issue 89](https://github.com/maplefukku/grok-bot-ops/issues/89) である。runner は既存の [overnight-goal-cleanup](sand-workflow:overnight-goal-cleanup) と [Cloud開発](sand-workflow:cloud) である。verifier 席は Soft-HOLD である。新しい harness は置かない。
+
+## security-audit-wrap
+
+プロダクト impl CA の初回 push 前ゲートは [`security-audit-wrap.md`](./security-audit-wrap.md) である。Fleet WRAP [security-audit-wrap](sand-workflow:security-audit-wrap)。upstream は [Cloudflare security-audit-skill](https://github.com/cloudflare/security-audit-skill)。subagent 必須。grok-bot-ops ルートで upstream を install しない。scanner・skill tree vendor は invent しない。

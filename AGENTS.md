@@ -18,7 +18,7 @@
 - PR 本文の 4 見出しは [`docs/process/pr-body.md`](./docs/process/pr-body.md) である。pstack `/show-me-your-work` の TSV ではない。
 - CI 梯子は [`docs/process/ci-ladder.md`](./docs/process/ci-ladder.md) である。Flag と E2E は FULL tip だけである。
 - プロダクトのコード変更はこのリポジトリでやらない。該当プロダクトのリポジトリで cloud agent を立てる。
-- セキュリティ監査は Fleet WRAP [security-audit-wrap](sand-workflow:security-audit-wrap)。upstream は [Cloudflare security-audit-skill](https://github.com/cloudflare/security-audit-skill)。導入は `npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit`。scanner・skill tree の複製・ATTACK-CLASSES の fork は invent しない。プロダクト CA は初回 push 前に subagent で監査を回す（親 CA が監査本体を代走しない）。この司令室へ本体をコピーしない。
+- プロダクト CA の初回 push 前セキュリティ監査は [`docs/process/security-audit-wrap.md`](./docs/process/security-audit-wrap.md)（Fleet WRAP [security-audit-wrap](sand-workflow:security-audit-wrap)）。`AGENTS.md` はポインタのみ。upstream 参照と subagent 手順は process 正本。grok-bot-ops へ skill 本体を置かない。
 
 ## このリポジトリへの書き込みルール
 
