@@ -24,10 +24,10 @@
 - 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-11; idle-with-leftover evening/overnight 09-10..09-11）
 - 確認: 未
 
-## ALREADY LIVE — GATE tip-sot behind=0 + ADV SUCCESS (jenny-lite 2026-09-07..09-11)
+## GATE 観測 — ADV skip≠SUCCESS は ADOPT D 済み、tip-sot behind=0 は未カバー (jenny-lite 2026-09-07..09-11)
 
-- 内容: tip-sot behind=0 と ADV SUCCESS 必須は既存 LIVE thr check + ADOPT D（GATE IFF）でカバー済み。behind>0 次手は STEER rebase only。新スキル不要。
-- 決定: ADOPT（既存 LIVE）
+- 内容: ADV skip≠SUCCESS の必須化は既存 ADOPT D（GATE IFF = CI + bots + thr0）でカバー済み。tip-sot behind=0 は既存 WRAP に無い — 正本 merge-ok 4 行（required CI / Cursor bots / MUST threads / NIT threads）にも `bots/PR確認.md` にも LIVE thr check にも behind の行は無く、カバー済みと書かない。behind>0 時の STEER rebase only は miss の観測であり、merge-ok 表へ行を足すかは Planner の decide-trend-adopt。新スキルはここで invent しない。
+- 決定: ADV 半分は既存 ADOPT D。behind 半分は観測のみ（ADOPT しない）
 - 出典: https://github.com/maplefukku/sauna-master/pull/362 · https://github.com/maplefukku/sauna-master/pull/406 · https://github.com/maplefukku/ZuruNote/pull/328 · https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-11; modes false-GATE tip-sot behind miss / ADV skip≠SUCCESS）
 - 確認: 未
 
