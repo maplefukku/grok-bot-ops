@@ -33,7 +33,7 @@
 
 ## ADOPT — PdM Flag Y ONLY behind0+thr0+FULL CLEAN+APPROVED+ADV SUCCESS (#127)
 
-- 内容: merge sweep の PdM Flag Y ONLY は behind0、thr0（reviewThreads paginate、unresolved∧¬outdated=0）、FULL CLEAN（FULL tip CI）、APPROVED（人/CoS、approval ボット不可）、ADV SUCCESS。Flag≠Bugbot。4 見出し MUST が先。merge-ok 4 行 false なら Flag しない。HOLD merge=PM。#127 slice A thr-close は issue 本文であり Flag Y 述語に含めない。decide-trend writeback は `ops/daily-*` owed。cite cloud / pr-2 / pr / pr-status-dedupe-quiet / conductor-keep-moving / parallel-fire-fleet Merge Gate / tool-path-prefer。harness・scanner・hourly cron・第二 Flag 定義は invent しない。
+- 内容: merge sweep の PdM Flag Y は 1 述語（4 見出し MUST + merge-ok 4 行 all true + behind0/thr0/FULL CLEAN/APPROVED/ADV SUCCESS）。APPROVED は GraphQL `author.__typename`=`User` の `APPROVED`（`Bot`/`reviewDecision` 単体不可）。Flag≠Bugbot。thr0∧merge-ok 食い違い時は merge-ok false の間 Flag しない。HOLD merge=PM。針は `test_flag_y_only_lock.py`。#127 slice A thr-close は issue 本文。decide-trend writeback は `ops/daily-*` owed。cite cloud / pr-2 / pr / pr-status-dedupe-quiet / conductor-keep-moving / parallel-fire-fleet Merge Gate / tool-path-prefer。scanner・hourly cron・第二 Flag 定義は invent しない。
 - 決定: ADOPT
 - 出典: https://github.com/maplefukku/grok-bot-ops/issues/127 （2026-09-14）
 - 確認: 未
