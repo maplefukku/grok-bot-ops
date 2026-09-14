@@ -26,9 +26,16 @@
 
 ## GATE 観測 — ADV skip≠SUCCESS は ADOPT D 済み、tip-sot behind=0 は未カバー (jenny-lite 2026-09-07..09-11)
 
-- 内容: ADV skip≠SUCCESS の必須化は既存 ADOPT D（GATE IFF = CI + bots + thr0）でカバー済み。tip-sot behind=0 は既存 WRAP に無い — 正本 merge-ok 4 行（required CI / Cursor bots / MUST threads / NIT threads）にも `bots/PR確認.md` にも LIVE thr check にも behind の行は無く、カバー済みと書かない。behind>0 時の STEER rebase only は miss の観測であり、merge-ok 表へ行を足すかは Planner の decide-trend-adopt。新スキルはここで invent しない。
-- 決定: ADV 半分は既存 ADOPT D。behind 半分は観測のみ（ADOPT しない）
-- 出典: https://github.com/maplefukku/sauna-master/pull/362 · https://github.com/maplefukku/sauna-master/pull/406 · https://github.com/maplefukku/ZuruNote/pull/328 · https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-11; modes false-GATE tip-sot behind miss / ADV skip≠SUCCESS）
+- 内容: ADV skip≠SUCCESS の必須化は既存 ADOPT D（GATE IFF = CI + bots + thr0）でカバー済み。tip-sot behind=0 は 2026-09-11 時点では process WRAP に無かった。behind>0 時の STEER rebase only は miss の観測である。Planner writeback [#127](https://github.com/maplefukku/grok-bot-ops/issues/127) で PdM Flag Y ONLY（behind0+thr0 paginate+FULL CLEAN+APPROVED+ADV SUCCESS）を [`pr-body.md`](../process/pr-body.md) に WRAP した。merge-ok 4 行表は PR確認のままである。新スキルは invent しない。
+- 決定: ADV 半分は既存 ADOPT D。behind 半分は #127 WRAP で process に記録（ADOPT）
+- 出典: https://github.com/maplefukku/sauna-master/pull/362 · https://github.com/maplefukku/sauna-master/pull/406 · https://github.com/maplefukku/ZuruNote/pull/328 · https://github.com/maplefukku/grok-bot-ops/issues/16 · https://github.com/maplefukku/grok-bot-ops/issues/127 （2026-09-11 観測; 2026-09-14 WRAP）
+- 確認: 未
+
+## ADOPT — PdM Flag Y ONLY behind0+thr0+FULL CLEAN+APPROVED+ADV SUCCESS (#127)
+
+- 内容: merge sweep の PdM Flag Y ONLY は behind0、thr0（reviewThreads paginate、unresolved∧¬outdated=0）、FULL CLEAN（FULL tip CI）、APPROVED、ADV SUCCESS。Flag≠Bugbot。4 見出し MUST が先。HOLD merge=PM。CA EXHAUST 時は Closer thr-close を Mini WRAP（tool-path-prefer）。on-demand impl CA は REJECT。cite pr-2 / pr / pr-status-dedupe-quiet / conductor-keep-moving / parallel-fire-fleet Merge Gate / cloud / tool-path-prefer。harness・scanner・hourly cron・第二 Flag 定義は invent しない。
+- 決定: ADOPT
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/127 （2026-09-14）
 - 確認: 未
 
 ## Astra が Codex と ChatGPT Work にフル展開

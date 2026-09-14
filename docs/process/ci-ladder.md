@@ -2,7 +2,7 @@
 
 ## Purpose
 
-PdM が 2026-09-08 に確認した bake である。CBO LEDGER NOTE 2026-09-08 である。席一行の bake は draft [PR 58](https://github.com/maplefukku/grok-bot-ops/pull/58) である。引用は [job-brief](sand-workflow:job-brief)、[Cloud開発](sand-workflow:cloud)、[parallel-fire-fleet](sand-workflow:parallel-fire-fleet)、[#32 LOCK A](https://github.com/maplefukku/grok-bot-ops/issues/32)、[#16](https://github.com/maplefukku/grok-bot-ops/issues/16)、[ADR 0003](../decisions/0003-domain-unit-throughput.md) である。
+PdM が 2026-09-08 に確認した bake である。CBO LEDGER NOTE 2026-09-08 である。席一行の bake は draft [PR 58](https://github.com/maplefukku/grok-bot-ops/pull/58) である。引用は [job-brief](sand-workflow:job-brief)、[Cloud開発](sand-workflow:cloud)、[parallel-fire-fleet](sand-workflow:parallel-fire-fleet)、[#32 LOCK A](https://github.com/maplefukku/grok-bot-ops/issues/32)、[#16](https://github.com/maplefukku/grok-bot-ops/issues/16)、[#127](https://github.com/maplefukku/grok-bot-ops/issues/127)、[ADR 0003](../decisions/0003-domain-unit-throughput.md) である。
 
 このページは WRAP だけである。太い lander の正本は [`README.md`](./README.md) の出荷単位である。worktree の掃除は [`worktree-prune.md`](../mini-ops/worktree-prune.md) である。PR 本文の 4 見出しは [`pr-body.md`](./pr-body.md) である。テスト証拠は既存の `/workspace/fleet-scripts/quiet-test.sh -- <cmd>` である。このリポジトリの WRAP は [`scripts/quiet-test.sh`](../../scripts/quiet-test.sh) である。新しい test harness は置かない。梯子の中身は invent しない。
 
@@ -39,6 +39,8 @@ CTO extras は post-RATIFY まで HOLD である。中身は書かない。プ�
 | 席一行 | 並列local worktree / BDDシナリオの太いPRで点滴micro-PR禁止 / merge-batch+CI梯子LIGHT→FULL |
 
 required CI の green は same-BC を畳んだ FULL tip である。LIGHT-WT の green は merge-ok ではない。
+
+PdM の Flag Y ONLY における FULL CLEAN は、この FULL tip の required CI green である。[`pr-body.md`](./pr-body.md) の PdM merge sweep 表と [#127](https://github.com/maplefukku/grok-bot-ops/issues/127) である。引用は [pr-2](sand-workflow:pr-2)、[PR確認](sand-workflow:pr)、[parallel-fire-fleet](sand-workflow:parallel-fire-fleet) Merge Gate である。第二の Flag 定義は invent しない。
 
 post-merge E2E は段である。品質Drive の HOLD を上書きしない。
 
