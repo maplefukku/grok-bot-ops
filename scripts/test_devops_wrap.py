@@ -37,7 +37,11 @@ CODEQL_NEEDLES = (
     "github/codeql-action/analyze@",
     "language: python",
     "build-mode: none",
+    "runs-on: ubicloud-standard-2",
+    "schedule:",
+    "cron: '27 4 * * 1'",
 )
+CODEQL_FORBIDDEN_LINES = ("pull_request:",)
 SCORECARD_NEEDLES = (
     "ossf/scorecard-action@",
     "results_format: sarif",
@@ -89,6 +93,10 @@ def wrap_errors() -> list[str]:
         for needle in needles:
             if needle not in body:
                 errors.append(f"{path.relative_to(ROOT)}: missing {needle}")
+        if path == CODEQL:
+            for token in CODEQL_FORBIDDEN_LINES:
+                if token in body:
+                    errors.append(f"{path.relative_to(ROOT)}: forbidden {token}")
     if not RULESET.is_file():
         errors.append(f"missing {RULESET.relative_to(ROOT)}")
     else:
