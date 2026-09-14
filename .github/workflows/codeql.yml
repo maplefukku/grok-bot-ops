@@ -13,7 +13,7 @@
 # fetched 2026-09-07. Placeholders filled for grok-bot-ops (python / none / main).
 # Trigger policy: push main + weekly schedule only (no pull_request). Required merge
 # gate is ci.yml `check` only (.github/rulesets/main-pr-only.json). PR CI stays ~10s.
-# Runner: ubicloud-standard-2 (fleet sibling WRAP; ci.yml stays ubuntu-latest).
+# Runner: ubuntu-latest (SoftHOLD ubicloud until CI運用 confirms App for this repo).
 #
 name: "CodeQL Advanced"
 
@@ -31,7 +31,7 @@ jobs:
     #   - https://gh.io/supported-runners-and-hardware-resources
     #   - https://gh.io/using-larger-runners (GitHub.com only)
     # Consider using larger runners or machines with greater resources for possible analysis time improvements.
-    runs-on: ubicloud-standard-2
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
     permissions:
       # required for all workflows
       security-events: write
