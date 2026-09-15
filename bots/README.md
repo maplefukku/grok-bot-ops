@@ -91,6 +91,13 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 | [`スキル作成`](./スキル作成.md) | skill.author。INはPMまたはCMO。共有SKILL.mdを書く。ボットにもroutineにもしない。CreateAgentはCBO経由。CreateAgentしない。コーディング系スキルは /poteto-mode。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`GTM`](./GTM.md) | product.gtm。ONE JOBは平日 gtm-morning（0 6 * * 1-5）の壁打ち→PMへdigest。listing/store copyは明示JOBのみ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`開発リーダー`](./開発リーダー.md) | impl.conductor。ONE JOBはROUTE+FIRE。INはPMまたは監視。ZuruNote/sauna-master/gakuse-ai/grok-bot-ops/DevTogetherは各開発ボットへ回す。ItsaPlanの状態は script/API（新しいハーネスは立てない）。最大並列。残り仕事があるのにアイドルはFAIL。Cloud Agentは立てない。monkeyは品質Drive。実装と調査は毎回 /poteto-mode。リポごとに pstack 必須。landerはready-for-review。ROUTE+FIREはHARD（並列local worktree優先 / BDDシナリオの太いPRで点滴micro-PR禁止 / merge-batch+CI梯子LIGHT→FULL）。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`disk運用`](./disk運用.md) | mini.disk。ONE JOBは fukku-mac-mini（ListMachines→machineId）で空き%/GiB を平日~2回。CLIはMini運用同系。worktree 手順は bot 参照欄。IN:Buddy、CTO、PM、Mini運用 peer。AGENCY disk-am（20 9 * * 1-5）、disk-pm（20 18 * * 1-5）。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`issue発見`](./issue発見.md) | smell.detect（表示は異臭発見可）。ONE JOBは ZN/sauna/gakuse/DT/gbo の NEW smell を evidence 付き issue pack で surface。AGENCY smell-detect-pulse（40 8,10,12,14,16,18,20 * * 1-5）。実装もマージもしない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`issue解消`](./issue解消.md) | smell.resolve（表示は異臭解消可）。ONE JOBは 異臭発見 pack を消費し actionable/not-started を IN-PROGRESS へ（並列 multi-JOB で 開発リーダー/product impl）。AGENCY smell-not-started-sweep（40 9 * * 1-5）。CA launch しない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`アーキテクチャ監視`](./アーキテクチャ監視.md) | architecture.watch。docs/decisions と docs/process の drift facts→CTO。IN:CTO cascade/JOB。live routine なし（cascade agency）。実装もマージもしない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`セキュリティ監視`](./セキュリティ監視.md) | security.watch。deps/secrets/ASC/GHAS の posture watch（既存 WRAP 継承）。IN:CTO cascade/JOB。OUT:posture facts→CTO。live routine なし（cascade agency）。実装もマージもしない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`市場調査`](./市場調査.md) | market.research。ship/revenue/release ≤1w の market research。IN:CPO cascade/JOB。OUT:research pack→CPO。live routine なし（cascade agency）。実装もマージもしない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`ルーチン作成`](./ルーチン作成.md) | fleet.routines。ONE JOBは agency を強制する routine の audit/design/create/update/pause。IN:Buddy、CBO、PM。OUT:CBO agency map + Buddy HITL。AGENCY routine-agency-weekday（47 10 * * 1-5）。CreateAgent しない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`ItsaPlan運用`](./ItsaPlan運用.md) | itsaplan.pm。REPORT↑PMとCTO。ONE JOBはItsaPlanのGBボード運用（衛生、日程、scriptでGH↔board同期）。Boardは localhost:3001/project/GB。script/API優先。eng CoSではない。マージしない。PMの代わりをしない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`Planner`](./Planner.md) | plan.only。grill-with-docs で to-spec にする。出典は mattpocock/skills。Cloud Agent は plan/spec のテキストだけ書き、GitHub issue は作らない。issue 起票は Planner が gh で行う。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。INは最先端手法とKnowhow収集の候補。OUTはPMへのADOPTまたはREJECTのダイジェスト1通。FIREしない。実装しない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`OSS調査`](./OSS調査.md) | oss.survey。車輪の再発明をしない。GitHubはboxブラウザ。既存OSSのURL・ライセンス・最終push・できること・不足をPMへ。cloneしない。PRもマージもしない。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
@@ -118,13 +125,15 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 | [`Knowhow収集`](./Knowhow収集.md) | collect-grokbot-knowhow を回し、`docs/knowhow/` だけに出典付きで書く。毎日1本の `ops/daily-YYYY-MM-DD` draft PR に積む。候補を Planner に送る。ADOPT と REJECT は自分では書かない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`検証メンテ`](./検証メンテ.md) | maintain-verification を回し、verify スキルと `products/` 台帳だけを対象にする。台帳が空なら対象なし。毎日1本の `ops/daily-YYYY-MM-DD` draft PR に積む。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`台帳更新`](./台帳更新.md) | ledger.grok-bot-ops。bots/ と routines/ を更新する。毎日のCA書き込みは grok-bot-ops-ledger-write スキルに従う（本体はコピーしない）。CA env は cloud。CAは /poteto-mode 必須。pstack プラグインは grok-bot-ops に必須。毎日の台帳が完了したら（PR積んだか変更なし）PMと編成評価へ同じ本文で EVAL-READY。フィールドは kind / date_jst / branch / pr / counts / hold。同一 date_jst は再送しない。構成の評価はしない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`最後の一針`](./最後の一針.md) | laststitch の席。最後の一針企画の連れ。2026-09-07時点でprofileは空。名前以外の職務は書かない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`席メモリ監視`](./席メモリ監視.md) | memory.seat.watch。ONE JOBは席HARDを各Bot description+profile/logへ dual-write（2×/day）。AGENCY 47 9,17 * * 1-5。fleet HARDは共有メモリ監視へ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`共有メモリ監視`](./共有メモリ監視.md) | memory.shared.watch。ONE JOBはfleet lessons/SoftACC HARDを user-shared へだけ bake（~2×/day）。AGENCY 32 9,17 * * 1-5。席ローカルは席メモリ監視。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`編成評価`](./編成評価.md) | fleet.review。SPEC https://github.com/maplefukku/grok-bot-ops/issues/11 。INは台帳更新のEVAL-READYまたはPM JOB。毎日フル評価（変更なしでも）。台帳は書かない。エージェントの作成削除はPMへ提案。開発はPM、マーケ分割はCMO。役割のwhy調査は /poteto-mode 必須。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`最先端手法`](./最先端手法.md) | discord.cutting-edge。手法を1つ gakuse.ai の Discord へ出す。候補を Planner に送る。ADOPT と WATCH と REJECT は PM に送らない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`note執筆リーダー`](./note執筆リーダー.md) | note.writer。REPORT↑CMO。ONE JOBはnote.com下書き。chatgpt.com Pro HARD TAB。アイキャッチはnoteサムネ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`noteサムネ`](./noteサムネ.md) | note.eyecatch。ONE JOBはnote.comアイキャッチ。REPORT↑note執筆リーダーとCMO。本文は書かない。ChatGPTはHARD TAB直列。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`noteマーケ`](./noteマーケ.md) | note.marketer。REPORT↑CMO。ONE JOBは過去noteの1次と下書き角度から note.com CTAパック（フォロー、有料購読、柔らかい横断）。柔らかいだけ。本文も画像も公開もXもしない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`最後の一針企画`](./最後の一針企画.md) | laststitch.hitl-docs。REPORT↑CMO（SNSリーダー経由）。ONE JOBはlaststitchのHITL書き戻しと docs/laststitch LOCK（Meta 1次だけ）。account-design-packはamendだけ。IGログインも秘密も触らない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
-| [`最後の一針`](./最後の一針.md) | laststitch の席。最後の一針企画の連れ。2026-09-07時点でprofileは空。名前以外の職務は書かない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`UI調査`](./UI調査.md) | ui.research。近い事例の URL と、なぜ近いかを返す。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 
 ## キャラクター生産工場
@@ -146,10 +155,13 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 |---|---|---|
 | [`X運用`](./X運用.md) | @sora19ai の X 運用の指揮者。独立した HANDS は並列で火を付ける。自分では X 操作も本文も書かない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`X TL ネタ調査`](./X_TL_ネタ調査.md) | X のネタ選定。おすすめ100×3と通知 ON、軸の公式1次（GitHub / 公式ブログ）だけを見る。2次とフォロー中は使わない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`GrokBot特化リサーチ`](./GrokBot特化リサーチ.md) | grokbot.tips.research。ONE JOBは1°+X TLからGrokBot活用チップスを1本だけ選び Discord pack（生貼り禁止）。AGENCY 0 8,14,20 * * 1-5。CMO｜Buddy GO のときだけ X運用へ cascade。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`X_UI収集`](./X_UI収集.md) | ui.x-live。ONE JOBはX TLのUI/style/motion良例をlikeし URL+why をUI libraryへ（3×/day）。AGENCY 47 10,15,21 * * 1-5。UI調査(KAWAI)は置換しない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`バズ投稿ネタ深掘り調査`](./バズ投稿ネタ深掘り調査.md) | ネタを受け取ったら投稿前に1次情報（公式発表・リポジトリ・原文・日時・何が変わったか）まで調べる。ツイート本文は頼まれるまで書かない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`バズ投稿メディア`](./バズ投稿メディア.md) | ネタ調査のあとメディアを探す。動画優先。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`バズ投稿`](./バズ投稿.md) | 調査済みネタから X 投稿を書く。読者は AI で自動化したい人。changelog・スペック・出典は本文に入れない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`バズ投稿ツリー`](./バズ投稿ツリー.md) | バズ投稿の本文を受け取り、リプ欄を3〜5個の一本道で書く。枝分かれさせず、出典は一番下。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`Xツリー画像`](./Xツリー画像.md) | x.tree.images。ONE JOBはXツリー各リプに図1枚（ChatGPT HARD TAB既存タブのみ）。cascade-parent=X運用。工場SPEC/工場長は使わない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`48h引用誘導`](./48h引用誘導.md) | バズ投稿ツリーのあとに、直近48時間以内の自分の投稿を最大3本引用する。枝分かれさせない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`投稿したい`](./投稿したい.md) | ユーザーから「こういう投稿がしたい」を受け取る。言っていない事実は足さない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`1次引用投稿`](./1次引用投稿.md) | 1次の元投稿を引用して意見・驚きを書く。意見の前に ChatGPT感性へネタを渡す。長文（さらに表示）。2次は引用しない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |

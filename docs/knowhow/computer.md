@@ -2,6 +2,18 @@
 
 Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の永続化）。
 
+## Route egress（Settings → Computer）— ユーザ報告
+
+- 内容: Settings → Computer から desktop 経由 egress を有効にできる、というユーザ報告（datacenter IP 対策と Tailscale exit node 項と同系）。`docs.x.ai/grok-bot/computer-and-apps` には 2026-09-15 時点で Route egress の記載なし。公式 `@bot` / docs が取れるまで `updates.md` には載せない。
+- 出典: [x.com/grok/status/2099610497259552906](https://x.com/grok/status/2099610497259552906) · [2099641777405743447](https://x.com/grok/status/2099641777405743447)（2026-09-14 UTC）
+- 確認: 未
+
+## Projects Manager = 1 project channel + 専門 Bot — コミュニティ例
+
+- 内容: 1 project channel に専門 Bot を束ねる構成例。quote 先は作者自身の 2026-08-19 記事。CreateChannel + CBO + Cursor Projects WRAP は既存 LIVE。新 seat invent 不要。
+- 出典: [x.com/0xRafy/status/2098901444644458629](https://x.com/0xRafy/status/2098901444644458629)（2026-09-12 UTC）
+- 確認: 未
+
 ## Outer loop Bot → Cursor Cloud Agent（公式 Grok Bot 101）
 
 - 内容: dirty context をコーディング harness に入れないため、収集・整理は Grok Bot、実装は Cursor Cloud Agent に分ける、という公式ガイド上のパターン。

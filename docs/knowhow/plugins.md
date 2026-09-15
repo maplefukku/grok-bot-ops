@@ -2,6 +2,12 @@
 
 プラグインの入手と自作。
 
+## MCP で共有 AI memory
+
+- 内容: MCP を使って Bot 間・ツール間で AI memory を共有する、という用法の報告。
+- 出典: [x.com/connorgallic/status/2099630749380956315](https://x.com/connorgallic/status/2099630749380956315)（2026-09-15）
+- 確認: 未
+
 ## Microsoft Teams
 
 - 内容: Teams for Grok Bot プラグインでチャット・チャネルメッセージの検索・閲覧・送信ができる。
