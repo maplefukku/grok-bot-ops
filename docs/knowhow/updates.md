@@ -4,7 +4,11 @@ Grok Bot のプロダクトアップデートの時系列ログ。新しいも�
 
 | 時期 | 内容 | 出典 | 確認 |
 |---|---|---|---|
-| 2026-09-15 | Grok Bot Galaxy（2026-09-15〜17、サンフランシスコ） | [x.ai/galaxy](https://x.ai/galaxy) | 未 |
+| 2026-09-15 | Salesforce in Claude（beta）— 37 の AE skill、Salesforce + Slack connector、書き込み前承認がデフォルト | [claude.com/blog/salesforce-in-claude](https://claude.com/blog/salesforce-in-claude) | 未 |
+| 2026-09-15 | Grok Bot Galaxy（公式イベント 2026-09-15〜17、The Howard SF）— ロール別セッションと livestream 登録 | [x.ai/galaxy](https://x.ai/galaxy) | 未 |
+| 2026-09-15 | @grok — @Bot を仕事に組み込んだユーザー（+1）を Starship 打ち上げに招待 | [x.com/grok/status/2099876430561632548](https://x.com/grok/status/2099876430561632548) | 未 |
+| 2026-09-15 | @bot Galaxy Day 1 — SpaceXAI が Grok Bot で 3 日間会社構築ライブ（eng / product / founder） | [x.com/bot/status/2099890276315848743](https://x.com/bot/status/2099890276315848743) | 未 |
+| 2026-09-15 | Elon — Grok Bot で会社を作るライブデモ | [x.com/elonmusk/status/2099875660290228642](https://x.com/elonmusk/status/2099875660290228642) | 未 |
 | 2026-09-11 | Grok Bot が Microsoft Teams のチャット・チャネルを検索・操作できる（Teams for Grok Bot プラグイン） | [x.com/bot/status/2098481256417866145](https://x.com/bot/status/2098481256417866145) · [Teams plugin](https://x.ai/bot/plugin/63354504) | 未 |
 | 2026-09-10 | 社内 sales チームの Bot を Marketplace templates として公開（context・connectors・routines 付き） | [x.com/bot/status/2098183355942703565](https://x.com/bot/status/2098183355942703565) · [sales marketplace](https://x.ai/bot/marketplace/sales) | 未 |
 | 2026-09-10 | Salesforce、HubSpot、Gong、Clay、Granola など GTM ツールに接続し、セールスフォローアップとアカウント調査ができる | [x.com/bot/status/2098183353665261979](https://x.com/bot/status/2098183353665261979) | 未 |

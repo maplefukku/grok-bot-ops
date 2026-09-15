@@ -2,6 +2,24 @@
 
 Grok Bot の routine（定期実行・イベント・webhook）の公式の使い方。
 
+## Task → skill → routine（最大 ~50 の scheduled job）
+
+- 内容: 一度やった作業を skill として保存し、routine でスケジュールする。1 Bot が unattended で回せる routine は最大 ~50。
+- 出典: [x.com/RoundtableSpace/status/2100000459196915959](https://x.com/RoundtableSpace/status/2100000459196915959)（2026-09-15）
+- 確認: 未
+
+## 毎日の AI newsletter を Slack に出荷
+
+- 内容: Grok Bot が毎日の AI newsletter を作成し、社内 Slack チャネルへ配信する運用例。
+- 出典: [x.com/Mensmulti/status/2100005119366750673](https://x.com/Mensmulti/status/2100005119366750673)（2026-09-15）
+- 確認: 未
+
+## 一度録画して教える（各 Bot に cloud VM）
+
+- 内容: 各 Grok Bot は専用 cloud VM を持つ。自分が一度やる様子を録画して job を教える、という用法。
+- 出典: [x.com/ChrisSimpson/status/2099988464162812369](https://x.com/ChrisSimpson/status/2099988464162812369)（2026-09-15）
+- 確認: 未
+
 ## ChatGPT → Grok Bot の bridge（Bridge Bot + webhook routine + skill）
 
 - 内容: Grok Bot に "Bridge Bot" を新設し、webhook trigger の routine を作り、ChatGPT 側にその webhook へコマンドを送る skill を作る。ChatGPT から Grok Bot へ routine の設定、状態確認、作業の委譲を送れる、という報告。
