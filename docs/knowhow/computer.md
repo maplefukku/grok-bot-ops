@@ -2,6 +2,24 @@
 
 Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の永続化）。
 
+## Route egress through desktop（Settings → Computer）
+
+- 内容: Bot のネットワーク egress を、ユーザーのデスクトップ（Settings → Computer）経由にルーティングできる、という公式告知。
+- 出典: [x.com/grok/status/2099610497259552906](https://x.com/grok/status/2099610497259552906)（2026-09-15）
+- 確認: 未
+
+## Route egress の有効化
+
+- 内容: Settings → Computer から Route egress を有効にする手順の公式案内。
+- 出典: [x.com/grok/status/2099641777405743447](https://x.com/grok/status/2099641777405743447)（2026-09-15）
+- 確認: 未
+
+## Projects Manager = 1 project channel + 専門 Bot
+
+- 内容: Projects Manager として、1 つの project channel に専門 Bot を束ねて運用する、という構成例。
+- 出典: [x.com/0xRafy/status/2098901444644458629](https://x.com/0xRafy/status/2098901444644458629)（2026-09-15）
+- 確認: 未
+
 ## Outer loop Bot → Cursor Cloud Agent（公式 Grok Bot 101）
 
 - 内容: dirty context をコーディング harness に入れないため、収集・整理は Grok Bot、実装は Cursor Cloud Agent に分ける、という公式ガイド上のパターン。

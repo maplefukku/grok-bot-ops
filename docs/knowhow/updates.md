@@ -4,6 +4,9 @@ Grok Bot のプロダクトアップデートの時系列ログ。新しいも�
 
 | 時期 | 内容 | 出典 | 確認 |
 |---|---|---|---|
+| 2026-09-15 | Bot のネットワーク egress をデスクトップ経由にルーティングできる（Settings → Computer） | [x.com/grok/status/2099610497259552906](https://x.com/grok/status/2099610497259552906) | 未 |
+| 2026-09-15 | Grok アプリ内に Bot がネイティブ表示される（フルエージェント体験は Grok Bot アプリ側） | [x.com/grok/status/2099632476259823822](https://x.com/grok/status/2099632476259823822) | 未 |
+| 2026-09-15 | Grok Bot Galaxy（2026-09-15〜17、サンフランシスコ） | [x.ai/galaxy](https://x.ai/galaxy) | 未 |
 | 2026-09-11 | Grok Bot が Microsoft Teams のチャット・チャネルを検索・操作できる（Teams for Grok Bot プラグイン） | [x.com/bot/status/2098481256417866145](https://x.com/bot/status/2098481256417866145) · [Teams plugin](https://x.ai/bot/plugin/63354504) | 未 |
 | 2026-09-10 | 社内 sales チームの Bot を Marketplace templates として公開（context・connectors・routines 付き） | [x.com/bot/status/2098183355942703565](https://x.com/bot/status/2098183355942703565) · [sales marketplace](https://x.ai/bot/marketplace/sales) | 未 |
 | 2026-09-10 | Salesforce、HubSpot、Gong、Clay、Granola など GTM ツールに接続し、セールスフォローアップとアカウント調査ができる | [x.com/bot/status/2098183353665261979](https://x.com/bot/status/2098183353665261979) | 未 |
