@@ -2,6 +2,12 @@
 
 プラグインの入手と自作。
 
+## Claude docs — programmatic tool calling（MCP は code execution から呼べない）
+
+- 内容: Anthropic PTC ドキュメント: MCP ツールは code execution から直接呼べない。function tools / CLI 経由が workaround。X 上の言及あり。
+- 出典: [programmatic tool calling](https://platform.claude.com/docs/en/agents-and-tools/tool-use/programmatic-tool-calling) · [x.com/zkhorozian/status/2099989001507655914](https://x.com/zkhorozian/status/2099989001507655914)（2026-09-15）
+- 確認: 未
+
 ## MCP で共有 AI memory
 
 - 内容: MCP を使って Bot 間・ツール間で AI memory を共有する、という用法の報告。

@@ -2,6 +2,12 @@
 
 加入プランと、使えるアプリ。
 
+## Grok Heavy の weekly limit と Grok Bot usage は別
+
+- 内容: Grok Heavy の weekly limit を使い切っても Grok Bot usage は別枠。Heavy 枯渇後も Bot SSH で続けた、という報告。
+- 出典: [x.com/VibeDrummer/status/2099989791492149469](https://x.com/VibeDrummer/status/2099989791492149469)（2026-09-15）
+- 確認: 未
+
 ## weekly limit 前に usage の使い方を直す（Ultra への安易なアップグレードを避ける）
 
 - 内容: Grok Bot の weekly limit で Cursor Ultra に上げる前に、公式 docs 由来の使い方ルールを直す。メーターは message 数ではなく agent steps と tokens。曖昧タスクは wander して枠を食う、という要点。
