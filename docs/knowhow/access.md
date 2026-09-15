@@ -2,12 +2,6 @@
 
 加入プランと、使えるアプリ。
 
-## Grok アプリ内の Bot 表示（フル体験は Grok Bot アプリ）
-
-- 内容: Grok アプリ内に Bot がネイティブに表示される。フルエージェント体験は引き続き Grok Bot アプリ側、という公式告知。
-- 出典: [x.com/grok/status/2099632476259823822](https://x.com/grok/status/2099632476259823822)（2026-09-15）
-- 確認: 未
-
 ## weekly limit 前に usage の使い方を直す（Ultra への安易なアップグレードを避ける）
 
 - 内容: Grok Bot の weekly limit で Cursor Ultra に上げる前に、公式 docs 由来の使い方ルールを直す。メーターは message 数ではなく agent steps と tokens。曖昧タスクは wander して枠を食う、という要点。
