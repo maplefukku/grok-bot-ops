@@ -2,6 +2,24 @@
 
 Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の永続化）。
 
+## Settings の routine webhook（request_local_computer）
+
+- 内容: Settings に routine webhook を貼れる。agent が `request_local_computer` 経由でノート PC に到達できる。キーは rest 時に暗号化。HTTP 200 は bot 起動を意味し、ローカル作業の完了を意味しない。
+- 出典: [x.com/vvedantb/status/2100143317006610777](https://x.com/vvedantb/status/2100143317006610777)（2026-09-16）
+- 確認: 未
+
+## Bot 専用メールアドレス
+
+- 内容: Grok Bot 用のメールアドレスを持たせる手順の community how-to（X 記事）。
+- 出典: [x.com/nateherk/status/2100018258355110346](https://x.com/nateherk/status/2100018258355110346)（2026-09-16）
+- 確認: 未
+
+## コーディング agent 向けサンドボックス map（auto-approve）
+
+- 内容: Docker Sandboxes、shuru、Brood Box など microVM オプションを含む、コーディング agent 用サンドボックスの map。auto-approve の文脈。
+- 出典: [x.com/minchoi/status/2099881374710723013](https://x.com/minchoi/status/2099881374710723013)（2026-09-15）
+- 確認: 未
+
 ## Route egress（Settings → Computer）— ユーザ報告
 
 - 内容: Settings → Computer から desktop 経由 egress を有効にできる、というユーザ報告（datacenter IP 対策と Tailscale exit node 項と同系）。`docs.x.ai/grok-bot/computer-and-apps` には 2026-09-15 時点で Route egress の記載なし。公式 `@bot` / docs が取れるまで `updates.md` には載せない。

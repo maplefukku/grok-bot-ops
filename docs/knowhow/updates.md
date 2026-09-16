@@ -4,6 +4,9 @@ Grok Bot のプロダクトアップデートの時系列ログ。新しいも�
 
 | 時期 | 内容 | 出典 | 確認 |
 |---|---|---|---|
+| 2026-09-16 | Grok Bot が 1Password と連携。vault アイテムを共有し、fill のたびに承認。シークレットはパスワードマネージャに残る | [x.com/bot/status/2100335532597502311](https://x.com/bot/status/2100335532597502311) · [2100335534023585819](https://x.com/bot/status/2100335534023585819) · [x.ai/bot](https://x.ai/bot) | 未 |
+| 2026-09-16 | Grok Bot Galaxy Day 2 ライブストリーム（GTM・カスタマーサポートセッション。company-build 継続） | [x.com/bot/status/2100246135420199140](https://x.com/bot/status/2100246135420199140) · [broadcast](https://x.com/i/broadcasts/1PKqrNyvmYwGb) | 未 |
+| 2026-09-16 | Grok Build の Memory（セッション横断の convention / decision / project facts。`/memory` `/dream`） | [x.ai/news/grok-build-memory](https://x.ai/news/grok-build-memory) | 未 |
 | 2026-09-15 | Grok Bot Galaxy（2026-09-15〜17、サンフランシスコ） | [x.ai/galaxy](https://x.ai/galaxy) | 未 |
 | 2026-09-11 | Grok Bot が Microsoft Teams のチャット・チャネルを検索・操作できる（Teams for Grok Bot プラグイン） | [x.com/bot/status/2098481256417866145](https://x.com/bot/status/2098481256417866145) · [Teams plugin](https://x.ai/bot/plugin/63354504) | 未 |
 | 2026-09-10 | 社内 sales チームの Bot を Marketplace templates として公開（context・connectors・routines 付き） | [x.com/bot/status/2098183355942703565](https://x.com/bot/status/2098183355942703565) · [sales marketplace](https://x.ai/bot/marketplace/sales) | 未 |
