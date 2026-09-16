@@ -4,7 +4,6 @@ Grok Bot のプロダクトアップデートの時系列ログ。新しいも�
 
 | 時期 | 内容 | 出典 | 確認 |
 |---|---|---|---|
-| 2026-09-15 | Salesforce in Claude（beta）— 37 の AE skill、Salesforce + Slack connector、書き込み前承認がデフォルト | [claude.com/blog/salesforce-in-claude](https://claude.com/blog/salesforce-in-claude) | 未 |
 | 2026-09-15 | Grok Bot Galaxy（公式イベント 2026-09-15〜17、The Howard SF）— ロール別セッションと livestream 登録 | [x.ai/galaxy](https://x.ai/galaxy) | 未 |
 | 2026-09-15 | @grok — @Bot を仕事に組み込んだユーザー（+1）を Starship 打ち上げに招待 | [x.com/grok/status/2099876430561632548](https://x.com/grok/status/2099876430561632548) | 未 |
 | 2026-09-15 | @bot Galaxy Day 1 — SpaceXAI が Grok Bot で 3 日間会社構築ライブ（eng / product / founder） | [x.com/bot/status/2099890276315848743](https://x.com/bot/status/2099890276315848743) | 未 |

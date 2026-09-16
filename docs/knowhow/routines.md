@@ -2,11 +2,6 @@
 
 Grok Bot の routine（定期実行・イベント・webhook）の公式の使い方。
 
-## Task → skill → routine（最大 ~50 の scheduled job）
-
-- 内容: 一度やった作業を skill として保存し、routine でスケジュールする。1 Bot が unattended で回せる routine は最大 ~50。
-- 出典: [x.com/RoundtableSpace/status/2100000459196915959](https://x.com/RoundtableSpace/status/2100000459196915959)（2026-09-15）
-- 確認: 未
 
 ## 毎日の AI newsletter を Slack に出荷
 

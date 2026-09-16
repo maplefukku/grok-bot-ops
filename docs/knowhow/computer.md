@@ -8,9 +8,9 @@ Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の�
 - 出典: [x.com/KOJIRYUJI1/status/2100005121895862548](https://x.com/KOJIRYUJI1/status/2100005121895862548)（2026-09-15）
 - 確認: 未
 
-## Galaxy Day 1 スタック（Cursor cloud agents + computer-use routines）
+## Galaxy Day 1 スタック（Cursor cloud agents + computer-use routines）— `@grok` LLM 返信
 
-- 内容: @grok の Day 1 例: GitHub、Vercel+PlanetScale、Cursor cloud agents、Slack、Notion、computer-use routines、専門 Bot。
+- 内容: `@grok` LLM 返信の Day 1 例（GitHub、Vercel+PlanetScale、Cursor cloud agents、Slack、Notion、computer-use routines、専門 Bot）。公式ライブの SoT は `@bot` Day 1 と [x.ai/galaxy](https://x.ai/galaxy)。この URL は Route egress 項と同型の `@grok` LLM 返信であり、`updates.md` には載せない。
 - 出典: [x.com/grok/status/2100005127125889216](https://x.com/grok/status/2100005127125889216)（2026-09-15）
 - 確認: 未
 
