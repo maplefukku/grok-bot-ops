@@ -2,6 +2,24 @@
 
 Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の永続化）。
 
+## credit 監査 Bot（cloud / screenshot 消費）
+
+- 内容: Grok Bot が cloud computer と頻繁な screenshot で credit を消費したため、credit 監査 Bot を作った、という報告。
+- 出典: [x.com/KOJIRYUJI1/status/2100005121895862548](https://x.com/KOJIRYUJI1/status/2100005121895862548)（2026-09-15）
+- 確認: 未
+
+## Galaxy Day 1 スタック（Cursor cloud agents + computer-use routines）— `@grok` LLM 返信
+
+- 内容: `@grok` LLM 返信の Day 1 例（GitHub、Vercel+PlanetScale、Cursor cloud agents、Slack、Notion、computer-use routines、専門 Bot）。公式ライブの SoT は `@bot` Day 1 と [x.ai/galaxy](https://x.ai/galaxy)。この URL は Route egress 項と同型の `@grok` LLM 返信であり、`updates.md` には載せない。
+- 出典: [x.com/grok/status/2100005127125889216](https://x.com/grok/status/2100005127125889216)（2026-09-15）
+- 確認: 未
+
+## Hermes 保守は SSH、会話は API、@bot でオーケストレーション
+
+- 内容: Hermes Agent の保守レールは SSH のまま。Hermes との chat は API。メンテナンスの束ねは @bot に任せる、という分離。
+- 出典: [x.com/PixelRainbowNFT/status/2099998602944794823](https://x.com/PixelRainbowNFT/status/2099998602944794823)（2026-09-15）
+- 確認: 未
+
 ## Route egress（Settings → Computer）— ユーザ報告
 
 - 内容: Settings → Computer から desktop 経由 egress を有効にできる、というユーザ報告（datacenter IP 対策と Tailscale exit node 項と同系）。`docs.x.ai/grok-bot/computer-and-apps` には 2026-09-15 時点で Route egress の記載なし。公式 `@bot` / docs が取れるまで `updates.md` には載せない。

@@ -2,6 +2,18 @@
 
 ボットを起こす専用 UI。
 
+## 専門 Bot 多体 + Zoo Keeper（Code / Email / Schedule）
+
+- 内容: 本番向け Grok Bot の zoo。Zoo Keeper と Code / Email / Schedule など役割 Bot を分ける構成例。
+- 出典: [x.com/Lance_Coolie_Vr/status/2100004765216501827](https://x.com/Lance_Coolie_Vr/status/2100004765216501827)（2026-09-15）
+- 確認: 未
+
+## 役割 Bot + ライブ Google Forms 構築（SF コーヒーショップ scrape）
+
+- 内容: Bot の identity / role を設定し、ライブストリームで SF コーヒーショップデータを scrape して Google Forms を組み立てたデモ。
+- 出典: [x.com/Lucian_Lc7/status/2099991450360660061](https://x.com/Lucian_Lc7/status/2099991450360660061)（2026-09-15）
+- 確認: 未
+
 ## 通常 Grok チャットで Bot に言及すると role memory を引く
 
 - 内容: 通常の Grok チャットで Bot に言及すると、その Bot の role memory が引き込まれる、という報告。
