@@ -2,6 +2,12 @@
 
 プラグインの入手と自作。
 
+## コネクタ接続中（connection still in progress）の表示（0.56.1）
+
+- 内容: Grok Bot 0.56.1 でコネクタ接続中（connection still in progress）を UI に表示できるようになった、という SpaceXAI notes via blankspeaker（未完了の可能性あり）。
+- 出典: [x.com/blankspeaker/status/2100668524943601732](https://x.com/blankspeaker/status/2100668524943601732)（2026-09-17）
+- 確認: 未
+
 ## MCP で共有 AI memory
 
 - 内容: MCP を使って Bot 間・ツール間で AI memory を共有する、という用法の報告。

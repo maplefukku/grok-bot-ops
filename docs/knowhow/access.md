@@ -2,6 +2,18 @@
 
 加入プランと、使えるアプリ。
 
+## 無料 Ultra の短い窓口: 新規アカウントのみ
+
+- 内容: 新規アカウントのみ。download → create account → recurring task（例: 毎日メール確認）を作らせる。
+- 出典: [x.com/poteto/status/2100611185355956465](https://x.com/poteto/status/2100611185355956465)（2026-09-17）
+- 確認: 未
+
+## quota: Grok Bot 週枠と Cursor Cloud Agent
+
+- 内容: 通常の会話・routine・CUA・shell・MCP は Grok Bot 週枠。例外は Bot が起動した Cursor Cloud Agent のみ Cursor プラン側。
+- 出典: [forum.cursor.com/t/can-cursor-clarify-exactly-which-grok-bot-usage-counts-against-the-weekly-pool-vs-cursor-models-other-models/170951](https://forum.cursor.com/t/can-cursor-clarify-exactly-which-grok-bot-usage-counts-against-the-weekly-pool-vs-cursor-models-other-models/170951) · [x.com/ChingHanHo/status/2100395137469997112](https://x.com/ChingHanHo/status/2100395137469997112)（2026-09-16）
+- 確認: 未
+
 ## weekly limit 前に usage の使い方を直す（Ultra への安易なアップグレードを避ける）
 
 - 内容: Grok Bot の weekly limit で Cursor Ultra に上げる前に、公式 docs 由来の使い方ルールを直す。メーターは message 数ではなく agent steps と tokens。曖昧タスクは wander して枠を食う、という要点。
