@@ -2,6 +2,12 @@
 
 Grok Bot の routine（定期実行・イベント・webhook）の公式の使い方。
 
+## すべてを routine にしない
+
+- 内容: 判断が重い仕事やゴールが動く仕事は manual assign のままにし、すべての job を routine にしない。
+- 出典: [x.com/Michael_Fenech_/status/2100190209937715408](https://x.com/Michael_Fenech_/status/2100190209937715408)（2026-09-16）
+- 確認: 未
+
 ## ChatGPT → Grok Bot の bridge（Bridge Bot + webhook routine + skill）
 
 - 内容: Grok Bot に "Bridge Bot" を新設し、webhook trigger の routine を作り、ChatGPT 側にその webhook へコマンドを送る skill を作る。ChatGPT から Grok Bot へ routine の設定、状態確認、作業の委譲を送れる、という報告。
