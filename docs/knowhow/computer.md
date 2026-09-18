@@ -2,6 +2,30 @@
 
 Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の永続化）。
 
+## 重い仕事は Cloud Agent に振る skill
+
+- 内容: livestream 末尾の token tip「prefer cloud agent for heavy work」。
+- 出典: [x.com/kononovme/status/2100333225885180238](https://x.com/kononovme/status/2100333225885180238)（2026-09-16）
+- 確認: 未
+
+## 開発は Cursor Projects、日常は Grok Bot
+
+- 内容: 永続コンテキスト目的だけで Bot から Cloud Agent を起動し続けなくてよい、という切り分け。
+- 出典: [x.com/2020_hira/status/2100169429921497413](https://x.com/2020_hira/status/2100169429921497413)（2026-09-16）
+- 確認: 未
+
+## usage 分離: GitHub/Origin 接続と Cloud Agent
+
+- 内容: GitHub/Origin を接続し、重い作業は Cloud Agent に任せて Grok Bot 枠と Cursor 枠を分ける。
+- 出典: [x.com/TSLAshareholder/status/2099862329529860119](https://x.com/TSLAshareholder/status/2099862329529860119)（2026-09-15）
+- 確認: 未
+
+## Cloud Agent に短いレビュー動画を PR description に
+
+- 内容: Cloud Agent に短いレビュー動画を撮らせ PR description に添付。verification skill を always-on にする（Galaxy livestream / poteto）。
+- 出典: [x.com/ChrisSimpson/status/2099973597947428927](https://x.com/ChrisSimpson/status/2099973597947428927)（2026-09-15）
+- 確認: 未
+
 ## Route egress（Settings → Computer）— ユーザ報告
 
 - 内容: Settings → Computer から desktop 経由 egress を有効にできる、というユーザ報告（datacenter IP 対策と Tailscale exit node 項と同系）。`docs.x.ai/grok-bot/computer-and-apps` には 2026-09-15 時点で Route egress の記載なし。公式 `@bot` / docs が取れるまで `updates.md` には載せない。

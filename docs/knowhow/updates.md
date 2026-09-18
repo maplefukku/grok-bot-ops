@@ -4,6 +4,7 @@ Grok Bot のプロダクトアップデートの時系列ログ。新しいも�
 
 | 時期 | 内容 | 出典 | 確認 |
 |---|---|---|---|
+| 2026-09-17 | Grok Bot Voice: desktop と mobile に数日かけてロールアウト。公式「Grok Bot can talk now」 | [x.com/bot/status/2100659463569170779](https://x.com/bot/status/2100659463569170779) · [2100659464781394222](https://x.com/bot/status/2100659464781394222) · [x.ai/bot](https://x.ai/bot) | 未 |
 | 2026-09-16 | Grok Bot が 1Password と連携。vault アイテムを共有し、fill のたびに承認。シークレットはパスワードマネージャに残る | [x.com/bot/status/2100335532597502311](https://x.com/bot/status/2100335532597502311) · [2100335534023585819](https://x.com/bot/status/2100335534023585819) · [x.ai/bot](https://x.ai/bot) | 未 |
 | 2026-09-15 | Grok Bot Galaxy（2026-09-15〜17、サンフランシスコ） | [x.ai/galaxy](https://x.ai/galaxy) | 未 |
 | 2026-09-11 | Grok Bot が Microsoft Teams のチャット・チャネルを検索・操作できる（Teams for Grok Bot プラグイン） | [x.com/bot/status/2098481256417866145](https://x.com/bot/status/2098481256417866145) · [Teams plugin](https://x.ai/bot/plugin/63354504) | 未 |
