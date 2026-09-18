@@ -1,7 +1,35 @@
 # fleet
 
 フリート停滞、merge GATE、jenny-lite の ADOPT と REJECT の置き場。
-対象窓は fleet stalls 2026-09-01..09-05（sauna#203 loop、ZN Swift cluster）および jenny-lite 2026-09-07..09-11。出典は各エントリの URL。
+対象窓は fleet stalls 2026-09-01..09-05（sauna#203 loop、ZN Swift cluster）および jenny-lite 2026-09-07..09-11、jenny-lite 2026-09-12..09-18（#127 merge bottleneck / daily SoftACC）。出典は各エントリの URL。
+
+## ADOPT — #127 Flag Y ONLY writeback landed in process + ci lock (jenny-lite 2026-09-12..09-18)
+
+- 内容: tip-sot behind0 は #128 で [`pr-body.md`](../process/pr-body.md) の PdM Flag Y ONLY 表（behind0/thr0/FULL CLEAN/APPROVED/ADV SUCCESS）に WRAP 済み。述語 pin は `test_flag_y_only_lock.py` → `ci.py` `flag-y-only-lock`。scanner・第二 Flag 定義は invent しない。HOLD merge=PM。GATE 観測（09-07..09-11）の behind 半分の writeback はここで close。
+- 決定: ADOPT
+- 出典: https://github.com/maplefukku/grok-bot-ops/pull/128 · https://github.com/maplefukku/grok-bot-ops/issues/127 （2026-09-14）
+- 確認: 未
+
+## ADOPT — daily knowhow: @bot / x.ai / docs official-only before stall-adjacent land (jenny-lite 2026-09-12..09-18)
+
+- 内容: merge-leftover daily lane は knowhow 追記前に公式-only gate を通す。@grok LLM 返信・community recap・Grok Build-only 記事を stall 対策として載せない。SoftACC thr-close で差し戻した行と同型。jenny-lite の ADOPT|REJECT は [`collect-grokbot-knowhow.md`](../../routines/collect-grokbot-knowhow.md) の Planner 候補と分離し、fleet には PM ACK 分だけ DELTA する。
+- 決定: ADOPT
+- 出典: https://github.com/maplefukku/grok-bot-ops/pull/134 · https://github.com/maplefukku/grok-bot-ops/issues/127 （2026-09-17..09-18）
+- 確認: 未
+
+## REJECT — Grok Bot Voice / Team Bots WIP / new seat as repeated-stall unstick (jenny-lite 2026-09-12..09-18)
+
+- 内容: #127 leftover の答えは既存 knowhow+skills+Flag Y ONLY+Closer thr-close。Voice rollout や Team Bots 実験を CreateAgent・Jenny seat・監視 monkey で埋めない。GTM connector / Grok Voice marketplace を製品 STT/TTS stall  fix に載せない（trend-log REJECT 済みと同型）。Soft Flag invent しない。
+- 決定: REJECT
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/127 · https://x.com/bot/status/2100659463569170779 （2026-09-17 Voice 文脈）
+- 確認: 未
+
+## REJECT — trend-log `fired` pre-fill before PdM FIRE LIVE (jenny-lite 2026-09-12..09-18)
+
+- 内容: Planner daily の `fired` セルは PdM FIRE と人間 writeback まで空のまま。LIVE 先取りは ADV MUST で差し戻す。stall 対策として fired を先に埋めて「出荷済み」に見せない。CreateAgent NONE。
+- 決定: REJECT
+- 出典: https://github.com/maplefukku/grok-bot-ops/pull/125 · https://github.com/maplefukku/grok-bot-ops/pull/134 （2026-09-11..09-17）
+- 確認: 未
 
 ## ADOPT — named *-HOLD + enabled=false = intentional GAP
 
