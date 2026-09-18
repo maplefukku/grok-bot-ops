@@ -1,7 +1,42 @@
 # fleet
 
 フリート停滞、merge GATE、jenny-lite の ADOPT と REJECT の置き場。
-対象窓は fleet stalls 2026-09-01..09-05（sauna#203 loop、ZN Swift cluster）および jenny-lite 2026-09-07..09-11、jenny-lite 2026-09-12..09-18（#127 merge bottleneck / daily SoftACC）。出典は各エントリの URL。
+対象窓は fleet stalls 2026-09-01..09-05（sauna#203 loop、ZN Swift cluster）、fleet stalls 平日 2026-09-15..09-18（factory BROKEN loop、idle-with-leftover eng、agency silent-miss、research/X weekday miss）、および jenny-lite 2026-09-07..09-11、jenny-lite 2026-09-12..09-18（#127 merge bottleneck / daily SoftACC）。出典は各エントリの URL。
+
+## ADOPT A — factory BROKEN until trusted fire proves LIVE (jenny-lite 2026-09-15..09-18)
+
+- 内容: factory は provenance=untrusted、または lastRun が >1d stale、または due slot miss のいずれかで BROKEN。LIVE 扱いは trusted fire が lastRun を更新するまで禁止。same-sweep で JOB は ルーチン作成（rearm trust）+ 工場長（catch-up は Discord seat ONLY）。`enabled=true` だけでは LIVE にしない。trusted lastRun 無しに content catch-up で fixed 扱いしない。eng-only sweep で factory を落とさない。encode 先は sand-workflow:fleet-stall-sweep / sand-workflow:author-routines / sand-workflow:schedules-force-agency knowhow（スキル本文パッチは Planner WRAP → スキル作成、本 PR では invent しない）。
+- 決定: ADOPT
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 · [`bots/監視.md`](../../bots/監視.md) · [`bots/工場長.md`](../../bots/工場長.md) · [`bots/ルーチン作成.md`](../../bots/ルーチン作成.md) （protocol 2026-09-18; factory BROKEN loop 09-15..09-18）
+- 確認: 未
+
+## ADOPT B — JOB-flat: idle-with-leftover ≥3 same-day sweeps → escalate once (jenny-lite 2026-09-15..09-18)
+
+- 内容: 同一 idle-with-leftover JOB が同日 sweep で ≥3 回繰り返し、seat-class 昇格（Buddy/CTO / sand-workflow:conductor-keep-moving）が無いなら 1 回だけ escalate。infinite re-spam JOB は REJECT。weekday-pulse-cascade / conductor-keep-moving knowhow へ bake（スキル本文は Planner WRAP 後）。
+- 決定: ADOPT
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-11 idle-with-leftover 文脈; 09-15..09-18 eng thr/CA-only 再発） · [`bots/開発リーダー.md`](../../bots/開発リーダー.md) （protocol 2026-09-18）
+- 確認: 未
+
+## ADOPT C — agency silent-miss: enabled=true ∧ lastRun past schedule window (jenny-lite 2026-09-15..09-18)
+
+- 内容: enabled=true かつ lastRun が schedule window より古い = SILENT-MISS FAIL。same-sweep JOB は owner seat + ルーチン作成。linux-runner-offline-ping、keep-moving-*、tips-3x、factory に適用。filesystem の runs.json を disable SoT にしない（REJECT）。encode 先は sand-workflow:schedules-force-agency。
+- 決定: ADOPT
+- 出典: [`docs/process/shared-computer.md`](../process/shared-computer.md) · [`bots/CBO.md`](../../bots/CBO.md) · https://github.com/maplefukku/grok-bot-ops/issues/91 （protocol 2026-09-18; agency silent-miss 09-15..09-18）
+- 確認: 未
+
+## ADOPT D — not-eng-only fleet-sweep / ca-merge-liveness checklist (jenny-lite 2026-09-15..09-18)
+
+- 内容: 毎回の fleet-sweep と ca-merge-liveness は factory+Discord、research/X 平日 pulse、untrusted provenance をスコアに含める必須 checklist。eng thr/CA のみに sweep を落とすのは FAIL。既存 LIVE thr check（09-06）と Sep11 ADOPT 行（*-HOLD / ACK-then-stop / overnight babysit）の再掲はしない — 本行は 09-15..09-18 の eng-only 縮退 miss 用 DELTA。
+- 決定: ADOPT
+- 出典: [`bots/監視.md`](../../bots/監視.md) · [`bots/GrokBot特化リサーチ.md`](../../bots/GrokBot特化リサーチ.md) · https://github.com/maplefukku/grok-bot-ops/issues/16 （protocol 2026-09-18; research/X weekday miss 09-15..09-18）
+- 確認: 未
+
+## REJECT — jenny-lite stall fire companion 2026-09-15..09-18 (modes A–D)
+
+- 内容: CreateAgent / 新 Jenny seat / credit-audit や fixer bot の invent。auto-merge と webhook-fixer auto-exec。監視からの Discord drip、非工場長が discord.com を開く、Forks wipe、cookie-seed。eng-only stall sweep。trusted lastRun 無しの content catch-up で factory fixed 扱い。監視または impl CA が knowhow を書く（Knowhow収集が write を持つ）。Soft Flag invent しない。
+- 決定: REJECT
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 · [`docs/decisions/trend-log.md`](../decisions/trend-log.md) （2026-09-09 webhook→fixer auto-exec HOLD REJECT） · [`bots/監視.md`](../../bots/監視.md) · [`bots/Knowhow収集.md`](../../bots/Knowhow収集.md) （protocol 2026-09-18）
+- 確認: 未
 
 ## ADOPT — #127 Flag Y ONLY writeback landed in process + ci lock (jenny-lite 2026-09-12..09-18)
 
