@@ -5,7 +5,7 @@
 ## quota: Grok Bot 週枠と Cursor Cloud Agent
 
 - 内容: 通常の会話・routine・CUA・shell・MCP は Grok Bot 週枠。例外は Bot が起動した Cursor Cloud Agent のみ Cursor プラン側。
-- 出典: [forum.cursor.com/t/can-cursor-clarify-exactly-which-grok-bot-usage-counts-against-the-weekly-pool-vs-cursor-models-other-models/170951](https://forum.cursor.com/t/can-cursor-clarify-exactly-which-grok-bot-usage-counts-against-the-weekly-pool-vs-cursor-models-other-models/170951) · [x.com/ChingHanHo/status/2100395137469997112](https://x.com/ChingHanHo/status/2100395137469997112)（2026-09-16）
+- 出典: [forum.cursor.com/t/can-cursor-clarify-exactly-which-grok-bot-usage-counts-against-the-weekly-pool-vs-cursor-models-other-models/170951](https://forum.cursor.com/t/can-cursor-clarify-exactly-which-grok-bot-usage-counts-against-the-weekly-pool-vs-cursor-models-other-models/170951)（2026-09-10） · [x.com/ChingHanHo/status/2100395137469997112](https://x.com/ChingHanHo/status/2100395137469997112)（2026-09-17）
 - 確認: 未
 
 ## weekly limit 前に usage の使い方を直す（Ultra への安易なアップグレードを避ける）
