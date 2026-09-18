@@ -2,12 +2,6 @@
 
 加入プランと、使えるアプリ。
 
-## 無料 Ultra の短い窓口: 新規アカウントのみ
-
-- 内容: 新規アカウントのみ。download → create account → recurring task（例: 毎日メール確認）を作らせる。
-- 出典: [x.com/poteto/status/2100611185355956465](https://x.com/poteto/status/2100611185355956465)（2026-09-17）
-- 確認: 未
-
 ## quota: Grok Bot 週枠と Cursor Cloud Agent
 
 - 内容: 通常の会話・routine・CUA・shell・MCP は Grok Bot 週枠。例外は Bot が起動した Cursor Cloud Agent のみ Cursor プラン側。
