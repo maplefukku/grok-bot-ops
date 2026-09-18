@@ -10,13 +10,6 @@
 - 出典: https://github.com/maplefukku/grok-bot-ops/pull/128 · https://github.com/maplefukku/grok-bot-ops/issues/127 （2026-09-14）
 - 確認: 未
 
-## ADOPT — daily knowhow: @bot / x.ai / docs official-only before stall-adjacent land (jenny-lite 2026-09-12..09-18)
-
-- 内容: merge-leftover daily lane は knowhow 追記前に公式-only gate を通す。@grok LLM 返信・community recap・Grok Build-only 記事を stall 対策として載せない。SoftACC thr-close で差し戻した行と同型。jenny-lite の ADOPT|REJECT は [`collect-grokbot-knowhow.md`](../../routines/collect-grokbot-knowhow.md) の Planner 候補と分離し、fleet には PM ACK 分だけ DELTA する。
-- 決定: ADOPT
-- 出典: https://github.com/maplefukku/grok-bot-ops/pull/134 · https://github.com/maplefukku/grok-bot-ops/issues/127 （2026-09-17..09-18）
-- 確認: 未
-
 ## REJECT — Grok Bot Voice / Team Bots WIP / new seat as repeated-stall unstick (jenny-lite 2026-09-12..09-18)
 
 - 内容: #127 leftover の答えは既存 knowhow+skills+Flag Y ONLY+Closer thr-close。Voice rollout や Team Bots 実験を CreateAgent・Jenny seat・監視 monkey で埋めない。GTM connector / Grok Voice marketplace を製品 STT/TTS stall  fix に載せない（trend-log REJECT 済みと同型）。Soft Flag invent しない。
