@@ -4,7 +4,7 @@ Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の�
 
 ## 重い仕事は Cloud Agent に振る skill
 
-- 内容: livestream 末尾の token tip「prefer cloud agent for heavy work」。Grok Bot はオーケストレーション、Cursor harness はコーディング。
+- 内容: livestream 末尾の token tip「prefer cloud agent for heavy work」。
 - 出典: [x.com/kononovme/status/2100333225885180238](https://x.com/kononovme/status/2100333225885180238)（2026-09-16）
 - 確認: 未
 
