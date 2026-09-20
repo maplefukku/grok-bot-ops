@@ -2,12 +2,6 @@
 
 加入プランと、使えるアプリ。
 
-## iPhone Calendar — ネイティブ未対応と二段の無料ワークアラウンド
-
-- 内容: Grok Bot は iPhone Calendar にイベントをネイティブに書き込めない、という報告。二段の無料手順で回避できる、という説明（リンク先記事）。
-- 出典: [x.com/thatdudepacoAI/status/2101786222771544502](https://x.com/thatdudepacoAI/status/2101786222771544502)（2026-09-20）
-- 確認: 未
-
 ## weekly limit 前に usage の使い方を直す（Ultra への安易なアップグレードを避ける）
 
 - 内容: Grok Bot の weekly limit で Cursor Ultra に上げる前に、公式 docs 由来の使い方ルールを直す。メーターは message 数ではなく agent steps と tokens。曖昧タスクは wander して枠を食う、という要点。

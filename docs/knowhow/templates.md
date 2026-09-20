@@ -2,12 +2,6 @@
 
 ボットの共有と、公開されているボットの例。
 
-## Closet Bot パターン（Drive 連携の服カタログ + コーディネート Bot）
-
-- 内容: 服の写真を Drive に蓄える Closet Bot と、希望の vibe を渡すとコーディネート案を返す別 Bot を組み合わせる、という用法。
-- 出典: [x.com/ramhornt/status/2101810207043002515](https://x.com/ramhornt/status/2101810207043002515)（2026-09-20）
-- 確認: 未
-
 ## 公式: Sales Marketplace templates
 
 - 内容: Sales カテゴリに Outbound Prospecting / GTM Loop Closer / Sales Call Coach / Meeting Recap Deck / Pitch Deck Coach などが並ぶ。社内 sales Bot を templates として公開し、context・connectors・routines 付きで導入できる。
