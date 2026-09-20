@@ -2,6 +2,12 @@
 
 Grok Bot の routine（定期実行・イベント・webhook）の公式の使い方。
 
+## 専用メール Bot — 朝のトリアージ routine
+
+- 内容: メール専用 Bot で朝のトリアージ。不要メールのアーカイブ、低工数メールのバッチ処理、判断が要る件のフルコンテキスト要約。スポンサー/PR 向けラベルとスコアリングも含む、という用法。
+- 出典: [x.com/BobbyBacklogs/status/2101816490261397732](https://x.com/BobbyBacklogs/status/2101816490261397732)（2026-09-20）
+- 確認: 未
+
 ## ChatGPT → Grok Bot の bridge（Bridge Bot + webhook routine + skill）
 
 - 内容: Grok Bot に "Bridge Bot" を新設し、webhook trigger の routine を作り、ChatGPT 側にその webhook へコマンドを送る skill を作る。ChatGPT から Grok Bot へ routine の設定、状態確認、作業の委譲を送れる、という報告。

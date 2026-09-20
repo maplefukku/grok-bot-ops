@@ -2,6 +2,12 @@
 
 プラグインの入手と自作。
 
+## Plugin single-click share via grokbot:// deep link
+
+- 内容: プラグインページを開き、リンクアイコンで grokbot:// URL を取得し @bot に送ると共有できる。現時点では X デスクトップクライアントでのみ動作する、という告知。
+- 出典: [x.com/shipfrontierai/status/2101760652914352600](https://x.com/shipfrontierai/status/2101760652914352600)（2026-09-20）
+- 確認: 未
+
 ## MCP で共有 AI memory
 
 - 内容: MCP を使って Bot 間・ツール間で AI memory を共有する、という用法の報告。
