@@ -2,6 +2,18 @@
 
 ボットを起こす専用 UI。
 
+## zoo of production（コミュニティ報告）
+
+- 内容: コミュニティ自己報告（@Lance_Coolie_Vr）。本文は「I have created my zoo of production.」。添付画像（出典画像）に Zoo Keeper / Platinum Chimp / Email Monkey / Schedule Monkey / Code Monkey / Project Odin / Zoo Secretary / Writing Monkey / Maintenance Monkey / Finance Monkey / Task Monkey の役割名が見える。画像由来の役割名 KEEP。Soft Flag N invent Zoo Keeper seat。
+- 出典: [x.com/Lance_Coolie_Vr/status/2100004765216501827](https://x.com/Lance_Coolie_Vr/status/2100004765216501827)（2026-09-15）
+- 確認: 未
+
+## 役割 Bot + ライブ Google Forms 構築（SF コーヒーショップ scrape）
+
+- 内容: Bot の identity / role を設定し、ライブストリームで SF コーヒーショップデータを scrape して Google Forms を組み立てたデモ。
+- 出典: [x.com/Lucian_Lc7/status/2099991450360660061](https://x.com/Lucian_Lc7/status/2099991450360660061)（2026-09-15）
+- 確認: 未
+
 ## 通常 Grok チャットで Bot に言及すると role memory を引く
 
 - 内容: 通常の Grok チャットで Bot に言及すると、その Bot の role memory が引き込まれる、という報告。
