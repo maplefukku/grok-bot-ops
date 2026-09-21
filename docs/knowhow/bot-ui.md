@@ -4,7 +4,7 @@
 
 ## zoo of production（コミュニティ報告）
 
-- 内容: 「I have created my zoo of production.」というコミュニティ自己報告のみ（@Lance_Coolie_Vr）。Zoo Keeper / Code / Email / Schedule などの役割名は出典に無い。
+- 内容: コミュニティ自己報告（@Lance_Coolie_Vr）。本文は「I have created my zoo of production.」。添付画像（出典画像）に Zoo Keeper / Platinum Chimp / Email Monkey / Schedule Monkey / Code Monkey / Project Odin / Zoo Secretary / Writing Monkey / Maintenance Monkey / Finance Monkey / Task Monkey の役割名が見える。画像由来の役割名 KEEP。Soft Flag N invent Zoo Keeper seat。
 - 出典: [x.com/Lance_Coolie_Vr/status/2100004765216501827](https://x.com/Lance_Coolie_Vr/status/2100004765216501827)（2026-09-15）
 - 確認: 未
 
