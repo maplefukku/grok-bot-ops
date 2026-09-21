@@ -4,6 +4,13 @@ Grok Bot のプロダクトアップデートの時系列ログ。新しいも�
 
 | 時期 | 内容 | 出典 | 確認 |
 |---|---|---|---|
+| 2026-09-22 | 公式 overview docs は Grok Bot desktop を macOS / Windows / Linux、mobile を iPhone / iPad / Android と記載（旧 mobile docs の iPad 曖昧さとの差分を整理） | [overview](https://docs.x.ai/grok-bot/overview) | 未 |
+| 2026-09-21 | Grok 4.7 リリース。Cursor・Grok Build・Grok API で Grok 4.6 と同価格・同速度で利用可能。ニュースは Grok Bot harness 向けネイティブ理解の学習も記載 | [x.ai/news/grok-4-7](https://x.ai/news/grok-4-7) · [x.com/SpaceXAI/status/2102069822288720022](https://x.com/SpaceXAI/status/2102069822288720022) | 未 |
+| 2026-09-21 | 公式 @grok 返信: Grok Bot ページは依然 Grok 4.6 表示。Grok 4.7 は Cursor / Grok Build / API で live。Bot harness の学習は継続。consumer Bot への展開は後日 | [x.com/grok/status/2102178640414883990](https://x.com/grok/status/2102178640414883990) | 未 |
+| 2026-09-20 | ワンクリック Grok Bot プラグイン共有 deeplink `grokbot://app/v1/plugin/add?id=…`（desktop X クライアント）。SpaceXAI matt palmer が告知 | [x.com/mattyp/status/2101491045553070094](https://x.com/mattyp/status/2101491045553070094) | 未 |
+| 2026-09-18 | Grok Bot が voice notes を送れる | [x.com/bot/status/2101014478255247544](https://x.com/bot/status/2101014478255247544) | 未 |
+| 2026-09-17 | Grok Bot が話せる。voice は desktop / mobile へ数日かけてロールアウト | [x.com/bot/status/2100659463569170779](https://x.com/bot/status/2100659463569170779) · [2100659464781394222](https://x.com/bot/status/2100659464781394222) | 未 |
+| 2026-09-16 | Grok Bot が 1Password を利用可能。vault item を共有し fill は都度承認。secrets はパスワードマネージャ内に留まる | [x.com/bot/status/2100335532597502311](https://x.com/bot/status/2100335532597502311) · [2100335534023585819](https://x.com/bot/status/2100335534023585819) | 未 |
 | 2026-09-15 | Grok Bot Galaxy（2026-09-15〜17、サンフランシスコ） | [x.ai/galaxy](https://x.ai/galaxy) | 未 |
 | 2026-09-11 | Grok Bot が Microsoft Teams のチャット・チャネルを検索・操作できる（Teams for Grok Bot プラグイン） | [x.com/bot/status/2098481256417866145](https://x.com/bot/status/2098481256417866145) · [Teams plugin](https://x.ai/bot/plugin/63354504) | 未 |
 | 2026-09-10 | 社内 sales チームの Bot を Marketplace templates として公開（context・connectors・routines 付き） | [x.com/bot/status/2098183355942703565](https://x.com/bot/status/2098183355942703565) · [sales marketplace](https://x.ai/bot/marketplace/sales) | 未 |

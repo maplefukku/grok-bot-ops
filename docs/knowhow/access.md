@@ -2,6 +2,12 @@
 
 加入プランと、使えるアプリ。
 
+## モバイル Grok Bot から職場 PC へ到達
+
+- 内容: スマホの Grok Bot アプリから、登録済みでオンラインの職場 PC（スクリーンショット付き）に依然到達できる、という報告。
+- 出典: [x.com/duncanstives/status/2102165842230116686](https://x.com/duncanstives/status/2102165842230116686)（2026-09-21）
+- 確認: 未
+
 ## weekly limit 前に usage の使い方を直す（Ultra への安易なアップグレードを避ける）
 
 - 内容: Grok Bot の weekly limit で Cursor Ultra に上げる前に、公式 docs 由来の使い方ルールを直す。メーターは message 数ではなく agent steps と tokens。曖昧タスクは wander して枠を食う、という要点。

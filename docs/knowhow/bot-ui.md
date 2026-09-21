@@ -2,6 +2,12 @@
 
 ボットを起こす専用 UI。
 
+## Voice（話す / voice notes）
+
+- 内容: Bot の voice 会話と voice notes の公式告知。詳細は [`updates.md`](./updates.md) の 2026-09-17 / 2026-09-18 行。
+- 出典: [x.com/bot/status/2100659463569170779](https://x.com/bot/status/2100659463569170779) · [2101014478255247544](https://x.com/bot/status/2101014478255247544)
+- 確認: 未
+
 ## 通常 Grok チャットで Bot に言及すると role memory を引く
 
 - 内容: 通常の Grok チャットで Bot に言及すると、その Bot の role memory が引き込まれる、という報告。

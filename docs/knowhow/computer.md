@@ -2,6 +2,30 @@
 
 Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の永続化）。
 
+## Stretch Bot — VM ターミナルから Grok Build へコーディングタスク
+
+- 内容: Grok Bot にコーディングタスクを VM ターミナル経由で Grok Build に送らせる（別 rate-limit pool）。
+- 出典: [x.com/theaaron/status/2102134190540255686](https://x.com/theaaron/status/2102134190540255686)（2026-09-21）
+- 確認: 未
+
+## ローカル Mac で Grok CLI + Cursor CLI を併用（Bot VM token 節約）
+
+- 内容: Bot VM の token 消費を避けるため、ローカル Mac / computer 上でも Grok CLI と Cursor CLI を動かす tip。
+- 出典: [x.com/Kevin_Logan/status/2102134995108110395](https://x.com/Kevin_Logan/status/2102134995108110395)（2026-09-21）
+- 確認: 未
+
+## Bot モデルを Cursor Usage から推定
+
+- 内容: Cursor Settings → Dashboard → Usage の `Grok-Bot-Default` ラベル配下で、usage graph に underlying model（例: cursor-grok-4.6-high-fast）が出る、という報告。
+- 出典: [x.com/theaaron/status/2102127976699904354](https://x.com/theaaron/status/2102127976699904354)（2026-09-21）
+- 確認: 未
+
+## 旧 Mac + Tailscale + custom connector（メッセージ / カレンダー）
+
+- 内容: 旧 Mac をサーバにし、Tailscale 越しの custom connector で Bot からメッセージ送信やカレンダー reminder / notes の閲覧・更新。
+- 出典: [x.com/joshidell/status/2102166659460985186](https://x.com/joshidell/status/2102166659460985186)（2026-09-21）
+- 確認: 未
+
 ## Route egress（Settings → Computer）— ユーザ報告
 
 - 内容: Settings → Computer から desktop 経由 egress を有効にできる、というユーザ報告（datacenter IP 対策と Tailscale exit node 項と同系）。`docs.x.ai/grok-bot/computer-and-apps` には 2026-09-15 時点で Route egress の記載なし。公式 `@bot` / docs が取れるまで `updates.md` には載せない。
