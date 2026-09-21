@@ -2,9 +2,9 @@
 
 ボットを起こす専用 UI。
 
-## 専門 Bot 多体 + Zoo Keeper（Code / Email / Schedule）
+## zoo of production（コミュニティ報告）
 
-- 内容: 本番向け Grok Bot の zoo。Zoo Keeper と Code / Email / Schedule など役割 Bot を分ける構成例。
+- 内容: 「I have created my zoo of production.」というコミュニティ自己報告のみ（@Lance_Coolie_Vr）。Zoo Keeper / Code / Email / Schedule などの役割名は出典に無い。
 - 出典: [x.com/Lance_Coolie_Vr/status/2100004765216501827](https://x.com/Lance_Coolie_Vr/status/2100004765216501827)（2026-09-15）
 - 確認: 未
 
