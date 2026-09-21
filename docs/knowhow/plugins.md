@@ -4,7 +4,7 @@
 
 ## Plugin single-click share via grokbot:// deep link
 
-- 内容: プラグインページを開き、リンクアイコンで grokbot:// URL を取得し @bot に送ると共有できる。現時点では X デスクトップクライアントでのみ動作する、という告知（@mattyp）。
+- 内容: プラグインページでリンクアイコン（🔗）を押し、`grokbot://app/v1/plugin/add?id=…` の deep link を取る。そのリンクを共有し、タップすると Grok Bot 上で該当プラグイン追加が開く（「on @bot」＝Grok Bot 上で開く、公式 @bot アカウントへ URL を送る手順ではない）。現時点では X デスクトップクライアントのみ、という告知（@mattyp）。
 - 出典: [x.com/mattyp/status/2101491045553070094](https://x.com/mattyp/status/2101491045553070094)（2026-09-20）
 - 確認: 未
 
