@@ -12,7 +12,6 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | job-brief | CA brief を書くとき | PR-body、CI 梯子 |
 | 開発リーダー | ROUTE+FIRE のとき | CI 梯子、出荷単位 |
 | impl CA | lane を 1 本受けたとき。PR を書くとき。初回 push 前 | B. lane と契約、quiet-test、PR-body、CI 梯子、[security-audit-wrap](./security-audit-wrap.md) |
-| Mini / スキル作成 | #136 jenny-lite A–D を box sand-workflow へ encode するとき | [jenny-lite-stall-adopt](./jenny-lite-stall-adopt.md)、Flag Y は [pr-body](./pr-body.md) のみ |
 | impl CA（ui-library） | UI 参照索引 / MCP lander | [ui-library-mcp](./ui-library-mcp.md) |
 | 全ボットと CA | spend / sign / send に触れる前 | anti-job |
 | PR確認 | merge sweep | merge-ok、PR-body、CI 梯子 |
