@@ -2,12 +2,6 @@
 
 加入プランと、使えるアプリ。
 
-## モバイル Grok Bot から職場 PC へ到達
-
-- 内容: スマホの Grok Bot アプリから、登録済みでオンラインの職場 PC（スクリーンショット付き）に依然到達できる、という報告。
-- 出典: [x.com/duncanstives/status/2102165842230116686](https://x.com/duncanstives/status/2102165842230116686)（2026-09-21）
-- 確認: 未
-
 ## weekly limit 前に usage の使い方を直す（Ultra への安易なアップグレードを避ける）
 
 - 内容: Grok Bot の weekly limit で Cursor Ultra に上げる前に、公式 docs 由来の使い方ルールを直す。メーターは message 数ではなく agent steps と tokens。曖昧タスクは wander して枠を食う、という要点。
@@ -64,6 +58,6 @@
 
 ## アプリ
 
-- 内容: 公式 FAQ、get-started、mobile は macOS、Windows、Linux（`.deb`、`.rpm`、AppImage）、iPhone（iOS 18 以降）、Android 9 以降を対応と書いている。mobile は phones 向けで、iPad は非対応と明記している。FAQ も初期ローンチ時点で iPad は非対応と書いている。Android は 2026-09-02 に @bot が available on Android と告知している。Play Store にはパッケージ `ai.x.grok.bot` の掲載がある。
+- 内容: 公式 overview / FAQ / get-started / mobile は desktop を macOS、Windows、Linux（`.deb`、`.rpm`、AppImage）、mobile を iPhone（iOS 18 以降）、iPad（iPadOS 18）、Android 9 以降と書いている。初期ローンチ時の FAQ / mobile は iPad 非対応と書いていたが、現行 docs は iPad 対応（docs catch-up。出荷日の新 changelog 行は立てない）。Android は 2026-09-02 に @bot が available on Android と告知している。Play Store にはパッケージ `ai.x.grok.bot` の掲載がある。
 - 出典: [FAQ](https://docs.x.ai/grok-bot/faq)、[Get started](https://docs.x.ai/grok-bot/get-started)、[Grok Bot for Mobile](https://docs.x.ai/grok-bot/mobile)（2026-09-07 確認）、[x.com/bot/status/2095168633559462197](https://x.com/bot/status/2095168633559462197)（2026-09-02）、[Play Store `ai.x.grok.bot`](https://play.google.com/store/apps/details?id=ai.x.grok.bot)
 - 確認: 未

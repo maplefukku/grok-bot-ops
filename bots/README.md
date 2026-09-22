@@ -128,7 +128,6 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 | [`最後の一針`](./最後の一針.md) | laststitch の席。最後の一針企画の連れ。2026-09-07時点でprofileは空。名前以外の職務は書かない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`席メモリ監視`](./席メモリ監視.md) | memory.seat.watch。ONE JOBは席HARDを各Bot description+profile/logへ dual-write（2×/day）。AGENCY 47 9,17 * * 1-5。fleet HARDは共有メモリ監視へ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`共有メモリ監視`](./共有メモリ監視.md) | memory.shared.watch。ONE JOBはfleet lessons/SoftACC HARDを user-shared へだけ bake（~2×/day）。AGENCY 32 9,17 * * 1-5。席ローカルは席メモリ監視。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
-| [`lookup-pdm`](./lookup-pdm.md) | temp.lookup。ONE JOBは PdM agent id の一時 lookup。description=temp lookup PdM agent id。空殻ではないが temp。routine 無し。実装もマージもしない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`編成評価`](./編成評価.md) | fleet.review。SPEC https://github.com/maplefukku/grok-bot-ops/issues/11 。INは台帳更新のEVAL-READYまたはPM JOB。毎日フル評価（変更なしでも）。台帳は書かない。エージェントの作成削除はPMへ提案。開発はPM、マーケ分割はCMO。役割のwhy調査は /poteto-mode 必須。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`最先端手法`](./最先端手法.md) | discord.cutting-edge。手法を1つ gakuse.ai の Discord へ出す。候補を Planner に送る。ADOPT と WATCH と REJECT は PM に送らない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`note執筆リーダー`](./note執筆リーダー.md) | note.writer。REPORT↑CMO。ONE JOBはnote.com下書き。chatgpt.com Pro HARD TAB。アイキャッチはnoteサムネ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
