@@ -2,13 +2,13 @@
 
 Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の永続化）。
 
-## モバイルから登録済み workplace PC へ到達 — コミュニティ報告（未確認）
+## モバイルの Bot から仕事場 PC へ — コミュニティ報告（未確認）
 
-- 内容: スマホの Grok Bot から、登録済みでオンラインの職場 PC に到達できる、というユーザ報告。同一投稿は remote desktop アプリをインストール中であることと、X credentials を守ること（求められたことは何でもする、という警告）にも触れる。ツイートに添付画像は無い（`photos=[]`）。能力主張としては載せない。未確認のユーザ報告のまま。
+- 内容: 未確認のユーザ報告。phone の Grok Bot から、仕事場に置いてきた PC が online のまま届くか見た、という話。同一投稿は remote desktop アプリをインストール中であることと、X credentials を守ること（求められたことは何でもする、という警告）にも触れる。
 - 出典: [x.com/duncanstives/status/2102165842230116686](https://x.com/duncanstives/status/2102165842230116686)（2026-09-21）
 - 確認: 未
 
-## Stretch Bot — VM ターミナルから Grok Build へコーディングタスク
+## quota tip — VM ターミナルから Grok Build へコーディングタスク
 
 - 内容: Grok Bot にコーディングタスクを VM ターミナル経由で Grok Build に送らせる（別 rate-limit pool）。
 - 出典: [x.com/theaaron/status/2102134190540255686](https://x.com/theaaron/status/2102134190540255686)（2026-09-21）
