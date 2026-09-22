@@ -36,7 +36,7 @@ No bot ids. No repo names. No Discord drip packs as cron substitutes.
 4. **No micro-cron spam** — reject `@every 5m` / dense polling for Soft Flag / STATUS / Discord drip. Prefer coarse weekday pulses or event listeners. Soft Flag N Discord drip as a standing cron substitute.
 5. **重複は統合** — if two routines share the same ONE JOB / same wake, merge into one (update or delete the duplicate). Do not stack near-duplicate crons.
 6. **Invent=N** — WRAP managed routines + schedules-force-agency. Do not invent a second platform routine skill or seat.
-7. **Mode A — factory BROKEN until trusted fire** — `enabled=true` alone ≠ LIVE. provenance=untrusted OR lastRun stale >1d OR due slot miss → BROKEN. Rearm / restore trust only; LIVE only after a **trusted fire** updates `lastRun`. Soft Flag N content catch-up as fixed. Same-sweep pair with factory Discord-only seat when stall-sweep JOBs the rearm ([fleet-stall-sweep](sand-workflow:fleet-stall-sweep)).
+7. **Mode A — factory BROKEN until trusted fire** — Skip when named HOLD active or `enabled=false` (intentional GAP; no rearm). When `enabled=true` and HOLD cleared: `enabled=true` alone ≠ LIVE; provenance=untrusted OR lastRun stale >1d OR due slot miss → BROKEN. Rearm / restore trust only; LIVE only after a **trusted fire** updates `lastRun`. Soft Flag N content catch-up as fixed. Same-sweep pair with factory Discord-only seat when stall-sweep JOBs the rearm ([fleet-stall-sweep](sand-workflow:fleet-stall-sweep)).
 
 ## Sequence
 

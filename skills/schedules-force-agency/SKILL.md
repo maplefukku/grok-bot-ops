@@ -40,7 +40,7 @@ No bot ids. No repo names. No cron expressions in this skill body.
 5. **Event seats OK if live:** webhook / reaction / PR-event listeners count as forced agency when they are armed and live.
 6. **DISABLED schedule without HOLD reason = FAIL.** Pausing or disabling a standing routine needs a named HOLD (human or CoS). Silent disable is FAIL.
 7. **Root coordinator gate:** minimal useful composition first; Lead owns day-to-day cascade; Root relays verified results only (invent=N Soft-HOLD WRAP).
-8. **Mode A — factory BROKEN until trusted fire:** `enabled=true` alone ≠ LIVE. provenance=untrusted OR lastRun stale >1d OR due slot miss → BROKEN. LIVE only after trusted fire updates lastRun. Soft Flag N content catch-up as fixed ([fleet-stall-sweep](sand-workflow:fleet-stall-sweep), [author-routines](sand-workflow:author-routines)).
+8. **Mode A — factory BROKEN until trusted fire:** Skip when named HOLD active or `enabled=false` (intentional GAP; no rearm). When `enabled=true` and HOLD cleared: `enabled=true` alone ≠ LIVE; provenance=untrusted OR lastRun stale >1d OR due slot miss → BROKEN. LIVE only after trusted fire updates lastRun. Soft Flag N content catch-up as fixed ([fleet-stall-sweep](sand-workflow:fleet-stall-sweep), [author-routines](sand-workflow:author-routines)).
 9. **Mode C — agency silent-miss:** `enabled=true` **and** `lastRun` is past the schedule window = **SILENT-MISS FAIL**. Same-sweep JOB = **owner seat + routine-author**. Applies to linux-runner-offline-ping, keep-moving-*, tips-3x, and factory-class routines. **REJECT** treating filesystem `runs.json` as disable SoT.
 
 ## HARD — Root coordinator gate (mrbeko WRAP; invent=N)

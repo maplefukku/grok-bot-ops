@@ -31,7 +31,9 @@ No cron in this skill. No bot ids. No repo names.
 
 ## HARD — Mode A: factory BROKEN until trusted fire
 
-Factory is **BROKEN** (not LIVE) when any hold:
+Score Mode A only when `enabled=true` and the named HOLD is cleared. Named HOLD + `enabled=false` = intentional GAP — not BROKEN; no rearm.
+
+Factory is **BROKEN** (not LIVE) when **`enabled=true`** and any of:
 
 1. `provenance=untrusted`, or
 2. `lastRun` is stale **>1d**, or
