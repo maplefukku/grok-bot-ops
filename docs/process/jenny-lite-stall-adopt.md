@@ -2,9 +2,9 @@
 
 ## Purpose
 
-Issue [#136](https://github.com/maplefukku/grok-bot-ops/issues/136) の A–D encode 本体は **box sand-workflow** である（[fleet-stall-sweep](sand-workflow:fleet-stall-sweep) / [author-routines](sand-workflow:author-routines) / [schedules-force-agency](sand-workflow:schedules-force-agency) / [conductor-keep-moving](sand-workflow:conductor-keep-moving)）。本リポジトリ差分はこの process メモと参照行だけ。Soft Flag N `skills/` への本体コピー（plugin HARD）。Soft Flag N 「reviewable mirror」。Soft Flag N fallen tip `1a58a0d` を SoT にする。Soft Flag N CreateAgent / Jenny seat / credit-audit / auto-merge / webhook-fixer auto-exec / eng-only stall sweep。
+Issue [#136](https://github.com/maplefukku/grok-bot-ops/issues/136) の A–D **encode 先**は既存 box sand-workflow 4 本にする（[fleet-stall-sweep](sand-workflow:fleet-stall-sweep) / [author-routines](sand-workflow:author-routines) / [schedules-force-agency](sand-workflow:schedules-force-agency) / [conductor-keep-moving](sand-workflow:conductor-keep-moving)）。**未 encode**。本リポジトリ差分はこの SoftHOLD process メモと参照行だけであり、4 workflow 本文はこの diff に無い。Soft Flag N `skills/` への本体コピー（plugin HARD）。Soft Flag N 「reviewable mirror」。Soft Flag N fallen tip `1a58a0d` を SoT にする。Soft Flag N CreateAgent / Jenny seat / credit-audit / auto-merge / webhook-fixer auto-exec / eng-only stall sweep。
 
-本 WRAP は encode 本体ではない。PR 本文に GitHub の issue-closing keyword を付けない。issue #136 は Testing（eval 後 1 スキル 1 PR）どおり、encode がレビュー可能な差分になるまで開ける。
+本 WRAP は encode 完了を主張しない。PR 本文・commit message に GitHub の issue-closing keyword を付けない。issue #136 は OPEN のまま（Testing: eval 後 1 スキル 1 PR）。encode がレビュー可能な差分になるまで閉じない。
 
 ## SoftHOLD（HARD A–D 表は置かない）
 

@@ -6,7 +6,7 @@ Lauren の指示はこうです。最初から全スキルを入れない。ス�
 
 ## #136 jenny-lite stall-adopt A–D（plugin には載せない）
 
-A–D の encode 先は **box sand-workflow** である（[fleet-stall-sweep](sand-workflow:fleet-stall-sweep) / [author-routines](sand-workflow:author-routines) / [schedules-force-agency](sand-workflow:schedules-force-agency) / [conductor-keep-moving](sand-workflow:conductor-keep-moving)）。手順 WRAP は [`docs/process/jenny-lite-stall-adopt.md`](../docs/process/jenny-lite-stall-adopt.md)。
+A–D の **encode 先**は既存 box sand-workflow 4 本にする（[fleet-stall-sweep](sand-workflow:fleet-stall-sweep) / [author-routines](sand-workflow:author-routines) / [schedules-force-agency](sand-workflow:schedules-force-agency) / [conductor-keep-moving](sand-workflow:conductor-keep-moving)）。**未 encode**（本文はこの diff に無い）。手順 SoftHOLD は [`docs/process/jenny-lite-stall-adopt.md`](../docs/process/jenny-lite-stall-adopt.md)。issue #136 は OPEN。
 
 `.cursor-plugin/plugin.json` の `"skills": "./skills/"` は **plugin HARD** である。ここへ `SKILL.md` を置くとボット全員が実行する。Soft Flag N 「reviewable mirror」。Soft Flag N eval / 1 スキル 1 PR ゲートの例外書き。Soft Flag N fallen tip `1a58a0d` / SoftACC Prefer drop を SoT にしない。PM ACK + 文字撞突解消 DELTA と eval が揃うまで、このディレクトリは 0 個のまま。
 
