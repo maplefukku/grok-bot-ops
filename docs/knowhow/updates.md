@@ -4,6 +4,9 @@ Grok Bot のプロダクトアップデートの時系列ログ。新しいも�
 
 | 時期 | 内容 | 出典 | 確認 |
 |---|---|---|---|
+| 2026-09-18 | Grok Bot が voice notes を送れる | [x.com/bot/status/2101014478255247544](https://x.com/bot/status/2101014478255247544) | 未 |
+| 2026-09-17 | Grok Bot が話せる。voice は desktop / mobile へ数日かけてロールアウト | [x.com/bot/status/2100659463569170779](https://x.com/bot/status/2100659463569170779) · [2100659464781394222](https://x.com/bot/status/2100659464781394222) | 未 |
+| 2026-09-16 | Grok Bot が 1Password を利用可能。vault item を共有し fill は都度承認。secrets はパスワードマネージャ内に留まる | [x.com/bot/status/2100335532597502311](https://x.com/bot/status/2100335532597502311) · [2100335534023585819](https://x.com/bot/status/2100335534023585819) | 未 |
 | 2026-09-15 | Grok Bot Galaxy（2026-09-15〜17、サンフランシスコ） | [x.ai/galaxy](https://x.ai/galaxy) | 未 |
 | 2026-09-11 | Grok Bot が Microsoft Teams のチャット・チャネルを検索・操作できる（Teams for Grok Bot プラグイン） | [x.com/bot/status/2098481256417866145](https://x.com/bot/status/2098481256417866145) · [Teams plugin](https://x.ai/bot/plugin/63354504) | 未 |
 | 2026-09-10 | 社内 sales チームの Bot を Marketplace templates として公開（context・connectors・routines 付き） | [x.com/bot/status/2098183355942703565](https://x.com/bot/status/2098183355942703565) · [sales marketplace](https://x.ai/bot/marketplace/sales) | 未 |
@@ -19,7 +22,7 @@ Grok Bot のプロダクトアップデートの時系列ログ。新しいも�
 | 2026-09-08 | チャットを離れずにフォーム入力とログインができる。任意のパスワードマネージャに対応 | [x.com/bot/status/2097383980748382239](https://x.com/bot/status/2097383980748382239) | 未 |
 | 2026-09-05 | 全 Grok Bot ユーザーの usage limits をリセット | [x.com/bot/status/2096303514230423629](https://x.com/bot/status/2096303514230423629) | 未 |
 | 2026-09-04 | Bot Marketplace で templates を追加可能に。公式第1弾として調達特化の Haggle Bot を公開 | [x.com/bot/status/2095954887205138597](https://x.com/bot/status/2095954887205138597) · [marketplace](https://x.ai/bot/marketplace) · [Haggle Bot](https://x.ai/bot/marketplace/bots/haggle-bot) · [procurement news](https://x.ai/news/grok-bot-procurement) | 未 |
-| 2026-09-04 | Elon / SpaceXAI matt palmer が iPad 対応を告知。公式 mobile docs は現時点でも phones 向け・iPad 非対応と明記しており、告知と docs に差がある | [x.com/elonmusk/status/2096001766324064371](https://x.com/elonmusk/status/2096001766324064371) · [x.com/mattyp/status/2095878049619489278](https://x.com/mattyp/status/2095878049619489278) · [mobile docs](https://docs.x.ai/grok-bot/mobile) | 未 |
+| 2026-09-04 | Elon / SpaceXAI matt palmer が iPad 対応を告知。当時の mobile docs は phones 向け・iPad 非対応と明記していたが、のちの公式 overview / mobile / FAQ は iPad（iPadOS 18）を対応と記載（docs catch-up。Bot 出荷日の新行は立てない） | [x.com/elonmusk/status/2096001766324064371](https://x.com/elonmusk/status/2096001766324064371) · [x.com/mattyp/status/2095878049619489278](https://x.com/mattyp/status/2095878049619489278) · [overview](https://docs.x.ai/grok-bot/overview) · [mobile docs](https://docs.x.ai/grok-bot/mobile) · [FAQ](https://docs.x.ai/grok-bot/faq) | 未 |
 | 2026-09-03 | Grok Bot for Enterprise を公開。Grok / Cursor Enterprise 顧客は今後 2 週間無料。既存シートが無い組織メンバーも招待できる。アクセス・ネットワーク・監査コントロールを追加 | [x.ai/news/grok-bot-for-enterprise](https://x.ai/news/grok-bot-for-enterprise) | 未 |
 | 2026-08-31 | Grok Bot が Microsoft アカウントを横断して読み書き・操作できるようになった。新しいプラグインで Outlook、Calendar、OneDrive に直接アクセス | [x.com/bot/status/2094543253811183943](https://x.com/bot/status/2094543253811183943) | 未 |
 | 2026-08-29 | Grok Bot が X と連携。X connector / X plugin で投稿検索・タイムライン・メンション・ブックマーク。有料ユーザーに無料 X API credits | [x.ai/news/grok-bot-and-x](https://x.ai/news/grok-bot-and-x) | 未 |
