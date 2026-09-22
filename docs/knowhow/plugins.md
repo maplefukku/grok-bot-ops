@@ -2,6 +2,12 @@
 
 プラグインの入手と自作。
 
+## Coinbase connector で limit order
+
+- 内容: Grok と Grok Bot を Coinbase connector 経由で接続し、limit buy/sell が動いたという報告。connectors 画面: [grok.com/connectors](https://grok.com/connectors)
+- 出典: [x.com/allthemoney/status/2102066509560291342](https://x.com/allthemoney/status/2102066509560291342) · [grok.com/connectors](https://grok.com/connectors)（2026-09-21）
+- 確認: 未
+
 ## ワンクリック plugin share deeplink
 
 - 内容: プラグインページで share / link アイコンから `grokbot://app/v1/plugin/add?id=…` 形式の deeplink を取得。X desktop クライアントで動作。
