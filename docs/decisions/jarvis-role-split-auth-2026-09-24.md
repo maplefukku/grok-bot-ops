@@ -41,3 +41,7 @@ Jarvis Mini SoftACC 2026-09-24 07:16 JST Cite デバイスリーダー → Buddy
 - SoftHOLD merge=PM SoftACC Cite PR#2
 AUTH parent: ROLE-SPLIT-AUTH.txt
 ```
+
+## CBO GO LIVE 2026-09-24
+
+CBO GO LIVE minted seat id `be9e4e10-f7c6-4fc9-8b47-9b968ad60ca4` for `Jarvis開発`; ledger ADD [`bots/Jarvis開発.md`](../../bots/Jarvis開発.md) on `ops/daily-2026-09-24`. Soft Flag N CreateAgent. Soft Flag N invent New Bot `0cd03ca6`.
