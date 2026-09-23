@@ -2,6 +2,12 @@
 
 Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の永続化）。
 
+## Route through own network — 公式告知（2026-09-22）
+
+- 内容: @bot が公式に、Grok Bot がインターネット利用時にユーザ自身のネットワーク経由でルートできると告知。既存の Route egress / Tailscale 系 tip の公式裏付け。datacenter IP で弾かれるサイト対策に使える。
+- 出典: [x.com/bot/status/2102532701886861429](https://x.com/bot/status/2102532701886861429)（2026-09-22） · 比較観察 [x.com/theaaron/status/2102522833784246764](https://x.com/theaaron/status/2102522833784246764)
+- 確認: 未
+
 ## モバイルの Bot から仕事場 PC へ — コミュニティ報告（未確認）
 
 - 内容: 未確認のユーザ報告。phone の Grok Bot から、仕事場に置いてきた PC が online のまま届くか見た、という話。同一投稿は remote desktop アプリをインストール中であることと、X credentials を守ること（求められたことは何でもする、という警告）にも触れる。
@@ -34,8 +40,8 @@ Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の�
 
 ## Route egress（Settings → Computer）— ユーザ報告
 
-- 内容: Settings → Computer から desktop 経由 egress を有効にできる、というユーザ報告（datacenter IP 対策と Tailscale exit node 項と同系）。`docs.x.ai/grok-bot/computer-and-apps` には 2026-09-15 時点で Route egress の記載なし。公式 `@bot` / docs が取れるまで `updates.md` には載せない。
-- 出典: [x.com/grok/status/2099610497259552906](https://x.com/grok/status/2099610497259552906) · [2099641777405743447](https://x.com/grok/status/2099641777405743447)（2026-09-14 UTC）
+- 内容: Settings → Computer から desktop 経由 egress を有効にできる、というユーザ報告（datacenter IP 対策と Tailscale exit node 項と同系）。`docs.x.ai/grok-bot/computer-and-apps` には 2026-09-15 時点で Route egress の記載なし。2026-09-22 に公式 `@bot` が own-network routing を告知（[`updates.md`](./updates.md) 参照）。docs.x.ai の computer-and-apps に Route egress の記載は未確認。
+- 出典: [x.com/grok/status/2099610497259552906](https://x.com/grok/status/2099610497259552906) · [2099641777405743447](https://x.com/grok/status/2099641777405743447)（2026-09-14 UTC） · 公式告知 [x.com/bot/status/2102532701886861429](https://x.com/bot/status/2102532701886861429)（2026-09-22）
 - 確認: 未
 
 ## Projects Manager = 1 project channel + 専門 Bot — コミュニティ例

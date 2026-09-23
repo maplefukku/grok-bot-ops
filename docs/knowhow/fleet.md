@@ -3,6 +3,12 @@
 フリート停滞、merge GATE、jenny-lite の ADOPT と REJECT の置き場。
 対象窓は fleet stalls 2026-09-01..09-05（sauna#203 loop、ZN Swift cluster）および jenny-lite 2026-09-07..09-11。出典は各エントリの URL。
 
+## サポート運用の crawl-walk-run（公式事例）
+
+- 内容: SpaceXAI 公式事例。最初は Plain / Linear 等に接続し write は社内ノート＋人間承認のみ。評価ループ後に低複雑チケットへ直接返信を段階拡大。共通チケット分類で token 節約。既知 issue は Linear、バックエンドは Datadog。返金指示など明確なアクションは高自律。Planner 判断用候補のみ。
+- 出典: [x.ai/news/grok-bot-customer-support](https://x.ai/news/grok-bot-customer-support) · [x.com/bot/status/2102460785649959362](https://x.com/bot/status/2102460785649959362)（2026-09-22）
+- 確認: 未
+
 ## ADOPT — named *-HOLD + enabled=false = intentional GAP
 
 - 内容: 名前付き `*-HOLD` かつ enabled=false は intentional GAP。stall leftover 一覧に載せない。monkey *-HOLD no OUT は stall ではない。

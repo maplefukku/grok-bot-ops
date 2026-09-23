@@ -4,6 +4,13 @@ Grok Bot のプロダクトアップデートの時系列ログ。新しいも�
 
 | 時期 | 内容 | 出典 | 確認 |
 |---|---|---|---|
+| 2026-09-22 | Grok Bot の UI を整理。Bots 操作のインターフェースを改善 | [x.com/bot/status/2102532697960956074](https://x.com/bot/status/2102532697960956074) | 未 |
+| 2026-09-22 | Google Slides / Sheets / Docs にネイティブ接続。既存連携も改善（メールへのファイル読み取り・添付を含む） | [x.com/bot/status/2102532699735175254](https://x.com/bot/status/2102532699735175254) | 未 |
+| 2026-09-22 | インターネット利用時にユーザ自身のネットワーク経由でルートできる | [x.com/bot/status/2102532701886861429](https://x.com/bot/status/2102532701886861429) | 未 |
+| 2026-09-22 | Bot の応答とタスク完了がより速く・効率的に | [x.com/bot/status/2102532703254163738](https://x.com/bot/status/2102532703254163738) | 未 |
+| 2026-09-22 | desktop アプリがさらに高速化 | [x.com/bot/status/2102532704797610313](https://x.com/bot/status/2102532704797610313) | 未 |
+| 2026-09-22 | SpaceXAI / Cursor のカスタマーサポートを Grok Bot 中心に再構築。チケット対応・キュー管理を自律運用し、ヘッドカウント増なしでスケールした事例 | [x.ai/news/grok-bot-customer-support](https://x.ai/news/grok-bot-customer-support) · [x.com/bot/status/2102460785649959362](https://x.com/bot/status/2102460785649959362) | 未 |
+| 2026-09-21 | Grok 4.7 公開。コーディングと知識作業向け。Grok Bot harness をネイティブ理解するよう学習。Grok 4.6 と同価格帯で Cursor / Grok Build / API 等で利用可 | [x.ai/news/grok-4-7](https://x.ai/news/grok-4-7) | 未 |
 | 2026-09-18 | Grok Bot が voice notes を送れる | [x.com/bot/status/2101014478255247544](https://x.com/bot/status/2101014478255247544) | 未 |
 | 2026-09-17 | Grok Bot が話せる。voice は desktop / mobile へ数日かけてロールアウト | [x.com/bot/status/2100659463569170779](https://x.com/bot/status/2100659463569170779) · [2100659464781394222](https://x.com/bot/status/2100659464781394222) | 未 |
 | 2026-09-16 | Grok Bot が 1Password を利用可能。vault item を共有し fill は都度承認。secrets はパスワードマネージャ内に留まる | [x.com/bot/status/2100335532597502311](https://x.com/bot/status/2100335532597502311) · [2100335534023585819](https://x.com/bot/status/2100335534023585819) | 未 |
