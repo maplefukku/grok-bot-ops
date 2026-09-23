@@ -3,6 +3,12 @@
 フリート停滞、merge GATE、jenny-lite の ADOPT と REJECT の置き場。
 対象窓は fleet stalls 2026-09-01..09-05（sauna#203 loop、ZN Swift cluster）および jenny-lite 2026-09-07..09-11。出典は各エントリの URL。
 
+## Grok 4.7 + GrokBot の 3-agent（PM / Designer / Developer）
+
+- 内容: 共有 brief から Project Manager がタスク分解、Designer が UI、Developer が実装、GrokBot が調整、という 3 ロール構成の報告。Planner 判断用候補のみ（新 Bot invent しない）。
+- 出典: [x.com/Brankotrcek/status/2102463454858940705](https://x.com/Brankotrcek/status/2102463454858940705)（2026-09-22）
+- 確認: 未
+
 ## サポート運用の crawl-walk-run（公式事例）
 
 - 内容: SpaceXAI 公式事例。最初は Plain / Linear 等に接続し write は社内ノート＋人間承認のみ。評価ループ後に低複雑チケットへ直接返信を段階拡大。共通チケット分類で token 節約。既知 issue は Linear、バックエンドは Datadog。返金指示など明確なアクションは高自律。Planner 判断用候補のみ。

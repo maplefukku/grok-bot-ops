@@ -2,6 +2,12 @@
 
 Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の永続化）。
 
+## desktop 53 perf fixes（poteto 一次）
+
+- 内容: Grok Bot desktop にここ数日で 53 件の perf fix。例: flaky reconnect 60s→0.7s、laptop wake 23s→1s、Computer view 切替 868ms→27ms、長い chat を開く速度改善。
+- 出典: [x.com/poteto/status/2102504221648339170](https://x.com/poteto/status/2102504221648339170)（2026-09-22） · 公式まとめ [x.com/bot/status/2102532704797610313](https://x.com/bot/status/2102532704797610313)
+- 確認: 未
+
 ## Route through own network — 公式告知（2026-09-22）
 
 - 内容: @bot が公式に、Grok Bot がインターネット利用時にユーザ自身のネットワーク経由でルートできると告知。既存の Route egress / Tailscale 系 tip の公式裏付け。datacenter IP で弾かれるサイト対策に使える。
