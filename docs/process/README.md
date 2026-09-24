@@ -42,7 +42,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | MUST threads | 未 resolve が 0（outdated 不問） | Closer |
 | NIT threads | 各スレッド返信 ≤ 1 かつ resolved | Closer |
 
-ボットは merge しない。人だけが merge する。事実の観測は [`PR確認`](../../bots/PR確認.md) である。日付付きの観察は [`fleet.md`](../knowhow/fleet.md) である。fleet.md は正本ではない。
+ボットは merge しない。人だけが merge する。事実の観測は [`PR→Merge戦略`](../../bots/PR→Merge戦略.md) である。日付付きの観察は [`fleet.md`](../knowhow/fleet.md) である。fleet.md は正本ではない。
 
 Flag Y は [`pr-body.md`](./pr-body.md) である。PR 本文の 4 見出しが欠けたら Flag しない。merge しない。Dependabot も同じである。Soft-OK はしない。stamp は [`pr-body.md`](./pr-body.md) の Dependabot stamp である。
 

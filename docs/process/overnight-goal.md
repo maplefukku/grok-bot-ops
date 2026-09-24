@@ -83,7 +83,7 @@ flowchart TD
 
 ## verifier（Soft-HOLD）
 
-verifier は作者 CA ではない。Done の前に独立の verdict が入る。今の verdict は [`PR確認`](../../bots/PR確認.md) の merge-ok 4 行と PdM の Flag Y である。人である。見るのは CI と PR の形である。done-when を独立に再評価する席は今は無い。それが Soft-HOLD の中身である。別モデル族の critique は CA の内側で行ってよい。
+verifier は作者 CA ではない。Done の前に独立の verdict が入る。今の verdict は [`PR→Merge戦略`](../../bots/PR→Merge戦略.md) の merge plan と PdM の Flag Y である。人である。見るのは CI と PR の形である。done-when を独立に再評価する席は今は無い。それが Soft-HOLD の中身である。別モデル族の critique は CA の内側で行ってよい。
 
 verifier 席の自動化（Astra 型 verifier bot）は Soft-HOLD である。CreateAgent は置かない。新しい席は置かない。新しい harness は FAIL である。
 
