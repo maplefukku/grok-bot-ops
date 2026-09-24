@@ -3,6 +3,18 @@
 フリート停滞、merge GATE、jenny-lite の ADOPT と REJECT の置き場。
 対象窓は fleet stalls 2026-09-01..09-05（sauna#203 loop、ZN Swift cluster）および jenny-lite 2026-09-07..09-11。出典は各エントリの URL。
 
+## 初回 tool call 前 — goal だけでなく read / write / send / spend の境界
+
+- 内容: 初回 tool call の前に、goal だけでなく read / write / send / spend の境界を明示して scope する。Bot が逸れにくくなる、という tip。
+- 出典: [x.com/ShareGrokBots/status/2103260312019362223](https://x.com/ShareGrokBots/status/2103260312019362223)（2026-09-24）
+- 確認: 未
+
+## Bot 設計の四層 — Harness / Loop / Graph / Approval
+
+- 内容: Bot の仕事設計はモデルの賢さだけでなく、Harness / Loop / Graph / Approval の四層で考える、という整理。
+- 出典: [x.com/suwa_sh/status/2102914411530756466](https://x.com/suwa_sh/status/2102914411530756466)（2026-09-24）
+- 確認: 未
+
 ## Grok 4.7 + GrokBot の 3-agent（PM / Designer / Developer）
 
 - 内容: 共有 brief から Project Manager がタスク分解、Designer が UI、Developer が実装、GrokBot が調整、という 3 ロール構成の報告。Planner 判断用候補のみ（新 Bot invent しない）。

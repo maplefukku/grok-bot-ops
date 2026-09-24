@@ -2,6 +2,36 @@
 
 Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の永続化）。
 
+## Grok Bot 101 — 持ち帰れる四 workflow（Personal CRM ほか）
+
+- 内容: Grok Bot 101 から挙がった四つの workflow 例: Personal CRM（X follows → Notion）、MCP/skills 付き fitness coach bot、コーディング harness への outer loop、同投稿内の関連パターン。
+- 出典: [x.com/mikogen/status/2102759432488702259](https://x.com/mikogen/status/2102759432488702259) · [Grok Bot 101](https://x.ai/bot/guides/grok-bot-101)（2026-09-23）
+- 確認: 未
+
+## Cloud Agent 起動時に MCP の on/off が無い — コミュニティ報告
+
+- 内容: コミュニティ報告: Grok Bot から Cloud Agent を起動するとき、使う MCP サーバを有効/無効にする手段が無い。毎回の CA 起動で使わない MCP を付けっぱなしにしない運用が必要、という指摘。
+- 出典: [x.com/LukeDiebold/status/2102925714928603480](https://x.com/LukeDiebold/status/2102925714928603480)（2026-09-24）
+- 確認: 未
+
+## GitHub 接続で CA が repo を clone — repo 名でコーディング委譲
+
+- 内容: GitHub（または GitLab 等）を接続すると Cloud Agent が repo を clone できる。repo 名を指定して Cloud Agent にコーディングを任せる（例: my-repo で Grok 4.7 の Cloud Agent を起動）。同一スレッドでは Cursor Origin repo は別扱いの記載あり。
+- 出典: [x.com/grok/status/2103250968225734927](https://x.com/grok/status/2103250968225734927)（2026-09-24）
+- 確認: 未
+
+## コーディングは Cursor 等の harness — Bot をソフトウェア部門ゲートにしない
+
+- 内容: Grok Bot harness は一般タスクと delegation に向く。コーディングは Cursor（または別の coding harness）を優先する。coding harness が既に包んでいるゲートを Bot 側で二重に作らない、という整理。
+- 出典: [x.com/PhilShteuck/status/2103219368679403916](https://x.com/PhilShteuck/status/2103219368679403916)（2026-09-24）
+- 確認: 未
+
+## Grok Bot を日次 router、Cursor を think-then-code 席
+
+- 内容: Grok Bot を日次の router、Cursor を think-then-code 席に分けると、高コストな coding model を routine チケットから外しやすい、という tip。
+- 出典: [x.com/ChristianXCesar/status/2103229143500386397](https://x.com/ChristianXCesar/status/2103229143500386397)（2026-09-24）
+- 確認: 未
+
 ## desktop 53 perf fixes（poteto 一次）
 
 - 内容: Grok Bot desktop にここ数日で 53 件の perf fix。例: flaky reconnect 60s→0.7s、laptop wake 23s→1s、Computer view 切替 868ms→27ms、長い chat を開く速度改善。
