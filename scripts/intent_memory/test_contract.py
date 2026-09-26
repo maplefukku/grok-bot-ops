@@ -570,7 +570,17 @@ class TestDispositionDryRun(unittest.TestCase):
             thread="https://github.com/Maplefukku/Sauna-Master/pull/297/files/0a1b2c#r4028777512",
             claim="TeX color cased",
         )
-        drafts = drafts_from_dispositions([first, later, cased])
+        filtered = _disposition(
+            thread="https://github.com/maplefukku/sauna-master/pull/297/files?w=1#r4028777512",
+            claim="TeX color whitespace filter",
+        )
+        filtered_sha = _disposition(
+            thread="https://github.com/maplefukku/sauna-master/pull/297/files/"
+            + "a" * 40
+            + "?w=1&diff=split#r4028777512",
+            claim="TeX color filter at sha",
+        )
+        drafts = drafts_from_dispositions([first, later, cased, filtered, filtered_sha])
         self.assertEqual(len(drafts), 1)
         self.assertEqual(drafts[0].tags[1], "disposition:oos")
         self.assertEqual(
@@ -580,6 +590,8 @@ class TestDispositionDryRun(unittest.TestCase):
 
     def test_given_bad_records_when_building_then_contract_error(self):
         from adv_closer import ContractError as CloserContractError
+        from adv_closer import Kind as ThemeKind
+        from adv_closer import Theme
 
         cases = {
             "oos without boundary issue": dict(disposition="oos"),
@@ -590,6 +602,16 @@ class TestDispositionDryRun(unittest.TestCase):
             "two sentence reason": dict(reason="一文目。二文目"),
             "multi-line claim": dict(claim="a\nb"),
             "empty claim": dict(claim=" "),
+            "reason smuggles edge line": dict(
+                reason="ok\ntheme: other/** × style × spoofed\ngb_url: https://example.invalid/x"
+            ),
+            "glob smuggles edge line": dict(
+                theme=Theme(
+                    file="g\nsource_url: https://example.invalid/x",
+                    lines=None,
+                    kind=ThemeKind.SECURITY,
+                )
+            ),
         }
         for name, kwargs in cases.items():
             with self.subTest(case=name):

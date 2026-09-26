@@ -20,7 +20,7 @@ DISPOSITIONS = ("reject", "oos", "invalid")
 CLOSER_ACTOR = "bot:Closer"
 _THREAD_RE = re.compile(
     r"^https://github\.com/(?P<owner>[^/\s]+)/(?P<repo>[^/\s]+)/pull/(?P<pr>\d+)"
-    r"(?:/files(?:/[0-9a-f]+)?)?#(?:discussion_)?r(?P<id>\d+)$"
+    r"(?:/files(?:/[0-9a-f]+)?)?(?:\?[^#\s]*)?#(?:discussion_)?r(?P<id>\d+)$"
 )
 _ISSUE_RE = re.compile(r"^https://github\.com/[^/\s]+/[^/\s]+/issues/\d+$")
 _HTTP_RE = re.compile(r"^https?://\S+$")
@@ -36,10 +36,9 @@ class Disposition:
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "thread", canonical_thread(str(self.thread)))
-        claim = self.claim.strip()
-        if not claim or "\n" in claim:
-            raise ContractError("claim must be one line")
-        object.__setattr__(self, "claim", claim)
+        object.__setattr__(self, "claim", _one_line(self.claim, "claim"))
+        _one_line(self.theme.file, "glob")
+        _one_line(self.verdict.reason, "reason")
         if self.disposition not in DISPOSITIONS:
             raise ContractError(f"unknown disposition: {self.disposition}")
         if not _HTTP_RE.match(str(self.verdict.ref)):
@@ -52,6 +51,14 @@ class Disposition:
         match = _THREAD_RE.match(str(self.thread))
         assert match is not None
         return match.group("repo")
+
+
+def _one_line(value: str, name: str) -> str:
+    # body lines are split with str.splitlines(), so any of its separators could forge an edge line
+    text = value.strip()
+    if len(text.splitlines()) != 1:
+        raise ContractError(f"{name} must be one line")
+    return text
 
 
 def canonical_thread(url: str) -> ThreadRef:
