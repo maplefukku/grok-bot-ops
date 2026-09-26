@@ -58,7 +58,7 @@
     "kind": "decision",
     "source": "human",
     "tags": ["adv", "disposition:reject", "product:sauna-master"],
-    "body": "WONTFIX: quiet-test の SoT は fleet WRAP である",
+    "body": "WONTFIX: quiet-test の SoT は fleet WRAP である\ntheme: 未取得 × 未取得 × quiet-test の SoT",
     "actor": "pdm",
     "source_url": "https://github.com/maplefukku/sauna-master/pull/297#discussion_r3952453491",
     "github_url": "https://github.com/maplefukku/grok-bot-ops/issues/140"
@@ -67,7 +67,7 @@
     "kind": "decision",
     "source": "human",
     "tags": ["adv", "disposition:oos", "product:sauna-master"],
-    "body": "OOS: EyeLΔx は FIX 返信で leftover/GFM GazeSweep の外とした",
+    "body": "OOS: EyeLΔx は FIX 返信で leftover/GFM GazeSweep の外とした\ntheme: 未取得 × 未取得 × EyeLΔx",
     "actor": "pdm",
     "source_url": "https://github.com/maplefukku/sauna-master/pull/297#discussion_r3952411869",
     "github_url": "https://github.com/maplefukku/grok-bot-ops/issues/140"

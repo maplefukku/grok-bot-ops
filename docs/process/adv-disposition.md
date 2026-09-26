@@ -64,7 +64,9 @@ fixture の seed は [`fixtures.json`](../../scripts/intent_memory/fixtures.json
 
 cousin の TeX color [r4028777512](https://github.com/maplefukku/sauna-master/pull/297#discussion_r4028777512) と UBA/RLO・ruby/MathML [r4029228334](https://github.com/maplefukku/sauna-master/pull/297#discussion_r4029228334) は seed しない。boundary issue を FILE してから、その URL を `github_url` にして人が承認する。未 FILE の境界を承認済みの行にすると、upstream gate が境界の無い cousin を抑制してしまう。
 
-seed の `github_url` は harvest の出典である issue 140 を指す。seed に theme 行は無い。path × kind はスレッドを読んで slice 1 で埋める。#297 は reopen しない。live apply は #287 であり、merge=PM である。
+seed の `github_url` は harvest の出典である issue 140 を指す。seed の decision 行は theme 行を持つ。claim は issue 140 の記述から取る。path と kind はスレッドを読むまで `未取得` と書く。`parse_theme` はこの行を読み、`未取得` を含む行を pending として返す。`未取得` は seed だけに置く。Closer の記録（`Disposition`）では glob に使えない。#297 は reopen しない。live apply は #287 であり、merge=PM である。
+
+boundary issue は SoftHOLD である。lock の `BOUNDARY_ISSUE` は `None` のままにする。`None` の間、cousin 行があれば lock が落ちる。boundary issue を FILE したら、同じ PR で `BOUNDARY_ISSUE` をその URL にし、cousin 2 行を `disposition:oos` と `github_url` = その URL で seed する。そのとき lock は cousin 行が 1 つずつあることを求める。
 
 ```sh
 scripts/quiet-test.sh -- python3 scripts/intent_memory/read.py --tags adv product:sauna-master --fixture scripts/intent_memory/fixtures.json --reader cli

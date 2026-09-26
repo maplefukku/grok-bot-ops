@@ -12,7 +12,12 @@ if str(_SCRIPTS) not in sys.path:
     sys.path.insert(0, str(_SCRIPTS))
 
 from intent_memory import AtomDraft, IngestOff, Kind, MemoryStore, Source  # noqa: E402
-from intent_memory.disposition import DISPOSITIONS, canonical_thread  # noqa: E402
+from intent_memory.disposition import (  # noqa: E402
+    DISPOSITIONS,
+    ThemeLine,
+    canonical_thread,
+    parse_theme,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
 LOCK_PAGE = ROOT / "docs" / "process" / "adv-disposition.md"
@@ -32,6 +37,13 @@ COUSIN_THREADS = (
     f"{PR_297}#discussion_r4028777512",
     f"{PR_297}#discussion_r4029228334",
 )
+# SoftHOLD: sauna-master の boundary issue（label adv-followup）は未 FILE。
+# FILE されたらこの値をその issue URL にし、cousin 2 行を同じ PR で seed する。
+BOUNDARY_ISSUE: str | None = None
+SEED_THEMES: dict[str, ThemeLine] = {
+    WONTFIX_THREAD: ThemeLine("未取得", "未取得", "quiet-test の SoT"),
+    f"{PR_297}#discussion_r3952411869": ThemeLine("未取得", "未取得", "EyeLΔx"),
+}
 ADV_SUCCESS_ROW = (
     "| ADV SUCCESS | ADV が SUCCESS。skip / dismiss は SUCCESS ではない |"
 )
@@ -90,6 +102,10 @@ PAGE_NEEDLES: tuple[str, ...] = (
     "Quiet is not skip",
     "test_adv_disposition_lock.py",
     "adv-disposition-lock",
+    "`未取得`",
+    "parse_theme",
+    "SoftHOLD",
+    "`BOUNDARY_ISSUE`",
 )
 PROCESS_README_NEEDLES: tuple[str, ...] = (
     "adv-disposition.md",
@@ -122,6 +138,28 @@ def invariance_errors(pr_body: str, trend_log: str) -> list[str]:
     for needle in ("disposition:", "sauna-master/pull/297"):
         if needle in trend_log:
             errors.append(f"trend-log.md contains {needle}")
+    return errors
+
+
+def cousin_errors(rows: list[dict], boundary: str | None) -> list[str]:
+    by_thread: dict[str, list[dict]] = {}
+    for row in rows:
+        by_thread.setdefault(row.get("source_url", ""), []).append(row)
+    errors: list[str] = []
+    for thread in COUSIN_THREADS:
+        found = by_thread.get(thread, [])
+        if boundary is None:
+            if found:
+                errors.append(f"cousin seeded before boundary issue: {thread}")
+            continue
+        if len(found) != 1:
+            errors.append(f"cousin needs exactly one row: {thread}")
+            continue
+        row = found[0]
+        if "disposition:oos" not in row["tags"]:
+            errors.append(f"cousin is not disposition:oos: {thread}")
+        if row.get("github_url") != boundary:
+            errors.append(f"cousin github_url is not the boundary issue: {thread}")
     return errors
 
 
@@ -194,11 +232,94 @@ class AdvDispositionLockTests(unittest.TestCase):
                 self.assertTrue(found, f"missing {token} was accepted")
                 self.assertIn(token, "\n".join(found))
 
-    def test_given_boundary_issue_not_filed_when_fixture_read_then_no_cousin_rows(
+    def test_given_live_fixture_when_cousin_errors_against_boundary_switch_then_empty(
         self,
     ) -> None:
-        seeded = {row.get("source_url") for row in _harvest_rows()}
-        self.assertEqual([url for url in COUSIN_THREADS if url in seeded], [])
+        self.assertEqual(cousin_errors(_harvest_rows(), BOUNDARY_ISSUE), [])
+
+    def test_given_boundary_switch_when_cousin_rows_vary_then_errors_name_the_gap(
+        self,
+    ) -> None:
+        boundary = "https://github.com/maplefukku/sauna-master/issues/999"
+        cousin = {
+            "tags": ["adv", "disposition:oos", "product:sauna-master"],
+            "source_url": COUSIN_THREADS[0],
+            "github_url": boundary,
+        }
+        both = [cousin, {**cousin, "source_url": COUSIN_THREADS[1]}]
+        self.assertEqual(cousin_errors(both, boundary), [])
+        self.assertEqual(
+            cousin_errors([cousin], None),
+            [f"cousin seeded before boundary issue: {COUSIN_THREADS[0]}"],
+        )
+        self.assertEqual(
+            cousin_errors([cousin], boundary),
+            [f"cousin needs exactly one row: {COUSIN_THREADS[1]}"],
+        )
+        wrong = [{**both[0], "github_url": ISSUE_URL}, both[1]]
+        self.assertEqual(
+            cousin_errors(wrong, boundary),
+            [f"cousin github_url is not the boundary issue: {COUSIN_THREADS[0]}"],
+        )
+
+    def test_given_fixture_seed_decisions_when_parse_theme_then_claims_and_pending_path_kind(
+        self,
+    ) -> None:
+        themes = {
+            row["source_url"]: parse_theme(row["body"])
+            for row in _harvest_rows()
+            if row["kind"] == "decision"
+        }
+        self.assertEqual(themes, SEED_THEMES)
+
+    def test_given_done_when_read_command_then_cli_returns_seed_rows_with_themes(
+        self,
+    ) -> None:
+        import subprocess
+
+        proc = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "intent_memory" / "read.py"),
+                "--tags",
+                "adv",
+                "product:sauna-master",
+                "--fixture",
+                str(FIXTURE),
+                "--reader",
+                "cli",
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        rows = [
+            (
+                row["kind"],
+                row["source_url"],
+                [tag for tag in row["tags"] if tag.startswith("disposition:")],
+                parse_theme(row["body"]),
+            )
+            for row in json.loads(proc.stdout)
+        ]
+        self.assertEqual(
+            rows,
+            [
+                (
+                    "decision",
+                    WONTFIX_THREAD,
+                    ["disposition:reject"],
+                    ThemeLine("未取得", "未取得", "quiet-test の SoT"),
+                ),
+                (
+                    "decision",
+                    f"{PR_297}#discussion_r3952411869",
+                    ["disposition:oos"],
+                    ThemeLine("未取得", "未取得", "EyeLΔx"),
+                ),
+                ("critique_human", PR_297, [], None),
+            ],
+        )
 
     def test_given_fixture_harvest_when_read_by_cli_then_terminal_threads_and_mill_lesson(
         self,
