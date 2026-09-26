@@ -258,6 +258,10 @@ def check_adv_closer() -> list[str]:
     return _run_unittest_module("test_adv_closer", "adv-closer")
 
 
+def check_adv_disposition_lock() -> list[str]:
+    return _run_unittest_module("test_adv_disposition_lock", "adv-disposition-lock")
+
+
 def check_shared_computer_lock() -> list[str]:
     return _run_unittest_module("test_shared_computer_lock", "shared-computer-lock")
 
@@ -424,6 +428,7 @@ def main() -> int:
         ("bots-description-max-length", check_bots_description_max_length),
         ("bots-description-max-length-lock", check_bots_description_max_length_lock),
         ("adv-closer", check_adv_closer),
+        ("adv-disposition-lock", check_adv_disposition_lock),
         ("shared-computer-lock", check_shared_computer_lock),
         ("completion-handoff", check_completion_handoff),
         ("anti-job-lock", check_anti_job_lock),

@@ -7,7 +7,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | 呼び手 | いつ | 見る節 |
 |---|---|---|
 | PdM | 平日 09:00 の leftover と merge sweep。Flag Y | 出荷単位、merge-ok、PR-body、CI 梯子、D. 平日 JST |
-| Closer（今は `開発<product>` の CA） | bot スレッドが立ったとき | A. スレッドの分類 |
+| Closer（今は `開発<product>` の CA） | bot スレッドが立ったとき | A. スレッドの分類、[adv-disposition](./adv-disposition.md) |
 | Planner | trend-adopt の REJECT 終端を書くとき。候補を ADOPT/REJECT するとき | [trend-adopt-reject](./trend-adopt-reject.md)、B. lane と契約 |
 | job-brief | CA brief を書くとき | PR-body、CI 梯子 |
 | 開発リーダー | ROUTE+FIRE のとき | CI 梯子、出荷単位 |
@@ -97,6 +97,12 @@ NIT 1 回目の返信型は次の 1 行である。
 NIT <直す|直さない>。<理由 1 文>。<commit または参照 URL>。resolve。
 ```
 
+OOS かつ有用な指摘は、この PR で直さない。finding-to-spec の boundary issue（label `adv-followup`）を FILE して resolve する。これも Closer の終端である。
+
+gate は 2 つである。upstream は次の ADV 投稿の前に、resolved の WONTFIX / OOS と `adv-followup` issue と disposition 行を読む。境界の内側で新しい failing check が無い claim は投稿しない。downstream は上の Dup / Thrash のままである。新しい failing check は無条件に MUST である。
+
+disposition を保存しても ADV SUCCESS ではない。merge-ok 4 行と Flag Y は変わらない。手順は [`adv-disposition.md`](./adv-disposition.md) である。
+
 ## B. lane と契約
 
 契約 SoT は次の 3 行だけである。4 行目は置かない。packing のコメントは [PdM HARD CORRECT](https://github.com/maplefukku/grok-bot-ops/issues/16#issuecomment-5543589865) である。
@@ -173,6 +179,8 @@ CI 梯子 LIGHT→FULL は [`ci-ladder.md`](./ci-ladder.md) である。SPEED NO
 merge bottleneck Flag Y ONLY の process WRAP は [issue 127](https://github.com/maplefukku/grok-bot-ops/issues/127) である。正本は [`pr-body.md`](./pr-body.md) と本ファイル merge-ok 節である。針は [`scripts/test_flag_y_only_lock.py`](../../scripts/test_flag_y_only_lock.py) が [`scripts/ci.py`](../../scripts/ci.py) の `flag-y-only-lock` 経由で pin する。新しい GitHub scanner は置かない。CreateAgent NONE。
 
 ADV closer reopen guard Domain WRAP は [issue 118](https://github.com/maplefukku/grok-bot-ops/issues/118) である。sibling は [issue 95](https://github.com/maplefukku/grok-bot-ops/issues/95) と [issue 73](https://github.com/maplefukku/grok-bot-ops/issues/73) である。引用は [parallel-fire-fleet](sand-workflow:parallel-fire-fleet)、[Cloud開発](sand-workflow:cloud)、[`quiet-test.md`](./quiet-test.md) である。
+
+ADV disposition memory Domain WRAP は [issue 140](https://github.com/maplefukku/grok-bot-ops/issues/140) である。本文は [`adv-disposition.md`](./adv-disposition.md) である。issue 118 の cross-PR sibling であり、第二の Closer ではない。針は [`scripts/test_adv_disposition_lock.py`](../../scripts/test_adv_disposition_lock.py) が [`scripts/ci.py`](../../scripts/ci.py) の `adv-disposition-lock` 経由で pin する。
 
 共有 1 マシンの owner 席 WRAP は [`shared-computer.md`](./shared-computer.md) である。CreateAgent と schedules-force-agency のチェックはそこだけである。新しい席は invent しない。
 
