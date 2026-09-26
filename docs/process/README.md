@@ -176,6 +176,8 @@ ADV closer reopen guard Domain WRAP は [issue 118](https://github.com/maplefukk
 
 共有 1 マシンの owner 席 WRAP は [`shared-computer.md`](./shared-computer.md) である。CreateAgent と schedules-force-agency のチェックはそこだけである。新しい席は invent しない。
 
+jenny-lite stall-adopt（[issue 136](https://github.com/maplefukku/grok-bot-ops/issues/136)）の SoftHOLD メモは [`jenny-lite-stall-adopt.md`](./jenny-lite-stall-adopt.md) である。未 encode である。書き手は スキル作成である。呼び手表に行は足さない。
+
 Marketplace survey（CreateAgent precheck）は [`marketplace-precheck.md`](./marketplace-precheck.md) である。export-bot-template は KEEP。並列 Marketplace は invent しない。CreateAgent 量産は NONE。
 
 ## anti-job

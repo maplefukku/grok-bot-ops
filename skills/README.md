@@ -4,13 +4,19 @@
 
 Lauren の指示はこうです。最初から全スキルを入れない。スキル 0 で観察し、効いたものだけ科学的に足す。
 
+## #136 jenny-lite stall-adopt A–D（plugin には載せない）
+
+A–D の **encode 先**は既存 box sand-workflow 4 本にする（[fleet-stall-sweep](sand-workflow:fleet-stall-sweep) / [author-routines](sand-workflow:author-routines) / [schedules-force-agency](sand-workflow:schedules-force-agency) / [conductor-keep-moving](sand-workflow:conductor-keep-moving)）。**未 encode**（本文はこの diff に無い）。手順 SoftHOLD は [`docs/process/jenny-lite-stall-adopt.md`](../docs/process/jenny-lite-stall-adopt.md)。issue #136 は OPEN。
+
+`.cursor-plugin/plugin.json` の `"skills": "./skills/"` は **plugin HARD** である。ここへ `SKILL.md` を置くとボット全員が実行する。A–D 本体はここへ置かない。「reviewable mirror」と呼ばない。下の「スキルを足すゲート」に例外を書かない。fallen tip `1a58a0d` を SoT にしない。ほかのスキルは下のゲートだけで決まる。
+
 ## S1–S7（issue #12）
 
 `author-shared-skill` / `fleet-stall-sweep` / `completion-handoff` / `fleet-composition-review` / `job-brief` / `ci-health-sweep` / `account-design-pack` はフリートの sand-workflow。このディレクトリに SKILL.md は無い。足すのは スキル作成が eval を通したあと。1 スキル 1 PR。
 
 初回 push 前セキュリティ監査の手順 WRAP は S1–S7 外である。[`docs/process/security-audit-wrap.md`](../docs/process/security-audit-wrap.md)（Fleet [security-audit-wrap](sand-workflow:security-audit-wrap)）。
 
-`job-brief` / Cloud開発 (`sand-workflow:cloud`) / PR確認 (`sand-workflow:pr`) / 開発からPRグリーン (`sand-workflow:pr-2`) の PR 本文は [`docs/process/pr-body.md`](../docs/process/pr-body.md) である。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md` である。見出し表はそちらだけ。このディレクトリに第二のチェックリストは置かない。
+`job-brief` / Cloud開発 (`sand-workflow:cloud`) / PR確認 (`sand-workflow:pr`) / 開発からPRグリーン (`sand-workflow:pr-2`) の PR 本文は [`docs/process/pr-body.md`](../docs/process/pr-body.md) である。recipe SoT は box `/workspace/fleet-scripts/pr-show-me-template.md` である。見出し表はそちらだけ。このディレクトリに第二のチェックリストは置かない。Flag Y 述語は pr-body.md のみ。第二の Flag 定義は invent しない。
 
 `job-brief` と Cloud開発 (`sand-workflow:cloud`) の CI 梯子は [`docs/process/ci-ladder.md`](../docs/process/ci-ladder.md) である。梯子の中身は invent しない。
 
