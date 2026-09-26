@@ -618,6 +618,45 @@ class TestDispositionDryRun(unittest.TestCase):
                 with self.assertRaises(CloserContractError):
                     _disposition(**kwargs)
 
+    def test_given_mapped_draft_when_parse_theme_then_glob_kind_claim_round_trip(self):
+        from intent_memory.disposition import ThemeLine, draft_from_disposition, parse_theme
+
+        draft = draft_from_disposition(_disposition(claim="TeX color × MathML"))
+        self.assertEqual(
+            parse_theme(draft.body),
+            ThemeLine("leftover/GFM GazeSweep", "security", "TeX color × MathML"),
+        )
+        self.assertFalse(parse_theme(draft.body).pending)
+
+    def test_given_seed_placeholder_when_parse_theme_then_pending_with_claim(self):
+        from intent_memory.disposition import ThemeLine, parse_theme
+
+        parsed = parse_theme("WONTFIX\ntheme: 未取得 × 未取得 × quiet-test の SoT")
+        self.assertEqual(parsed, ThemeLine("未取得", "未取得", "quiet-test の SoT"))
+        self.assertTrue(parsed.pending)
+        self.assertIsNone(parse_theme("WONTFIX\nsource_url: https://x/y"))
+
+    def test_given_malformed_theme_or_glob_when_parsed_or_built_then_contract_error(self):
+        from adv_closer import ContractError as CloserContractError
+        from adv_closer import Kind as ThemeKind
+        from adv_closer import Theme
+        from intent_memory.disposition import parse_theme
+
+        bodies = {
+            "two parts": "theme: a × style",
+            "unknown kind": "theme: a × typo × claim",
+            "empty claim": "theme: a × style ×  ",
+            "two theme lines": "theme: a × style × c\ntheme: b × style × d",
+        }
+        for name, body in bodies.items():
+            with self.subTest(body=name):
+                with self.assertRaises(CloserContractError):
+                    parse_theme(body)
+        for glob in ("未取得", "a × b"):
+            with self.subTest(glob=glob):
+                with self.assertRaises(CloserContractError):
+                    _disposition(theme=Theme(file=glob, lines=None, kind=ThemeKind.STYLE))
+
     def test_given_records_file_when_cli_dry_run_then_bot_drafts_only(self):
         import json
         import subprocess

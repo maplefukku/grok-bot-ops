@@ -7,6 +7,7 @@ import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from typing import NamedTuple
 
 _SCRIPTS = Path(__file__).resolve().parents[1]
 if str(_SCRIPTS) not in sys.path:
@@ -18,6 +19,10 @@ from intent_memory.contract import AtomDraft, Kind, Source
 
 DISPOSITIONS = ("reject", "oos", "invalid")
 CLOSER_ACTOR = "bot:Closer"
+THEME_PREFIX = "theme: "
+THEME_SEP = " × "
+THEME_PENDING = "未取得"
+_THEME_KINDS = frozenset(kind.value for kind in ThemeKind)
 _THREAD_RE = re.compile(
     r"^https://github\.com/(?P<owner>[^/\s]+)/(?P<repo>[^/\s]+)/pull/(?P<pr>\d+)"
     r"(?:/files(?:/[0-9a-f]+)?)?(?:\?[^#\s]*)?#(?:discussion_)?r(?P<id>\d+)$"
@@ -37,7 +42,9 @@ class Disposition:
     def __post_init__(self) -> None:
         object.__setattr__(self, "thread", canonical_thread(str(self.thread)))
         object.__setattr__(self, "claim", _one_line(self.claim, "claim"))
-        _one_line(self.theme.file, "glob")
+        glob = _one_line(self.theme.file, "glob")
+        if THEME_SEP in glob or glob == THEME_PENDING:
+            raise ContractError(f"glob must be a real path or glob: {glob!r}")
         _one_line(self.verdict.reason, "reason")
         if self.disposition not in DISPOSITIONS:
             raise ContractError(f"unknown disposition: {self.disposition}")
@@ -72,8 +79,35 @@ def canonical_thread(url: str) -> ThreadRef:
     )
 
 
+class ThemeLine(NamedTuple):
+    glob: str
+    kind: str
+    claim: str
+
+    @property
+    def pending(self) -> bool:
+        return THEME_PENDING in (self.glob, self.kind)
+
+
 def theme_line(item: Disposition) -> str:
-    return f"theme: {item.theme.file} × {item.theme.kind.value} × {item.claim}"
+    return THEME_PREFIX + THEME_SEP.join(
+        (item.theme.file, item.theme.kind.value, item.claim)
+    )
+
+
+def parse_theme(body: str) -> ThemeLine | None:
+    lines = [line for line in body.splitlines() if line.startswith(THEME_PREFIX)]
+    if not lines:
+        return None
+    if len(lines) > 1:
+        raise ContractError("body has more than one theme line")
+    parts = lines[0][len(THEME_PREFIX) :].split(THEME_SEP, 2)
+    if len(parts) != 3 or not all(part.strip() for part in parts):
+        raise ContractError(f"theme line is not glob × kind × claim: {lines[0]!r}")
+    glob, kind, claim = (part.strip() for part in parts)
+    if kind not in _THEME_KINDS | {THEME_PENDING}:
+        raise ContractError(f"unknown theme kind: {kind!r}")
+    return ThemeLine(glob=glob, kind=kind, claim=claim)
 
 
 def draft_from_disposition(item: Disposition) -> AtomDraft:
