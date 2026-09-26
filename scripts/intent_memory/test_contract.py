@@ -566,7 +566,11 @@ class TestDispositionDryRun(unittest.TestCase):
             thread=" https://github.com/maplefukku/sauna-master/pull/297#discussion_r4028777512 ",
             claim="TeX color again",
         )
-        drafts = drafts_from_dispositions([first, later])
+        cased = _disposition(
+            thread="https://github.com/Maplefukku/Sauna-Master/pull/297/files/0a1b2c#r4028777512",
+            claim="TeX color cased",
+        )
+        drafts = drafts_from_dispositions([first, later, cased])
         self.assertEqual(len(drafts), 1)
         self.assertEqual(drafts[0].tags[1], "disposition:oos")
         self.assertEqual(
@@ -579,6 +583,8 @@ class TestDispositionDryRun(unittest.TestCase):
 
         cases = {
             "oos without boundary issue": dict(disposition="oos"),
+            "reject ref not a url": dict(ref="not-a-url"),
+            "invalid ref not a url": dict(disposition="invalid", ref="see thread"),
             "unknown disposition": dict(disposition="wontfix"),
             "issue url as thread": dict(thread=BOUNDARY),
             "two sentence reason": dict(reason="一文目。二文目"),

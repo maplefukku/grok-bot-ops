@@ -52,7 +52,7 @@ tags は 3 つだけである。`adv`、`disposition:reject|oos|invalid`、`prod
 
 新しい failing check は無条件に MUST である。どちらの gate も落とさない。
 
-upstream gate の文言は pr-2 と ADV fire workflow の box にある。このリポジトリでは box を編集しない。1 行の amend draft は PR 本文に置き、owner が貼る。
+upstream gate の文言は pr-2 と ADV fire workflow の box にある。このリポジトリでは box を編集しない。1 行の amend draft は issue 140 のコメントに置き、owner が貼る。
 
 ## disposition ≠ ADV SUCCESS
 

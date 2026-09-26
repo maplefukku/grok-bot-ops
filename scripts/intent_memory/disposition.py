@@ -20,9 +20,10 @@ DISPOSITIONS = ("reject", "oos", "invalid")
 CLOSER_ACTOR = "bot:Closer"
 _THREAD_RE = re.compile(
     r"^https://github\.com/(?P<owner>[^/\s]+)/(?P<repo>[^/\s]+)/pull/(?P<pr>\d+)"
-    r"(?:/files)?#(?:discussion_)?r(?P<id>\d+)$"
+    r"(?:/files(?:/[0-9a-f]+)?)?#(?:discussion_)?r(?P<id>\d+)$"
 )
 _ISSUE_RE = re.compile(r"^https://github\.com/[^/\s]+/[^/\s]+/issues/\d+$")
+_HTTP_RE = re.compile(r"^https?://\S+$")
 
 
 @dataclass(frozen=True)
@@ -41,6 +42,8 @@ class Disposition:
         object.__setattr__(self, "claim", claim)
         if self.disposition not in DISPOSITIONS:
             raise ContractError(f"unknown disposition: {self.disposition}")
+        if not _HTTP_RE.match(str(self.verdict.ref)):
+            raise ContractError("ref must be an http(s) URL")
         if self.disposition == "oos" and not _ISSUE_RE.match(str(self.verdict.ref)):
             raise ContractError("oos ref must be the boundary issue URL")
 
@@ -55,10 +58,10 @@ def canonical_thread(url: str) -> ThreadRef:
     match = _THREAD_RE.match(url.strip())
     if match is None:
         raise ContractError(f"not a PR review thread URL: {url!r}")
+    owner, repo, pr, thread_id = match.group("owner", "repo", "pr", "id")
     return ThreadRef(
-        "https://github.com/{owner}/{repo}/pull/{pr}#discussion_r{id}".format(
-            **match.groupdict()
-        )
+        f"https://github.com/{owner.lower()}/{repo.lower()}/pull/{pr}"
+        f"#discussion_r{thread_id}"
     )
 
 

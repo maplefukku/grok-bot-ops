@@ -33,6 +33,12 @@ HARVEST_THREADS = (
 ADV_SUCCESS_ROW = (
     "| ADV SUCCESS | ADV が SUCCESS。skip / dismiss は SUCCESS ではない |"
 )
+MERGE_OK_ROWS: tuple[str, ...] = (
+    "| required CI | green（FULL tip） | PR確認 |",
+    "| Cursor bots | done。skip と dismiss は done ではない | PR確認 |",
+    "| MUST threads | 未 resolve が 0（outdated 不問） | Closer |",
+    "| NIT threads | 各スレッド返信 ≤ 1 かつ resolved | Closer |",
+)
 
 PAGE_NEEDLES: tuple[str, ...] = (
     ISSUE_URL,
@@ -157,6 +163,14 @@ class AdvDispositionLockTests(unittest.TestCase):
             ),
             [],
         )
+
+    def test_given_live_process_readme_when_merge_ok_rows_then_four_rows_verbatim(
+        self,
+    ) -> None:
+        text = PROCESS_README.read_text(encoding="utf-8")
+        self.assertEqual([row for row in MERGE_OK_ROWS if row not in text], [])
+        section = text.split("## merge-ok", 1)[1].split("\n## ", 1)[0]
+        self.assertNotIn("disposition", section)
 
     def test_given_disposition_in_pr_body_when_invariance_then_flagged(self) -> None:
         found = invariance_errors(ADV_SUCCESS_ROW + "\ndisposition persist\n", "")
