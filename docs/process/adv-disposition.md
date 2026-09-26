@@ -60,9 +60,11 @@ disposition を保存しても ADV SUCCESS ではない。[`pr-body.md`](./pr-bo
 
 ## 最初の slice（leftover / GFM GazeSweep）
 
-fixture の seed は [`fixtures.json`](../../scripts/intent_memory/fixtures.json) の `adv` 行である。WONTFIX [r3952453491](https://github.com/maplefukku/sauna-master/pull/297#discussion_r3952453491) は `disposition:reject` の decision 行である。OOS [r3952411869](https://github.com/maplefukku/sauna-master/pull/297#discussion_r3952411869)、cousin の TeX color [r4028777512](https://github.com/maplefukku/sauna-master/pull/297#discussion_r4028777512)、UBA/RLO と ruby/MathML [r4029228334](https://github.com/maplefukku/sauna-master/pull/297#discussion_r4029228334) は `disposition:oos` である。mill の教訓は `critique_human` 1 行である。
+fixture の seed は [`fixtures.json`](../../scripts/intent_memory/fixtures.json) の `adv` 行である。seed にするのはスレッド上で終端した判断だけである。WONTFIX [r3952453491](https://github.com/maplefukku/sauna-master/pull/297#discussion_r3952453491) は `disposition:reject` の decision 行である。FIX 返信で OOS とした [r3952411869](https://github.com/maplefukku/sauna-master/pull/297#discussion_r3952411869) は `disposition:oos` である。mill の教訓は `critique_human` 1 行である。
 
-boundary issue を FILE するまで、seed の `github_url` は issue 140 を指す。FILE したら人が差し替える。#297 は reopen しない。live apply は #287 であり、merge=PM である。
+cousin の TeX color [r4028777512](https://github.com/maplefukku/sauna-master/pull/297#discussion_r4028777512) と UBA/RLO・ruby/MathML [r4029228334](https://github.com/maplefukku/sauna-master/pull/297#discussion_r4029228334) は seed しない。boundary issue を FILE してから、その URL を `github_url` にして人が承認する。未 FILE の境界を承認済みの行にすると、upstream gate が境界の無い cousin を抑制してしまう。
+
+seed の `github_url` は harvest の出典である issue 140 を指す。seed に theme 行は無い。path × kind はスレッドを読んで slice 1 で埋める。#297 は reopen しない。live apply は #287 であり、merge=PM である。
 
 ```sh
 scripts/quiet-test.sh -- python3 scripts/intent_memory/read.py --tags adv product:sauna-master --fixture scripts/intent_memory/fixtures.json --reader cli

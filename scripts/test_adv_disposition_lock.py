@@ -27,6 +27,8 @@ WONTFIX_THREAD = f"{PR_297}#discussion_r3952453491"
 HARVEST_THREADS = (
     WONTFIX_THREAD,
     f"{PR_297}#discussion_r3952411869",
+)
+COUSIN_THREADS = (
     f"{PR_297}#discussion_r4028777512",
     f"{PR_297}#discussion_r4029228334",
 )
@@ -192,7 +194,13 @@ class AdvDispositionLockTests(unittest.TestCase):
                 self.assertTrue(found, f"missing {token} was accepted")
                 self.assertIn(token, "\n".join(found))
 
-    def test_given_fixture_harvest_when_read_by_cli_then_four_threads_and_mill_lesson(
+    def test_given_boundary_issue_not_filed_when_fixture_read_then_no_cousin_rows(
+        self,
+    ) -> None:
+        seeded = {row.get("source_url") for row in _harvest_rows()}
+        self.assertEqual([url for url in COUSIN_THREADS if url in seeded], [])
+
+    def test_given_fixture_harvest_when_read_by_cli_then_terminal_threads_and_mill_lesson(
         self,
     ) -> None:
         store = MemoryStore()

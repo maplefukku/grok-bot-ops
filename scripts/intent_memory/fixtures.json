@@ -73,24 +73,6 @@
     "github_url": "https://github.com/maplefukku/grok-bot-ops/issues/140"
   },
   {
-    "kind": "decision",
-    "source": "human",
-    "tags": ["adv", "disposition:oos", "product:sauna-master"],
-    "body": "OOS cousin: TeX color は boundary issue（adv-followup）へ畳む",
-    "actor": "pdm",
-    "source_url": "https://github.com/maplefukku/sauna-master/pull/297#discussion_r4028777512",
-    "github_url": "https://github.com/maplefukku/grok-bot-ops/issues/140"
-  },
-  {
-    "kind": "decision",
-    "source": "human",
-    "tags": ["adv", "disposition:oos", "product:sauna-master"],
-    "body": "OOS cousin: UBA/RLO と ruby/MathML は boundary issue（adv-followup）へ畳む",
-    "actor": "pdm",
-    "source_url": "https://github.com/maplefukku/sauna-master/pull/297#discussion_r4029228334",
-    "github_url": "https://github.com/maplefukku/grok-bot-ops/issues/140"
-  },
-  {
     "kind": "critique_human",
     "source": "human",
     "tags": ["adv", "product:sauna-master"],

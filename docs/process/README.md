@@ -71,7 +71,7 @@ required CI の green は same-BC を畳んだ FULL tip である。LIGHT-WT の
 | NIT | style、extra docs、rename |
 | DUP | 先行スレッドと同テーマ |
 
-MUST は fix または WONTFIX（理由とテスト証拠）である。どちらも resolve する。
+IN scope の MUST は fix または WONTFIX（理由とテスト証拠）である。どちらも resolve する。OOS かつ有用な指摘は下の FILE 終端である。
 
 NIT の返信は最大 1 回である。2 回目で同テーマかつ新しい failing check が無いときは返信しない。resolve する。PR に label `adv-thrash` を付ける。新しい failing check がある指摘は MUST である。
 
