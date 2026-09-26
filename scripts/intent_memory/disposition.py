@@ -15,7 +15,7 @@ if str(_SCRIPTS) not in sys.path:
 
 from adv_closer import ContractError, Skip, Theme, ThreadRef, Url
 from adv_closer import Kind as ThemeKind
-from intent_memory.contract import AtomDraft, Kind, Source
+from intent_memory.contract import EDGE_URL_KEYS, AtomDraft, Kind, Source
 
 DISPOSITIONS = ("reject", "oos", "invalid")
 CLOSER_ACTOR = "bot:Closer"
@@ -23,6 +23,7 @@ THEME_PREFIX = "theme: "
 THEME_SEP = " × "
 THEME_PENDING = "未取得"
 _THEME_KINDS = frozenset(kind.value for kind in ThemeKind)
+_BODY_LINE_KEYS = (THEME_PREFIX.strip(), *(f"{key}:" for key in EDGE_URL_KEYS))
 _THREAD_RE = re.compile(
     r"^https://github\.com/(?P<owner>[^/\s]+)/(?P<repo>[^/\s]+)/pull/(?P<pr>\d+)"
     r"(?:/files(?:/[0-9a-f]+)?)?(?:\?[^#\s]*)?#(?:discussion_)?r(?P<id>\d+)$"
@@ -45,7 +46,9 @@ class Disposition:
         glob = _one_line(self.theme.file, "glob")
         if THEME_SEP in glob or glob == THEME_PENDING:
             raise ContractError(f"glob must be a real path or glob: {glob!r}")
-        _one_line(self.verdict.reason, "reason")
+        reason = _one_line(self.verdict.reason, "reason")
+        if reason.startswith(_BODY_LINE_KEYS):
+            raise ContractError(f"reason must not start with a body key: {reason!r}")
         if self.disposition not in DISPOSITIONS:
             raise ContractError(f"unknown disposition: {self.disposition}")
         if not _HTTP_RE.match(str(self.verdict.ref)):
@@ -61,11 +64,10 @@ class Disposition:
 
 
 def _one_line(value: str, name: str) -> str:
-    # body lines are split with str.splitlines(), so any of its separators could forge an edge line
-    text = value.strip()
-    if len(text.splitlines()) != 1:
-        raise ContractError(f"{name} must be one line")
-    return text
+    # body lines are split with str.splitlines(); the raw value reaches the body, so check it unstripped
+    if value.splitlines() != [value] or not value.strip():
+        raise ContractError(f"{name} must be one non-empty line")
+    return value.strip()
 
 
 def canonical_thread(url: str) -> ThreadRef:

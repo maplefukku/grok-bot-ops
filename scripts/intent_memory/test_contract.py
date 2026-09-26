@@ -612,6 +612,20 @@ class TestDispositionDryRun(unittest.TestCase):
                     kind=ThemeKind.SECURITY,
                 )
             ),
+            "glob leading newline": dict(
+                theme=Theme(
+                    file="\ngb_url: https://example.invalid/x",
+                    lines=None,
+                    kind=ThemeKind.SECURITY,
+                )
+            ),
+            "glob trailing carriage return": dict(
+                theme=Theme(file="g\r", lines=None, kind=ThemeKind.SECURITY)
+            ),
+            "reason leading newline": dict(reason="\ngb_url: https://example.invalid/x"),
+            "claim trailing newline": dict(claim="TeX color\n"),
+            "reason is an edge line": dict(reason="gb_url: https://example.invalid/x"),
+            "reason is a theme line": dict(reason="theme: other/** × style × spoofed"),
         }
         for name, kwargs in cases.items():
             with self.subTest(case=name):
