@@ -466,6 +466,198 @@ class TestTrendLogDryRun(unittest.TestCase):
         self.assertTrue(all(row["kind"] == "decision" for row in rows))
 
 
+def _disposition(**kwargs):
+    from adv_closer import Kind as ThemeKind
+    from adv_closer import Skip, Theme, ThreadRef, Url
+    from intent_memory.disposition import Disposition
+
+    values = dict(
+        thread=ThreadRef(
+            "https://github.com/maplefukku/sauna-master/pull/297#discussion_r3952453491"
+        ),
+        theme=Theme(file="leftover/GFM GazeSweep", lines=None, kind=ThemeKind.SECURITY),
+        claim="TeX color",
+        disposition="reject",
+        verdict=Skip(
+            reason="quiet-test の SoT は fleet WRAP である",
+            ref=Url("https://github.com/maplefukku/sauna-master/pull/297"),
+        ),
+    )
+    reason = kwargs.pop("reason", None)
+    ref = kwargs.pop("ref", None)
+    if reason is not None or ref is not None:
+        values["verdict"] = Skip(
+            reason=reason or values["verdict"].reason,
+            ref=Url(ref or values["verdict"].ref),
+        )
+    values.update(kwargs)
+    return Disposition(**values)
+
+
+BOUNDARY = "https://github.com/maplefukku/grok-bot-ops/issues/140"
+
+
+class TestDispositionDryRun(unittest.TestCase):
+    def test_given_each_disposition_when_mapped_then_bot_closer_decision_and_append_ingest_off(
+        self,
+    ):
+        from intent_memory.disposition import (
+            CLOSER_ACTOR,
+            DISPOSITIONS,
+            draft_from_disposition,
+        )
+
+        self.assertEqual(DISPOSITIONS, ("reject", "oos", "invalid"))
+        store = MemoryStore()
+        for disposition in DISPOSITIONS:
+            with self.subTest(disposition=disposition):
+                draft = draft_from_disposition(
+                    _disposition(disposition=disposition, ref=BOUNDARY)
+                )
+                self.assertIs(draft.kind, Kind.DECISION)
+                self.assertIs(draft.source, Source.BOT)
+                self.assertEqual(draft.actor, CLOSER_ACTOR)
+                self.assertEqual(
+                    draft.tags,
+                    ("adv", f"disposition:{disposition}", "product:sauna-master"),
+                )
+                self.assertIn(
+                    "theme: leftover/GFM GazeSweep × security × TeX color", draft.body
+                )
+                self.assertIsNone(draft.expires_at)
+                with self.assertRaises(IngestOff):
+                    store.append(draft)
+        self.assertEqual(store.by_tags(("adv",), source=Source.BOT, reader="pdm"), [])
+        self.assertEqual(store.by_tags(("adv",), source=Source.HUMAN, reader="pdm"), [])
+
+    def test_given_closer_draft_when_human_approves_then_append_keeps_acl(self):
+        from dataclasses import replace
+
+        from intent_memory.disposition import draft_from_disposition
+
+        draft = draft_from_disposition(_disposition())
+        store = MemoryStore()
+        for actor in ("pdm", "user"):
+            with self.subTest(actor=actor):
+                atom = store.append(replace(draft, source=Source.HUMAN, actor=actor))
+                self.assertEqual(atom.actor, actor)
+                self.assertEqual(
+                    atom.source_url,
+                    "https://github.com/maplefukku/sauna-master/pull/297#discussion_r3952453491",
+                )
+        for actor in ("planner", "bot:Closer", ""):
+            with self.subTest(actor=actor):
+                with self.assertRaises(WriteAclHold):
+                    store.append(replace(draft, source=Source.HUMAN, actor=actor))
+        with self.assertRaises(IngestOff):
+            store.append(replace(draft, actor="pdm"))
+
+    def test_given_same_thread_in_files_and_discussion_form_when_mapped_then_first_wins(
+        self,
+    ):
+        from intent_memory.disposition import drafts_from_dispositions
+
+        first = _disposition(
+            thread="https://github.com/maplefukku/sauna-master/pull/297/files#r4028777512",
+            disposition="oos",
+            ref=BOUNDARY,
+        )
+        later = _disposition(
+            thread=" https://github.com/maplefukku/sauna-master/pull/297#discussion_r4028777512 ",
+            claim="TeX color again",
+        )
+        cased = _disposition(
+            thread="https://github.com/Maplefukku/Sauna-Master/pull/297/files/0a1b2c#r4028777512",
+            claim="TeX color cased",
+        )
+        filtered = _disposition(
+            thread="https://github.com/maplefukku/sauna-master/pull/297/files?w=1#r4028777512",
+            claim="TeX color whitespace filter",
+        )
+        filtered_sha = _disposition(
+            thread="https://github.com/maplefukku/sauna-master/pull/297/files/"
+            + "a" * 40
+            + "?w=1&diff=split#r4028777512",
+            claim="TeX color filter at sha",
+        )
+        drafts = drafts_from_dispositions([first, later, cased, filtered, filtered_sha])
+        self.assertEqual(len(drafts), 1)
+        self.assertEqual(drafts[0].tags[1], "disposition:oos")
+        self.assertEqual(
+            drafts[0].source_url,
+            "https://github.com/maplefukku/sauna-master/pull/297#discussion_r4028777512",
+        )
+
+    def test_given_bad_records_when_building_then_contract_error(self):
+        from adv_closer import ContractError as CloserContractError
+        from adv_closer import Kind as ThemeKind
+        from adv_closer import Theme
+
+        cases = {
+            "oos without boundary issue": dict(disposition="oos"),
+            "reject ref not a url": dict(ref="not-a-url"),
+            "invalid ref not a url": dict(disposition="invalid", ref="see thread"),
+            "unknown disposition": dict(disposition="wontfix"),
+            "issue url as thread": dict(thread=BOUNDARY),
+            "two sentence reason": dict(reason="一文目。二文目"),
+            "multi-line claim": dict(claim="a\nb"),
+            "empty claim": dict(claim=" "),
+            "reason smuggles edge line": dict(
+                reason="ok\ntheme: other/** × style × spoofed\ngb_url: https://example.invalid/x"
+            ),
+            "glob smuggles edge line": dict(
+                theme=Theme(
+                    file="g\nsource_url: https://example.invalid/x",
+                    lines=None,
+                    kind=ThemeKind.SECURITY,
+                )
+            ),
+        }
+        for name, kwargs in cases.items():
+            with self.subTest(case=name):
+                with self.assertRaises(CloserContractError):
+                    _disposition(**kwargs)
+
+    def test_given_records_file_when_cli_dry_run_then_bot_drafts_only(self):
+        import json
+        import subprocess
+        import tempfile
+
+        records = [
+            {
+                "thread": "https://github.com/maplefukku/sauna-master/pull/297#discussion_r4029228334",
+                "glob": "leftover/GFM GazeSweep",
+                "kind": "security",
+                "claim": "UBA/RLO + ruby/MathML",
+                "disposition": "oos",
+                "reason": "同ドメインの cousin は boundary issue に畳む",
+                "ref": BOUNDARY,
+            }
+        ]
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as handle:
+            json.dump(records, handle)
+        proc = subprocess.run(
+            [
+                sys.executable,
+                str(ROOT / "scripts" / "intent_memory" / "disposition.py"),
+                "--dry-run",
+                "--path",
+                handle.name,
+            ],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        os.unlink(handle.name)
+        rows = json.loads(proc.stdout)
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["source"], "bot")
+        self.assertEqual(rows[0]["actor"], "bot:Closer")
+        self.assertEqual(
+            rows[0]["tags"], ["adv", "disposition:oos", "product:sauna-master"]
+        )
+
+
 class TestHumanActorAllowlist(unittest.TestCase):
     def test_pdm_append_planner_and_kanshi_human_read_keep_isolation(self):
         store = MemoryStore()

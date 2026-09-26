@@ -53,5 +53,32 @@
     "body": "Bot row must not leak into human reads.",
     "actor": "bot",
     "embedding": [0.99, 0.01, 0.0, 0.0]
+  },
+  {
+    "kind": "decision",
+    "source": "human",
+    "tags": ["adv", "disposition:reject", "product:sauna-master"],
+    "body": "WONTFIX: quiet-test の SoT は fleet WRAP である",
+    "actor": "pdm",
+    "source_url": "https://github.com/maplefukku/sauna-master/pull/297#discussion_r3952453491",
+    "github_url": "https://github.com/maplefukku/grok-bot-ops/issues/140"
+  },
+  {
+    "kind": "decision",
+    "source": "human",
+    "tags": ["adv", "disposition:oos", "product:sauna-master"],
+    "body": "OOS: EyeLΔx は FIX 返信で leftover/GFM GazeSweep の外とした",
+    "actor": "pdm",
+    "source_url": "https://github.com/maplefukku/sauna-master/pull/297#discussion_r3952411869",
+    "github_url": "https://github.com/maplefukku/grok-bot-ops/issues/140"
+  },
+  {
+    "kind": "critique_human",
+    "source": "human",
+    "tags": ["adv", "product:sauna-master"],
+    "body": "mill: ADV が plant を作り FIX が land し、次の run が同ドメインの cousin を新しい MUST で出す。境界の内側で新しい failing check が無い claim は投稿しない",
+    "actor": "pdm",
+    "source_url": "https://github.com/maplefukku/sauna-master/pull/297",
+    "github_url": "https://github.com/maplefukku/grok-bot-ops/issues/140"
   }
 ]
