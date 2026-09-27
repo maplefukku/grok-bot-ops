@@ -2,6 +2,30 @@
 
 Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の永続化）。
 
+## Linear coding agent の Secure setup — install 時に environment secrets
+
+- 内容: Linear の coding agent で、coding session が install 中に environment secrets にアクセスできる。private dependencies やその他の environment config を安全に取得する用途。
+- 出典: [x.com/linear/status/2103501540652966098](https://x.com/linear/status/2103501540652966098)（2026-09-25）
+- 確認: 未
+
+## Claude Code の 5 時間上限で graceful stop
+
+- 内容: タスク途中で 5 時間上限に達したとき、Claude Code がきりのよい区切りを探し、weekly limit から小さな固定枠を使って作業を終える。編集の途中で切られない。
+- 出典: [x.com/ClaudeDevs/status/2103561342057943314](https://x.com/ClaudeDevs/status/2103561342057943314)（2026-09-25）
+- 確認: 未
+
+## Jev Router（OpenRouter）— cache-aware なモデルルーター
+
+- 内容: OpenRouter の Jev Router は cache-aware なモデルルーター。リクエストごとにモデルと reasoning effort を選び、品質・速度・コストを調整する。一次投稿では session stickiness と fail-closed の説明がある。
+- 出典: [x.com/OpenRouter/status/2103610898690855161](https://x.com/OpenRouter/status/2103610898690855161) · [x.com/typesafeai/status/2103612889655353346](https://x.com/typesafeai/status/2103612889655353346)（2026-09-25）
+- 確認: 未
+
+## Docker Cloud Sandboxes — local と同じ microVM 隔離を常時稼働で
+
+- 内容: Docker が Cloud Sandboxes を公開。laptop 上の Docker Sandboxes と同じ microVM 隔離・同じ CLI で、Docker 管理の常時稼働 compute で動く。laptop を閉じても agent は動き続け、local と cloud を 1 コマンドで行き来できる。
+- 出典: [x.com/Docker/status/2103192335081169405](https://x.com/Docker/status/2103192335081169405) · [docker.com/sbx-promo](https://docker.com/sbx-promo)（2026-09-24）
+- 確認: 未
+
 ## Grok Bot 101 — 持ち帰れる四 workflow（Personal CRM ほか）
 
 - 内容: Grok Bot 101 から挙がった四つの workflow 例: Personal CRM（X follows → Notion）、MCP/skills 付き fitness coach bot、コーディング harness への outer loop、同投稿内の関連パターン。
