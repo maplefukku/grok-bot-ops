@@ -2,6 +2,12 @@
 
 ボットの共有と、公開されているボットの例。
 
+## 公式: Team Bots
+
+- 内容: ロールや共有ワークフロー向けに Team Bot を作る。Context（files/instructions/skills）・Plugins・Credentials・Memories を束ねてチーム共有。会話と個人 memories はユーザーごとに private。Slack に専用ハンドルで招待できる。Sales CS / EPD / Marketing / Data の社内事例あり。
+- 出典: [x.ai/news/team-bots](https://x.ai/news/team-bots)（2026-09-28）
+- 確認: 未
+
 ## 公式: Sales Marketplace templates
 
 - 内容: Sales カテゴリに Outbound Prospecting / GTM Loop Closer / Sales Call Coach / Meeting Recap Deck / Pitch Deck Coach などが並ぶ。社内 sales Bot を templates として公開し、context・connectors・routines 付きで導入できる。
