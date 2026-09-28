@@ -112,8 +112,8 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 | [`Cursor運用`](./Cursor運用.md) | cursor.dashboard。Cloud Agent・Bugbot・Automations を見る。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`Mini運用`](./Mini運用.md) | mini.ops.CLI。ONE JOBは登録マシン fukku-mac-mini の CLI だけ。ListMachinesして Shell/Read。Codex/ChatGPT.app/GUIは Mini Codex。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`品質Drive`](./品質Drive.md) | monkey.ops。HOLD LOCK 2026-09-06。monkey cronは全部OFF（ハーネス未完成とSim残り）。再ONはPMとCTOのクリア後だけ。ONE JOBは weekday MonkeyTest Drive/E2E（zurunote-ios-mini）。ZuruNote/sauna-master/gakuse-ai。証拠はGitHub issue。プロダクトコードは編集しない。開発ボットはmonkeyしない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`Mini Codex`](./Mini_Codex.md) | mini.codex-cua。ONE JOBは fukku-mac-mini で ChatGPT.app Codex・CU ON。GUIはCodexが動かす。CLIはMini運用。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`ChatGPT Astra Pro`](./ChatGPT_Astra_Pro.md) | chatgpt.pro.advisor。行き詰まったときの相談。MODELは ChatGPT Pro（塞がれたら Astra）。HARD TABは既存 chatgpt.com タブ。ChatGPT感性とも note執筆リーダーとも別。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`Mini Codex`](./Mini Codex.md) | mini.codex-cua。ONE JOBは fukku-mac-mini で ChatGPT.app Codex・CU ON。GUIはCodexが動かす。CLIはMini運用。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`ChatGPT Astra Pro`](./ChatGPT Astra Pro.md) | chatgpt.pro.advisor。行き詰まったときの相談。MODELは ChatGPT Pro（塞がれたら Astra）。HARD TABは既存 chatgpt.com タブ。ChatGPT感性とも note執筆リーダーとも別。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`PR→Merge戦略`](./PR→Merge戦略.md) | merge.strategy。DevinのZuruNote22件マージ実行を証拠から抽出し全プロダクトへ再現してマージ数を増やす。DDD bounded contextで候補を分類し実行可能Merge PlanをPMと開発リーダーへFIRE・結果追跡。merge=PM・LIVE証拠のみ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`マージ実行`](./マージ実行.md) | merge.executor。PR→Merge戦略のleftover-merge-ok packをmerge=PM下で実行—Flag Y MATCH+PM authorize時のみ merge 押下し SHA/evidence を同一ターン報告。pack空/SoftHOLDはQuiet。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 
@@ -175,7 +175,7 @@ Jarvis ROLE-SPLIT AUTH 2026-09-24（[`docs/decisions/jarvis-role-split-auth-2026
 |---|---|---|
 | [`X運用`](./X運用.md) | @sora19ai の X 運用の指揮者。独立した HANDS は並列で火を付ける。自分では X 操作も本文も書かない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`Cursor＆Grok Bot特化リサーチ`](./Cursor＆Grok Bot特化リサーチ.md) | cursor-grokbot.research。Cursor Projects + Grok Bot tipsを1°のみで調査し、fleet各プロダクトへの当てはめをmap。daily tips pulse KEEP。OUTはBuddy。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
-| [`X_UI収集`](./X_UI収集.md) | ui.x-live。ONE JOBはX TLのUI/style/motion良例をlikeし URL+why をUI libraryへ（3×/day）。AGENCY 47 10,15,21 * * 1-5。UI調査(KAWAI)は置換しない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`X UI収集`](./X UI収集.md) | ui.x-live。ONE JOBはX TLのUI/style/motion良例をlikeし URL+why をUI libraryへ（3×/day）。AGENCY 47 10,15,21 * * 1-5。UI調査(KAWAI)は置換しない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`記事執筆`](./記事執筆.md) | x.article.writer。ONE JOBはbelief lockとタイトル型からX Articlesの下書きを作る。INはCMO・Buddy・X運用・ふっくーのJOB。OUTはHITL下書きパック→Buddy+CMO。重い思考と執筆はCursor Project Opus、席はChrome操作と公開の手だけ。公開はHITLまで禁止。Discord dripもX自動もしない。note.comは note執筆リーダー。cascade-parent=X運用。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`記事サムネ`](./記事サムネ.md) | x.article.images。ONE JOBはX Articlesのカバー画像（5:2）をChatGPTで作る（ゴシック極太+ツールロゴ+大きな日本語）。先に日本の伸びたArticleサムネを調べる。INは記事執筆・X運用・CMO・BuddyのJOB。OUTは画像パス+alt+カバー枠のHITLパック→Buddy+CMO。本文は書かない。公開はHITLまで禁止。ChatGPTはHARD TAB既存タブ。cascade-parent=記事執筆。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 
