@@ -3,37 +3,37 @@
 フリート停滞、merge GATE、jenny-lite の ADOPT と REJECT の置き場。
 対象窓は fleet stalls 2026-09-01..09-05（sauna#203 loop、ZN Swift cluster）、jenny-lite 2026-09-07..09-11、および jenny-lite 2026-09-22..09-25。出典は各エントリの URL。
 
-## ADOPT A — Lint KEEP FAILURE same tip ≥3 densify = STEER SAME CA (jenny-lite 2026-09-22..09-25)
+## GATE 観測 — Lint FAILURE が同じ tip で 3 回以上続く (jenny-lite 2026-09-22..09-25)
 
-- 内容: same tip で Lint FAILURE が densify ≥3 続くときは CI-flake として **SAME CA を STEER**。Flag Y しない。prefer-corr remint を tip SoT にしない。thr0/IDLE 扱いしない。FULL CLEAN は Lint green + behind0 + thrLIVE=0 + ADV SUCCESS + APPROVED まで Soft ≠。skill patch（fleet-stall-sweep / merge-velocity / pr-2）は Planner WRAP 後のみ（ここでは invent しない）。
-- 決定: ADOPT
-- 出典: https://github.com/maplefukku/sauna-master/pull/287 （tip SoftMATCH 1436d460 / SoftWAIT SAME CA bc-07454acf / Soft ≠ FULL CLEAN Soft Flag Y HOLD context 2026-09-24..25）
+- 内容: same tip で Lint FAILURE が 3 回以上続いた観測。新しい ADOPT にはしない。flake の扱いは既存の「ADOPT C — Swift flake: Swift-only auto-kick vs ONE fix-CA when signal6 reproducible」、merge の可否は既存の「ADOPT D — GATE IFF = CI + bots + thr0; ADV skip ≠ SUCCESS; Flag before squash」と「ADOPT — PdM Flag Y ONLY behind0+thr0+FULL CLEAN+APPROVED+ADV SUCCESS (#127)」のまま。required CI が red の間は Flag Y しない。skill patch（fleet-stall-sweep / merge-velocity / pr-2）はここでは invent しない。
+- 決定: 観測のみ（ADOPT しない）
+- 出典: https://github.com/maplefukku/sauna-master/pull/287 （tip 1436d460、SAME CA bc-07454acf、2026-09-24..25）
 - 確認: 未
 
-## ADOPT B — Mode A factory SoftFlag_N_dup age_d>3 → escalate trusted-fire prove
+## REJECT — Mode A factory の age_d>3 escalate (jenny-lite 2026-09-22..09-25)
 
-- 内容: 最初の rearm JOB のあと SoftFlag_N_dup で age_d>3 かつ provenance=untrusted+stale が続くなら Buddy|CBO|ルーチン作成へ escalate し trusted-fire prove（lastRun 更新 AND provenance trust flip）。perpetual densify FLAG-only / content catch-up / Discord drip / 同一観測の二度目 rearm はしない。既存 Mode A BROKEN 定義は KEEP（再 invent しない）。
-- 決定: ADOPT
-- 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 · https://github.com/maplefukku/grok-bot-ops/issues/136 （jenny-lite Mode A SoftFlag_N_dup daily-character-factory lastRun~2026-09-16；窓 2026-09-22..25）
+- 内容: 最初の rearm JOB のあと age_d>3 で Buddy|CBO|ルーチン作成へ escalate する案。Mode A の定義と閾値（lastRun stale>1d）は issue 136 の表が正本で、ここで閾値 age_d>3 を足さない。再 ADOPT しない。
+- 決定: REJECT（証拠不足: age_d>3 を示す fleet 内の観測 URL が無い。再浮上: daily-character-factory の lastRun が 3 日を超えて止まった run を URL 付きで 1 件残し、issue 136 の表を改めるとき）
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/136 · https://github.com/maplefukku/grok-bot-ops/issues/16 （daily-character-factory lastRun~2026-09-16、窓 2026-09-22..25）
 - 確認: 未
 
-## ADOPT C — GraphQL RATE_LIMIT densify: SoftWAIT last complete pagination Soft Flag N invent thr0
+## KEEP — GraphQL RATE_LIMIT 下の thr 数え (jenny-lite 2026-09-22..09-25)
 
-- 内容: densify / ca-merge-liveness / fleet-sweep で GraphQL RATE_LIMIT のとき SoftWAIT し、最後に完了した thr pagination を SoftACC Cite。SoftHOLD as thr0 しない。thr0 を invent しない。rate-limit 単独で user ping / WakeParent しない。
-- 決定: ADOPT
-- 出典: https://github.com/maplefukku/sauna-master/pull/287 · https://github.com/maplefukku/grok-bot-ops/issues/16 （RATE_LIMIT densify incomplete thr pages；2026-09-22..25）
+- 内容: RATE_LIMIT で reviewThreads の pagination が完了しないときも thr0 と数えない。これは既存の「ADOPT — LIVE thr check」と「ADOPT — PdM Flag Y ONLY behind0+thr0+FULL CLEAN+APPROVED+ADV SUCCESS (#127)」の thr0 のまま。再 ADOPT しない。
+- 決定: KEEP（再 ADOPT しない）
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/127 · https://github.com/maplefukku/grok-bot-ops/issues/16 （RATE_LIMIT で thr の page が欠けた観測、2026-09-22..25）
 - 確認: 未
 
-## ADOPT D — Mode D research/X SILENT_MISS >3d → JOB CMO|ルーチン作成 rearm
+## REJECT — Mode D research/X SILENT_MISS >3d の rearm (jenny-lite 2026-09-22..09-25)
 
-- 内容: research/X weekday pulse が SILENT_MISS >3d（例 grokbot-tips last~Sep17 SoftHOLD HITL）なら CMO|ルーチン作成へ rearm JOB。eng-only quiet で落とさない。新 X seat を invent しない。GTM drafts は stall ではない（REJECT KEEP）。
-- 決定: ADOPT
-- 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 · https://github.com/maplefukku/grok-bot-ops/issues/136 （Mode D SoftFlag_N_dup；窓 2026-09-22..25）
+- 内容: research/X weekday pulse の SILENT_MISS >3d で CMO|ルーチン作成へ rearm JOB を出す案。research/X は issue 136 Mode D（not-eng-only checklist）の採点対象で、閾値 >3d は issue 136 に無い。新 X 席は invent しない。GTM drafts は stall ではない。
+- 決定: REJECT（証拠不足: fleet 内の lastRun URL が無い。再浮上: ルーチン作成が SILENT-MISS を 1 件 URL 付きで観測したとき）
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/136 · https://github.com/maplefukku/grok-bot-ops/issues/16 （grokbot-tips last~2026-09-17、窓 2026-09-22..25）
 - 確認: 未
 
-## KEEP — prior Sep6/11 ADOPT A–E LIVE (jenny-lite 2026-09-22..09-25)
+## KEEP — 2026-09-06 / 09-11 の既存 ADOPT (jenny-lite 2026-09-22..09-25)
 
-- 内容: behind0+ADV SUCCESS GATE / overnight idle≠babysit / monkey HOLD intentional / false thr0 same-sweep restart は既存 ADOPT LIVE（本ファイル ADOPT D・named *-HOLD・overnight babysit・LIVE thr check ほか）。この火で再 ADOPT invent しない。
+- 内容: behind0+ADV SUCCESS GATE、overnight idle≠babysit、monkey HOLD intentional、false thr0 same-sweep restart は既存の行のまま。指す先は「ADOPT D — GATE IFF = CI + bots + thr0; ADV skip ≠ SUCCESS; Flag before squash」「ADOPT — named *-HOLD + enabled=false = intentional GAP」「ADOPT — overnight babysit CA count ≠ lane moving」「ADOPT — LIVE thr check」。この火で再 ADOPT しない。
 - 決定: KEEP（再 ADOPT しない）
 - 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-06 / 2026-09-11）
 - 確認: 未
