@@ -2,6 +2,12 @@
 
 ボットを起こす専用 UI。
 
+## Voice（話す / voice notes）
+
+- 内容: Bot の voice 会話と voice notes の公式告知。詳細は [`updates.md`](./updates.md) の 2026-09-17 / 2026-09-18 行。
+- 出典: [x.com/bot/status/2100659463569170779](https://x.com/bot/status/2100659463569170779) · [2101014478255247544](https://x.com/bot/status/2101014478255247544)
+- 確認: 未
+
 ## zoo of production（コミュニティ報告）
 
 - 内容: コミュニティ自己報告（@Lance_Coolie_Vr）。本文は「I have created my zoo of production.」。添付画像（出典画像）に Zoo Keeper / Platinum Chimp / Email Monkey / Schedule Monkey / Code Monkey / Project Odin / Zoo Secretary / Writing Monkey / Maintenance Monkey / Finance Monkey / Task Monkey の役割名が見える。画像由来の役割名 KEEP。Soft Flag N invent Zoo Keeper seat。
