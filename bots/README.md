@@ -80,7 +80,7 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 
 | 名前 | 役割 | 回すまで動かない |
 |---|---|---|
-| [`Buddy`](./CEO.md) | ceo。FLEET APEX。ONE JOBはふっくー HITL集約とorg優先。ROUTEのみ。tech→CTO、product→CPO、マーケ→CMO、eng CoS→PM、bot-HR→CBO。独立ジョブは並列。ChatGPTはHARD TAB直列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`Buddy`](./Buddy.md) | ceo。FLEET APEX。ONE JOBはふっくー HITL集約とorg優先。ROUTEのみ。tech→CTO、product→CPO、マーケ→CMO、eng CoS→PM、bot-HR→CBO。独立ジョブは並列。ChatGPTはHARD TAB直列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`CTO`](./CTO.md) | cto。PMの上（tech）。REPORT↑Buddy。ONE JOBはtech-org戦略。実装もマージもしない。CreateAgentはCBO。独立ジョブは並列。ChatGPTはHARD TAB直列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`CPO`](./CPO.md) | cpo。プロダクト戦略。REPORT↑Buddy。ONE JOBは何を作るか。実装もマージもしない。SNSはCMO。独立ジョブは並列。ChatGPTはHARD TAB直列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`監視`](./監視.md) | fleet.supervisor。ONE JOBはstall sweep→PMへJOB。sweepは平日06-22を2時間おき JST（0 6,8,10,12,14,16,18,20,22 * * 1-5）。@every 2h ではない。週次 watch-proposal-digest は LIVE。guardian-phase0-propose の Mon 10:00 JST（0 10 * * 1）に折り込む。月曜スロットは1つ。第二cronは置かない。proposal-onlyでPMへ。CreateAgent 0。回すまで待たない。FEATURE切り出しもmonkeyも自分ではしない。実装はしない。スキルは fleet-stall-sweep。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
