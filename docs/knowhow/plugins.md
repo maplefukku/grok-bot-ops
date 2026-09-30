@@ -2,18 +2,6 @@
 
 プラグインの入手と自作。
 
-## Finance integration — bank / card / investment をリンク
-
-- 内容: @bot の公式告知。Finance integration で bank / card / investment アカウントをリンクし、支出・投資の管理を Bot に依頼できる。
-- 出典: [x.com/bot/status/2103936247995752705](https://x.com/bot/status/2103936247995752705)（2026-09-26）
-- 確認: 未
-
-## Claude plugins portal — MCP + skills を plugin として配布
-
-- 内容: MCP と skills を plugin としてパッケージする。portal から submit し、review の進捗と usage analytics を見られる。
-- 出典: [x.com/ClaudeDevs/status/2103577007938228300](https://x.com/ClaudeDevs/status/2103577007938228300) · [claude.com/blog/build-plugins-for-claude](https://claude.com/blog/build-plugins-for-claude)（2026-09-25）
-- 確認: 未
-
 ## Tesla 車内 Grok Bot + Home Assistant MCP
 
 - 内容: Tesla の最新 update で車内 Grok Bot が connectors 対応。Home Assistant MCP を追加して Meross 車庫ドア等を操作した報告。own-network / Route egress と組み合わせると localhost MCP 到達が改善する文脈あり。
