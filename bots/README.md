@@ -135,7 +135,7 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 | [`Kamui`](./Kamui.md) | kamui.mcp。Kamui Code MCPの画像/動画APIをHITL preview packへラップ。publish禁止。cascade-parent=CMO。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`ブランディング`](./ブランディング.md) | brand.air。ブランド空気をBRAND packに固定し各制作席へ。HITL ACCEPT後のみ land。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`HOLD ブランディング重複`](./HOLD ブランディング重複.md) | brand.air HOLD。正席はブランディング（64876593）。live重複フォルダの台帳のみ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`ポジションメモリ監視`](./ポジションメモリ監視.md) | memory.position.watch。ONE JOBはポジションHARDを各Bot description+profile/logへ dual-write（2×/day）。AGENCY 47 9,17 * * *。fleet HARDは共有メモリ監視へ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`ポジションメモリ監視`](./ポジションメモリ監視.md) | memory.position.watch。ONE JOBは各ポジションを2×/day調査し、不足したポジションHARDをそのBot description+profile/logへ dual-write（矛盾は新しい方）。AGENCY 47 9,17 * * *。fleet HARDは共有メモリ監視へ。Mem0もDiscord dripも使わない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`共有メモリ監視`](./共有メモリ監視.md) | memory.shared.watch。ONE JOBはfleet lessons/SoftACC HARDを user-shared へだけ bake（~2×/day）。AGENCY 32 9,17 * * 1-5。席ローカルは席メモリ監視。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`編成評価`](./編成評価.md) | fleet.review。SPEC https://github.com/maplefukku/grok-bot-ops/issues/11 。INは台帳更新のEVAL-READYまたはPM JOB。毎日フル評価（変更なしでも）。台帳は書かない。エージェントの作成削除はPMへ提案。開発はPM、マーケ分割はCMO。役割のwhy調査は /poteto-mode 必須。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`最先端手法`](./最先端手法.md) | discord.cutting-edge。手法を1つ gakuse.ai の Discord へ出す。候補を Planner に送る。ADOPT と WATCH と REJECT は PM に送らない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
@@ -144,6 +144,8 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 | [`noteマーケ`](./noteマーケ.md) | note.marketer。REPORT↑CMO。ONE JOBは過去noteの1次と下書き角度から note.com CTAパック（フォロー、有料購読、柔らかい横断）。柔らかいだけ。本文も画像も公開もXもしない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`最後の一針企画`](./最後の一針企画.md) | laststitch.hitl-docs。REPORT↑CMO（SNSリーダー経由）。ONE JOBはlaststitchのHITL書き戻しと docs/laststitch LOCK（Meta 1次だけ）。account-design-packはamendだけ。IGログインも秘密も触らない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`UI調査`](./UI調査.md) | ui.research。近い事例の URL と、なぜ近いかを返す。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+
+`共有メモリ監視` の役割にある「席メモリ監視」は、live の description が旧名のまま写っている（2026-09-28 と 09-29 の台帳書き込みで同文）。この席は 2026-09-28 に `ポジションメモリ監視` へ改名された。live の description を直すのは台帳 CA ではない。
 
 ## 開発
 
