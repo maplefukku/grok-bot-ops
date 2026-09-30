@@ -38,12 +38,6 @@
 - 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-22..25）
 - 確認: 未
 
-## サポート運用の crawl-walk-run（公式事例）
-
-- 内容: SpaceXAI 公式事例。最初は Plain / Linear 等に接続し write は社内ノート＋人間承認のみ。評価ループ後に低複雑チケットへ直接返信を段階拡大。共通チケット分類で token 節約。既知 issue は Linear、バックエンドは Datadog。返金指示など明確なアクションは高自律。Planner 判断用候補のみ。
-- 出典: [x.ai/news/grok-bot-customer-support](https://x.ai/news/grok-bot-customer-support) · [x.com/bot/status/2102460785649959362](https://x.com/bot/status/2102460785649959362)（2026-09-22）
-- 確認: 未
-
 ## ADOPT — named *-HOLD + enabled=false = intentional GAP
 
 - 内容: 名前付き `*-HOLD` かつ enabled=false は intentional GAP。stall leftover 一覧に載せない。monkey *-HOLD no OUT は stall ではない。
