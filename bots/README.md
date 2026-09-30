@@ -156,7 +156,7 @@ Jarvis ROLE-SPLIT AUTH 2026-09-24（[`docs/decisions/jarvis-role-split-auth-2026
 | 名前 | id | 役割 | 回すまで動かない |
 |---|---|---|---|
 | [`Jarvis開発`](./Jarvis開発.md) | be9e4e10-f7c6-4fc9-8b47-9b968ad60ca4 | impl.via CA。ONE JOBはCAで実装+ADVクローズ（CA EXHAUST時のみ Mini Codex WRAP）。PRODUCT: Jarvis。REPO: https://github.com/maplefukku/jarvis 。cascade-parent=開発リーダー。Soft Flag N product code on Grok Bot box（Cursor CA only）。SoftHOLD merge=PM。invent=N。計画はPlanner。/poteto-modeとpstack必須。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`開発セッチャ`](./開発セッチャ.md) | — | product.spec。セッチャ（maplefukku/setcha）要件/概念/UI/セッちゃんを前進。SoftHOLD code。BUILD/clone/CA/implはふっくーGOまで禁止。OUTはBuddy HITL packs。cascade-parent=Buddy｜CPO｜工場長。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`開発セッチャ`](./開発セッチャ.md) | a6e8c9cb-18a1-4fbe-aa7c-c98225e5e273 | product.spec。セッチャ（maplefukku/setcha）要件/概念/UI/セッちゃんを前進。SoftHOLD code。BUILD/clone/CA/implはふっくーGOまで禁止。OUTはBuddy HITL packs。cascade-parent=Buddy｜CPO｜工場長。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 
 ## キャラクター生産工場
 
