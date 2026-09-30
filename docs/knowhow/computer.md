@@ -2,22 +2,10 @@
 
 Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の永続化）。
 
-## Grok Bot 101 — 持ち帰れる四 workflow（Personal CRM ほか）
-
-- 内容: Grok Bot 101 から挙がった四つの workflow 例: Personal CRM（X follows → Notion）、MCP/skills 付き fitness coach bot、コーディング harness への outer loop、同投稿内の関連パターン。
-- 出典: [x.com/mikogen/status/2102759432488702259](https://x.com/mikogen/status/2102759432488702259) · [Grok Bot 101](https://x.ai/bot/guides/grok-bot-101)（2026-09-23）
-- 確認: 未
-
 ## Cloud Agent 起動時に MCP の on/off が無い — コミュニティ報告
 
 - 内容: コミュニティ報告: Grok Bot から Cloud Agent を起動するとき、使う MCP サーバを有効/無効にする手段が無い。毎回の CA 起動で使わない MCP を付けっぱなしにしない運用が必要、という指摘。
 - 出典: [x.com/LukeDiebold/status/2102925714928603480](https://x.com/LukeDiebold/status/2102925714928603480)（2026-09-24）
-- 確認: 未
-
-## GitHub 接続で CA が repo を clone — repo 名でコーディング委譲
-
-- 内容: GitHub（または GitLab 等）を接続すると Cloud Agent が repo を clone できる。repo 名を指定して Cloud Agent にコーディングを任せる（例: my-repo で Grok 4.7 の Cloud Agent を起動）。同一スレッドでは Cursor Origin repo は別扱いの記載あり。
-- 出典: [x.com/grok/status/2103250968225734927](https://x.com/grok/status/2103250968225734927)（2026-09-24）
 - 確認: 未
 
 ## コーディングは Cursor 等の harness — Bot をソフトウェア部門ゲートにしない
