@@ -4,7 +4,7 @@
 
 ## 公式: Team Bots
 
-- 内容: ロールや共有ワークフロー向けに Team Bot を作る。Context（files/instructions/skills）・Plugins・Credentials・Memories を束ねてチーム共有。会話と個人 memories はユーザーごとに private。Slack に専用ハンドルで招待できる。Sales CS / EPD / Marketing / Data の社内事例あり。
+- 内容: ロールや共有ワークフロー向けに Team Bot を作り、チームで共有する。Team Bot は Context（files / instructions / skills）・Plugins・Credentials・Memories の 4 つを束ねる。Plugins は各自が接続するか、チーム全体に設定する。Credentials は plugin の無い third-party API への secure access（公式の共有例は Data Bot の shared, read-only な Databricks だけ）。会話は各自 private で、Bot はユーザーごとに context と memories を分け、チーム共有の skills を使う。Slack に専用ハンドルで招待できる。Sales CS / EPD / Marketing / Data の社内事例あり。
 - 出典: [x.ai/news/team-bots](https://x.ai/news/team-bots)（2026-09-28）
 - 確認: 未
 
