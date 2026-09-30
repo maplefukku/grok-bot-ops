@@ -42,7 +42,7 @@ A から D の手順の正本はこのファイルである。採択の理由は
 | MUST threads | 未 resolve が 0（outdated 不問） | Closer |
 | NIT threads | 各スレッド返信 ≤ 1 かつ resolved | Closer |
 
-ボットは merge しない。人だけが merge する。事実の観測は [`PR確認`](../../bots/PR確認.md) である。日付付きの観察は [`fleet.md`](../knowhow/fleet.md) である。fleet.md は正本ではない。
+ボットは merge しない。人だけが merge する。事実の観測は [`PR→Merge戦略`](../../bots/PR→Merge戦略.md) である。日付付きの観察は [`fleet.md`](../knowhow/fleet.md) である。fleet.md は正本ではない。
 
 Flag Y は [`pr-body.md`](./pr-body.md) である。PR 本文の 4 見出しが欠けたら Flag しない。merge しない。Dependabot も同じである。Soft-OK はしない。stamp は [`pr-body.md`](./pr-body.md) の Dependabot stamp である。
 
@@ -119,7 +119,7 @@ Planner の spec は FILES/globs と forbidden siblings を書く。
 
 ## C. 席
 
-PdM は CoS のままである。クローンしない。席の定義は [`PM`](../../bots/PdM.md) である。
+PdM は CoS のままである。クローンしない。席の定義は [`PM`](../../bots/PM.md) である。
 
 ADV closer と lane scheduler は提案である。product CoS は既定 NO である。ゲートと「CreateAgent しない」は [ADR 0003](../decisions/0003-domain-unit-throughput.md) を見よ。CreateAgent は [`CBO`](../../bots/CBO.md) である。共有 1 マシンでは owner 席が 1 つ成果物を持ち、詰まったときだけ既存 specialist に渡す。チェックは [`shared-computer.md`](./shared-computer.md) である。新規席は作らない。CreateAgent 前の Marketplace survey は [`marketplace-precheck.md`](./marketplace-precheck.md) である。
 
