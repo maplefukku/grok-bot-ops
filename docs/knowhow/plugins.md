@@ -2,9 +2,9 @@
 
 プラグインの入手と自作。
 
-## Plugin single-click share via grokbot:// deep link
+## ワンクリック plugin share deeplink
 
-- 内容: プラグインページでリンクアイコン（🔗）を押し、`grokbot://app/v1/plugin/add?id=…` の deep link を取る。そのリンクを共有し、タップすると Grok Bot 上で該当プラグイン追加が開く（「on @bot」＝Grok Bot 上で開く、公式 @bot アカウントへ URL を送る手順ではない）。現時点では X デスクトップクライアントのみ、という告知（@mattyp）。
+- 内容: プラグインページで share / link アイコンから `grokbot://app/v1/plugin/add?id=…` 形式の deeplink を取得。X desktop クライアントで動作。
 - 出典: [x.com/mattyp/status/2101491045553070094](https://x.com/mattyp/status/2101491045553070094)（2026-09-20）
 - 確認: 未
 
