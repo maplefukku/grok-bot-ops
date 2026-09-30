@@ -1,7 +1,42 @@
 # fleet
 
 フリート停滞、merge GATE、jenny-lite の ADOPT と REJECT の置き場。
-対象窓は fleet stalls 2026-09-01..09-05（sauna#203 loop、ZN Swift cluster）および jenny-lite 2026-09-07..09-11、jenny-lite 2026-09-12..09-18（#127 merge bottleneck / daily SoftACC）。出典は各エントリの URL。
+対象窓は fleet stalls 2026-09-01..09-05（sauna#203 loop、ZN Swift cluster）、jenny-lite 2026-09-07..09-11、jenny-lite 2026-09-12..09-18（#127 merge bottleneck / daily SoftACC）、および jenny-lite 2026-09-22..09-25。出典は各エントリの URL。
+
+## REJECT — Mode A factory の age_d>3 escalate (jenny-lite 2026-09-22..09-25)
+
+- 内容: 最初の rearm JOB のあと age_d>3 で Buddy|CBO|ルーチン作成へ escalate する案。Mode A の定義と閾値（lastRun stale>1d）は issue 136 の表が正本で、ここで閾値 age_d>3 を足さない。再 ADOPT しない。
+- 決定: REJECT（証拠不足: age_d>3 を示す fleet 内の観測 URL が無い。再浮上: daily-character-factory の lastRun が 3 日を超えて止まった run を URL 付きで 1 件残し、issue 136 の表を改めるとき）
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/136 · https://github.com/maplefukku/grok-bot-ops/issues/16 （daily-character-factory lastRun~2026-09-16、窓 2026-09-22..25）
+- 確認: 未
+
+## REJECT — GraphQL RATE_LIMIT 下の thr0 の再 ADOPT (jenny-lite 2026-09-22..09-25)
+
+- 内容: RATE_LIMIT で reviewThreads の pagination が完了しないときに thr0 と数えない、という案。これは既存の「ADOPT — LIVE thr check」と「ADOPT — PdM Flag Y ONLY behind0+thr0+FULL CLEAN+APPROVED+ADV SUCCESS (#127)」の thr0 と同型なので、再 ADOPT しない。
+- 決定: REJECT（LIVE 同型。証拠不足: RATE_LIMIT で page が欠けた観測の URL が無い。再浮上: pagination 未完了を thr0 と誤って数えた run を URL 付きで 1 件残したとき）
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/127 （thr0 の定義、2026-09-22..25 の窓で参照）
+- 確認: 未
+
+## REJECT — Mode D research/X SILENT_MISS >3d の rearm (jenny-lite 2026-09-22..09-25)
+
+- 内容: research/X weekday pulse の SILENT_MISS >3d で CMO|ルーチン作成へ rearm JOB を出す案。research/X は issue 136 Mode D（not-eng-only checklist）の採点対象で、閾値 >3d は issue 136 に無い。新 X 席は invent しない。GTM drafts は stall ではない。
+- 決定: REJECT（証拠不足: fleet 内の lastRun URL が無い。再浮上: ルーチン作成が SILENT-MISS を 1 件 URL 付きで観測したとき）
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/136 · https://github.com/maplefukku/grok-bot-ops/issues/16 （grokbot-tips last~2026-09-17、窓 2026-09-22..25）
+- 確認: 未
+
+## KEEP — 2026-09-06 / 09-11 の既存 ADOPT (jenny-lite 2026-09-22..09-25)
+
+- 内容: behind0+ADV SUCCESS GATE、overnight idle≠babysit、monkey HOLD intentional、false thr0 same-sweep restart は既存の行のまま。指す先は「ADOPT D — GATE IFF = CI + bots + thr0; ADV skip ≠ SUCCESS; Flag before squash」「ADOPT — named *-HOLD + enabled=false = intentional GAP」「ADOPT — overnight babysit CA count ≠ lane moving」「ADOPT — LIVE thr check」。この火で再 ADOPT しない。
+- 決定: KEEP（再 ADOPT しない）
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-06 / 2026-09-11）
+- 確認: 未
+
+## REJECT — CreateAgent / tip remint SoT / Discord drip / invent thr0 under RATE_LIMIT / sixth micro-cron (jenny-lite 2026-09-22..09-25)
+
+- 内容: CreateAgent / Jenny seat / credit-audit fixer bot しない。auto-merge / webhook→fixer auto-exec しない。prefer-corr remint を tip SoT にしない。Discord drip / content catch-up を factory fixed にしない。監視に monkey Drive/E2E させない。RATE_LIMIT 下で thr0 invent しない。sixth micro-cron / */10 invent しない。GTM drafts / TF Archive を stall にしない。
+- 決定: REJECT
+- 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-22..25）
+- 確認: 未
 
 ## ADOPT — #127 Flag Y ONLY writeback landed in process + ci lock (jenny-lite 2026-09-12..09-18)
 
