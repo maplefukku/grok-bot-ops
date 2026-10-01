@@ -115,7 +115,7 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 | [`Mini Codex`](./Mini_Codex.md) | mini.codex-cua。ONE JOBは fukku-mac-mini で ChatGPT.app Codex・CU ON。GUIはCodexが動かす。CLIはMini運用。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`ChatGPT Astra Pro`](./ChatGPT_Astra_Pro.md) | chatgpt.pro.advisor。行き詰まったときの相談。MODELは ChatGPT Pro（塞がれたら Astra）。HARD TABは既存 chatgpt.com タブ。ChatGPT感性とも note執筆リーダーとも別。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`PR→Merge戦略`](./PR→Merge戦略.md) | merge.strategy。DevinのZuruNote22件マージ実行を証拠から抽出し全プロダクトへ再現してマージ数を増やす。DDD bounded contextで候補を分類し実行可能Merge PlanをPMと開発リーダーへFIRE・結果追跡。merge=PM・LIVE証拠のみ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
-| [`マージ実行`](./マージ実行.md) | merge.executor。PR→Merge戦略のleftover-merge-ok packをmerge=PM下で実行—Flag Y MATCH+PM authorize時のみ merge 押下し SHA/evidence を同一ターン報告。pack空/SoftHOLDはQuiet。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`マージ実行`](./マージ実行.md) | merge.handoff。PR→Merge戦略のleftover-merge-ok packをPMへ渡す。mergeは押さない（人だけがmergeする。HOLD merge=PM）。証拠（repo#PR tipSHA）をBuddy+PM+戦略へ。cascade-parent=PM｜PR→Merge戦略｜Buddy。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 
 ## 外側ループ
 
@@ -127,7 +127,7 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 | [`検証メンテ`](./検証メンテ.md) | maintain-verification を回し、verify スキルと `products/` 台帳だけを対象にする。台帳が空なら対象なし。毎日1本の `ops/daily-YYYY-MM-DD` draft PR に積む。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`台帳更新`](./台帳更新.md) | ledger.grok-bot-ops。bots/ と routines/ を更新する。毎日のCA書き込みは grok-bot-ops-ledger-write スキルに従う（本体はコピーしない）。CA env は cloud。CAは /poteto-mode 必須。pstack プラグインは grok-bot-ops に必須。毎日の台帳が完了したら（PR積んだか変更なし）PMと編成評価へ同じ本文で EVAL-READY。フィールドは kind / date_jst / branch / pr / counts / hold。同一 date_jst は再送しない。構成の評価はしない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`lookup-pdm`](./lookup-pdm.md) | temp.lookup。PdM agent id の一時lookup席。台帳・cascadeのid解決のみ。コードもマージもしない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
-| [`PR監視`](./PR監視.md) | pr.watch。open PRのLIVE facts（tipSHA thrLIVE checks mergeability reviewDecision）をPR→Merge戦略とマージ実行へ渡す。戦略invent禁止。merge禁止。cascade-parent=Buddy｜PM｜監視。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`PR監視`](./PR監視.md) | pr.watch。open PRのLIVE facts（tipSHA thrLIVE checks mergeability）をPR→Merge戦略（merge-ok観測）へ渡す。reviewDecisionはFlag入力にしない。戦略invent禁止。merge禁止。cascade-parent=Buddy｜PM｜監視。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`UIデザイナー`](./UIデザイナー.md) | ui.design。既存OSS/現代UI（21st.dev FIRST）と最新libsを選び、プロダクト共通のUI language（tokens+allowed libs+1°）を抽象化する。画面の再発明禁止。cascade-parent=CPO｜Buddy｜PM。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`デバイスリーダー`](./デバイスリーダー.md) | device.lead。機器｜壁打ち｜穴 only。Soft Flag N product code Soft Flag N firmware Soft Flag N CA on Grok Bot box。cascade-parent=Buddy｜PM｜開発リーダー｜Jarvis開発（LIVE be9e4e10-f7c6-4fc9-8b47-9b968ad60ca4）。BOM/金型invent禁止。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`動画生成`](./動画生成.md) | video.gen。1°トピック/promptから短尺をHITL生成（OpenCreator/Seedance｜Kling｜Veo WRAP）。auto-publish禁止。出してHOLD。道具別席invent禁止。OUTはBuddy。cascade-parent=CMO｜SNSリーダー｜Buddy。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
