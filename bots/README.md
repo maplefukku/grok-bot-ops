@@ -152,7 +152,7 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 
 ### LOCK: JARVIS ROLE-SPLIT（Buddy AUTH 2026-09-24）
 
-Jarvis ROLE-SPLIT AUTH 2026-09-24（`docs/decisions/jarvis-role-split-auth-2026-09-24.md`、#146 で追加）。CBO GO LIVE：`Jarvis開発` id `be9e4e10-f7c6-4fc9-8b47-9b968ad60ca4`（[`bots/Jarvis開発.md`](./Jarvis開発.md)）。Soft Flag N CreateAgent。Soft Flag N invent New Bot `0cd03ca6`。SoftHOLD merge=PM。
+Jarvis ROLE-SPLIT AUTH 2026-09-24（`docs/decisions/jarvis-role-split-auth-2026-09-24.md`、[#142](https://github.com/maplefukku/grok-bot-ops/pull/142) で追加。この tip には未 land）。`Jarvis開発` id `be9e4e10-f7c6-4fc9-8b47-9b968ad60ca4`（[`bots/Jarvis開発.md`](./Jarvis開発.md)）は live の census にある。CBO GO LIVE の Cite は PM 判断待ち（[#142 のスレッド](https://github.com/maplefukku/grok-bot-ops/pull/142#discussion_r4088115507)）。Soft Flag N CreateAgent。Soft Flag N invent New Bot `0cd03ca6`。SoftHOLD merge=PM。
 
 | 名前 | id | 役割 | 回すまで動かない |
 |---|---|---|---|
