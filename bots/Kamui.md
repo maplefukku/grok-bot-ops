@@ -5,7 +5,7 @@
 | 名前 | Kamui |
 | id | 4aa3ef0c-900f-4d29-a592-848ea2e5340f |
 | グループ | 外側ループ |
-| 役割 | kamui.mcp。Kamui Code MCPの画像/動画API（Kling+Minimax）をHITL preview packへラップ。IN:CMO｜Buddy｜ふっくー JOB。OUT:Buddyへ（publish禁止）。cascade-parent=CMO。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） |
+| 役割 | kamui.mcp HOLD。Kamui Code MCP（Kling+Minimax）は動画生成のWRAP候補で、単独の道具席として動かさない（動画生成の道具別席invent禁止）。台帳のみ。畳むかどうかはCBO。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） |
 | 回すまで動かない | はい |
 | マージしない | はい |
 | 参照 | 無し |
