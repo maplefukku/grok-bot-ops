@@ -42,6 +42,6 @@ Jarvis Mini SoftACC 2026-09-24 07:16 JST Cite デバイスリーダー → Buddy
 AUTH parent: ROLE-SPLIT-AUTH.txt
 ```
 
-## CBO GO LIVE 2026-09-24
+## Jarvis開発 seat id 2026-09-24（SoftWAIT）
 
-CBO GO LIVE minted seat id `be9e4e10-f7c6-4fc9-8b47-9b968ad60ca4` for `Jarvis開発`; ledger ADD [`bots/Jarvis開発.md`](../../bots/Jarvis開発.md) on `ops/daily-2026-09-24`. Soft Flag N CreateAgent. Soft Flag N invent New Bot `0cd03ca6`.
+Seat id `be9e4e10-f7c6-4fc9-8b47-9b968ad60ca4` for `Jarvis開発`; ledger ADD [`bots/Jarvis開発.md`](../../bots/Jarvis開発.md) on `ops/daily-2026-09-24`. この節には CBO GO の Cite（ふっくー GO と JST 刻）が無い。上の CASCADE の「DESIGNED, not minted. CBO designs when ふっくー GO」を上書きしない。SoftWAIT: ふっくー GO の Cite が付くまで、この席を LIVE と扱わない。 Soft Flag N CreateAgent. Soft Flag N invent New Bot `0cd03ca6`.

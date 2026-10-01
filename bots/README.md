@@ -126,13 +126,13 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 | [`Knowhow収集`](./Knowhow収集.md) | collect-grokbot-knowhow を回し、`docs/knowhow/` だけに出典付きで書く。毎日1本の `ops/daily-YYYY-MM-DD` draft PR に積む。候補を Planner に送る。ADOPT と REJECT は自分では書かない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`検証メンテ`](./検証メンテ.md) | maintain-verification を回し、verify スキルと `products/` 台帳だけを対象にする。台帳が空なら対象なし。毎日1本の `ops/daily-YYYY-MM-DD` draft PR に積む。CAは /poteto-mode 必須。対象リポに pstack プラグイン必須。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`台帳更新`](./台帳更新.md) | ledger.grok-bot-ops。bots/ と routines/ を更新する。毎日のCA書き込みは grok-bot-ops-ledger-write スキルに従う（本体はコピーしない）。CA env は cloud。CAは /poteto-mode 必須。pstack プラグインは grok-bot-ops に必須。毎日の台帳が完了したら（PR積んだか変更なし）PMと編成評価へ同じ本文で EVAL-READY。フィールドは kind / date_jst / branch / pr / counts / hold。同一 date_jst は再送しない。構成の評価はしない。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
-| [`lookup-pdm`](./lookup-pdm.md) | temp.lookup。PdM agent id の一時lookup席。台帳・cascadeのid解決のみ。コードもマージもしない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`lookup-pdm`](./lookup-pdm.md) | temp.lookup HOLD。空殻席は作らない（CBO bake LOCK）ので台帳のみ。PdM の id 解決は PM 席の実体を指す。撤去はCBO。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`PR監視`](./PR監視.md) | pr.watch。open PRのLIVE facts（tipSHA thrLIVE checks mergeability）をPR→Merge戦略（merge-ok観測）へ渡す。reviewDecisionはFlag入力にしない。戦略invent禁止。merge禁止。cascade-parent=Buddy｜PM｜監視。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`UIデザイナー`](./UIデザイナー.md) | ui.design。既存OSS/現代UI（21st.dev FIRST）と最新libsを選び、プロダクト共通のUI language（tokens+allowed libs+1°）を抽象化する。画面の再発明禁止。cascade-parent=CPO｜Buddy｜PM。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`デバイスリーダー`](./デバイスリーダー.md) | device.lead。機器｜壁打ち｜穴 only。Soft Flag N product code Soft Flag N firmware Soft Flag N CA on Grok Bot box。cascade-parent=Buddy｜PM｜開発リーダー｜Jarvis開発（LIVE be9e4e10-f7c6-4fc9-8b47-9b968ad60ca4）。BOM/金型invent禁止。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`デバイスリーダー`](./デバイスリーダー.md) | device.lead。機器｜壁打ち｜穴 only。Soft Flag N product code Soft Flag N firmware Soft Flag N CA on Grok Bot box。cascade-parent=Buddy｜PM｜開発リーダー｜Jarvis開発（DESIGNED、SoftWAIT）。BOM/金型invent禁止。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`動画生成`](./動画生成.md) | video.gen。1°トピック/promptから短尺をHITL生成（OpenCreator/Seedance｜Kling｜Veo WRAP）。auto-publish禁止。出してHOLD。道具別席invent禁止。OUTはBuddy。cascade-parent=CMO｜SNSリーダー｜Buddy。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`動画編集`](./動画編集.md) | video.edit。既存フッテージ/生成物を短尺に切って組む（OpenCut/FFmpeg/Remotion/HyperFrames/video-use WRAP）。auto-publish禁止。道具別席invent禁止。OUTはBuddy。cascade-parent=CMO｜SNSリーダー｜Buddy。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`Kamui`](./Kamui.md) | kamui.mcp。Kamui Code MCPの画像/動画APIをHITL preview packへラップ。publish禁止。cascade-parent=CMO。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`Kamui`](./Kamui.md) | kamui.mcp HOLD。Kamui Code MCP（Kling+Minimax）は動画生成のWRAP候補で、単独の道具席として動かさない（動画生成の道具別席invent禁止）。台帳のみ。畳むかどうかはCBO。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`ブランディング`](./ブランディング.md) | brand.air。ブランド空気をBRAND packに固定し各制作席へ。HITL ACCEPT後のみ land。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`HOLD ブランディング重複`](./HOLD ブランディング重複.md) | brand.air HOLD。正席はブランディング（64876593）。live重複フォルダの台帳のみ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`ポジションメモリ監視`](./ポジションメモリ監視.md) | memory.position.watch。ONE JOBは各ポジションを2×/day調査し、不足したポジションHARDをそのBot description+profile/logへ dual-write（矛盾は新しい方）。AGENCY 47 9,17 * * *。fleet HARDは共有メモリ監視へ。Mem0もDiscord dripも使わない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
@@ -151,11 +151,11 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 
 ### LOCK: JARVIS ROLE-SPLIT（Buddy AUTH 2026-09-24）
 
-Jarvis ROLE-SPLIT AUTH 2026-09-24（[`docs/decisions/jarvis-role-split-auth-2026-09-24.md`](../docs/decisions/jarvis-role-split-auth-2026-09-24.md)）。CBO GO LIVE：`Jarvis開発` id `be9e4e10-f7c6-4fc9-8b47-9b968ad60ca4`（[`bots/Jarvis開発.md`](./Jarvis開発.md)）。Soft Flag N CreateAgent。Soft Flag N invent New Bot `0cd03ca6`。SoftHOLD merge=PM。
+Jarvis ROLE-SPLIT AUTH 2026-09-24（[`docs/decisions/jarvis-role-split-auth-2026-09-24.md`](../docs/decisions/jarvis-role-split-auth-2026-09-24.md)）。SoftWAIT（ふっくー GO の Cite 待ち）：`Jarvis開発` id `be9e4e10-f7c6-4fc9-8b47-9b968ad60ca4`（[`bots/Jarvis開発.md`](./Jarvis開発.md)）。Soft Flag N CreateAgent。Soft Flag N invent New Bot `0cd03ca6`。SoftHOLD merge=PM。
 
 | 名前 | id | 役割 | 回すまで動かない |
 |---|---|---|---|
-| [`Jarvis開発`](./Jarvis開発.md) | be9e4e10-f7c6-4fc9-8b47-9b968ad60ca4 | impl.via CA。ONE JOBはCAで実装+ADVクローズ（CA EXHAUST時のみ Mini Codex WRAP）。PRODUCT: Jarvis。REPO: https://github.com/maplefukku/jarvis 。cascade-parent=開発リーダー。Soft Flag N product code on Grok Bot box（Cursor CA only）。SoftHOLD merge=PM。invent=N。計画はPlanner。/poteto-modeとpstack必須。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`Jarvis開発`](./Jarvis開発.md) | be9e4e10-f7c6-4fc9-8b47-9b968ad60ca4 | impl.via CA。SoftWAIT（ふっくー GO の Cite 待ち。AUTH は DESIGNED, not minted）。ONE JOBはCAで実装+ADVクローズ。PRODUCT: Jarvis。REPO: https://github.com/maplefukku/jarvis 。cascade-parent=開発リーダー。Soft Flag N product code on Grok Bot box（Cursor CA only）。SoftHOLD merge=PM。invent=N。計画はPlanner。/poteto-modeとpstack必須。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`開発セッチャ`](./開発セッチャ.md) | a6e8c9cb-18a1-4fbe-aa7c-c98225e5e273 | product.spec。セッチャ（maplefukku/setcha）要件/概念/UI/セッちゃんを前進。SoftHOLD code。BUILD/clone/CA/implはふっくーGOまで禁止。OUTはBuddy HITL packs。cascade-parent=Buddy｜CPO｜工場長。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 
 ## キャラクター生産工場
