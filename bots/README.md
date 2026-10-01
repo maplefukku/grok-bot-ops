@@ -114,7 +114,7 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 | [`品質Drive`](./品質Drive.md) | monkey.ops。HOLD LOCK 2026-09-06。monkey cronは全部OFF（ハーネス未完成とSim残り）。再ONはPMとCTOのクリア後だけ。ONE JOBは weekday MonkeyTest Drive/E2E（zurunote-ios-mini）。ZuruNote/sauna-master/gakuse-ai。証拠はGitHub issue。プロダクトコードは編集しない。開発ボットはmonkeyしない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`Mini Codex`](./Mini_Codex.md) | mini.codex-cua。ONE JOBは fukku-mac-mini で ChatGPT.app Codex・CU ON。GUIはCodexが動かす。CLIはMini運用。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`ChatGPT Astra Pro`](./ChatGPT_Astra_Pro.md) | chatgpt.pro.advisor。行き詰まったときの相談。MODELは ChatGPT Pro（塞がれたら Astra）。HARD TABは既存 chatgpt.com タブ。ChatGPT感性とも note執筆リーダーとも別。独立ジョブは並列（直列待ちしない）。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`PR→Merge戦略`](./PR→Merge戦略.md) | merge.strategy。DevinのZuruNote22件マージ実行を証拠から抽出し全プロダクトへ再現してマージ数を増やす。DDD bounded contextで候補を分類し実行可能Merge PlanをPMと開発リーダーへFIRE・結果追跡。merge=PM・LIVE証拠のみ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`PR→Merge戦略`](./PR→Merge戦略.md) | pr.review-status。ONE JOBはmerge-ok factsだけ。緑かつCursor-bots完了かつLIVE thr=0。マージはしない。main向けはready。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`マージ実行`](./マージ実行.md) | merge.handoff。PR→Merge戦略のleftover-merge-ok packをPMへ渡す。mergeは押さない（人だけがmergeする。HOLD merge=PM）。証拠（repo#PR tipSHA）をBuddy+PM+戦略へ。cascade-parent=PM｜PR→Merge戦略｜Buddy。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 
 ## 外側ループ
