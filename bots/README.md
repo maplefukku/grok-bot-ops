@@ -132,7 +132,7 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 | [`デバイスリーダー`](./デバイスリーダー.md) | device.lead。機器｜壁打ち｜穴 only。Soft Flag N product code Soft Flag N firmware Soft Flag N CA on Grok Bot box。cascade-parent=Buddy｜PM｜開発リーダー｜Jarvis開発（LIVE be9e4e10-f7c6-4fc9-8b47-9b968ad60ca4）。BOM/金型invent禁止。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`動画生成`](./動画生成.md) | video.gen。1°トピック/promptから短尺をHITL生成（OpenCreator/Seedance｜Kling｜Veo WRAP）。auto-publish禁止。出してHOLD。道具別席invent禁止。OUTはBuddy。cascade-parent=CMO｜SNSリーダー｜Buddy。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`動画編集`](./動画編集.md) | video.edit。既存フッテージ/生成物を短尺に切って組む（OpenCut/FFmpeg/Remotion/HyperFrames/video-use WRAP）。auto-publish禁止。道具別席invent禁止。OUTはBuddy。cascade-parent=CMO｜SNSリーダー｜Buddy。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`ZNショート`](./ZNショート.md) | ZuruNote マーケ用ショートを Alibaba Wan 3.0 reference-to-video で作る。HITL shorts pack → CMO。auto-publish禁止。cascade-parent=CMO。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
+| [`ZNショート`](./ZNショート.md) | zn.shorts。ZuruNote マーケ用ショートを Alibaba Wan 3.0 reference-to-video で作る（既存ショートの顔/声差し替え・尺合わせ・必要なら彩り TTS で lip-sync）。汎用動画はしない。IN:CMO｜Buddy｜ふっくー JOB。OUT:HITL shorts pack → CMO（auto-publish禁止、Discord禁止）。cascade-parent=CMO。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`Kamui`](./Kamui.md) | kamui.mcp。Kamui Code MCPの画像/動画APIをHITL preview packへラップ。publish禁止。cascade-parent=CMO。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`ブランディング`](./ブランディング.md) | brand.air。ブランド空気をBRAND packに固定し各制作席へ。HITL ACCEPT後のみ land。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`HOLD ブランディング重複`](./HOLD ブランディング重複.md) | brand.air HOLD。正席はブランディング（64876593）。live重複フォルダの台帳のみ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
