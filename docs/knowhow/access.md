@@ -2,6 +2,12 @@
 
 加入プランと、使えるアプリ。
 
+## Tesla 車内 Grok Bot は当面 SuperGrok Heavy
+
+- 内容: Tesla 公式: 車内 Grok Bot は Currently available to SuperGrok Heavy subscribers, with more tiers to follow。
+- 出典: [x.com/Tesla/status/2102431173314273633](https://x.com/Tesla/status/2102431173314273633)（2026-09-22）
+- 確認: 未
+
 ## weekly limit 前に usage の使い方を直す（Ultra への安易なアップグレードを避ける）
 
 - 内容: Grok Bot の weekly limit で Cursor Ultra に上げる前に、公式 docs 由来の使い方ルールを直す。メーターは message 数ではなく agent steps と tokens。曖昧タスクは wander して枠を食う、という要点。

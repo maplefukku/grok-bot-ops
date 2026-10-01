@@ -38,6 +38,12 @@
 - 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-22..25）
 - 確認: 未
 
+## Grok 4.7 + GrokBot の 3-agent（PM / Designer / Developer）
+
+- 内容: 共有 brief から Project Manager がタスク分解、Designer が UI、Developer が実装、GrokBot が調整、という 3 ロール構成の報告。Planner 判断用候補のみ（新 Bot invent しない）。
+- 出典: [x.com/Brankotrcek/status/2102463454858940705](https://x.com/Brankotrcek/status/2102463454858940705)（2026-09-22）
+- 確認: 未
+
 ## ADOPT — named *-HOLD + enabled=false = intentional GAP
 
 - 内容: 名前付き `*-HOLD` かつ enabled=false は intentional GAP。stall leftover 一覧に載せない。monkey *-HOLD no OUT は stall ではない。

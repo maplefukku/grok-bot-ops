@@ -9,7 +9,7 @@
 | maintain routine | 検証メンテ・平日1回 |
 | automation パック | 無し |
 | intake の対象 | 無し |
-| 最終確認日 | 2026-09-21 |
+| 最終確認日 | 2026-09-23 |
 | 最終 outcome | changed |
 | 最終 PR | https://github.com/maplefukku/ZuruNote/pull/464 |
 
