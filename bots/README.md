@@ -135,7 +135,7 @@ Planner の REJECT 終端（WATCH 禁止、証拠不足+再浮上、dedup 先勝
 | [`ZNショート`](./ZNショート.md) | zn.shorts。ZuruNote マーケ用ショートを Alibaba Wan 3.0 reference-to-video で作る（既存ショートの顔/声差し替え・尺合わせ・必要なら彩り TTS で lip-sync）。汎用動画はしない。IN:CMO｜Buddy｜ふっくー JOB。OUT:HITL shorts pack → CMO（auto-publish禁止、Discord禁止）。cascade-parent=CMO。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`Kamui`](./Kamui.md) | kamui.mcp HOLD。Kamui Code MCP（Kling+Minimax）は動画生成のWRAP候補で、単独の道具席として動かさない（動画生成の道具別席invent禁止）。台帳のみ。畳むかどうかはCBO。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`ブランディング`](./ブランディング.md) | brand.air。ブランド空気をBRAND packに固定し各制作席へ。HITL ACCEPT後のみ land。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
-| [`HOLD ブランディング重複`](./HOLD ブランディング重複.md) | brand.air HOLD。正席はブランディング（64876593）。live重複フォルダの台帳のみ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
+| [`HOLD ブランディング重複`](<./HOLD ブランディング重複.md>) | brand.air HOLD。正席はブランディング（64876593）。live重複フォルダの台帳のみ。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
 | [`ポジションメモリ監視`](./ポジションメモリ監視.md) | memory.position.watch。ONE JOBは各ポジションを2×/day調査し、不足したポジションHARDをそのBot description+profile/logへ dual-write（矛盾は新しい方）。AGENCY 47 9,17 * * *。fleet HARDは共有メモリ監視へ。Mem0もDiscord dripも使わない。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`共有メモリ監視`](./共有メモリ監視.md) | memory.shared.watch。ONE JOBはfleet lessons/SoftACC HARDを user-shared へだけ bake（~2×/day）。AGENCY 32 9,17 * * 1-5。席ローカルは席メモリ監視。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | いいえ |
 | [`編成評価`](./編成評価.md) | fleet.review。SPEC https://github.com/maplefukku/grok-bot-ops/issues/11 。INは台帳更新のEVAL-READYまたはPM JOB。毎日フル評価（変更なしでも）。台帳は書かない。エージェントの作成削除はPMへ提案。開発はPM、マーケ分割はCMO。役割のwhy調査は /poteto-mode 必須。独立ジョブは並列。3美徳（ボットにやらせる / 会議せずPRかフラグ / 結果はオーナー） | はい |
