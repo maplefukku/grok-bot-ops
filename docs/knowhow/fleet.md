@@ -38,6 +38,12 @@
 - 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-22..25）
 - 確認: 未
 
+## Grok 4.7 + GrokBot の 3-agent（PM / Designer / Developer）
+
+- 内容: 共有 brief から Project Manager がタスク分解、Designer が UI、Developer が実装、GrokBot が調整、という 3 ロール構成の報告。Planner 判断用候補のみ（新 Bot invent しない）。
+- 出典: [x.com/Brankotrcek/status/2102463454858940705](https://x.com/Brankotrcek/status/2102463454858940705)（2026-09-22）
+- 確認: 未
+
 ## ADOPT — #127 Flag Y ONLY writeback landed in process + ci lock (jenny-lite 2026-09-12..09-18)
 
 - 内容: tip-sot behind0 は #128 で [`pr-body.md`](../process/pr-body.md) の PdM Flag Y ONLY 表（behind0/thr0/FULL CLEAN/APPROVED/ADV SUCCESS）に WRAP 済み。述語 pin は `test_flag_y_only_lock.py` → `ci.py` `flag-y-only-lock`。scanner・第二 Flag 定義は invent しない。HOLD merge=PM。GATE 観測（09-07..09-11）の behind 半分の writeback はここで close。

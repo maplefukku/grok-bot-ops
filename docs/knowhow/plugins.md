@@ -2,6 +2,12 @@
 
 プラグインの入手と自作。
 
+## Tesla 車内 Grok Bot + Home Assistant MCP
+
+- 内容: Tesla の最新 update で車内 Grok Bot が connectors 対応。Home Assistant MCP を追加して Meross 車庫ドア等を操作した報告。own-network / Route egress と組み合わせると localhost MCP 到達が改善する文脈あり。
+- 出典: [x.com/wesbos/status/2102884716223291438](https://x.com/wesbos/status/2102884716223291438)（2026-09-23）
+- 確認: 未
+
 ## ワンクリック plugin share deeplink
 
 - 内容: プラグインページで share / link アイコンから `grokbot://app/v1/plugin/add?id=…` 形式の deeplink を取得。X desktop クライアントで動作。

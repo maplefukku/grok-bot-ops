@@ -2,6 +2,12 @@
 
 加入プランと、使えるアプリ。
 
+## Tesla 車内 Grok Bot は当面 SuperGrok Heavy
+
+- 内容: Tesla 公式: 車内 Grok Bot は Currently available to SuperGrok Heavy subscribers, with more tiers to follow。
+- 出典: [x.com/Tesla/status/2102431173314273633](https://x.com/Tesla/status/2102431173314273633)（2026-09-22）
+- 確認: 未
+
 ## quota: Grok Bot 週枠と Cursor Cloud Agent
 
 - 内容: 通常の会話・routine・CUA・shell・MCP は Grok Bot 週枠。例外は Bot が起動した Cursor Cloud Agent のみ Cursor プラン側。
