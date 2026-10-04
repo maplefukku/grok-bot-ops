@@ -55,6 +55,13 @@ trend-log の写像は dry-run だけである。`append` しない。
 scripts/quiet-test.sh -- python3 scripts/intent_memory/trend_log.py --dry-run --path docs/decisions/trend-log.md
 ```
 
+ADV disposition の写像も dry-run だけである。draft は `source=bot` で `append` は IngestOff である。人が承認した行は `--tags adv product:<repo>` で読む。手順は [adv-disposition](../process/adv-disposition.md) である。
+
+```sh
+scripts/quiet-test.sh -- python3 scripts/intent_memory/disposition.py --dry-run --path <records.json>
+scripts/quiet-test.sh -- python3 scripts/intent_memory/read.py --tags adv product:sauna-master --fixture scripts/intent_memory/fixtures.json --reader cli
+```
+
 pairing の widen と live ingest は [#18](https://github.com/maplefukku/grok-bot-ops/issues/18) の ingest LOCK のあとである。
 
 ## Python
