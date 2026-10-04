@@ -31,7 +31,7 @@ LINK_RE = re.compile(r"^\[(?:[^\]]|\\])*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)$")
 SKILL_LINK_RE = re.compile(r"^\[((?:[^\]]|\\])*)\]\(sand-workflow:([^)\s]+)\)$")
 S_ROW_RE = re.compile(r"^S\d+$")
 WORKFLOW_ID_RE = re.compile(r"sand-workflow:([^)\s]+)")
-README_BOT_LINK_RE = re.compile(r"\]\(\./([^)]+\.md)\)")
+README_BOT_LINK_RE = re.compile(r"\]\(<?\./([^)<>]+\.md)>?\)")
 TOKEN_SPLIT = re.compile(r"\s+/\s+")
 # Pin the one live HITL row. A fifth group for every file would invent seats.
 HOLD_SEATS = frozenset({("アカウント設計.md", "最後の一針")})
