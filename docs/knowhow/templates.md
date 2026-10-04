@@ -2,6 +2,12 @@
 
 ボットの共有と、公開されているボットの例。
 
+## Hermes 多デバイス fleet テンプレ（x.ai/bot）
+
+- 内容: Hermes Agent 端末を @bot から 1 fleet として管理するテンプレ。
+- 出典: [x.com/PixelRainbowNFT/status/2099989005060186118](https://x.com/PixelRainbowNFT/status/2099989005060186118) · [x.ai/bot/rzq0UV2MmBsvVR1EspZE-](https://x.ai/bot/rzq0UV2MmBsvVR1EspZE-)（2026-09-15）
+- 確認: 未
+
 ## 公式: Sales Marketplace templates
 
 - 内容: Sales カテゴリに Outbound Prospecting / GTM Loop Closer / Sales Call Coach / Meeting Recap Deck / Pitch Deck Coach などが並ぶ。社内 sales Bot を templates として公開し、context・connectors・routines 付きで導入できる。

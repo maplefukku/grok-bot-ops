@@ -7,15 +7,16 @@ import re
 import sys
 import unittest
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 from intent_memory.trend_log import trend_log_errors
 
 ROOT = Path(__file__).resolve().parents[1]
 SKIP_DIRS = {".git", ".github"}
 FENCE_RE = re.compile(r"^```")
-# [text](url) or ![alt](url), optional title after the URL
-LINK_RE = re.compile(r"!?\[(?:[^\]]|\\])*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
+# [text](url), [text](<url>) or ![alt](url), optional title after the URL.
+# A bare url may contain spaces: GFM won't render it as a link, but its target is still checked.
+LINK_RE = re.compile(r"!?\[(?:[^\]]|\\])*\]\((<[^<>\n]*>|[^)\n\"]+?)(?:\s+\"[^\"]*\")?\)")
 HTTP_RE = re.compile(r"https?://[^\s)>\]]+")
 PLACEHOLDER = "リンク要補完"
 SKIP_KNOWHOW = {"readme.md", "_template.md"}
@@ -48,11 +49,13 @@ def check_relative_links() -> list[str]:
         text = strip_fences(path.read_text(encoding="utf-8"))
         for match in LINK_RE.finditer(text):
             raw = match.group(1).strip()
+            if raw.startswith("<") and raw.endswith(">"):
+                raw = raw[1:-1]
             if raw.startswith(
                 ("http://", "https://", "mailto:", "grokbot://", "sand-workflow:", "#")
             ):
                 continue
-            target = raw.split("#", 1)[0]
+            target = unquote(raw.split("#", 1)[0])
             if not target:
                 continue
             resolved = (path.parent / target).resolve()
@@ -258,6 +261,10 @@ def check_adv_closer() -> list[str]:
     return _run_unittest_module("test_adv_closer", "adv-closer")
 
 
+def check_adv_disposition_lock() -> list[str]:
+    return _run_unittest_module("test_adv_disposition_lock", "adv-disposition-lock")
+
+
 def check_shared_computer_lock() -> list[str]:
     return _run_unittest_module("test_shared_computer_lock", "shared-computer-lock")
 
@@ -424,6 +431,7 @@ def main() -> int:
         ("bots-description-max-length", check_bots_description_max_length),
         ("bots-description-max-length-lock", check_bots_description_max_length_lock),
         ("adv-closer", check_adv_closer),
+        ("adv-disposition-lock", check_adv_disposition_lock),
         ("shared-computer-lock", check_shared_computer_lock),
         ("completion-handoff", check_completion_handoff),
         ("anti-job-lock", check_anti_job_lock),

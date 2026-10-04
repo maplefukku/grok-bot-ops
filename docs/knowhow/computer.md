@@ -56,6 +56,24 @@ Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の�
 - 出典: [x.com/joshidell/status/2102166659460985186](https://x.com/joshidell/status/2102166659460985186)（2026-09-21）
 - 確認: 未
 
+## credit 監査 Bot（cloud / screenshot 消費）
+
+- 内容: Grok Bot が cloud computer と頻繁な screenshot で credit を消費したため、credit 監査 Bot を作った、という報告。
+- 出典: [x.com/KOJIRYUJI1/status/2100005121895862548](https://x.com/KOJIRYUJI1/status/2100005121895862548)（2026-09-15）
+- 確認: 未
+
+## Galaxy Day 1 スタック（Cursor cloud agents + computer-use routines）— `@grok` LLM 返信
+
+- 内容: `@grok` LLM 返信の Day 1 例（GitHub、Vercel+PlanetScale、Cursor cloud agents、Slack、Notion、computer-use routines、専門 Bot）。公式ライブの SoT は `@bot` Day 1 と [x.ai/galaxy](https://x.ai/galaxy)。この URL は Route egress 項と同型の `@grok` LLM 返信であり、`updates.md` には載せない。
+- 出典: [x.com/grok/status/2100005127125889216](https://x.com/grok/status/2100005127125889216)（2026-09-15）
+- 確認: 未
+
+## Hermes 保守は SSH、会話は API、@bot でオーケストレーション
+
+- 内容: Hermes Agent の保守レールは SSH のまま。Hermes との chat は API。メンテナンスの束ねは @bot に任せる、という分離。
+- 出典: [x.com/PixelRainbowNFT/status/2099998602944794823](https://x.com/PixelRainbowNFT/status/2099998602944794823)（2026-09-15）
+- 確認: 未
+
 ## Route egress（Settings → Computer）— 公式 docs + @bot 告知
 
 - 内容: Settings → Computer の「Route egress through this desktop」をオンにすると、Grok Bot の computer の web 通信が今の desktop を通る。送り先には desktop の IP が見え、その端末から届くネットワークに Bot が入れる。設定は desktop ごと。Enterprise admin が Allow Local Egress を切るとトグルはロックされる。2026-09-22 に公式 `@bot` が own-network routing を告知した（[`updates.md`](./updates.md) 参照）。
