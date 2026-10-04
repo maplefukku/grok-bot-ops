@@ -119,3 +119,9 @@
 - 決定: REJECT
 - 出典: https://github.com/maplefukku/grok-bot-ops/issues/16 （2026-09-06）
 - 確認: 未
+
+## Cursor Rollouts / Security Review bots
+
+- 内容: Teams/Enterprise の automations として Rollouts（デプロイ後の変更ヘルス監視、回帰時は revert PR や cloud agent へ引き継ぎ可・自動 merge/rollback はしない）と Security Review（exploitable bug だけを報告。style と quality の担当は Bugbot に残る）が使える。公式の呼び方は Cursor bots。Security Review は Draft PR を skip し、理由付きで dismiss した指摘はその PR で再報告しない。merge-ok の Cursor bots 行では skip と dismiss は done ではない（[`docs/process/README.md`](../process/README.md)）。
+- 出典: [cursor.com/changelog/rollouts-and-security-reviewer](https://cursor.com/changelog/rollouts-and-security-reviewer)（2026-09-23）
+- 確認: 未

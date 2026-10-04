@@ -151,3 +151,9 @@ Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の�
 - 内容: Bot を tailnet に繋ぐ。キーは reusable と ephemeral にする。
 - 出典: [x.com/hopedj/status/2093724286309564619](https://x.com/hopedj/status/2093724286309564619)（2026-08-29）
 - 確認: 未
+
+## Cursor Project + Team Bot（公式事例）
+
+- 内容: SpaceXAI の Engineering Team Bot は Slack / Notion / Linear / Hex / Datadog / Cursor に接続し、skills で shipping process を教え、Cursor Project 経由で多数の Cloud Agents を協調させて修正 PR を返す、と公式が説明。
+- 出典: [x.ai/news/team-bots](https://x.ai/news/team-bots)（2026-09-28）
+- 確認: 未
