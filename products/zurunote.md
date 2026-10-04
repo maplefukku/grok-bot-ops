@@ -9,7 +9,7 @@
 | maintain routine | 検証メンテ・平日1回 |
 | automation パック | 無し |
 | intake の対象 | 無し |
-| 最終確認日 | 2026-09-30 |
+| 最終確認日 | 2026-10-04 |
 | 最終 outcome | blocked |
 | 最終 PR | 無し |
 
@@ -25,3 +25,4 @@
 - 開発用 DB とテスト用 DB はどちらもホストの 5433 を使うので同時には動かない
 - 検証スキル PR: https://github.com/maplefukku/ZuruNote/pull/221
 - 2026-09-30 maintain: CA bc-119e4de1 tip 8d0e1237 は blocked。SoftHOLD ZuruNote #464 #487 #499 #503（undraft しない、merge しない）
+- 2026-10-05 maintain blocked: Cursor cloud-agent included usage exhausted. This is not a verify pass.
