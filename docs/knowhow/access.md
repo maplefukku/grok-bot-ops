@@ -2,6 +2,12 @@
 
 加入プランと、使えるアプリ。
 
+## quota: Grok Bot 週枠と Cursor Cloud Agent
+
+- 内容: 通常の会話・routine・CUA・shell・MCP は Grok Bot 週枠。例外は Bot が起動した Cursor Cloud Agent のみ Cursor プラン側。
+- 出典: [forum.cursor.com/t/can-cursor-clarify-exactly-which-grok-bot-usage-counts-against-the-weekly-pool-vs-cursor-models-other-models/170951](https://forum.cursor.com/t/can-cursor-clarify-exactly-which-grok-bot-usage-counts-against-the-weekly-pool-vs-cursor-models-other-models/170951)（2026-09-10） · [x.com/ChingHanHo/status/2100395137469997112](https://x.com/ChingHanHo/status/2100395137469997112)（2026-09-17）
+- 確認: 未
+
 ## Grok Heavy の weekly limit と Grok Bot usage は別
 
 - 内容: Grok Heavy の weekly limit を使い切っても Grok Bot usage は別枠。Heavy 枯渇後も Bot SSH で続けた、という報告。
