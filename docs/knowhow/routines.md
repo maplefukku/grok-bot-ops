@@ -2,6 +2,17 @@
 
 Grok Bot の routine（定期実行・イベント・webhook）の公式の使い方。
 
+## away-mode: Slack 監視とスマホ承認
+
+- 内容: Slack 監視と unblock、難しいゲートはスマホ承認、レビュー基準を skill/Cloud Agent に載せて人間は必要時だけ。
+- 出典: [x.com/ChrisSimpson/status/2099958339954241688](https://x.com/ChrisSimpson/status/2099958339954241688)（2026-09-15）
+- 確認: 未
+
+## すべてを routine にしない
+
+- 内容: 判断が重い仕事やゴールが動く仕事は manual assign のままにし、すべての job を routine にしない。
+- 出典: [x.com/Michael_Fenech_/status/2100190209937715408](https://x.com/Michael_Fenech_/status/2100190209937715408)（2026-09-16）
+- 確認: 未
 
 ## 毎日の AI newsletter を Slack に出荷
 
