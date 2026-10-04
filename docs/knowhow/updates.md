@@ -4,6 +4,7 @@ Grok Bot のプロダクトアップデートの時系列ログ。新しいも�
 
 | 時期 | 内容 | 出典 | 確認 |
 |---|---|---|---|
+| 2026-09-26 | Grok Bot が Finance integration を追加。bank / card / investment アカウントをリンクし、支出・投資の管理を Bot に手伝わせられる。接続は Plaid 経由で read-only。Grok Bot はログイン情報を見ず、いつでも unlink できる。marketplace で「Finance」を検索して始める | [x.com/bot/status/2103936247995752705](https://x.com/bot/status/2103936247995752705) · [x.com/bot/status/2103936249832903074](https://x.com/bot/status/2103936249832903074) | 未 |
 | 2026-09-23 | Cursor が agent harness の変更で token コストを 7% 削減（品質低下なし）。tighter prompts / selective tool loading / better caching / compressed file reads | [x.com/cursor_ai/status/2102786814633464159](https://x.com/cursor_ai/status/2102786814633464159) · [cursor.com/blog/improved-token-efficiency](https://cursor.com/blog/improved-token-efficiency) | 未 |
 | 2026-09-22 | Tesla 車内で Grok Bot が利用可能。Connectors で inbox / calendar / files・chat・tasks をハンズフリー操作。当面 SuperGrok Heavy、以降の tier 拡大予定 | [x.com/Tesla/status/2102430656349544590](https://x.com/Tesla/status/2102430656349544590) · [x.com/Tesla/status/2102431173314273633](https://x.com/Tesla/status/2102431173314273633) · [x.com/elonmusk/status/2102439262507725294](https://x.com/elonmusk/status/2102439262507725294) | 未 |
 | 2026-09-22 | Grok Bot の UI を整理。Bots 操作のインターフェースを改善 | [x.com/bot/status/2102532697960956074](https://x.com/bot/status/2102532697960956074) | 未 |
