@@ -27,3 +27,4 @@
 - 2026-09-30 maintain: CA bc-119e4de1 tip 8d0e1237 は blocked。SoftHOLD ZuruNote #464 #487 #499 #503（undraft しない、merge しない）
 - 2026-10-01 maintain: CA bc-eb198707 tip c607fac は changed。SoftHOLD ZuruNote #464 #487 #499 #503（undraft しない、merge しない）
 - 2026-10-05 maintain blocked: Cursor cloud-agent included usage exhausted. This is not a verify pass.
+- 2026-10-09 maintain blocked（Cursor cloud-agent included usage exhausted、zurunote-ios-mini で launch 拒否、verify pass ではない）
