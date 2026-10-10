@@ -2,6 +2,12 @@
 
 プラグインの入手と自作。
 
+## Shopify
+
+- 内容: Shopify を接続すると、注文の確認、在庫の追跡、商品掲載の更新を Bot に頼める。
+- 出典: [x.com/bot/status/2108228871938359347](https://x.com/bot/status/2108228871938359347)（2026-10-08）
+- 確認: 未
+
 ## Tesla 車内 Grok Bot + Home Assistant MCP
 
 - 内容: Tesla の最新 update で車内 Grok Bot が connectors 対応。Home Assistant MCP を追加して Meross 車庫ドア等を操作した報告。own-network / Route egress と組み合わせると localhost MCP 到達が改善する文脈あり。
@@ -59,7 +65,9 @@
 ## X plugin / X connector
 
 - 内容: X plugin / X connector で投稿検索・タイムライン・トレンド・ブックマークができる。有料 Grok Bot ユーザーには開始用の無料 X API credits が付く。
-- 出典: [Grok Bot now works with X](https://x.ai/news/grok-bot-and-x)（2026-08-29）
+- 内容: 2026-10-07 の公式投稿は、Grok Bot が X を検索・読み取り・監視できる、とだけ書いている。ニュースページは、X アカウントを接続すると開発者アカウントが無い場合は作成される、と書いている。X connector でサインインし、投稿の検索、タイムラインの読み取り、メンションの確認、X で起きていることのまとめを頼める。同じニュースページは、X plugin で投稿検索・タイムライン・トレンド・ブックマーク、とも書いている。
+- 内容: 2026-10-10 方針。X API プラグインは廃止。X の読み取りは Grok Bot 標準の x ツールを使う。
+- 出典: [Grok Bot now works with X](https://x.ai/news/grok-bot-and-x)（2026-08-29、ページ確認 2026-10-10） · [x.com/bot/status/2107949161878606089](https://x.com/bot/status/2107949161878606089)（2026-10-07）
 - 確認: 未
 
 ## Settings → Plugins
