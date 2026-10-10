@@ -3,6 +3,47 @@
 フリート停滞、merge GATE、jenny-lite の ADOPT と REJECT の置き場。
 対象窓は fleet stalls 2026-09-01..09-05（sauna#203 loop、ZN Swift cluster）、jenny-lite 2026-09-07..09-11、jenny-lite 2026-09-12..09-18（#127 merge bottleneck / daily SoftACC）、および jenny-lite 2026-09-22..09-25。出典は各エントリの URL。
 
+## Jenny-lite stall-adopt 2026-10-05〜10-09 (監視 93e56b37)
+
+- 出典: 席の台帳 [bots/監視.md](https://github.com/maplefukku/grok-bot-ops/blob/main/bots/監視.md)（id 93e56b37）。各項の観測出典の表記は「監視 jenny-lite 2026-10-09」。
+
+### 観測 (jenny-lite 2026-10-05..10-09)
+
+- 内容: (1) 箱 Shell 固着 7回以上（10/5 09:45・17:51・19:46・21:45、10/9 16:06・17:10・17:56 JST）。840s timeout または 'still starting up'。1回あたり約14分を失い、Mode D と agency の確認ができなかった。出典: 監視 jenny-lite 2026-10-09
+- 内容: (2) sauna#449 は tip 6ba6dbdb で CLEAN・thrLIVE 0 だが、APPROVED は旧 tip c2732f13 のみ。07:55 に PM と開発リーダーへ1回送ったあと、8回以上のスイープで「再送しない」を続け、約12時間だれも動いていない。出典: 監視 jenny-lite 2026-10-09
+- 内容: (3) 10/9 14:00 JST 以降マージ 0 件。5回以上のスイープが「差分なし」だけで終わった。出典: 監視 jenny-lite 2026-10-09
+- 内容: (4) 優先度低: 工場 Mode A BROKEN と tips 発火漏れが、08:49 JST の JOB 1回のあと 10/8〜9 のスイープで保留のまま運ばれた。出典: 監視 jenny-lite 2026-10-09
+- 確認: 未（出典: 監視 jenny-lite 2026-10-09）
+
+### ADOPT B — 承認が古い tip にあるときの「再送しない」は昼間4時間まで (jenny-lite 2026-10-05..10-09)
+
+- 内容: APPROVED が旧 tip にしかなく、新 tip が CLEAN・thrLIVE 0 のとき、「再送しない」で静かにしてよいのは昼間4時間まで。出典: 監視 jenny-lite 2026-10-09
+- 内容: 4時間を超えたら PdM（2f5b9c0d）に1回だけ、PR・tip・だれが再承認するかを伝える。そのあとはまた静かにする（毎スイープ再送しない）。出典: 監視 jenny-lite 2026-10-09
+- 決定: ADOPT（出典: 監視 jenny-lite 2026-10-09）
+- 出典: 監視 jenny-lite 2026-10-09（sauna#449 tip 6ba6dbdb / 旧 APPROVED c2732f13）
+- 確認: 未（出典: 監視 jenny-lite 2026-10-09）
+
+### ADOPT C — マージ差分なし 3回連続 + 詰まり判明なら PdM に一覧を1回 (jenny-lite 2026-10-05..10-09)
+
+- 内容: 昼間スイープで3回以上続けてマージ差分がなく、かつ各 open PR の詰まりが1つずつわかっているときは、PdM に PR・詰まり・担当の短い一覧を1回送る。出典: 監視 jenny-lite 2026-10-09
+- 内容: 「差分なし」を書き続けない。9/11 の ADOPT C と「ADOPT — overnight babysit CA count ≠ lane moving」（idle-with-leftover）の延長。出典: 監視 jenny-lite 2026-10-09
+- 決定: ADOPT（出典: 監視 jenny-lite 2026-10-09）
+- 出典: 監視 jenny-lite 2026-10-09
+- 確認: 未（出典: 監視 jenny-lite 2026-10-09）
+
+### 記録のみ — A: 箱 Shell プリチェック（スキル化は PM 経由） (jenny-lite 2026-10-05..10-09)
+
+- 内容: fleet-stall-sweep / ci-health-sweep で、長い走査の前に60秒以下の箱 Shell で箱を確かめる。固まっていたら GitHub コネクタと RecallMemory に切り替え、箱を使う項目は stall ではなく「UNSCORED (box)」と書く。出典: 監視 jenny-lite 2026-10-09
+- 内容: 1日3回以上なら箱の不調として debugging-the-box を1回だけ案内し、再起動はしない。出典: 監視 jenny-lite 2026-10-09
+- 決定: 記録のみ。スキル化は PM 経由でスキル作成へ。Knowhow は skill を書かない。出典: 監視 jenny-lite 2026-10-09
+- 確認: 未（出典: 監視 jenny-lite 2026-10-09）
+
+### REJECT — 新 bot / 自動マージ / monkey 変更 / 箱不調の stall 再起動 / #449 毎回再送 (jenny-lite 2026-10-05..10-09)
+
+- 内容: 新しい bot や CreateAgent はしない。自動マージや再承認の強制はしない。monkey は変えない。箱の不調を stall として再起動しない。#449 を毎回再送しない。出典: 監視 jenny-lite 2026-10-09
+- 決定: REJECT（出典: 監視 jenny-lite 2026-10-09）
+- 確認: 未（出典: 監視 jenny-lite 2026-10-09）
+
 ## REJECT — Mode A factory の age_d>3 escalate (jenny-lite 2026-09-22..09-25)
 
 - 内容: 最初の rearm JOB のあと age_d>3 で Buddy|CBO|ルーチン作成へ escalate する案。Mode A の定義と閾値（lastRun stale>1d）は issue 136 の表が正本で、ここで閾値 age_d>3 を足さない。再 ADOPT しない。
