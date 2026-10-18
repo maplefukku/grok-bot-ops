@@ -2,6 +2,12 @@
 
 加入プランと、使えるアプリ。
 
+## The X Subscription
+
+- 内容: 発表ページの月額は Free $0、Plus $8/month、Premium $30/month（4x Plus。以前は SuperGrok と Cursor Pro と X Premium+ を合わせて $90/month）、Super $100/month（15x Plus）、Ultra $200/month（50x Plus）。pricing は allowance が weekly に更新され、Grok の中では Chat、Imagine、Voice、Bot が同じ pool。Grok API はその pool から引かない、と models-and-pricing の FAQ。@cursor_ai は、有料プランが Cursor、Grok Build、他の Grok 製品で 1 つの usage pool を共有し、同等の Cursor プランと比べ Grok モデルの coding usage が twice で、Premium、Super、Ultra に Grok Bot が含まれると書いている。pricing の Premium 行にも Grok Bot がある。third-party models は Premium 以上で API list price。使った分だけ払い、spending caps を置ける。@cursor_ai は、新プランでは Grok の usage を増やすため、Cursor の third-party models が API pricing に移る、と書いている。Team は Premium、Super、Ultra を individual と同じ per-seat 価格で、古い Cursor Teams より per seat が安く coding usage は 3x。SSO、admin controls、consolidated billing、usage analytics、SOC 2。Enterprise は 1 dashboard と、Grok と Cursor をまたぐ 1 usage pool。既存の SuperGrok、Cursor、X Premium は現行の plan、price、features のまま保てる。切替の limited-time offers は billing settings。
+- 出典: [Introducing The X Subscription](https://x.ai/blog/x-subscription) · [pricing](https://x.ai/pricing) · [models and pricing](https://cursor.com/docs/models-and-pricing) · [x.com/SpaceXSI/status/2109783335296008414](https://x.com/SpaceXSI/status/2109783335296008414) · [x.com/cursor_ai/status/2109783879490191502](https://x.com/cursor_ai/status/2109783879490191502)（2026-10-12）
+- 確認: 未
+
 ## Tesla 車内 Grok Bot は当面 SuperGrok Heavy
 
 - 内容: Tesla 公式: 車内 Grok Bot は Currently available to SuperGrok Heavy subscribers, with more tiers to follow。

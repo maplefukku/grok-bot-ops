@@ -2,6 +2,12 @@
 
 Grok Bot の routine（定期実行・イベント・webhook）の公式の使い方。
 
+## email の plus aliases だけで routine を走らせる
+
+- 内容: @bot は、plus aliases に対応したので、あるアドレス宛のメールだけで routine を走らせられる、と書いている。引用された @SamSokolin は、dedicated aliases で送受信でき、特定 alias 宛のメールだけで発火する routine を組める、と書いている。どちらの投稿も alias の字面は書いていない。help は plus alias に触れておらず、You can have one address、Routines can't filter by subject、と書く。送信は毎回、全文の draft を出して Send を押すまで出ない。routine も含む。新着メールだけでは chat も Bot の起床も起きず、作った routine 経由でだけ動く。routine は差出人のアドレスかドメインでは絞れ、subject では絞れない。
+- 出典: [x.com/bot/status/2111184278377857410](https://x.com/bot/status/2111184278377857410)（2026-10-16） · [x.com/SamSokolin/status/2110496237241667621](https://x.com/SamSokolin/status/2110496237241667621)（2026-10-14） · [Give your Bot an email address](https://cursor.com/help/grok-bot/agent-email)
+- 確認: 未
+
 ## away-mode: Slack 監視とスマホ承認
 
 - 内容: Slack 監視と unblock、難しいゲートはスマホ承認、レビュー基準を skill/Cloud Agent に載せて人間は必要時だけ。

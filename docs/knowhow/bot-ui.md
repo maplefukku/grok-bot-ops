@@ -2,6 +2,12 @@
 
 ボットを起こす専用 UI。
 
+## Grok Voice 3.0（Bot の voice mode）
+
+- 内容: 公式ニュースは、Grok Voice 3.0 が Grok Bot の voice mode を動かすと書く。Voice Agent API は `wss://api.x.ai/v1/realtime`。`grok-voice-latest` は `grok-voice-3.0` の alias で、その alias の session はすでに 3.0。`grok-voice-2.0` は deprecated で、pin しているなら `model` を `grok-voice-3.0` にする。endpoint、session parameters、events、価格は 2.0 と同じ。default の `reasoning.effort` は `"high"`。`"none"` で reasoning を切る。移行時は system prompt を短くし、前モデルの workaround 用の指示を外す、と docs。
+- 出典: [Introducing Grok Voice 3.0](https://x.ai/news/grok-voice-3) · [Speech to Speech](https://docs.x.ai/developers/model-capabilities/audio/speech-to-speech) · [x.com/SpaceXSI/status/2110416580899168305](https://x.com/SpaceXSI/status/2110416580899168305)（2026-10-14）
+- 確認: 未
+
 ## Voice（話す / voice notes）
 
 - 内容: Bot の voice 会話と voice notes の公式告知。詳細は [`updates.md`](./updates.md) の 2026-09-17 / 2026-09-18 行。
