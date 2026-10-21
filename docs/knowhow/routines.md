@@ -85,3 +85,15 @@ Grok Bot の routine（定期実行・イベント・webhook）の公式の使�
 - 内容: routine 1 本につき専用ボット 1 体。原稿は [`routines/`](../../routines/README.md) を正本にし、貼り付け先を実体とする。出力には毎回処理件数を含めさせ、コスト異常に気づけるようにする。
 - 出典: 上項（担当ボットに付ける）を、この司令室の規約にしたもの。[Skills and routines](https://docs.x.ai/grok-bot/skills-routines-and-automations)
 - 確認: 済（このリポジトリの規約）
+
+## changelog v0.71.2 の tag 付きアドレスと routine
+
+- 内容: changelog v0.71.2 は、タグ付きアドレス（例 name+shop@）から送れ、その tag の routine はそのメールだけに走る、と書く。上の 2026-10-16 の投稿は alias の字面を書いていない。routine がサイトへの sign-in を要するときは、静かに止まらず、その段でチャットに聞く。Disable drafts を選んだ Bot は、自分のアドレスからの email を draft card なしですぐ送る。
+- 出典: [changelog v0.71.2](https://x.ai/changelog/bot)（2026-10-21 確認）
+- 確認: 未
+
+## IncidentWatch / IncidentSweep を routine に転用するときの型
+
+- 内容: 記事の型は 2 つの Bot。IncidentWatch は 5 分ごとに直前 15 分を見る。人が incident かを決め、確認後に公開の status page へ出す。IncidentSweep は、考える対象、除外、送る文面を聞き、自信が無い一致は外し、承認前に batch と含めるチケットと文面を見せる。小さな batch で送り、承認後にチケットを足さず、失敗したら止まって報告する。
+- 出典: [Give Bots jobs, not tasks](https://x.ai/news/incident-sweep)（2026-10-21 確認）
+- 確認: 未

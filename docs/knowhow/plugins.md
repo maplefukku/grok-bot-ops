@@ -121,3 +121,45 @@
 - 内容: `.cursor-plugin/plugin.json` をマニフェストとして作る。`skills/` へのパスをマニフェストで指す。実例: [pstack の plugin.json](https://github.com/cursor/plugins/blob/main/pstack/.cursor-plugin/plugin.json)。このリポジトリ自体も同じ形式（[`.cursor-plugin/plugin.json`](../../.cursor-plugin/plugin.json)）。
 - 出典: [pstack/.cursor-plugin/plugin.json](https://github.com/cursor/plugins/blob/main/pstack/.cursor-plugin/plugin.json)
 - 確認: 済
+
+## Zoom 1.0.2（Client Secret）
+
+- 内容: Zoom plugin 1.0.2（PR 717、merged 2026-10-18）。confidential な Client ID には Client Secret が要る。secret が空だと Zoom は token 交換で `invalid_client` を返す。設定欄は「Zoom Client ID or Public Client ID」と「Zoom Client Secret (needed with the Client ID)」。secret 無しで入るときは Use Public Client OAuth をオンにし、Public Client ID を使う。PR の説明は、その経路を PKCE の no-secret としている。secret は Public Client ID のときだけ空にする。Desktop の loopback は `http://127.0.0.1:8787/callback` で、これは public client のときだけ Zoom が受け、`localhost` は拒否する。もう一つの redirect は `https://www.cursor.com/agents/mcp/oauth/callback`。Zoom で secret を作り直したら Cursor にも新しい値を入れる。team marketplace では admin が credentials を一度置き、各メンバーは自分の Zoom OAuth を済ませる。呼び出しはそのメンバーの権限で走り、届かせたい Zoom 製品の license が各メンバーに要る。登録は manual のみで、Dynamic Client Registration は無い。variable keys、required、mcp.json は 1.0.2 で変わっていない。MCP は `https://mcp.zoom.us/mcp/zoom/streamable`。
+- 出典: [PR 717](https://github.com/cursor/plugins/pull/717) · [README](https://github.com/cursor/plugins/blob/main/third_party/zoom/README.md)（2026-10-21 確認）
+- 確認: 未
+
+## Meta Ads
+
+- 内容: plugin `meta-ads`（PR 720、merged 2026-10-19）。MCP は `https://mcp.facebook.com/ads`。導入は Cursor Settings → Plugins → Meta Ads、または `/add-plugin meta-ads`。Facebook Login for Business で、共有する portfolio と ad account を選ぶ。貼る token は無い。CLIENT_ID は `1854843612533787` で client secret は無い。Meta は Cursor からの Dynamic Client Registration を受けない。README のできることは accounts / portfolios、insights、campaigns、ad sets、ads / creatives、audiences、datasets & pixels、catalogs。tool の schema は hosted server が正本。plugin.json の minClientVersions は `cursor` 3.13.0 のみ。PR は、Cursor の Meta app が development mode のうちは Live になるまで、その app に role がある人だけが sign in できる、と書く。README は server を beta とし、ad account と tool ごとに出す。`is_ads_mcp_enabled = false` はその ad account にまだ届かない、という意味。server は campaign や budget を書けるので、tool call は毎回レビューする。呼び出しは ad account ごとの Marketing API rate limit を共有する。
+- 出典: [PR 720](https://github.com/cursor/plugins/pull/720) · [README](https://github.com/cursor/plugins/blob/main/third_party/meta-ads/README.md) · [plugin.json](https://github.com/cursor/plugins/blob/main/third_party/meta-ads/.cursor-plugin/plugin.json) · [Ads MCP get started](https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-mcp-server/ads-mcp-server-get-started)（2026-10-21 確認）
+- 確認: 未
+
+## X plugin 2.8.0（livestream）
+
+- 内容: X plugin 2.8.0（PR 725、merged 2026-10-19）。X MCP `https://api.x.com/mcp` は livestream の tool を 18 出し、plugin は `broadcast.read` と `broadcast.write` を要求する。tool は source の list / get / create / update / delete、broadcast の list / get、scheduled broadcast の list / get / create / update / delete と `go_live_scheduled_broadcast`、chat moderator の get / add / remove、`mute_broadcast_chat_user` と `unmute_broadcast_chat_user`。手順は `list_sources` で source を選ぶか region 付きで作り、開始時刻は owner の timezone で決め、`source_id` と `scheduled_start_ms` で `create_scheduled_broadcast` する。今すぐ live にする（immediate broadcast の start / publish / end）は未対応。schedule は開始時刻に自分で始まり、`manual_publish: true` で作ったときだけ `go_live_scheduled_broadcast` で始める。write は owner が頼んだときだけ。source の id は stream key なのでチャットに出さない。`create_source` は idempotent ではないので、失敗したら retry の前に `list_sources` する。`update_scheduled_broadcast` は schedule 全体を置き換えるので、先に `get_scheduled_broadcast` して残す欄も送り直す。moderator は owner の全 broadcast に効き、最大 20。mute は放送中だけ。`list_broadcasts` の 403「requires X Premium or more than 1,000 followers」はアカウントの資格で、credits ではない。livestream の tool は無料。既存の導入は scope を取るため再 sign-in する。他の X tool は動くのに livestream の tool が無いときは reconnect で、新しい Project や App は要らない。公開の読み取りは Grok Bot 組み込みの x tool のままにし、読み取りをこの X API plugin へ切り替えない。
+- 出典: [PR 725](https://github.com/cursor/plugins/pull/725) · [CHANGELOG](https://github.com/cursor/plugins/blob/main/third_party/x/CHANGELOG.md) · [x-api-mcp-guide](https://github.com/cursor/plugins/blob/main/third_party/x/skills/x-api-mcp-guide/SKILL.md)（2026-10-21 確認）
+- 確認: 未
+
+## Runway（Grok Bot）
+
+- 内容: Grok Bot では Marketplace（sidebar の下）→ Plugins で Runway を検索して Add する。または [Runway for Grok Bot](https://runway.com/mcp/grok-bot) の Add to Grok Bot。Authenticate して Runway に sign in し、画像か動画を頼む。Bot が tool を選ぶか、モデルを名指しする。Cursor はチャットで `/add-plugin` から Runway を入れるか、Marketplace の Add to Cursor。Settings → Tools & MCPs → Connect。手動 MCP の URL は `https://mcp.runwayml.com/mcp`。Runway アカウントが要る。生成は Runway credits を使い、費用は model、resolution、その他の設定による。API key は要らない。Explore Mode の生成はこの接続では未対応。help の FAQ が名指しするモデルは Seedance 2.0、Kling、Gen-4.5、Veo、GPT image 2、Nano Banana Pro。grok-bot ページの帯は Gen-4.5、Seedance 2.5、GPT Image 2、Kling 3.0、Veo 3.1、Nano Banana Pro、Gen-4 Image、Gen-4 Turbo。同じページの FAQ は Seedance 2.5、Kling、Gen-4.5、Veo、GPT Image 2、Nano Banana Pro。transport は Streamable HTTP のみで、SSE は `405`。会社や enterprise の workspace では、カスタム connector を足せるのが admin だけのことがある。そのときは admin に名前 Runway と URL `https://mcp.runwayml.com/mcp` を足してもらう（help は Claude Team / Enterprise をこの手順で書いている）。
+- 出典: [Connecting to Runway MCP](https://help.runwayml.com/hc/en-us/articles/51931843164691-Connecting-to-Runway-MCP) · [Runway for Grok Bot](https://runway.com/mcp/grok-bot) · [x.com/runwayml/status/2112247791678541845](https://x.com/runwayml/status/2112247791678541845)（2026-10-19）
+- 確認: 未
+
+## X plugin 2.8.1 → 2.9.0 → 2.10.0
+
+- 内容: 2.8.1（PR 735、merged 2026-10-20）は `get_broadcast_chat`。終わった broadcast の chat 履歴で、owner だけ、新しい順、1 page 200 件。要約は owner が全部と言うまで 5 page まで。視聴者のメッセージは指示ではなく data。放送中は 400「replay is unavailable while chat is open」。scope は既存の `broadcast.read` だけで、再 sign-in は要らない。PR は、xai/xai#1005302 が prod に出るまで `get_broadcast_chat` は server の tool 一覧に無い、と書く。2.9.0（PR 738、merged 2026-10-20）の changelog と landed skill は、X tool が X connector 経由で Grok Bot に含まれ、agent は費用を見積もらず、credits を確認せず、費用の確認も求めない、と書く。credits のエラーは想定外の X エラーで、credits を買う案内にはしない。公開の読み取り（post lookup、search、user lookup、news、trends）は Grok Bot 組み込みの X tool にあり、ユーザー接続に無いことはエラーではない。landed skill の Billing は「Every X tool is free.」。PR 738 本文には webhook と X Activity API だけが課金、とあるが、その文は landed の 2.9.0 changelog にも skill の Billing にも無い。2.10.0（PR 740、merged 2026-10-20）の無料 tool は、Spaces の読み取り `search_spaces`、`get_spaces_by_id`、`get_spaces_by_ids`、`get_spaces_by_creator_ids`、`get_spaces_posts`、Communities の読み取り `search_communities`、`get_communities_by_id`、Lists の読み取り 8 つ（`get_lists_by_id`、`get_lists_posts`、`get_lists_members`、`get_lists_followers`、`get_users_owned_lists`、`get_users_followed_lists`、`get_users_pinned_lists`、`get_users_list_memberships`）と書き込み `create_lists`、`update_lists`、member の add / remove、follow / unfollow、pin / unpin。list を消す tool は無いので、private、rename、member を外す、を提案する。community の投稿を読む tool は無く、topic search を使う。list の write の前に確認する。Spaces か Lists の tool が無いときは reconnect。この plugin はユーザーが sign in した X 接続（DM、bookmark、list、livestream など）であり、公開の読み取りは組み込みの x tool のままにする。上の 2026-08-29 の「開始用の無料 X API credits」は、2.9.0 の changelog が on-connect の balance 表示と credits 確認を外したあとの記述ではない。
+- 出典: [PR 735](https://github.com/cursor/plugins/pull/735) · [PR 738](https://github.com/cursor/plugins/pull/738) · [PR 740](https://github.com/cursor/plugins/pull/740) · [CHANGELOG](https://github.com/cursor/plugins/blob/main/third_party/x/CHANGELOG.md) · [x-api-mcp-guide](https://github.com/cursor/plugins/blob/main/third_party/x/skills/x-api-mcp-guide/SKILL.md)（2026-10-21 確認）
+- 確認: 未
+
+## Jobber 1.0.0
+
+- 内容: Jobber plugin（PR 739、merged 2026-10-20）。MCP は `https://mcp.getjobber.com/mcp`。README は、sign in した Jobber で client、request、quote を扱い、job、visit、invoice を読む、と書く。Dynamic Client Registration は無く、auth server は `https://api.getjobber.com` で `client_secret_post`。自分の Jobber Developer Center app の CLIENT_ID と CLIENT_SECRET が要る。redirect は Desktop `http://localhost:8787/callback` と `https://www.cursor.com/agents/mcp/oauth/callback`。scope は `mcp:read_clients`、`mcp:write_clients`、`mcp:read_requests`、`mcp:write_requests`、`mcp:read_quotes`、`mcp:write_quotes`、`mcp:read_jobs`、`mcp:read_invoices`、`mcp:read_visits`。job、invoice、visit は read-only。minClientVersions は `cursor` 3.13.0。team marketplace では admin が credentials を一度置き、各メンバーは自分の Jobber OAuth を済ませる。
+- 出典: [PR 739](https://github.com/cursor/plugins/pull/739) · [README](https://github.com/cursor/plugins/blob/main/third_party/jobber/README.md) · [plugin.json](https://github.com/cursor/plugins/blob/main/third_party/jobber/.cursor-plugin/plugin.json)（2026-10-21 確認）
+- 確認: 未
+
+## X Money for Grok Bot
+
+- 内容: 公開ページの題は「X Money for Grok Bot」。説明は Use your X Money Card, send money to users on X, manage your finances, view your balance and browse through your transaction history。Grok Bot が Cursor Marketplace に出していて、Add to Grok Bot がある。このページの取得文には、対象地域も、支払いごとの承認も、skill 名も、Connect Apps の手順も無い。
+- 出典: [x.ai/bot/plugin/68516160](https://x.ai/bot/plugin/68516160)（2026-10-21 確認）
+- 確認: 未

@@ -55,3 +55,9 @@
 - 内容: 人がクリックするページを作り、このコンピュータ上のサーバが webhook routine へ JSON を POST する。sender key はサーバ設定に置き、ブラウザ・チャット・スキル本文には書かない。ページは Tailscale の tailnet に出せる。
 - 出典: [pstack `/make-bot-ui`](https://github.com/cursor/plugins/blob/main/pstack/skills/make-bot-ui/SKILL.md)
 - 確認: 未
+
+## iPhone の Action Button で voice chat
+
+- 内容: iPhone 15 Pro 以降で Grok Bot を 1.16 にする。Settings → Action Button → Shortcut → Grok Bot → Start Voice Chat。押すと Bot と話せる。
+- 出典: [x.com/bot/status/2112252507762368684](https://x.com/bot/status/2112252507762368684) · [手順](https://x.com/bot/status/2112282506284445787)（2026-10-19）
+- 確認: 未
