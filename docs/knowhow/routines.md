@@ -97,3 +97,9 @@ Grok Bot の routine（定期実行・イベント・webhook）の公式の使�
 - 内容: 記事の型は 2 つの Bot。IncidentWatch は 5 分ごとに直前 15 分を見る。人が incident かを決め、確認後に公開の status page へ出す。IncidentSweep は、考える対象、除外、送る文面を聞き、自信が無い一致は外し、承認前に batch と含めるチケットと文面を見せる。小さな batch で送り、承認後にチケットを足さず、失敗したら止まって報告する。
 - 出典: [Give Bots jobs, not tasks](https://x.ai/news/incident-sweep)（2026-10-21 確認）
 - 確認: 未
+
+## 繰り返しの report は更新される page にする
+
+- 内容: 繰り返し出す report、memo、dashboard は page にする。Bot に page を頼み、一緒に直し、最新に保たせる。@ericzakariasson が役に立つと書いた例は launch burn-down lists、@bot と直す design docs、morning briefs、今週やったこと。
+- 出典: [x.com/bot/status/2112992872857252082](https://x.com/bot/status/2112992872857252082) · [x.com/ericzakariasson/status/2112995956090454238](https://x.com/ericzakariasson/status/2112995956090454238)（2026-10-21）
+- 確認: 未

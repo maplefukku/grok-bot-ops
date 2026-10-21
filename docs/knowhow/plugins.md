@@ -163,3 +163,9 @@
 - 内容: 公開ページの題は「X Money for Grok Bot」。説明は Use your X Money Card, send money to users on X, manage your finances, view your balance and browse through your transaction history。Grok Bot が Cursor Marketplace に出していて、Add to Grok Bot がある。このページの取得文には、対象地域も、支払いごとの承認も、skill 名も、Connect Apps の手順も無い。
 - 出典: [x.ai/bot/plugin/68516160](https://x.ai/bot/plugin/68516160)（2026-10-21 確認）
 - 確認: 未
+
+## Databricks Genie One
+
+- 内容: plugin `databricks-genie-one`（PR 754、merged 2026-10-21）。agent は workspace のデータについて平易な言葉で Genie に聞き、sign in したユーザーが読めるデータから答えが返る。MCP は `https://${DATABRICKS_HOST}/ai-gateway/mcp-services/system.ai.genie_one_mcp`。scope は `ai-gateway` と `offline_access`。Databricks は Dynamic Client Registration をしないので、account admin が Settings → App connections で OAuth app connection を作る。redirect は `https://www.cursor.com/agents/mcp/oauth/callback` と `http://127.0.0.1:8787/callback`。client secret は任意で、無いときは public client。Cursor の team admin は Cursor Settings → Plugins で入れ、hostname、client ID、任意の client secret を置く。hostname は `https://` も path も port も付けない（README の例は `dbc-a1b2c3d4-e5f6.cloud.databricks.com`）。各メンバーが自分の Databricks に sign in する。チャットでは `/add-plugin databricks-genie-one`。PR は、実 workspace への sign-in はまだ試していない、と書く。README は、Databricks admin が app connection で `ai-gateway` scope を許可する、とはまだ書いていない。PR の minimum Cursor version は `3.19.0`（Workday から写した）。同じ PR は、古い desktop は Databricks の sign-in が Cursor の server 経由だと知らないので、おそらく `3.28.0` であるべき、と書く。
+- 出典: [PR 754](https://github.com/cursor/plugins/pull/754) · [README](https://github.com/cursor/plugins/blob/main/third_party/databricks-genie-one/README.md)（2026-10-21 確認）
+- 確認: 未
