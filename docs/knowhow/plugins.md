@@ -169,3 +169,27 @@
 - 内容: plugin `databricks-genie-one`（PR 754、merged 2026-10-21）。agent は workspace のデータについて平易な言葉で Genie に聞き、sign in したユーザーが読めるデータから答えが返る。MCP は `https://${DATABRICKS_HOST}/ai-gateway/mcp-services/system.ai.genie_one_mcp`。scope は `ai-gateway` と `offline_access`。Databricks は Dynamic Client Registration をしないので、account admin が Settings → App connections で OAuth app connection を作る。redirect は `https://www.cursor.com/agents/mcp/oauth/callback` と `http://127.0.0.1:8787/callback`。client secret は任意で、無いときは public client。Cursor の team admin は Cursor Settings → Plugins で入れ、hostname、client ID、任意の client secret を置く。hostname は `https://` も path も port も付けない（README の例は `dbc-a1b2c3d4-e5f6.cloud.databricks.com`）。各メンバーが自分の Databricks に sign in する。チャットでは `/add-plugin databricks-genie-one`。PR は、実 workspace への sign-in はまだ試していない、と書く。README は、Databricks admin が app connection で `ai-gateway` scope を許可する、とはまだ書いていない。PR の minimum Cursor version は `3.19.0`（Workday から写した）。同じ PR は、古い desktop は Databricks の sign-in が Cursor の server 経由だと知らないので、おそらく `3.28.0` であるべき、と書く。
 - 出典: [PR 754](https://github.com/cursor/plugins/pull/754) · [README](https://github.com/cursor/plugins/blob/main/third_party/databricks-genie-one/README.md)（2026-10-21 確認）
 - 確認: 未
+
+## Vanta
+
+- 内容: Vanta plugin 1.0.0（PR 766、merged 2026-10-22）。compliance の test、control、framework、risk、vulnerability を読み、失敗した test の修正を手伝える。agent は risk の作成や policy の upload のように compliance data を変えられるので、変更は Vanta で見る。region ごとに MCP server が分かれる。`vanta-us` は `https://mcp.vanta.com/mcp`、`vanta-eu` は `https://mcp.eu.vanta.com/mcp`、`vanta-aus` は `https://mcp.aus.vanta.com/mcp`。使う region だけ接続する。sign in は Vanta account の MCP OAuth（Dynamic Client Registration と PKCE）で、貼る key は無い。各 server は `"placement": "server"` で、Grok Bot は Cursor の hosted path 経由で繋ぐ。minClientVersions は `cursor` 3.13.0。PR は、3 接続の表示と、sign in しない 2 server がエラーになるかは未試験、Cursor または Grok Bot からの full sign-in と tool 一覧も未試験、と書く。tool は sign-in のあと出る。
+- 出典: [PR 766](https://github.com/cursor/plugins/pull/766)（2026-10-22）
+- 確認: 未
+
+## Framer
+
+- 内容: Framer plugin 1.0.0（PR 764、merged 2026-10-22）。site、page、CMS を読み、編集する。MCP は `https://mcp.framer.com/mcp`。sign in は Framer account の MCP OAuth（Dynamic Client Registration と PKCE）で、貼る key は無い。Framer の sign-in は `http://localhost` と `https` の return address を受け、`cursor://` と `grokbot://` は拒否する。`"placement": "server"` により、Grok Bot は Cursor の hosted `https` callback 経由で sign in する。minClientVersions は `cursor` 3.13.0。PR は、Cursor または Grok Bot からの full sign-in と tool 一覧は未試験、と書く。tool は sign-in のあとだけ出る。agent は site を変更し publish できるので、publish 前に Framer editor で見る。
+- 出典: [PR 764](https://github.com/cursor/plugins/pull/764)（2026-10-22）
+- 確認: 未
+
+## Lark と Feishu
+
+- 内容: PR 763（merged 2026-10-22）は 2 plugin。`lark` は国際向け Lark Suite で MCP は `https://mcp.larksuite.com/mcp`。`feishu` は中国向け Feishu で MCP は `https://mcp.feishu.cn/mcp`。どちらも MCP OAuth と Dynamic Client Registration で、API key、client secret、custom header は無い。Lark は sign in した account の Docs を検索・作成・取得・更新し、doc comment と file を扱い、IM の group と message を読む。Feishu README は、中国 server が国際 Lark と同じ tool 面を出す、と書く。国際向けは `lark`、中国向けはこの `feishu`。minClientVersions はどちらも `cursor` 3.13.0。この PR は #403 を置き換える。
+- 出典: [PR 763](https://github.com/cursor/plugins/pull/763)（2026-10-22）
+- 確認: 未
+
+## Google Cloud BigQuery 1.1.0（breaking）
+
+- 内容: PR 761（merged 2026-10-22）は plugin を 1.1.0 にし、OAuth をチーム所有の Google client に変える。Cursor 同梱の client は使わない。必須の team 変数は CLIENT_ID と CLIENT_SECRET。team admin は、次の connect の前に Cursor dashboard の team plugin 設定へ両方を置く。Google Cloud console では Web application の OAuth client を作り、Cursor の OAuth callback URL を redirect URI に足し、OAuth consent screen に `https://www.googleapis.com/auth/bigquery` を足す。MCP は `https://bigquery.googleapis.com/mcp`。minimum Cursor は 3.19.0。secret は暗号化されて Cursor の backend に残り、メンバーのマシンへは送られない。client を変えるとメンバーは sign out し、一度 reconnect する。既存の導入は、次の connect の前にこの値を置く。
+- 出典: [PR 761](https://github.com/cursor/plugins/pull/761)（2026-10-22）
+- 確認: 未
