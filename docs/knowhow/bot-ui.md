@@ -61,3 +61,9 @@
 - 内容: iPhone 15 Pro 以降で Grok Bot を 1.16 にする。Settings → Action Button → Shortcut → Grok Bot → Start Voice Chat。押すと Bot と話せる。
 - 出典: [x.com/bot/status/2112252507762368684](https://x.com/bot/status/2112252507762368684) · [手順](https://x.com/bot/status/2112282506284445787)（2026-10-19）
 - 確認: 未
+
+## 電話の Calendar、Reminders、Contacts
+
+- 内容: 電話の Calendar、Reminders、Contacts を Bot に頼める。reminder を足す、今日の calendar を見る、contact を調べる。iOS と Android で今ロールアウト中。投稿は「and more apps」と書き、それ以外のアプリ名は無い。
+- 出典: [x.com/bot/status/2113393684209176718](https://x.com/bot/status/2113393684209176718)（2026-10-22）
+- 確認: 未

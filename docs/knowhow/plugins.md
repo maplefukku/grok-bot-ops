@@ -193,3 +193,9 @@
 - 内容: PR 761（merged 2026-10-22）は plugin を 1.1.0 にし、OAuth をチーム所有の Google client に変える。Cursor 同梱の client は使わない。必須の team 変数は CLIENT_ID と CLIENT_SECRET。team admin は、次の connect の前に Cursor dashboard の team plugin 設定へ両方を置く。Google Cloud console では Web application の OAuth client を作り、Cursor の OAuth callback URL を redirect URI に足し、OAuth consent screen に `https://www.googleapis.com/auth/bigquery` を足す。MCP は `https://bigquery.googleapis.com/mcp`。minimum Cursor は 3.19.0。secret は暗号化されて Cursor の backend に残り、メンバーのマシンへは送られない。client を変えるとメンバーは sign out し、一度 reconnect する。既存の導入は、次の connect の前にこの値を置く。
 - 出典: [PR 761](https://github.com/cursor/plugins/pull/761)（2026-10-22）
 - 確認: 未
+
+## Stable
+
+- 内容: Stable plugin 1.0.0（PR 778、merged 2026-10-22）。virtual mailbox の mail を探し、scan した document を読み、Stable API を呼ぶ。MCP は `https://mcp.usestable.com/mcp`。auth は `x-api-key` header の `STABLE_API_KEY` で、必須。key は https://dashboard.usestable.com/settings/api-keys で作り、Dashboard → Plugins → Configure に置く。commit しない。tool は `find-mail`、`read-mail-document`、`list-endpoints`、`get-endpoint`、`search-endpoints`、`execute-request`。schema の正本は hosted runtime。minClientVersions は `cursor` 3.13.0。導入は Cursor Settings → Plugins で Stable を検索するか、`/add-plugin stable`。
+- 出典: [PR 778](https://github.com/cursor/plugins/pull/778)（2026-10-22）
+- 確認: 未
