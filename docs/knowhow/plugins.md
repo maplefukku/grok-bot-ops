@@ -172,8 +172,8 @@
 
 ## Vanta
 
-- 内容: Vanta plugin 1.0.0（PR 766、merged 2026-10-22）。compliance の test、control、framework、risk、vulnerability を読み、失敗した test の修正を手伝える。agent は risk の作成や policy の upload のように compliance data を変えられるので、変更は Vanta で見る。region ごとに MCP server が分かれる。`vanta-us` は `https://mcp.vanta.com/mcp`、`vanta-eu` は `https://mcp.eu.vanta.com/mcp`、`vanta-aus` は `https://mcp.aus.vanta.com/mcp`。使う region だけ接続する。sign in は Vanta account の MCP OAuth（Dynamic Client Registration と PKCE）で、貼る key は無い。各 server は `"placement": "server"` で、Grok Bot は Cursor の hosted path 経由で繋ぐ。minClientVersions は `cursor` 3.13.0。PR は、3 接続の表示と、sign in しない 2 server がエラーになるかは未試験、Cursor または Grok Bot からの full sign-in と tool 一覧も未試験、と書く。tool は sign-in のあと出る。
-- 出典: [PR 766](https://github.com/cursor/plugins/pull/766)（2026-10-22）
+- 内容: Vanta plugin 1.0.0（PR 766、merged 2026-10-22）。compliance の test、control、framework、risk、vulnerability を読み、失敗した test の修正を手伝える。agent は risk の作成や policy の upload のように compliance data を変えられるので、変更は Vanta で見る。region ごとに MCP server が分かれる。`vanta-us` は `https://mcp.vanta.com/mcp`、`vanta-eu` は `https://mcp.eu.vanta.com/mcp`、`vanta-aus` は `https://mcp.aus.vanta.com/mcp`。使う region だけ接続する。sign in は Vanta account の MCP OAuth（Dynamic Client Registration と PKCE）で、貼る key は無い。各 server は `"placement": "server"` で、Grok Bot は Cursor の hosted path 経由で繋ぐ。minClientVersions は `cursor` 3.13.0。PR 766 は、3 接続の表示と、sign in しない 2 server がエラーになるかは未試験、Cursor または Grok Bot からの full sign-in と tool 一覧も未試験、と書く。tool は sign-in のあと出る。PR 768（merged 2026-10-23）は、この 3 つの region server を、region picker 付きの 1 server に置き換える。3 server に分かれる記述は PR 768 で置き換わる。
+- 出典: [PR 766](https://github.com/cursor/plugins/pull/766) · [PR 768](https://github.com/cursor/plugins/pull/768)（2026-10-23 確認）
 - 確認: 未
 
 ## Framer
@@ -198,4 +198,16 @@
 
 - 内容: Stable plugin 1.0.0（PR 778、merged 2026-10-22）。virtual mailbox の mail を探し、scan した document を読み、Stable API を呼ぶ。MCP は `https://mcp.usestable.com/mcp`。auth は `x-api-key` header の `STABLE_API_KEY` で、必須。key は https://dashboard.usestable.com/settings/api-keys で作り、Dashboard → Plugins → Configure に置く。commit しない。tool は `find-mail`、`read-mail-document`、`list-endpoints`、`get-endpoint`、`search-endpoints`、`execute-request`。schema の正本は hosted runtime。minClientVersions は `cursor` 3.13.0。導入は Cursor Settings → Plugins で Stable を検索するか、`/add-plugin stable`。
 - 出典: [PR 778](https://github.com/cursor/plugins/pull/778)（2026-10-22）
+- 確認: 未
+
+## changelog v0.75.2 の connector
+
+- 内容: GitHub connector は repository の一覧、commit の比較、pull request の commit 一覧、branch と issue の comment を読む。組み込みの Gmail は draft と送信へ file を付け、reply all、forward のときの note、label の color ができる。Google Calendar は複数 event の create、update、delete を一段で行い、編集した event は別の時刻へずれない。Zoho CRM は sign in の前に、account の regional data center を選んで接続する。
+- 出典: [changelog v0.75.2](https://x.ai/changelog/bot)（2026-10-23 確認）
+- 確認: 未
+
+## X Money を one tap で繋ぐ
+
+- 内容: changelog v0.75.2 は、X に sign in したうえで、chat、connector page、checkout から X Money を one tap で繋げると書く。上の catalog ページの説明とは別の項目である。
+- 出典: [changelog v0.75.2](https://x.ai/changelog/bot)（2026-10-23 確認）
 - 確認: 未

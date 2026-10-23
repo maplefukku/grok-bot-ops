@@ -67,3 +67,9 @@
 - 内容: 電話の Calendar、Reminders、Contacts を Bot に頼める。reminder を足す、今日の calendar を見る、contact を調べる。iOS と Android で今ロールアウト中。投稿は「and more apps」と書き、それ以外のアプリ名は無い。
 - 出典: [x.com/bot/status/2113393684209176718](https://x.com/bot/status/2113393684209176718)（2026-10-22）
 - 確認: 未
+
+## Library の Pinned と shortcuts sheet
+
+- 内容: Library の page、file、link は Pinned に固定でき、その節は上に残り、端末間で同期する。行を hover か focus すると、誰がいつ送り、Page を誰が見られるかの preview が出る。keyboard shortcuts sheet は ⌘/ と、Help、profile menu、command palette から開く。composer の行頭で `>` を打つと block quote になり、quote 行の先頭で Backspace すると戻る。添付は drag か、Alt と矢印で並べ替えられる。
+- 出典: [changelog v0.75.2](https://x.ai/changelog/bot)（2026-10-23 確認）
+- 確認: 未

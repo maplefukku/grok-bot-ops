@@ -103,3 +103,9 @@ Grok Bot の routine（定期実行・イベント・webhook）の公式の使�
 - 内容: 繰り返し出す report、memo、dashboard は page にする。Bot に page を頼み、一緒に直し、最新に保たせる。@ericzakariasson が役に立つと書いた例は launch burn-down lists、@bot と直す design docs、morning briefs、今週やったこと。
 - 出典: [x.com/bot/status/2112992872857252082](https://x.com/bot/status/2112992872857252082) · [x.com/ericzakariasson/status/2112995956090454238](https://x.com/ericzakariasson/status/2112995956090454238)（2026-10-21）
 - 確認: 未
+
+## changelog v0.75.2 の routine
+
+- 内容: routine は Bot の inbox を読める。Team Bot の owner と manager は、Configure から collaborator に routine の作成を許せる。routine が sign out した connector に当たると、その connector の Reconnect card が chat に出て、1 日に最大 1 回である。webhook routine の menu は URL と key を示し、key は reveal するまで隠れる。
+- 出典: [changelog v0.75.2](https://x.ai/changelog/bot)（2026-10-23 確認）
+- 確認: 未
