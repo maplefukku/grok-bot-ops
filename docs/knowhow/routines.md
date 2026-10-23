@@ -109,3 +109,9 @@ Grok Bot の routine（定期実行・イベント・webhook）の公式の使�
 - 内容: routine は Bot の inbox を読める。Team Bot の owner と manager は、Configure から collaborator に routine の作成を許せる。routine が sign out した connector に当たると、その connector の Reconnect card が chat に出て、1 日に最大 1 回である。webhook routine の menu は URL と key を示し、key は reveal するまで隠れる。
 - 出典: [changelog v0.75.2](https://x.ai/changelog/bot)（2026-10-23 確認）
 - 確認: 未
+
+## changelog v0.75.5 の routine 上限
+
+- 内容: routine は合計で 1 時間に 300 回まで走る（以前は 100）。1 routine あたり 200 回まで。Team Bot の routine が Slack thread に返信すると、Bot はその thread を追い、あとからの返信には @mention なしで答える。
+- 出典: [changelog v0.75.5](https://x.ai/changelog/bot)（2026-10-23）
+- 確認: 未

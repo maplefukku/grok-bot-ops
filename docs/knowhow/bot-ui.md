@@ -73,3 +73,9 @@
 - 内容: Library の page、file、link は Pinned に固定でき、その節は上に残り、端末間で同期する。行を hover か focus すると、誰がいつ送り、Page を誰が見られるかの preview が出る。keyboard shortcuts sheet は ⌘/ と、Help、profile menu、command palette から開く。composer の行頭で `>` を打つと block quote になり、quote 行の先頭で Backspace すると戻る。添付は drag か、Alt と矢印で並べ替えられる。
 - 出典: [changelog v0.75.2](https://x.ai/changelog/bot)（2026-10-23 確認）
 - 確認: 未
+
+## changelog v0.75.5 の承認と送信
+
+- 内容: Auto-review は、自分の言葉で頼んだ動作については確認が減る。approval card を拒否したあと、Bot は次の message までその動作をやり直さない。自分で頼んだ email と Slack は、Auto-review が許した時点で送る。routine やその他の turn の送信は draft のまま待つ。site へ sign in するため computer を渡すとき、その site に connector があれば connect card も出す。
+- 出典: [changelog v0.75.5](https://x.ai/changelog/bot)（2026-10-23）
+- 確認: 未

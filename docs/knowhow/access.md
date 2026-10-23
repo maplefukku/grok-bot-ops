@@ -97,3 +97,9 @@
 - 内容: @bot は、共有したい login を承認すると Bot が sign in する、と書く。今後数日でユーザーへロールアウトする。@1Password は 1Password for Agents を発表し、Grok Bot を launch partner に含む。agent が sign-in form に着くと vault の credential を求め、承認すると 1Password が宛先の site へ直接 auto-fill し、agent は credential を見たり持ったりしない。connector に opt-in しない限り、agent は vault に触れない。changelog v0.53.0（September 15, 2026）は、Mac で Marketplace から 1Password を繋ぐ、と書く。今回の投稿はその Mac の Marketplace 接続とは別である。
 - 出典: [x.com/bot/status/2113332983226831339](https://x.com/bot/status/2113332983226831339) · [x.com/1Password/status/2113276767582498943](https://x.com/1Password/status/2113276767582498943) · [changelog v0.53.0](https://x.ai/changelog/bot)（2026-10-22 確認）
 - 確認: 未
+
+## Vault と、リンクした X account
+
+- 内容: Settings の Vault に login、card、contact info を保存し、sign in と checkout で記入する。Grok Bot 0.75.2 以降。@bot は、一度足すと Bot が覚えておく、と書く。X account について聞くと、X plugin を外していても、リンクした X account 経由で X が繋がる。X を繋ぐと同じ account で X Money も繋がる。
+- 出典: [changelog v0.75.5](https://x.ai/changelog/bot) · [x.com/bot/status/2113717946019397910](https://x.com/bot/status/2113717946019397910)（2026-10-23）
+- 確認: 未

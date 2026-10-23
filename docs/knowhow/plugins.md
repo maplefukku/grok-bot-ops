@@ -206,6 +206,12 @@
 - 出典: [changelog v0.75.2](https://x.ai/changelog/bot)（2026-10-23 確認）
 - 確認: 未
 
+## changelog v0.75.5 の email 転送と Slack の依頼者
+
+- 内容: Bot は自分の inbox の email を、元の formatting、画像、添付のまま転送できる。Grok Bot 0.75.2 以降。Slack に出した各 message には、誰が頼んだかを記録するので、thread の誰もが誰の依頼かを聞ける。
+- 出典: [changelog v0.75.5](https://x.ai/changelog/bot)（2026-10-23）
+- 確認: 未
+
 ## X Money を one tap で繋ぐ
 
 - 内容: changelog v0.75.2 は、X に sign in したうえで、chat、connector page、checkout から X Money を one tap で繋げると書く。上の catalog ページの説明とは別の項目である。

@@ -217,3 +217,9 @@ Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の�
 - 内容: Bot を tailnet に繋ぐ。キーは reusable と ephemeral にする。
 - 出典: [x.com/hopedj/status/2093724286309564619](https://x.com/hopedj/status/2093724286309564619)（2026-08-29）
 - 確認: 未
+
+## Computer Use
+
+- 内容: agent は browser だけでなく、コンピュータ上のどの app でも click と type ができる。例は、作った機能を試すため iOS Simulator を動かす。Cursor は task が要するとき自分で使い、prompt で Computer Use を @-mention しても頼める。試すには Cursor を更新する。投稿はプランの範囲を書いていない。cursor.com/changelog には、2026-10-23 の確認時点で Computer Use の項目は無い。
+- 出典: [x.com/cursor_ai/status/2113661506634305834](https://x.com/cursor_ai/status/2113661506634305834) · [2113661518780998003](https://x.com/cursor_ai/status/2113661518780998003) · [changelog](https://cursor.com/changelog)（2026-10-23）
+- 確認: 未
