@@ -217,3 +217,9 @@
 - 内容: changelog v0.75.2 は、X に sign in したうえで、chat、connector page、checkout から X Money を one tap で繋げると書く。上の catalog ページの説明とは別の項目である。
 - 出典: [changelog v0.75.2](https://x.ai/changelog/bot)（2026-10-23 確認）
 - 確認: 未
+
+## Power BI
+
+- 内容: Power BI plugin（PR 843、merged 2026-10-24 12:27 JST）。Grok Bot 向けの hosted MCP は `https://api.cursor.com/rest-mcp/power-bi/mcp`。Cursor には出さない。app は 0.30.0 以降。sign in は Microsoft Entra ID。read-only scope は Workspace.Read.All、Report.Read.All、Dataset.Read.All、offline_access。tool は list_workspaces、list_reports、list_datasets、render_report（PNG）。描画には Premium、Embedded、または Fabric の capacity と、tenant 設定「Export reports as image files」が要る。PR は、Entra の permission を足したあと provider を server 側で有効にする必要があり、Grok Bot からの Microsoft sign-in と tool call は未試験、と書く。live であることは未確認。
+- 出典: [PR 843](https://github.com/cursor/plugins/pull/843)（2026-10-24）
+- 確認: 未
