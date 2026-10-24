@@ -223,3 +223,9 @@
 - 内容: Power BI plugin（PR 843、merged 2026-10-24 12:27 JST）。Grok Bot 向けの hosted MCP は `https://api.cursor.com/rest-mcp/power-bi/mcp`。Cursor には出さない。app は 0.30.0 以降。sign in は Microsoft Entra ID。read-only scope は Workspace.Read.All、Report.Read.All、Dataset.Read.All、offline_access。tool は list_workspaces、list_reports、list_datasets、render_report（PNG）。描画には Premium、Embedded、または Fabric の capacity と、tenant 設定「Export reports as image files」が要る。PR は、Entra の permission を足したあと provider を server 側で有効にする必要があり、Grok Bot からの Microsoft sign-in と tool call は未試験、と書く。live であることは未確認。
 - 出典: [PR 843](https://github.com/cursor/plugins/pull/843)（2026-10-24）
 - 確認: 未
+
+## Krea
+
+- 内容: Krea plugin（Grok Bot）。@krea_ai は、Grok の中から最良の model で画像と動画を生成できる、と書く（2026-10-24 01:00 JST）。Connect Apps catalog の Krea（id 70800059、Design、connector 1、skill 3）は、Krea の creative AI suite で画像と動画を generate、edit、enhance、produce する。追加は https://cursor.com/grok-bot/link/v1/plugin/add?id=70800059 で、そのあと sign in する。changelog v0.75.2 の組み込みの動画作成とは別である。価格と上限は出典に無い。cursor/plugins には無い。
+- 出典: [@krea_ai](https://x.com/krea_ai/status/2113661958331494461) · [catalog](https://x.ai/bot/plugin/70800059) · [追加リンク](https://cursor.com/grok-bot/link/v1/plugin/add?id=70800059)（2026-10-24）
+- 確認: 未
