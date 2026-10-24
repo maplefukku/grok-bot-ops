@@ -2,6 +2,12 @@
 
 買い物・決済と、承認の置き方。
 
+## X Money または Stripe Link（v0.70.2）
+
+- 内容: changelog は、Bot が X Money または Stripe Link で支払える、と書く。取り消しできない操作（sending、posting、buying、deleting）の前に、Bot は利用者自身のメッセージで承認を確認する。
+- 出典: [changelog v0.70.2](https://x.ai/changelog/bot)（2026-10-11）
+- 確認: 未
+
 ## 出品フロー: Marketplace / eBay 投稿の前に人の承認ゲート
 
 - 内容: Grok Bot で組んだ出品フローの例。相場（comps）から価格を出し、Notion のステータスボード（Draft → Awaiting approval → Listed）に下書きを書き、価格を承認するまで Facebook Marketplace と eBay に投稿しない。住所は許可するまで出品に載せない。

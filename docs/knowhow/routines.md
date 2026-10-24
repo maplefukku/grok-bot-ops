@@ -2,6 +2,12 @@
 
 Grok Bot の routine（定期実行・イベント・webhook）の公式の使い方。
 
+## email の plus aliases だけで routine を走らせる
+
+- 内容: @bot は、plus aliases に対応したので、あるアドレス宛のメールだけで routine を走らせられる、と書いている。引用された @SamSokolin は、dedicated aliases で送受信でき、特定 alias 宛のメールだけで発火する routine を組める、と書いている。どちらの投稿も alias の字面は書いていない。help は plus alias に触れておらず、You can have one address、Routines can't filter by subject、と書く。送信は毎回、全文の draft を出して Send を押すまで出ない。routine も含む。新着メールだけでは chat も Bot の起床も起きず、作った routine 経由でだけ動く。routine は差出人のアドレスかドメインでは絞れ、subject では絞れない。
+- 出典: [x.com/bot/status/2111184278377857410](https://x.com/bot/status/2111184278377857410)（2026-10-16） · [x.com/SamSokolin/status/2110496237241667621](https://x.com/SamSokolin/status/2110496237241667621)（2026-10-14） · [Give your Bot an email address](https://cursor.com/help/grok-bot/agent-email)
+- 確認: 未
+
 ## away-mode: Slack 監視とスマホ承認
 
 - 内容: Slack 監視と unblock、難しいゲートはスマホ承認、レビュー基準を skill/Cloud Agent に載せて人間は必要時だけ。
@@ -79,3 +85,33 @@ Grok Bot の routine（定期実行・イベント・webhook）の公式の使�
 - 内容: routine 1 本につき専用ボット 1 体。原稿は [`routines/`](../../routines/README.md) を正本にし、貼り付け先を実体とする。出力には毎回処理件数を含めさせ、コスト異常に気づけるようにする。
 - 出典: 上項（担当ボットに付ける）を、この司令室の規約にしたもの。[Skills and routines](https://docs.x.ai/grok-bot/skills-routines-and-automations)
 - 確認: 済（このリポジトリの規約）
+
+## changelog v0.71.2 の tag 付きアドレスと routine
+
+- 内容: changelog v0.71.2 は、タグ付きアドレス（例 name+shop@）から送れ、その tag の routine はそのメールだけに走る、と書く。上の 2026-10-16 の投稿は alias の字面を書いていない。routine がサイトへの sign-in を要するときは、静かに止まらず、その段でチャットに聞く。Disable drafts を選んだ Bot は、自分のアドレスからの email を draft card なしですぐ送る。
+- 出典: [changelog v0.71.2](https://x.ai/changelog/bot)（2026-10-21 確認）
+- 確認: 未
+
+## IncidentWatch / IncidentSweep を routine に転用するときの型
+
+- 内容: 記事の型は 2 つの Bot。IncidentWatch は 5 分ごとに直前 15 分を見る。人が incident かを決め、確認後に公開の status page へ出す。IncidentSweep は、考える対象、除外、送る文面を聞き、自信が無い一致は外し、承認前に batch と含めるチケットと文面を見せる。小さな batch で送り、承認後にチケットを足さず、失敗したら止まって報告する。
+- 出典: [Give Bots jobs, not tasks](https://x.ai/news/incident-sweep)（2026-10-21 確認）
+- 確認: 未
+
+## 繰り返しの report は更新される page にする
+
+- 内容: 繰り返し出す report、memo、dashboard は page にする。Bot に page を頼み、一緒に直し、最新に保たせる。@ericzakariasson が役に立つと書いた例は launch burn-down lists、@bot と直す design docs、morning briefs、今週やったこと。
+- 出典: [x.com/bot/status/2112992872857252082](https://x.com/bot/status/2112992872857252082) · [x.com/ericzakariasson/status/2112995956090454238](https://x.com/ericzakariasson/status/2112995956090454238)（2026-10-21）
+- 確認: 未
+
+## changelog v0.75.2 の routine
+
+- 内容: routine は Bot の inbox を読める。Team Bot の owner と manager は、Configure から collaborator に routine の作成を許せる。routine が sign out した connector に当たると、その connector の Reconnect card が chat に出て、1 日に最大 1 回である。webhook routine の menu は URL と key を示し、key は reveal するまで隠れる。
+- 出典: [changelog v0.75.2](https://x.ai/changelog/bot)（2026-10-23 確認）
+- 確認: 未
+
+## changelog v0.75.5 の routine 上限
+
+- 内容: routine は合計で 1 時間に 300 回まで走る（以前は 100）。1 routine あたり 200 回まで。Team Bot の routine が Slack thread に返信すると、Bot はその thread を追い、あとからの返信には @mention なしで答える。
+- 出典: [changelog v0.75.5](https://x.ai/changelog/bot)（2026-10-23）
+- 確認: 未

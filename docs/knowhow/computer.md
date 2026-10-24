@@ -2,6 +2,30 @@
 
 Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の永続化）。
 
+## Cloud agent の canvas 共有と Environments API
+
+- 内容: canvas toolbar の Publish で共有を公開または更新し、リンクをコピーしてチームに送る。開いたチームメンバーは read-only。dashboard の Shared Canvases は自分が公開したものだけを並べ、teammate の分はリンクをもらって開く。共有できるのは有料プラン（Premium 以上、Teams、Enterprise、legacy の Pro、Pro+、Ultra）。free は共有を作れない。開けるのは team のメンバーなので、team に入っている必要がある。individual の有料でも team に属していれば共有できる。storage を許す privacy mode が要り、Legacy Privacy Mode は共有を止める。team admin は team settings の Shared Canvases で組織ごとオフにできる。Environments API は Cloud Agents API v1 の public beta で、一般提供前に変わり得る。作成は POST `/v1/environments`（`https://api.cursor.com`）。owner は `personal` か `team`。name は 255 文字までで、その owner の他の environment と重ならない。repos は最大 300。届かない repository は `400 repository_access`。不正な `environmentJson` は `400 validation_error`。同じ name は `409 environment_name_conflict`。changelog の repository 上限は 300、同日の @cursor_ai は up to 500 repos と書いている。どちらも large environments は 5x faster。
+- 出典: [changelog](https://cursor.com/changelog/cloud-agent-canvases-and-environments) · [Sharing canvases](https://cursor.com/docs/agent/tools/canvas) · [Environments](https://cursor.com/docs/cloud-agent/api/endpoints) · [x.com/cursor_ai/status/2111193957527146711](https://x.com/cursor_ai/status/2111193957527146711) · [2111193969355084011](https://x.com/cursor_ai/status/2111193969355084011) · [2111193980981665837](https://x.com/cursor_ai/status/2111193980981665837)（2026-10-16）
+- 確認: 未
+
+## Origin App Marketplace の公開と制約
+
+- 内容: Origin は early beta。Apps は codebase settings（`https://cursor.com/codebase/settings/apps`）で入れ、repository の Apps tab で有効なものを見る。early beta では marketplace の閲覧に Cursor への sign in が要る。Depot と Buildkite は Origin-hosted の repository だけで、GitHub から mirror した repo では動かない。mirror は CI を GitHub に残す。公開は、namespace で private app を作り、Origin API（app JWT と installation access token、webhook、check run、PR comment、review）に対して組み、Visibility を Public にしてから、slug、suggested tags、demo video を添えて提出する。video は install、uninstall、中核の流れを含み、about 5 to 10 minutes、sign-in なしで見られること。Cursor が承認すると Listed。公開前のインストール URL の `client_id` は slug ではなく app ID（`app_01…`）。visibility は Private、Public、Listed。Public には少なくとも 1 つの default scope が要る。unlist または Private に戻すと marketplace からは消えるが、既存 install は動いたまま。一度 Listed だったものを Private にしてから Public に戻しても再掲載されず、再提出が要る。Origin Apps plugin は、生きている Origin API docs への質問と、既存 app の移植の計画に答えられる。
+- 出典: [changelog](https://cursor.com/changelog/origin-app-marketplace)（2026-10-13） · [Origin Apps](https://cursor.com/docs/origin/apps) · [Publish](https://cursor.com/docs/origin/apps/publish)
+- 確認: 未
+
+## Factory OpenCompute
+
+- 内容: @FactoryAI は OpenCompute を、選んだ runtime 上の agent sandbox 向け self-hosted orchestrator として紹介している。自律的なソフトウェア開発を採るのに、code と context を他人の cloud に渡す必要はない。remote agent の fleet を、自分の VPC に置いたままスケールする、と投稿は書く。
+- 出典: [x.com/FactoryAI/status/2110403273903808988](https://x.com/FactoryAI/status/2110403273903808988)（2026-10-14）
+- 確認: 未
+
+## GitHub Copilot app の巨大 PR 描画
+
+- 内容: GitHub Copilot app の pull request view を、巨大な diff と inline review comment 向けに作り直した、という GitHub Blog。開いた open source の PR は 2,200 files、over a million changed lines、more than 400 inline review comments。comment の高さは markdown の折返し、展開できる details、開いた reply box、まだ読み込み中の画像に依存し、描画するまで分からない。code 行は高さが事前に分かる geometry のままにし、review thread など高さ不明のものは別の dynamic block にした、と記事は書く。
+- 出典: [Rendering huge pull requests in the GitHub Copilot app](https://github.blog/engineering/user-experience/rendering-huge-pull-requests-in-the-github-copilot-app/)（2026-09-23） · [x.com/github/status/2109707357857218667](https://x.com/github/status/2109707357857218667)（2026-10-12）
+- 確認: 未
+
 ## Cloud Agent 起動時に MCP の on/off が無い — コミュニティ報告
 
 - 内容: コミュニティ報告: Grok Bot から Cloud Agent を起動するとき、使う MCP サーバを有効/無効にする手段が無い。毎回の CA 起動で使わない MCP を付けっぱなしにしない運用が必要、という指摘。
@@ -192,4 +216,10 @@ Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の�
 
 - 内容: Bot を tailnet に繋ぐ。キーは reusable と ephemeral にする。
 - 出典: [x.com/hopedj/status/2093724286309564619](https://x.com/hopedj/status/2093724286309564619)（2026-08-29）
+- 確認: 未
+
+## Computer Use
+
+- 内容: agent は browser だけでなく、コンピュータ上のどの app でも click と type ができる。例は、作った機能を試すため iOS Simulator を動かす。Cursor は task が要するとき自分で使い、prompt で Computer Use を @-mention しても頼める。試すには Cursor を更新する。投稿はプランの範囲を書いていない。cursor.com/changelog には、2026-10-23 の確認時点で Computer Use の項目は無い。
+- 出典: [x.com/cursor_ai/status/2113661506634305834](https://x.com/cursor_ai/status/2113661506634305834) · [2113661518780998003](https://x.com/cursor_ai/status/2113661518780998003) · [changelog](https://cursor.com/changelog)（2026-10-23）
 - 確認: 未
