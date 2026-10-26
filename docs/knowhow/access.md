@@ -103,3 +103,9 @@
 - 内容: Settings の Vault に login、card、contact info を保存し、sign in と checkout で記入する。Grok Bot 0.75.2 以降。@bot は、一度足すと Bot が覚えておく、と書く。X account について聞くと、X plugin を外していても、リンクした X account 経由で X が繋がる。X を繋ぐと同じ account で X Money も繋がる。
 - 出典: [changelog v0.75.5](https://x.ai/changelog/bot) · [x.com/bot/status/2113717946019397910](https://x.com/bot/status/2113717946019397910)（2026-10-23）
 - 確認: 未
+
+## changelog v0.75.8 の rule、private file、Team Bot
+
+- 内容: Bot は、確認する card の上で、Auto-review の rule を 1 つ足す、変える、外すことを提案できる。Grok Bot 0.75.2 以降。自分だけが見られる chat では、Bot は private file を聞かないで読む。Team Bot は、share list にいない teammate からは隠れる。
+- 出典: [changelog v0.75.8](https://x.ai/changelog/bot)（2026-10-24）
+- 確認: 未

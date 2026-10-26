@@ -79,3 +79,9 @@
 - 内容: Auto-review は、自分の言葉で頼んだ動作については確認が減る。approval card を拒否したあと、Bot は次の message までその動作をやり直さない。自分で頼んだ email と Slack は、Auto-review が許した時点で送る。routine やその他の turn の送信は draft のまま待つ。site へ sign in するため computer を渡すとき、その site に connector があれば connect card も出す。
 - 出典: [changelog v0.75.5](https://x.ai/changelog/bot)（2026-10-23）
 - 確認: 未
+
+## changelog v0.75.8 の Auto-review と背景作業
+
+- 内容: Bot は、確認する card の上で、Auto-review の rule を 1 つ足す、変える、外すことを提案できる。Grok Bot 0.75.2 以降。Auto-review は approval card を出す前にもう一度見る。Bot が自分の routine を保存または編集することは、それだけでは risky と扱わない。背景の作業が終わると、Bot は頼まれたことを仕上げ、次に何をするかを言う。自分から、または別の agent の承認では動かない。
+- 出典: [changelog v0.75.8](https://x.ai/changelog/bot)（2026-10-24）
+- 確認: 未

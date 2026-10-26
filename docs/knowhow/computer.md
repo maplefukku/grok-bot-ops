@@ -223,3 +223,15 @@ Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の�
 - 内容: agent は browser だけでなく、コンピュータ上のどの app でも click と type ができる。例は、作った機能を試すため iOS Simulator を動かす。Cursor は task が要するとき自分で使い、prompt で Computer Use を @-mention しても頼める。試すには Cursor を更新する。投稿はプランの範囲を書いていない。cursor.com/changelog には、2026-10-23 の確認時点で Computer Use の項目は無い。
 - 出典: [x.com/cursor_ai/status/2113661506634305834](https://x.com/cursor_ai/status/2113661506634305834) · [2113661518780998003](https://x.com/cursor_ai/status/2113661518780998003) · [changelog](https://cursor.com/changelog)（2026-10-23）
 - 確認: 未
+
+## Agent SDK
+
+- 内容: Cursor Agent SDK は GA（changelog の日付は Oct 20, 2026）。agent は project folder で、中身は instructions.md、tools/（typed TypeScript）、skills/、mcp-connections/、channels/。`npx @cursor/agent-sdk init ./my-bot` のあと、`agent-sdk dev` で local playground。`--template` は security reviewer、owners-policy approver、PR autofixer、Linear/Jira triager。`agent-sdk deploy` は Cursor 上で動かし、self-hosting もできる。trigger は GitHub、GitLab、Bitbucket の PR、comment、CI event、Slack の mention と DM、webhook、cron。`agent-sdk eval` は eval を local か CI で走らせる。`agent-sdk github replay <pr-url>` は本物の PR を webhook payload として再生する。
+- 出典: [changelog](https://cursor.com/changelog) · [x.com/cursor_ai/status/2114793714531102901](https://x.com/cursor_ai/status/2114793714531102901)（2026-10-20）
+- 確認: 未
+
+## DeepSeek V4.1 Flash
+
+- 内容: DeepSeek V4.1 Flash は Cursor Settings の Models にある。
+- 出典: [x.com/cursor_ai/status/2114839997568405608](https://x.com/cursor_ai/status/2114839997568405608)
+- 確認: 未

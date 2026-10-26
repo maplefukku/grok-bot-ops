@@ -115,3 +115,9 @@ Grok Bot の routine（定期実行・イベント・webhook）の公式の使�
 - 内容: routine は合計で 1 時間に 300 回まで走る（以前は 100）。1 routine あたり 200 回まで。Team Bot の routine が Slack thread に返信すると、Bot はその thread を追い、あとからの返信には @mention なしで答える。
 - 出典: [changelog v0.75.5](https://x.ai/changelog/bot)（2026-10-23）
 - 確認: 未
+
+## changelog v0.75.8 の routine 編集
+
+- 内容: Auto-review は approval card を出す前にもう一度見る。Bot が自分の routine を保存または編集することは、それだけでは risky と扱わない。
+- 出典: [changelog v0.75.8](https://x.ai/changelog/bot)（2026-10-24）
+- 確認: 未
