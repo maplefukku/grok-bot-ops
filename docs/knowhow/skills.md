@@ -49,3 +49,9 @@ Grok Bot の skill（再利用できる手順の単位）の作り方と使い�
 - 内容: PR 729（merged 2026-10-20）は `/sharpen` を元の 4 つの問いの番号リストに戻す。足すもの、一番生の材料、方法と tool、外からのチェック。加えて「Leave choices that are mine to make open instead of deciding them.」。書き直した prompt だけを返し、作業はしない。README、guide の `02-poteto-mode` と `10-recipes-and-pitfalls`、`/poteto-help` もそれに合わせた。`disable-model-invocation: true`。version は `0.15.28` から `0.15.29`。eval は事前登録の 2 round、held-out 6 場面、3 vendor の 3 model、他 vendor の盲検 judge、round あたり 36 packet。list の本文は全 gate を通り、choices を開いたままにする点は 0.50 から 1.00、judge が original より選んだ割合は 82%。使い方は `/sharpen` を走らせ、返った prompt を自分で貼るか、Bot にそれを実行するよう別に頼む。これは PR 712 の「then do the work」を置き換える。
 - 出典: [PR 729](https://github.com/cursor/plugins/pull/729)（2026-10-20）
 - 確認: 未
+
+## pstack 0.15.34 の `/statechart`
+
+- 内容: PR 977、PR 982、PR 983（merged 2026-10-27 13:08–13:33 JST）。`statechart SPEC.tla` は 1 コマンドで、TLC で TLA+ model を調べ、Mermaid の statechart を描き、壊れた各 rule への最短 path を報告する。TypeScript は build なしで、Node 22.18 以降、Bun 1.1.5 以降、または Deno 2.0 以降で走る。signal で殺された check は exit 2。出力を書くのは exit 0 と 1 だけ。`/statechart` skill は、chart から TLA+ への skeleton、spec に対する code audit、fixed marks を外した。PR 982 は、property trace が qualified action name を保つ。
+- 出典: [PR 977](https://github.com/cursor/plugins/pull/977) · [PR 982](https://github.com/cursor/plugins/pull/982) · [PR 983](https://github.com/cursor/plugins/pull/983)（2026-10-27）
+- 確認: 未

@@ -241,3 +241,9 @@
 - 内容: RingCentral Phone と RingCentral Chat の plugin が新しく、掲載先は Cursor。古い `ringcentral` id の導入は RingCentral Phone へ切り替える。
 - 出典: [PR 964](https://github.com/cursor/plugins/pull/964)
 - 確認: 未
+
+## ServiceNow MCP Server Console
+
+- 内容: ServiceNow plugin（PR 975、merged 2026-10-27 13:03 JST）。Cursor marketplace の新しい plugin。agent は、admin が ServiceNow の MCP Server Console で公開した MCP server を呼ぶ。server は顧客自身の instance 上にある。URL は `https://${SERVICENOW_HOST}/sncapps/mcp-server/mcp/${SERVICENOW_MCP_SERVER}`。設定は instance hostname、server name（Quickstart は `sn_mcp_server_default`）、OAuth inbound integration の client ID と client secret。OAuth は `mcp_server` scope を求める。tool call は sign in した ServiceNow ユーザーとして、その server が出す tool に対して走る。PR の test plan では、live の install と sign-in はまだチェックされていない。live であることは未確認。
+- 出典: [PR 975](https://github.com/cursor/plugins/pull/975)（2026-10-27）
+- 確認: 未
