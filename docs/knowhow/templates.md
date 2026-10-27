@@ -2,6 +2,12 @@
 
 ボットの共有と、公開されているボットの例。
 
+## 説明に合う template をチャットにリンク（v0.70.2）
+
+- 内容: changelog は、Bot が説明に合う Bot template を見つけ、チャットにリンクできる、と書く。
+- 出典: [changelog v0.70.2](https://x.ai/changelog/bot)（2026-10-11）
+- 確認: 未
+
 ## Hermes 多デバイス fleet テンプレ（x.ai/bot）
 
 - 内容: Hermes Agent 端末を @bot から 1 fleet として管理するテンプレ。
