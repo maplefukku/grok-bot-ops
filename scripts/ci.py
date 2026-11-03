@@ -289,6 +289,19 @@ def check_flag_y_only_lock() -> list[str]:
     return _run_unittest_module("test_flag_y_only_lock", "flag-y-only-lock")
 
 
+def check_devin_queue() -> list[str]:
+    buf = io.StringIO()
+    suite = unittest.defaultTestLoader.discover(
+        str(ROOT / "tools" / "devin-queue"), pattern="test_*.py"
+    )
+    result = unittest.TextTestRunner(stream=buf, verbosity=1).run(suite)
+    if result.testsRun < 1:
+        return ["devin-queue tests ran 0 tests"]
+    if result.wasSuccessful():
+        return []
+    return [f"devin-queue tests failed\n{buf.getvalue().rstrip()}"]
+
+
 LASTSTITCH_DIR = ROOT / "docs" / "laststitch"
 LASTSTITCH_FILES = (
     "README.md",
@@ -441,6 +454,7 @@ def main() -> int:
         ("trend-log-decisions", check_trend_log),
         ("trend-adopt-idempotency", check_trend_adopt_idempotency),
         ("laststitch-lock", check_laststitch),
+        ("devin-queue", check_devin_queue),
     ):
         found = fn()
         if found:
