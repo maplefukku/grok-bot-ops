@@ -2,6 +2,12 @@
 
 加入プランと、使えるアプリ。
 
+## primary Bot の提案は usage に数えない
+
+- 内容: Grok Bot は、頼まれなくても手伝い方を提案できる。primary Bot が引き受けられる仕事を見つけて申し出る。提案は usage にカウントされない。
+- 出典: [x.com/bot/status/2105713240701538538](https://x.com/bot/status/2105713240701538538) · [x.com/bot/status/2105713241745977618](https://x.com/bot/status/2105713241745977618)（2026-10-01）
+- 確認: 未
+
 ## Tesla 車内 Grok Bot は当面 SuperGrok Heavy
 
 - 内容: Tesla 公式: 車内 Grok Bot は Currently available to SuperGrok Heavy subscribers, with more tiers to follow。

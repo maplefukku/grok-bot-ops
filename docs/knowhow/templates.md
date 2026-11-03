@@ -2,6 +2,18 @@
 
 ボットの共有と、公開されているボットの例。
 
+## 公式: Team Bots
+
+- 内容: チームが共有する役割やワークフローを単位に Team Bot を作り、共有する。中身は Context（files、instructions、skills）、Plugins（Salesforce、Notion、GitHub など。各自が接続するか、チーム全体に設定する）、Credentials（plugin の無い third-party API へのアクセス）、Memories（学んだことの保持）。会話は人ごとに非公開で、context と memories はユーザーごとに分かれ、skills はチームで共有する。Slack では Bot ごとに handle があり、チャネルに招待できる。
+- 出典: [x.com/bot/status/2104661562715967548](https://x.com/bot/status/2104661562715967548) · [Team Bots](https://x.ai/news/team-bots)（2026-09-28）
+- 確認: 未
+
+## 公式: Engineering Marketplace
+
+- 内容: Engineering カテゴリに Projects Manager、Researchy、Lingxi's Engineer Bot、tinkabot、QA bot、Engineering Lead、Nightly Audit Engineer、SWE（Cursor）が並ぶ。
+- 出典: [engineering marketplace](https://x.ai/bot/marketplace/engineering)（2026-10-10 取得）
+- 確認: 未
+
 ## Hermes 多デバイス fleet テンプレ（x.ai/bot）
 
 - 内容: Hermes Agent 端末を @bot から 1 fleet として管理するテンプレ。
