@@ -47,6 +47,7 @@ routines/                    Grok Bot routine の原稿（外側ループの正�
 products/                    工場が出荷するプロダクトの台帳
 automations/
   verification-bootstrap/    プロダクトに検証スキルを立てる移植パック
+tools/devin-queue/           Devin CLI ジョブキューランナー（init/submit/run-once。未設置、テンプレのみ）
 evals/                       スキル・プロンプト変更の盲検評価の記録
 lessons/                     /reflect で受理された教訓
 docs/
