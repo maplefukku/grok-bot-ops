@@ -46,7 +46,11 @@ Rules: `job_id` matches `[a-z0-9-]{1,64}` and is unique across
 inbox/running/done/failed. `repo` must be in `config.json` `repos`. `model`
 must be in the SWE-2 family (`swe-2`, `swe-2-high`, ...; `-lightning` variants
 are rejected). `timeout_sec` must be `<= max_timeout_sec` (default 7200).
-`pr.draft` must be `true`. Optional `continue_branch: true` clones `branch`
+`pr.draft` must be `true`. `branch`, `base_branch` and `pr.base` must be
+safe ref names: `^[A-Za-z0-9][A-Za-z0-9._/-]{0,199}$` and no `..`, `//`,
+`@{`, trailing `/`, `.` or `.lock`, or path component starting with `.`.
+An unsafe value fails the job as `invalid_job` before any git/gh command
+runs. Optional `continue_branch: true` clones `branch`
 instead of creating it. Remote checks (`base_branch` exists, `branch` absent)
 run via `git ls-remote` right before the job starts; a failure sends the job
 to `failed/` with reason `invalid_job`.
@@ -81,6 +85,19 @@ SIGKILL after 30 s. Afterwards it checks `gh pr list --repo <repo> --head
 <branch>`; if there is no PR but the branch has new commits it pushes the
 branch (no force) and opens a draft PR with `gh pr create --draft --fill`.
 It never merges, marks ready, comments, or force-pushes.
+
+The `devin` child (`devin auth status` and `devin -p`) does **not** inherit
+the runner's environment. It gets an explicit allowlist built from the
+parent: `HOME`, `USER`, `LOGNAME`, `PATH`, `TERM`, `LANG`, `TMPDIR` — and
+nothing else. Devin CLI auth reads the credentials stored by
+`devin auth login` under `$HOME`, so no key, token or secret variables are
+passed. git/gh calls keep the runner environment.
+
+On top of ref validation, positional ref/repository arguments to git are
+preceded by `--` where the subcommand treats it as end-of-options
+(`ls-remote`, `clone`, `push`). `git switch` and `git rev-list` would read
+what follows `--` as pathspecs, so they get no marker and rely on the
+ref-name validation above.
 
 ## Watching
 

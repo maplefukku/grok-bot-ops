@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 import tempfile
 import threading
 import unittest
 from pathlib import Path
+from unittest import mock
 
 _DIR = Path(__file__).resolve().parent
 if str(_DIR) not in sys.path:
@@ -64,13 +66,15 @@ class FakeRun:
 
     def __init__(self, devin_output: str = "", devin_rc: int = 0, auth_rc: int = 0):
         self.calls = []
+        self.envs = []
         self.devin_output = devin_output
         self.devin_rc = devin_rc
         self.auth_rc = auth_rc
 
-    def __call__(self, argv, cwd=None, timeout_sec=None) -> dq.CmdResult:
+    def __call__(self, argv, cwd=None, timeout_sec=None, env=None) -> dq.CmdResult:
         argv = tuple(str(a) for a in argv)
         self.calls.append(argv)
+        self.envs.append(env)
         if argv[:3] == ("devin", "auth", "status"):
             return dq.CmdResult(self.auth_rc, "auth status", False)
         if argv[0] == "devin":
@@ -243,6 +247,103 @@ class TestValidation(unittest.TestCase):
         errors = dq.validate_job(_job("Bad_ID!"), dq.DEFAULT_CONFIG)
         self.assertTrue(any("job_id" in e for e in errors))
         self.assertEqual(dq.validate_job(_job("job-ok"), {"repos": ["acme/widget"]}), [])
+
+
+class TestDevinChildEnv(unittest.TestCase):
+    """Gate:
+    1. Contract: every devin child call (`auth status` and the `-p` run)
+       receives an env built only from DEVIN_ENV_ALLOWLIST; secret-shaped
+       names present in the parent never pass through.
+    2. Guards regressions where the runner's full environment (API keys,
+       tokens, secrets) leaks into the devin subprocess.
+    3. No existing coverage of the child env; this tool owns it.
+    4. Asserts on the env argument handed to the run() boundary — the same
+       value default_run passes to subprocess.Popen — not internals.
+    """
+
+    def test_allowlisted_env_reaches_devin_child(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            queue = _make_queue(tmp)
+            _put_inbox(queue, _job("job-01"))
+            run = FakeRun()
+            parent = {
+                "HOME": "/home/test",
+                "PATH": "/usr/bin:/bin",
+                "FOO_API_KEY": "fake-foo-key",
+                "BAR_KEY": "fake-bar-key",
+                "BAZ_TOKEN": "fake-baz-token",
+                "QUX_SECRET": "fake-qux-secret",
+            }
+            with mock.patch.dict(os.environ, parent, clear=True):
+                dq.run_once(queue, run=run, remote_check=lambda job, r: [])
+            devin_idxs = [
+                i for i, argv in enumerate(run.calls) if argv[0] == "devin"
+            ]
+            self.assertEqual(len(devin_idxs), 2)  # auth status + the -p run
+            for i in devin_idxs:
+                env = run.envs[i]
+                self.assertIsNotNone(env)
+                for name in ("FOO_API_KEY", "BAR_KEY", "BAZ_TOKEN", "QUX_SECRET"):
+                    self.assertNotIn(name, env)
+                self.assertEqual(env.get("HOME"), "/home/test")
+                self.assertEqual(env.get("PATH"), "/usr/bin:/bin")
+
+
+class TestRefValidation(unittest.TestCase):
+    """Gate:
+    1. Contract: branch, base_branch and pr.base must be safe ref names; an
+       unsafe value fails the job as invalid_job before any git/gh/devin
+       command runs.
+    2. Guards option-injection regressions (e.g. --upload-pack=evil reaching
+       a git call as an option instead of a ref).
+    3. No existing coverage of ref validation; this tool owns it.
+    4. Goes through run_once, the public validation/run path; FakeRun
+       records every subprocess call so "no git/gh ran" is observable.
+    """
+
+    BAD_REFS = ("-x", "--upload-pack=evil", "a..b", "a b", "foo.lock", ".hidden")
+
+    def test_bad_refs_fail_as_invalid_job_without_subprocess(self):
+        for field in ("branch", "base_branch", "pr.base"):
+            for value in self.BAD_REFS:
+                with self.subTest(field=field, value=value):
+                    with tempfile.TemporaryDirectory() as tmp:
+                        queue = _make_queue(tmp)
+                        job = _job("job-01")
+                        if field == "pr.base":
+                            job["pr"]["base"] = value
+                        else:
+                            job[field] = value
+                        _put_inbox(queue, job)
+                        run = FakeRun()
+                        dq.run_once(queue, run=run, remote_check=lambda j, r: [])
+                        result = _result(queue, "failed", "job-01")
+                        self.assertEqual(result["reason"], "invalid_job")
+                        self.assertIn(field, result["detail"])
+                        self.assertEqual(
+                            run.calls,
+                            [],
+                            "invalid ref must fail before any subprocess runs",
+                        )
+
+    def test_normal_ref_names_pass_validation(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            queue = _make_queue(tmp)
+            job = _job(
+                "job-01",
+                branch="devin/bazure-fallback-01",
+                base_branch="wip/mini-live-20261103",
+            )
+            job["pr"]["base"] = "wip/mini-live-20261103"
+            _put_inbox(queue, job)
+            run = FakeRun()
+            dq.run_once(queue, run=run, remote_check=lambda j, r: [])
+            self.assertTrue(
+                any(argv[0] == "devin" for argv in run.calls),
+                "valid refs should reach the devin run",
+            )
+            result = _result(queue, "failed", "job-01")
+            self.assertNotEqual(result["reason"], "invalid_job")
 
 
 if __name__ == "__main__":

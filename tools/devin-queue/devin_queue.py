@@ -50,6 +50,8 @@ JOB_ID_RE = re.compile(r"[a-z0-9-]{1,64}")
 REPO_RE = re.compile(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+")
 # SWE-2 family only; paid "-lightning" variants are rejected separately.
 SWE2_RE = re.compile(r"swe-2(?:-[a-z0-9]+)*")
+# Conservative refname shape; ref_safe() applies further git rules on top.
+REF_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._/-]{0,199}")
 
 GRACE_SEC = 30
 WORK_KEEP_SEC = 3 * 24 * 3600
@@ -109,18 +111,24 @@ class CmdResult:
 
 # Signature shared by the real runner and test fakes. argv is a sequence of
 # strings; cwd is a directory or None; timeout_sec is a wall-clock limit or
-# None for no limit. Output is stdout and stderr combined.
-Run = Callable[[Sequence[str], Optional[str], Optional[int]], CmdResult]
+# None for no limit; env replaces the child environment or None inherits it.
+# Output is stdout and stderr combined.
+Run = Callable[
+    [Sequence[str], Optional[str], Optional[int], Optional[dict]],
+    CmdResult,
+]
 
 
 def default_run(
     argv: Sequence[str],
     cwd: Optional[str] = None,
     timeout_sec: Optional[int] = None,
+    env: Optional[dict] = None,
 ) -> CmdResult:
     proc = subprocess.Popen(
         [str(a) for a in argv],
         cwd=cwd,
+        env=env,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
@@ -149,6 +157,18 @@ def _kill_group(proc: subprocess.Popen, sig: int) -> None:
         pass
 
 
+# Env allowlist for the devin child: the runner may carry secrets (API keys,
+# tokens) that must never reach the child, so its env is built from this list
+# only. Devin CLI auth reads the credentials stored by `devin auth login`
+# under $HOME, so nothing beyond this list is needed.
+DEVIN_ENV_ALLOWLIST = ("HOME", "USER", "LOGNAME", "PATH", "TERM", "LANG", "TMPDIR")
+
+
+def devin_env() -> dict:
+    """Env for a devin child: allowlisted vars present in os.environ."""
+    return {k: os.environ[k] for k in DEVIN_ENV_ALLOWLIST if k in os.environ}
+
+
 def remote_branch_check(job: dict, run: Run) -> list:
     """Remote branch invariants, checked via git ls-remote.
 
@@ -156,10 +176,10 @@ def remote_branch_check(job: dict, run: Run) -> list:
     """
     url = "https://github.com/{}.git".format(job["repo"])
     errors = []
-    base = run(("git", "ls-remote", "--heads", url, job["base_branch"]))
+    base = run(("git", "ls-remote", "--heads", "--", url, job["base_branch"]))
     if base.returncode != 0 or not base.output.strip():
         errors.append("base_branch not on origin: {}".format(job["base_branch"]))
-    branch = run(("git", "ls-remote", "--heads", url, job["branch"]))
+    branch = run(("git", "ls-remote", "--heads", "--", url, job["branch"]))
     branch_exists = branch.returncode == 0 and bool(branch.output.strip())
     if branch_exists and not job.get("continue_branch"):
         errors.append("branch already on origin: {}".format(job["branch"]))
@@ -190,6 +210,23 @@ def model_allowed(model: object) -> bool:
     )
 
 
+def ref_safe(value: object) -> bool:
+    """Conservative refname check, stricter than git check-ref-format.
+
+    REF_RE already rejects a leading '-' or '.', spaces and other shell/git
+    metacharacters; the extra checks cover '..', '//', '@{', a trailing
+    '/', '.' or '.lock', and any path component starting with '.', so a
+    validated name is safe to pass as a git/gh argument.
+    """
+    if not isinstance(value, str) or not REF_RE.fullmatch(value):
+        return False
+    if ".." in value or "//" in value or "@{" in value:
+        return False
+    if value.endswith(("/", ".", ".lock")):
+        return False
+    return all(not part.startswith(".") for part in value.split("/"))
+
+
 def validate_job(data: object, config: dict) -> list:
     """Local-only job validation. Returns a list of human-readable errors."""
     if not isinstance(data, dict):
@@ -207,10 +244,10 @@ def validate_job(data: object, config: dict) -> list:
         errors.append("repo must look like owner/name")
     elif repo not in config.get("repos", []):
         errors.append("repo not in config.json repos: {}".format(repo))
-    if not isinstance(data.get("base_branch"), str) or not data["base_branch"]:
-        errors.append("base_branch is required")
-    if not isinstance(data.get("branch"), str) or not data["branch"]:
-        errors.append("branch is required")
+    if not ref_safe(data.get("base_branch")):
+        errors.append("base_branch must be a safe ref name")
+    if not ref_safe(data.get("branch")):
+        errors.append("branch must be a safe ref name")
     if not isinstance(data.get("continue_branch", False), bool):
         errors.append("continue_branch must be a bool")
     if not isinstance(data.get("prompt"), str) or not data["prompt"].strip():
@@ -237,8 +274,8 @@ def validate_job(data: object, config: dict) -> list:
             errors.append("pr.draft must be true")
         if not isinstance(pr.get("title"), str) or not pr["title"].strip():
             errors.append("pr.title is required")
-        if not isinstance(pr.get("base"), str) or not pr["base"]:
-            errors.append("pr.base is required")
+        if not ref_safe(pr.get("base")):
+            errors.append("pr.base must be a safe ref name")
     if not isinstance(data.get("submitted_by"), str) or not data["submitted_by"]:
         errors.append("submitted_by is required")
     if not _iso_with_offset(data.get("submitted_at")):
@@ -489,6 +526,7 @@ def execute_job(queue: Queue, job: dict, claimed: Path, run: Run, config: dict) 
                 "clone",
                 "--branch",
                 clone_branch,
+                "--",
                 "https://github.com/{}.git".format(repo),
                 str(workdir),
             ),
@@ -499,6 +537,8 @@ def execute_job(queue: Queue, job: dict, claimed: Path, run: Run, config: dict) 
             failed("error", "git clone failed (rc={})".format(res.returncode))
             return
         if not job.get("continue_branch"):
+            # git switch treats args after `--` as pathspecs, so there is no
+            # end-of-options marker here; branch is validated as a safe ref.
             res = run(("git", "-C", str(workdir), "switch", "-c", branch))
             child(res)
             if res.returncode != 0:
@@ -529,6 +569,7 @@ def execute_job(queue: Queue, job: dict, claimed: Path, run: Run, config: dict) 
             ),
             cwd=str(workdir),
             timeout_sec=timeout,
+            env=devin_env(),
         )
         child(res)
         if atif.exists():
@@ -558,6 +599,9 @@ def execute_job(queue: Queue, job: dict, claimed: Path, run: Run, config: dict) 
                 str(workdir),
                 "rev-list",
                 "--count",
+                # No `--`: rev-list treats what follows as pathspecs. The
+                # range starts with literal "origin/" and base_branch is
+                # validated as a safe ref anyway.
                 "origin/{}..HEAD".format(job["base_branch"]),
             )
         )
@@ -567,7 +611,9 @@ def execute_job(queue: Queue, job: dict, claimed: Path, run: Run, config: dict) 
             ahead = 0
         pr_url = _pr_url(repo, branch, run, child)
         if not pr_url and ahead > 0:
-            push = run(("git", "-C", str(workdir), "push", "-u", "origin", branch))
+            push = run(
+                ("git", "-C", str(workdir), "push", "-u", "origin", "--", branch)
+            )
             child(push)
             if push.returncode == 0:
                 created = run(
@@ -648,7 +694,7 @@ def run_once(
         return 0
     errors = validate_job(job, config)
     if not errors:
-        auth = run(("devin", "auth", "status"))
+        auth = run(("devin", "auth", "status"), env=devin_env())
         if auth.returncode != 0:
             try:
                 os.rename(claimed, queue.d("inbox") / claimed.name)
