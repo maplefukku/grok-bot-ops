@@ -175,6 +175,62 @@ class TestUiLibraryRegistry(unittest.TestCase):
         a = slug_from_url("https://example.com/page?a=1")
         b = slug_from_url("https://example.com/page?b=2")
         self.assertNotEqual(a, b)
+        self.assertEqual(a, "example-com-page-c22fea5d")
+        self.assertEqual(b, "example-com-page-efa2eba7")
+
+    def test_slug_long_figma_query_does_not_collide(self):
+        base = (
+            "https://www.figma.com/design/"
+            + "ab" * 10
+            + "/"
+            + "frame-" * 20
+            + "x"
+        )
+        a = slug_from_url(base + "?node-id=1-1")
+        b = slug_from_url(base + "?node-id=99-99")
+        self.assertNotEqual(a, b)
+        for slug in (a, b):
+            self.assertLessEqual(len(slug), 80)
+            self.assertEqual(validate_item_name(slug), slug)
+
+    def test_slug_non_ascii_path_does_not_collide(self):
+        a = slug_from_url("https://note.com/hashtag/デザイン")
+        b = slug_from_url("https://note.com/hashtag/タイポグラフィ")
+        self.assertNotEqual(a, b)
+        self.assertTrue(a.startswith("note-com-hashtag-"))
+        self.assertTrue(b.startswith("note-com-hashtag-"))
+
+    def test_slug_truncation_does_not_leave_trailing_hyphen(self):
+        slug = slug_from_url(
+            "https://www.figma.com/design/" + "x" * 50 + "/foo-bar?node-id=1-1"
+        )
+        self.assertLessEqual(len(slug), 80)
+        self.assertFalse(slug.endswith("-"))
+        self.assertEqual(validate_item_name(slug), slug)
+
+    def test_ingest_non_ascii_urls_do_not_overwrite(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "registry.json"
+            _empty_registry(path)
+            catalog = RegistryCatalog(path)
+            first = ingest_ref(
+                catalog,
+                IngestInput(url="https://note.com/hashtag/デザイン", why="first tag"),
+            )
+            second = ingest_ref(
+                catalog,
+                IngestInput(
+                    url="https://note.com/hashtag/タイポグラフィ", why="second tag"
+                ),
+            )
+            self.assertNotEqual(first, second)
+            fresh = RegistryCatalog(path)
+            self.assertEqual(len(list(fresh.list_names())), 2)
+            whys = {
+                name: fresh.view(name)["meta"]["fleet"]["ingestedWhy"]
+                for name in (first, second)
+            }
+            self.assertEqual(whys, {first: "first tag", second: "second tag"})
 
     def test_duplicate_names_fail_validation(self):
         data = {

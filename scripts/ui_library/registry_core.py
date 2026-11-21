@@ -74,19 +74,37 @@ def to_kebab_tag(value: str) -> str:
     return tag
 
 
+def _path_has_non_ascii(path: str) -> bool:
+    return any(ord(ch) > 127 for ch in path)
+
+
 def slug_from_url(url: str) -> str:
-    parsed = urlparse(url.strip())
+    raw = url.strip()
+    parsed = urlparse(raw)
     host = (parsed.hostname or "ref").lower().replace(".", "-")
-    path = _SLUG_RE.sub("-", (parsed.path or "").lower()).strip("-")
-    base = "-".join(part for part in (host, path) if part)
+    path_raw = parsed.path or ""
+    path = _SLUG_RE.sub("-", path_raw.lower()).strip("-")
+    host_path = "-".join(part for part in (host, path) if part)
+    base = host_path
     if parsed.query:
         digest = hashlib.sha256(parsed.query.encode("utf-8")).hexdigest()[:8]
         base = f"{base}-{digest}" if base else digest
     if parsed.fragment:
         digest = hashlib.sha256(parsed.fragment.encode("utf-8")).hexdigest()[:6]
         base = f"{base}-f{digest}"
-    slug = base[:80] or "ref"
-    return validate_item_name(slug)
+    truncated = base[:80] or "ref"
+    needs_full_url_hash = (
+        len(base) > 80
+        or _path_has_non_ascii(path_raw)
+        or not _KEBAB_RE.match(truncated)
+    )
+    if needs_full_url_hash:
+        full_digest = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:10]
+        budget = 80 - 1 - len(full_digest)
+        prefix = (host_path[:budget] if host_path else "").rstrip("-")
+        slug = f"{prefix}-{full_digest}" if prefix else full_digest
+        return validate_item_name(slug)
+    return validate_item_name(truncated)
 
 
 class RegistryCatalog:
