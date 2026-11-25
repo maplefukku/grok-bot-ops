@@ -2,6 +2,12 @@
 
 買い物・決済と、承認の置き方。
 
+## X Money または Stripe Link（v0.70.2）
+
+- 内容: changelog は、Bot が X Money または Stripe Link で支払える、と書く。取り消しできない操作（sending、posting、buying、deleting）の前に、Bot は利用者自身のメッセージで承認を確認する。
+- 出典: [changelog v0.70.2](https://x.ai/changelog/bot)（2026-10-11）
+- 確認: 未
+
 ## 出品フロー: Marketplace / eBay 投稿の前に人の承認ゲート
 
 - 内容: Grok Bot で組んだ出品フローの例。相場（comps）から価格を出し、Notion のステータスボード（Draft → Awaiting approval → Listed）に下書きを書き、価格を承認するまで Facebook Marketplace と eBay に投稿しない。住所は許可するまで出品に載せない。
@@ -25,3 +31,9 @@
 - 内容: 決済権限は本物のカードに直結させない。承認なしの自動購入は設定しない。spend / sign / send の explicit go の形は [`docs/process/anti-job.md`](../process/anti-job.md)。
 - 出典: 上項の公式境界を、この司令室の規約にしたもの。[Approvals, security, and privacy](https://docs.x.ai/grok-bot/approvals-security-and-privacy)
 - 確認: 済（このリポジトリの規約）
+
+## changelog v0.78.1 の product card
+
+- 内容: 買い物の結果は product card。Buy now は、ユーザーが承認する注文を始め、Bot が配送を追う。Shop Pay は Vault の Payments tab で繋げる。
+- 出典: [changelog v0.78.1](https://x.ai/changelog/bot) · [x.com/bot/status/2117736249444507834](https://x.com/bot/status/2117736249444507834)（2026-10-27）
+- 確認: 未
