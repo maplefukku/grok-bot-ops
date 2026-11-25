@@ -109,3 +109,63 @@
 - 内容: Bot は、確認する card の上で、Auto-review の rule を 1 つ足す、変える、外すことを提案できる。Grok Bot 0.75.2 以降。自分だけが見られる chat では、Bot は private file を聞かないで読む。Team Bot は、share list にいない teammate からは隠れる。
 - 出典: [changelog v0.75.8](https://x.ai/changelog/bot)（2026-10-24）
 - 確認: 未
+
+## Shared Bot の販売ガードレール
+
+- 内容: SpaceXSI の sales の Shared Bot は、ユーザー自身の permission に加え、敏感な操作への追加の制限で動く。rate limit が大量変更を止める。record の変更は preview してから聞く。承認は専門家に残り、rep は自分の割引を承認できない。基準が曖昧なもの、客が見るものは人が見る。
+- 出典: [news](https://x.ai/news/grok-bot-sales) · [x.com/bot/status/2115130760009273501](https://x.com/bot/status/2115130760009273501)（2026-10-27）
+- 確認: 未
+
+## changelog v0.77.0 の Permissions、1Password、Vault
+
+- 内容: Settings の Permissions は、Auto-review の rule を Always Ask と Allow without Asking に分ける。1Password は shared vault なしで繋がる。1Password で login ごとに承認すると、Bot の browser に入り、Bot はそれを見ない。Vault の Payments tab で、Bot が最初に使う支払いを選ぶ。購入は毎回自分が承認する。Vault の項目には Hints があり、いつ使うかを書く。Bot は password manager の前に、保存した Vault の login と card を試す。Settings の Import Memory は、ほかの AI assistant の文脈を primary Bot へ入れる。admin は Bot の共有を admin に限れる。
+- 出典: [changelog v0.77.0](https://x.ai/changelog/bot)（2026-10-26）
+- 確認: 未
+
+## approval card の期限と Vault の card
+
+- 内容: docs（2026-10-29 更新。changelog v0.78.1 より新しい）が、v0.77.0 の「approval card は 30 分（以前は 10）」を置き換える。chat の message から出た approval card はタイマーで切れない。routine かその他の背景作業から出た card は 30 分で切れる。新しい message を送ると、その chat の開いている card は閉じる。Vault に保存した card は checkout で毎回聞かれずに入る。支払いのたびに承認するなら、card を保存しない。Allow rule は 20 まで、Ask first rule は 20 まで、各 1,000 文字まで。両方に合うときは Ask first が勝つ。
+- 出典: [approvals](https://docs.x.ai/grok-bot/approvals-security-and-privacy) · [置き換え v0.77.0](https://x.ai/changelog/bot)（2026-10-29）
+- 確認: 未
+
+## changelog v0.78.1 の Team Bot
+
+- 内容: Team Bot は Only you に限れる。manager は Configure、Tools で、Team Bot 自身の Vault に login を足せる。
+- 出典: [changelog v0.78.1](https://x.ai/changelog/bot)（2026-10-27）
+- 確認: 未
+
+## usage が早く尽きるという reply
+
+- 内容: Elon Musk の X reply（changelog ではない。2026-11-02 05:34 JST）。The cost of serving Grok Bot was unsustainably high relative to revenue。リサーチの文脈は、usage meter が Nov 1 の約 13:10 JST から跳ね、changelog の項目も新しい上限の数字もまだ無い。重い仕事の前に usage を見る。
+- 出典: [x.com/elonmusk/status/2116992258520064397](https://x.com/elonmusk/status/2116992258520064397)（2026-11-02）
+- 確認: 未
+
+## changelog v0.79.0 の隠れた指示
+
+- 内容: page の隠れた AI 指示は印を付け、従わない。
+- 出典: [changelog v0.79.0](https://x.ai/changelog/bot)（2026-11-05）
+- 確認: 未
+
+## changelog v1.0.1 の共有 login と learnings
+
+- 内容: Allow Shared Logins がオンなら、owner と Manager は自分の app login を shared connector として共有できる。チームメイトが Team Bot に教えたことは、owner か Manager が Review learnings で承認するまで待つ。Bot の共有は、誰が共有できるかを限れる。
+- 出典: [changelog v1.0.1](https://x.ai/changelog/bot)（2026-11-11）
+- 確認: 未
+
+## changelog v1.2.0 の承認
+
+- 内容: Auto-review は大きい file と binary file の書き込みも見る。command の approval card は command 全文を出す。prompt の link は、実行の前に確認を求める。
+- 出典: [changelog v1.2.0](https://x.ai/changelog/bot)（2026-11-16）
+- 確認: 未
+
+## changelog v1.2.3 の tool と connector
+
+- 内容: 各 connector の page で、すべての tool を Always allow、Auto-review、Needs approval、Blocked にできる（Bot 0.70.2 以降）。connector がある site では、Bot は browser の前に connector を使うか、その connect card を出す。
+- 出典: [changelog v1.2.3](https://x.ai/changelog/bot)（2026-11-18）
+- 確認: 未
+
+## changelog v1.3.0 の org と device
+
+- 内容: org は、メンバーが繋ぐ account を自社 domain に限れる。team admin は、invite link からの参加の前に承認を要せる（Requests tab）。Settings は account の device を一覧し、offline の電話を外せる。Microsoft の work/school sign-in は Teams を繋げる（1.0.1 以降）。
+- 出典: [changelog v1.3.0](https://x.ai/changelog/bot)（2026-11-24）
+- 確認: 未

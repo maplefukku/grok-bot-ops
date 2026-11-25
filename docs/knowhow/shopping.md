@@ -31,3 +31,9 @@
 - 内容: 決済権限は本物のカードに直結させない。承認なしの自動購入は設定しない。spend / sign / send の explicit go の形は [`docs/process/anti-job.md`](../process/anti-job.md)。
 - 出典: 上項の公式境界を、この司令室の規約にしたもの。[Approvals, security, and privacy](https://docs.x.ai/grok-bot/approvals-security-and-privacy)
 - 確認: 済（このリポジトリの規約）
+
+## changelog v0.78.1 の product card
+
+- 内容: 買い物の結果は product card。Buy now は、ユーザーが承認する注文を始め、Bot が配送を追う。Shop Pay は Vault の Payments tab で繋げる。
+- 出典: [changelog v0.78.1](https://x.ai/changelog/bot) · [x.com/bot/status/2117736249444507834](https://x.com/bot/status/2117736249444507834)（2026-10-27）
+- 確認: 未

@@ -235,3 +235,33 @@ Bot のコンピュータ（Cloud Agent、ネットワーク、マシン上の�
 - 内容: DeepSeek V4.1 Flash は Cursor Settings の Models にある。
 - 出典: [x.com/cursor_ai/status/2114839997568405608](https://x.com/cursor_ai/status/2114839997568405608)
 - 確認: 未
+
+## Cursor design mode の Annotate
+
+- 内容: agent に視覚の prompt を渡す。要素を編集し、page に描き、違う screen size で design を見る。この時点では Cursor changelog には無く、X の告知だけ。
+- 出典: [x.com/cursor_ai/status/2115159585548021814](https://x.com/cursor_ai/status/2115159585548021814)（2026-10-28）
+- 確認: 未
+
+## changelog v0.78.1 の custom mode
+
+- 内容: Bot は名前を付けた custom mode で cloud agent を始められる。
+- 出典: [changelog v0.78.1](https://x.ai/changelog/bot)（2026-10-27）
+- 確認: 未
+
+## Enterprise の Bot computer
+
+- 内容: Enterprise の admin は、Cursor dashboard からメンバーの Bot computer をまとめて Recreate か Terminate できる。どちらも durable disk は残る（Bot、file、login は戻る）が、メンバーが自分で入れた app は消える。Delete All Grok Bot Data は不可逆で、1 回 100 メンバーまで。Terminate Inactive Computers は、Bot が 30 日 message の無いメンバーの computer を終わらせる。同じ操作は Organization API にある。docs の更新は 2026-10-29。
+- 出典: [computers](https://docs.x.ai/grok-bot/computers)（2026-10-29）
+- 確認: 未
+
+## Cursor Live Apps
+
+- 内容: changelog の日付は Nov 5, 2026。cloud agent が web app を scaffold し host する。任意で Postgres、Cursor SSO の auth、secret、publish。go-live の前に deterministic と agentic の security check。人、group、team と共有でき、individual plan では public にもできる。cloud agent のある有料 plan。script と Grok Bot は header `x-cursor-app-token`。
+- 出典: [changelog](https://cursor.com/changelog) · [docs](https://cursor.com/docs/cloud-agent/apps) · [x.com/cursor_ai/status/2118458629091426304](https://x.com/cursor_ai/status/2118458629091426304) · [2118458641171013820](https://x.com/cursor_ai/status/2118458641171013820)（2026-11-05）
+- 確認: 未
+
+## changelog v0.79.0 の computer 上のコマンド
+
+- 内容: ssh、psql、Node.js の script は Bot の computer で走る。
+- 出典: [changelog v0.79.0](https://x.ai/changelog/bot)（2026-11-05）
+- 確認: 未

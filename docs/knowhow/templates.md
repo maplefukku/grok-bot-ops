@@ -55,3 +55,21 @@
 - 内容: Lauren 作の「高品質な Grok Bot を設計するボット」。コーディング用には pstack の水準を、非コーディングにも同じ厳密さを適用する、とページに書いてある。第三者ボットであり、追加時は third-party bot terms に同意する。
 - 出典: [x.ai/bot/93gOz3op1UQdBdbekQFLK](https://x.ai/bot/93gOz3op1UQdBdbekQFLK)（2026-08-29 確認）
 - 確認: 未
+
+## changelog v0.77.0 の Order Concierge と Deal Watcher
+
+- 内容: Order Concierge と Deal Watcher は、OK なしには買わない。
+- 出典: [changelog v0.77.0](https://x.ai/changelog/bot)（2026-10-26）
+- 確認: 未
+
+## changelog v0.78.1 の template
+
+- 内容: Try it, don't pay for it、Find unused subscriptions、Watch subscription prices。Bot は何かを解約する前に確認する。
+- 出典: [changelog v0.78.1](https://x.ai/changelog/bot)（2026-10-27）
+- 確認: 未
+
+## changelog Nov 13 の Gift Concierge
+
+- 内容: Gift Concierge template。
+- 出典: [changelog](https://x.ai/changelog/bot)（2026-11-13）
+- 確認: 未

@@ -121,3 +121,27 @@ Grok Bot の routine（定期実行・イベント・webhook）の公式の使�
 - 内容: Auto-review は approval card を出す前にもう一度見る。Bot が自分の routine を保存または編集することは、それだけでは risky と扱わない。
 - 出典: [changelog v0.75.8](https://x.ai/changelog/bot)（2026-10-24）
 - 確認: 未
+
+## 販売の準備と follow-up
+
+- 内容: SpaceXSI の sales では、rep が準備と follow-up を routine にする。
+- 出典: [news](https://x.ai/news/grok-bot-sales)（2026-10-27）
+- 確認: 未
+
+## changelog v0.78.1 の time zone
+
+- 内容: 新しい Bot の最初の chat で作った routine は、ユーザーの time zone で走る。
+- 出典: [changelog v0.78.1](https://x.ai/changelog/bot)（2026-10-27）
+- 確認: 未
+
+## changelog v0.79.0 の one-off
+
+- 内容: one-off の routine は走ったあとオフになる。
+- 出典: [changelog v0.79.0](https://x.ai/changelog/bot)（2026-11-05）
+- 確認: 未
+
+## changelog v1.2.3 の routine
+
+- 内容: routine が connector の sign-in を失うと、reconnect まで scheduled run は飛ばす。reconnect card は notification と、Slack または Teams の DM にも届く（0.79.2 以降）。routine は自分の chat の前の会話を読める。
+- 出典: [changelog v1.2.3](https://x.ai/changelog/bot)（2026-11-18）
+- 確認: 未

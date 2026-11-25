@@ -85,3 +85,57 @@
 - 内容: Bot は、確認する card の上で、Auto-review の rule を 1 つ足す、変える、外すことを提案できる。Grok Bot 0.75.2 以降。Auto-review は approval card を出す前にもう一度見る。Bot が自分の routine を保存または編集することは、それだけでは risky と扱わない。背景の作業が終わると、Bot は頼まれたことを仕上げ、次に何をするかを言う。自分から、または別の agent の承認では動かない。
 - 出典: [changelog v0.75.8](https://x.ai/changelog/bot)（2026-10-24）
 - 確認: 未
+
+## changelog v0.77.0 の質問と table
+
+- 内容: Bot は 1 枚の stepping card で複数の質問を出せ、Your own answer がある。chat の table には copy button がある（Slack 用か markdown）。Team Bot との DM では、チームメイトは自分が使えるほかの Team Bot へメッセージさせられる。
+- 出典: [changelog v0.77.0](https://x.ai/changelog/bot)（2026-10-26）
+- 確認: 未
+
+## Data Bot
+
+- 内容: Grok Bot team が作った Team Bot。会社全体の on-demand な data scientist。PM には product の usage、marketer には campaign の結果、dashboard と metric の追跡。始め方は、投稿で @bot を付け、投稿を読んで案内するよう頼む。
+- 出典: [x.com/bot/status/2117349540168876334](https://x.com/bot/status/2117349540168876334) · [x.com/poteto/status/2117366076342460440](https://x.com/poteto/status/2117366076342460440)
+- 確認: 未
+
+## Grok Bot の電話
+
+- 内容: @bot の告知（changelog の項目ではない）。Grok Bot can now make phone calls。価格、通話の上限、声の複製は、この投稿には無い。Cursor の Voice Chat とは別。
+- 出典: [x.com/bot/status/2118043939592942052](https://x.com/bot/status/2118043939592942052)（2026-11-05）
+- 確認: 未
+
+## changelog v0.79.3 の Page と call card
+
+- 内容: 共有 Page に dark/light の theme toggle があり、選んだ方を覚える。call card は No answer と Copy conversation ID を出す。
+- 出典: [changelog v0.79.3](https://x.ai/changelog/bot)（2026-11-06）
+- 確認: 未
+
+## Cursor Voice Chat
+
+- 内容: Agents Window、IDE、web、Cursor for iOS で、coding agent と realtime の speech-to-speech。voice agent は coding の仕事を coding agent に渡し、短い進捗を話す。始めるのは、agent が idle で入力が空のときの waveform「Start voice chat」（IDE は message が 1 つ以上）。dictation ではない。Grok Voice。声は Ara、Eve、Leo、Rex、Sal。Privacy Mode は zero data retention。iOS は unlocked で「Hey Siri, call Cursor」。sign-in した Cursor account が要る。API-key の session は始められない。mic の permission。idle で約 10 分沈黙すると切れる。1 日の call 上限。subagent、Project worker、archived chat、Claude Code chat、teammate の chat では出ない。IDE は streaming 中の cloud agent と dictation off でも隠す。
+- 出典: [changelog](https://cursor.com/changelog/voice-chat) · [docs](https://cursor.com/docs/agent/voice-chat)（2026-11-07）
+- 確認: 未
+
+## 会議
+
+- 内容: Team、Enterprise、Ultra では、Bot が link から Google Meet、Zoom、Microsoft Teams に入り、meeting chat で答え、あとから summary を送る。Team Bot の Microsoft Teams は、team admin が有効にし、owner か Manager が繋ぎ、Teams admin が承認する。changelog の Nov 13 は、meeting に listen-only と Disable Interactivity（外部の通話向け）がある、と書く。v1.3.0 は、Bot が参加した meeting に誰がいたかを名指しできる、と書く。
+- 出典: [changelog v1.0.1](https://x.ai/changelog/bot) · [Nov 13](https://x.ai/changelog/bot) · [v1.3.0](https://x.ai/changelog/bot)（2026-11-11）
+- 確認: 未
+
+## changelog v1.0.1 の Voice と送信
+
+- 内容: Voice menu の Speed slider は 0.5x から 2x。報告することが無い turn では、bare の done を出さない。dialog の後ろの chat は、Cmd または Ctrl と Enter では送られない。
+- 出典: [changelog v1.0.1](https://x.ai/changelog/bot)（2026-11-11）
+- 確認: 未
+
+## changelog Nov 13 の @ menu
+
+- 内容: 1Password は @ menu にある。
+- 出典: [changelog](https://x.ai/changelog/bot)（2026-11-13）
+- 確認: 未
+
+## changelog v1.3.0 の Slack と @
+
+- 内容: Slack で Bot が別の Bot に仕事を渡すと、答えは自分の Slack DM に戻り、その Bot にまだ必要なものがあれば Connect ボタンが付く。Slack の group DM で Bot の名前を言うと、@mention と同じように起こす。Slack thread の返信は、頼むとその channel にも出せる。chat の @ は、まだ足していない届く Team Bot を一覧する。helper が開いた widget（例は Salesforce card）は自分の chat に出る。
+- 出典: [changelog v1.3.0](https://x.ai/changelog/bot)（2026-11-24）
+- 確認: 未

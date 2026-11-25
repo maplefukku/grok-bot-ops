@@ -4,8 +4,8 @@
 
 ## Tailscale（private tailnet の MCP）
 
-- 内容: Tailscale plugin 1.0.3（PR 810、merged 2026-10-25 10:49 JST）は、tailnet ごとに support へ tailnet ID を送る旧 beta の手順を置き換える。plugin 1.0.4（PR 899、merged 2026-10-27 03:39 JST）は、1.0.3 の次の setup を置き換える。personal tailnet の行が Connect を出すときは、one click のあと Tailscale で承認し、行に出た login を確認する。繋げられるのはその tailnet の owner か admin で、device はそのユーザー自身の access を持つ。狭めるときは Connect with tag:grokbot を使う。company tailnet は、team admin が plugin を team に足し、plugin の Company tailnet card、または cursor.com dashboard の Integrations にある Tailscale card を開く。OAuth client と tag を聞く Tailscale のページは Rollouts 用で、Grok Bot ではない。MagicDNS suffix を入れるか Sign in to Tailscale し、「Members' Grok Bot devices may join this tailnet」にチェックして Enable する。1 team に複数の tailnet を置ける。各メンバーは「Company tailnet for <team>」の Connect を押し、Authorize application する。device はそのメンバーとして参加する（名前は grokbot-team-…。approval がオンなら admin が Machines で承認する）。切断は plugin ページの Remove。1.0.4 では、Tailscale の行は 1 つで、tailnet ごとに slot があり、routing 用の default tailnet がある。company tailnet は cursor.com で有効にし、custom:grokbot の posture を付ける。各メンバーは自分の device を認証する。personal tailnet は one-click Connect（owner か admin）か tag:grokbot。one-click の device はそのユーザー自身の access を持つ。削除、再認証、追加、default tailnet の変更は Allow/Deny card を通る。OAuth client と tag を聞く Tailscale のページは Rollouts 用で、Grok Bot ではない。tag:grokbot で狭めるときは、Access controls で `tag:grokbot` を tagOwners（署名するユーザーまたは `autogroup:admin`）に足し、MCP の host と port だけへの grant を既存 policy にマージする。default の allow-all が残っていると、その tag は全 device に届く。plugin の Authenticate で Tailscale に sign in し device を承認する。device approval がオンなら Machines でも承認する。Tailnet Lock なら署名ノードで `tailscale lock sign <node-key>` するまで何にも届かない。締め付けは custom:grokbot の posture で、Tailscale Premium または Enterprise が要る。default posture に `custom:grokbot NOT SET` を足し、MCP host への grant は `custom:grokbot IS SET` の posture にする。MCP URL の host は `*.ts.net`、`100.x`、内部 DNS（MagicDNS か split DNS）、subnet route、app connector。port は任意で、tailnet 上では `http://` も使える。private CA は `tls.caBundle` に本物の PEM テキストを置く。内部 DNS、subnet route、app connector、その他の port、`http://` はまだロールアウト中。bot の computer に Tailscale client は入れない。computer を入れ替えると消え、login を求め続ける。到達確認は plugin の Check host で、curl は使わない。bot computer の curl は personal connection だけを使う。personal で使えるのは bot owner、linked teammates、owner がスケジュールした routine。company で使えるのはそのメンバー自身の chat、Slack DM、そのメンバーの routine。これは v0.70.2 changelog（2026-10-11）の「private Tailscale network の MCP はまだ届かないので Tailscale Funnel を提案する」を置き換える。Grok Bot 0.49.0 以降（`cursor` は `never`）。PR 533（merged 2026-10-12）は、backend の Tailscale 行が Statsig `grok_bot_tailnet` でゲートされ、merge すると plugin が公開されると書いている。2026-10-17 の報告では、skill だけ入り Authenticate ボタンと MCP サーバ項目が出ない。
-- 出典: [PR 899](https://github.com/cursor/plugins/pull/899) · [PR 810](https://github.com/cursor/plugins/pull/810) · [skill](https://github.com/cursor/plugins/blob/main/third_party/tailscale/skills/tailscale-setup/SKILL.md) · [README](https://github.com/cursor/plugins/blob/main/third_party/tailscale/README.md) · [plugin.json](https://github.com/cursor/plugins/blob/main/third_party/tailscale/.cursor-plugin/plugin.json) · [PR 533](https://github.com/cursor/plugins/pull/533) · [changelog v0.70.2](https://x.ai/changelog/bot) · [x.com/wookiist/status/2111320507274690824](https://x.com/wookiist/status/2111320507274690824)（2026-10-27）
+- 内容: Tailscale plugin 1.0.3（PR 810、merged 2026-10-25 10:49 JST）は、tailnet ごとに support へ tailnet ID を送る旧 beta の手順を置き換える。plugin 1.0.4（PR 899、merged 2026-10-27 03:39 JST）は、1.0.3 の次の setup を置き換える。personal tailnet の行が Connect を出すときは、one click のあと Tailscale で承認し、行に出た login を確認する。繋げられるのはその tailnet の owner か admin で、device はそのユーザー自身の access を持つ。狭めるときは Connect with tag:grokbot を使う。company tailnet は、team admin が plugin を team に足し、plugin の Company tailnet card、または cursor.com dashboard の Integrations にある Tailscale card を開く。OAuth client と tag を聞く Tailscale のページは Rollouts 用で、Grok Bot ではない。MagicDNS suffix を入れるか Sign in to Tailscale し、「Members' Grok Bot devices may join this tailnet」にチェックして Enable する。1 team に複数の tailnet を置ける。各メンバーは「Company tailnet for <team>」の Connect を押し、Authorize application する。device はそのメンバーとして参加する（名前は grokbot-team-…。approval がオンなら admin が Machines で承認する）。切断は plugin ページの Remove。1.0.4 では、Tailscale の行は 1 つで、tailnet ごとに slot があり、routing 用の default tailnet がある。company tailnet は cursor.com で有効にし、custom:grokbot の posture を付ける。各メンバーは自分の device を認証する。plugin 1.0.5（PR 1167、merged 2026-11-04 04:48 JST）は次の文を置き換える。personal tailnet は one-click Connect（owner か admin）か tag:grokbot。personal tailnet は one-click Connect だけで繋ぐ。繋ぐメンバーはその tailnet の owner か admin である。one-click の device はそのユーザー自身の access を持つ。繋がった tailnet では、Grok Bot の computer 上の command が name.tailnet.ts.net（MagicDNS）か 100.x へ HTTP(S)/TCP で届く。入れるものは無い。削除、再認証、追加、default tailnet の変更は Allow/Deny card を通る。OAuth client と tag を聞く Tailscale のページは Rollouts 用で、Grok Bot ではない。1.0.5 は tag:grokbot の sign-in を外す。次は置き換え前の tag:grokbot sign-in である。tag:grokbot で狭めるときは、Access controls で `tag:grokbot` を tagOwners（署名するユーザーまたは `autogroup:admin`）に足し、MCP の host と port だけへの grant を既存 policy にマージする。default の allow-all が残っていると、その tag は全 device に届く。plugin の Authenticate で Tailscale に sign in し device を承認する。device approval がオンなら Machines でも承認する。Tailnet Lock なら署名ノードで `tailscale lock sign <node-key>` するまで何にも届かない。締め付けは custom:grokbot の posture で、Tailscale Premium または Enterprise が要る。default posture に `custom:grokbot NOT SET` を足し、MCP host への grant は `custom:grokbot IS SET` の posture にする。MCP URL の host は `*.ts.net`、`100.x`、内部 DNS（MagicDNS か split DNS）、subnet route、app connector。port は任意で、tailnet 上では `http://` も使える。private CA は `tls.caBundle` に本物の PEM テキストを置く。内部 DNS、subnet route、app connector、その他の port、`http://` はまだロールアウト中。bot の computer に Tailscale client は入れない。computer を入れ替えると消え、login を求め続ける。1.0.5 が次の到達確認を置き換える。到達確認は plugin の Check host で、curl は使わない。bot computer の curl は personal connection だけを使う。personal で使えるのは bot owner、linked teammates、owner がスケジュールした routine。company で使えるのはそのメンバー自身の chat、Slack DM、そのメンバーの routine。これは v0.70.2 changelog（2026-10-11）の「private Tailscale network の MCP はまだ届かないので Tailscale Funnel を提案する」を置き換える。Grok Bot 0.49.0 以降（`cursor` は `never`）。PR 533（merged 2026-10-12）は、backend の Tailscale 行が Statsig `grok_bot_tailnet` でゲートされ、merge すると plugin が公開されると書いている。2026-10-17 の報告では、skill だけ入り Authenticate ボタンと MCP サーバ項目が出ない。
+- 出典: [PR 1167](https://github.com/cursor/plugins/pull/1167) · [PR 899](https://github.com/cursor/plugins/pull/899) · [PR 810](https://github.com/cursor/plugins/pull/810) · [skill](https://github.com/cursor/plugins/blob/main/third_party/tailscale/skills/tailscale-setup/SKILL.md) · [README](https://github.com/cursor/plugins/blob/main/third_party/tailscale/README.md) · [plugin.json](https://github.com/cursor/plugins/blob/main/third_party/tailscale/.cursor-plugin/plugin.json) · [PR 533](https://github.com/cursor/plugins/pull/533) · [changelog v0.70.2](https://x.ai/changelog/bot) · [x.com/wookiist/status/2111320507274690824](https://x.com/wookiist/status/2111320507274690824)（2026-11-04）
 - 確認: 未
 
 ## TikTok for Business
@@ -246,4 +246,64 @@
 
 - 内容: ServiceNow plugin（PR 975、merged 2026-10-27 13:03 JST）。Cursor marketplace の新しい plugin。agent は、admin が ServiceNow の MCP Server Console で公開した MCP server を呼ぶ。server は顧客自身の instance 上にある。URL は `https://${SERVICENOW_HOST}/sncapps/mcp-server/mcp/${SERVICENOW_MCP_SERVER}`。設定は instance hostname、server name（Quickstart は `sn_mcp_server_default`）、OAuth inbound integration の client ID と client secret。OAuth は `mcp_server` scope を求める。tool call は sign in した ServiceNow ユーザーとして、その server が出す tool に対して走る。PR の test plan では、live の install と sign-in はまだチェックされていない。live であることは未確認。
 - 出典: [PR 975](https://github.com/cursor/plugins/pull/975)（2026-10-27）
+- 確認: 未
+
+## OnePay
+
+- 内容: OnePay plugin。Grok Bot だけ。OnePay の hosted MCP `mcp.onepay.com` を OAuth の sign-in で使う。personal の OnePay account の質問は、always-on の rule でここへ回す。PR は上限を書いていない。
+- 出典: [PR 1059](https://github.com/cursor/plugins/pull/1059)
+- 確認: 未
+
+## Microsoft Dynamics 365 Business Central
+
+- 内容: Microsoft Dynamics 365 Business Central plugin が catalog に入った。Cursor は connector を Merge 経由で host する。Workday と Zoho と同じ。PR は上限を書いていない。
+- 出典: [PR 1107](https://github.com/cursor/plugins/pull/1107)
+- 確認: 未
+
+## Questrade
+
+- 内容: Questrade plugin（PR 1118、merged 2026-10-29 10:25 JST）。hosted connector。OAuth で sign in する。portfolio を読み、live の market data を取り、取引を話す。Grok Bot 0.49.0 以降。
+- 出典: [PR 1118](https://github.com/cursor/plugins/pull/1118)（2026-10-29）
+- 確認: 未
+
+## Lark Base（Bitable）
+
+- 内容: Lark Base（Bitable）plugin（PR 1150、merged 2026-11-01 09:10 JST）。team admin が自分の Lark app の App ID と App Secret を入れる。各メンバーは Lark OAuth で sign in し、すでに読める Base を読む。既存の Lark plugin（docs と messaging）とは別。
+- 出典: [PR 1150](https://github.com/cursor/plugins/pull/1150)（2026-11-01）
+- 確認: 未
+
+## Runway（Cursor plugin）
+
+- 内容: Runway は Cursor plugin になった。1 回の install で、説明から Runway の API を app に組み込める。
+- 出典: [x.com/runwayml/status/2117341561759629709](https://x.com/runwayml/status/2117341561759629709)
+- 確認: 未
+
+## Tesla 1.0.0
+
+- 内容: Tesla plugin 1.0.0（PR 1181、merged 2026-11-05 20:14 JST）。Grok Bot だけの Tesla MCP で、Cursor IDE の一覧には無い。vehicle と energy site を読み、car と energy の command を送る。unlock、open、keyless drive、backup-power は必ず聞く。tesla.cn の account は未対応。
+- 出典: [PR 1181](https://github.com/cursor/plugins/pull/1181)（2026-11-05）
+- 確認: 未
+
+## X plugin 2.11.0 の投稿と 2.11.1
+
+- 内容: 2.11.1（PR 1186、merged 2026-11-07 13:41 JST）は、2.11.0 の version 行だけを置き換える。2.11.0（PR 1161、merged 2026-11-04 09:10 JST）の投稿は残る。create_posts と tweet.write。投稿は、owner が正確な文面を投稿ごとに承認したあと。post、DM、web、tool result から取った文面は投稿しない。既存の導入は新しい scope のため再 sign-in する。2.11.1 は、相手の X Chat を `get_chat_conversations` で探す。`participant_query` はその @username か名前の単語、`type` は `direct`、`max_results` は 1000、`expansions` は `participant_ids`。展開された username と name で確認する。inbox 全部は出さない。先に id を調べない。`meta.has_more` が true のあいだ page を続ける。page は空でもよい。一致が無いときは、名前で探したなら @username でやり直し、そのあと `sender_id` で message request を見る。X の DM は `send_chat_message` だけで出す。email や Slack の draft tool には回さない。host が `send_chat_message` を承認待ちにするとき（Grok Bot は X Chat の draft card を出す）、owner が Send を押すか送るよう言ったら、同じ引数でもう一度呼ぶ。encrypted payload は同じで、再暗号化しない。changelog の Nov 13 は、X の投稿と X chat の draft card は確認したあとだけ公開する、と書く。
+- 出典: [PR 1186](https://github.com/cursor/plugins/pull/1186) · [CHANGELOG 2.11.1](https://github.com/cursor/plugins/blob/main/third_party/x/CHANGELOG.md) · [x-api-mcp-guide](https://github.com/cursor/plugins/blob/main/third_party/x/skills/x-api-mcp-guide/SKILL.md) · [PR 1161](https://github.com/cursor/plugins/pull/1161) · [changelog Nov 13](https://x.ai/changelog/bot)（2026-11-07）
+- 確認: 未
+
+## Linear の Product Ops
+
+- 内容: Linear の project-operations Bot を足し、Linear と coding agent と GitHub を繋ぐ。調べ、Linear で計画し、coding agent をまとめ、PR を追い、update の下書きを作る。Linear の投稿は 25 ドルの Linear AI credits を 30 日と書いており、期間のある promo で、Grok Bot の恒久の権利ではない。
+- 出典: [guide](https://x.ai/bot/guides/grok-bot-for-linear) · [x.com/linear/status/2118448741703397573](https://x.com/linear/status/2118448741703397573)（2026-11-06）
+- 確認: 未
+
+## FitMetrics 1.0.0
+
+- 内容: FitMetrics plugin 1.0.0（PR 1185、merged 2026-11-07 06:22 JST）。hosted MCP は `https://app.fitmetrics.ai/mcp`。Trainerize の coaching で、client、check-in、macro、message、program を扱う。FitMetrics plugin を入れるか `/add-plugin fitmetrics`。`FITMETRICS_API_KEY`（Bearer）は FitMetrics の Settings、Integrations、MCP、Create API Key、Other MCP app で作る。API key だけ。OAuth の経路は Cursor 用ではない。ABC Trainerize と FitMetrics Scale package が要る。Cursor 3.13.0 以降。coach の key は、割り当てられた client だけに届く。write は owner か admin が有効にするまでオフ。
+- 出典: [PR 1185](https://github.com/cursor/plugins/pull/1185) · [FitMetrics MCP](https://app.fitmetrics.ai/docs/faq/connect-ai-tools-to-fitmetrics-via-mcp-claude-chatgpt-openclaw-more)（2026-11-07）
+- 確認: 未
+
+## Ashby
+
+- 内容: changelog v1.3.0 は、Ashby を繋ぐと、candidate、interview、job、offer の採用の問いに答える、と書く。
+- 出典: [changelog v1.3.0](https://x.ai/changelog/bot)（2026-11-24）
 - 確認: 未
