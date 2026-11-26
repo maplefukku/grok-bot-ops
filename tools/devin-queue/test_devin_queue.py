@@ -346,5 +346,167 @@ class TestRefValidation(unittest.TestCase):
             self.assertNotEqual(result["reason"], "invalid_job")
 
 
+class PublishRun:
+    """Scripted git/gh/devin boundary. Never touches a real remote."""
+
+    def __init__(
+        self,
+        *,
+        ahead: str = "2",
+        unpushed: str = "1",
+        unpushed_rc: int = 0,
+        push_rc: int = 0,
+        pr_bodies: tuple[str, ...] = (
+            '[{"url": "https://github.com/acme/widget/pull/9"}]',
+        ),
+        base_branch: str = "main",
+        branch: str = "devin/job-01",
+    ):
+        self.calls = []
+        self.ahead = ahead
+        self.unpushed = unpushed
+        self.unpushed_rc = unpushed_rc
+        self.push_rc = push_rc
+        self.pr_bodies = list(pr_bodies)
+        self.base_spec = "origin/{}..HEAD".format(base_branch)
+        self.branch_spec = "origin/{}..HEAD".format(branch)
+
+    def __call__(self, argv, cwd=None, timeout_sec=None, env=None) -> dq.CmdResult:
+        argv = tuple(str(a) for a in argv)
+        self.calls.append(argv)
+        if argv[:3] == ("devin", "auth", "status"):
+            return dq.CmdResult(0, "auth ok", False)
+        if argv[0] == "devin":
+            return dq.CmdResult(0, "devin ok", False)
+        if argv[:3] == ("gh", "pr", "list"):
+            body = self.pr_bodies.pop(0) if self.pr_bodies else "[]"
+            return dq.CmdResult(0, body, False)
+        if "push" in argv:
+            return dq.CmdResult(self.push_rc, "push rejected", False)
+        if "rev-parse" in argv:
+            return dq.CmdResult(0, "abc123\n", False)
+        if "rev-list" in argv:
+            spec = next(arg for arg in argv if ".." in arg)
+            if spec == self.base_spec:
+                return dq.CmdResult(0, self.ahead + "\n", False)
+            if spec == self.branch_spec:
+                text = self.unpushed if self.unpushed_rc == 0 else "fatal: bad revision"
+                return dq.CmdResult(self.unpushed_rc, text + "\n", False)
+            return dq.CmdResult(1, "unexpected range " + spec, False)
+        return dq.CmdResult(0, "", False)
+
+
+def _seed_only_copy(queue: dq.Queue, job_id: str) -> Path:
+    work = queue.d("work") / job_id
+    work.mkdir(parents=True)
+    marker = work / "ONLY_COPY.txt"
+    marker.write_text("unpushed commit\n", encoding="utf-8")
+    return marker
+
+
+class TestUnpushedCommits(unittest.TestCase):
+    """Gate:
+    1. Contract: a job is done and work/<id>/ is removed only after commits
+       that origin/<branch> lacks have been pushed. An existing PR URL does
+       not skip that push. A failed push keeps the workdir and is not done.
+    2. Guards the regression where continue_branch (or a PR devin already
+       opened) plus one more local commit is reported done and the clone,
+       the only copy of that commit, is deleted.
+    3. No existing coverage of the publish path; claim/quota/ref tests stop
+       before a successful push.
+    4. Uses run_once's real run parameter and a temp queue root. No network.
+    """
+
+    def _once(self, queue, run):
+        return dq.run_once(queue, run=run, remote_check=lambda job, r: [])
+
+    def test_existing_pr_pushes_commits_missing_from_origin(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            queue = _make_queue(tmp)
+            job = _job("job-01", continue_branch=True)
+            _put_inbox(queue, job)
+            marker = _seed_only_copy(queue, "job-01")
+            run = PublishRun(ahead="2", unpushed="1", push_rc=0)
+            self.assertEqual(self._once(queue, run), 0)
+            pushes = [c for c in run.calls if "push" in c]
+            self.assertEqual(
+                pushes,
+                [
+                    (
+                        "git",
+                        "-C",
+                        str(queue.d("work") / "job-01"),
+                        "push",
+                        "-u",
+                        "origin",
+                        "--",
+                        "devin/job-01",
+                    )
+                ],
+            )
+            self.assertNotIn("--force", pushes[0])
+            result = _result(queue, "done", "job-01")
+            self.assertEqual(result["state"], "done")
+            self.assertEqual(result["pr_url"], "https://github.com/acme/widget/pull/9")
+            self.assertFalse(marker.exists())
+
+    def test_push_failure_keeps_only_copy_when_pr_exists(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            queue = _make_queue(tmp)
+            job = _job("job-01", continue_branch=True)
+            _put_inbox(queue, job)
+            marker = _seed_only_copy(queue, "job-01")
+            run = PublishRun(ahead="2", unpushed="1", push_rc=1)
+            self.assertEqual(self._once(queue, run), 0)
+            result = _result(queue, "failed", "job-01")
+            self.assertEqual(result["state"], "failed")
+            self.assertEqual(result["reason"], "error")
+            self.assertIn("git push failed", result["detail"])
+            self.assertTrue(marker.is_file())
+            self.assertEqual(marker.read_text(encoding="utf-8"), "unpushed commit\n")
+            self.assertFalse((queue.d("done") / "job-01.json").exists())
+            self.assertFalse((queue.d("done") / ("job-01" + dq.RESULT_SUFFIX)).exists())
+
+    def test_published_branch_with_pr_does_not_push_again(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            queue = _make_queue(tmp)
+            _put_inbox(queue, _job("job-01", continue_branch=True))
+            run = PublishRun(ahead="2", unpushed="0")
+            self.assertEqual(self._once(queue, run), 0)
+            self.assertFalse(any("push" in c for c in run.calls))
+            result = _result(queue, "done", "job-01")
+            self.assertEqual(result["reason"], "ok")
+
+    def test_missing_upstream_ref_still_pushes_when_ahead_of_base(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            queue = _make_queue(tmp)
+            _put_inbox(queue, _job("job-01"))
+            marker = _seed_only_copy(queue, "job-01")
+            run = PublishRun(ahead="1", unpushed="fatal", unpushed_rc=128)
+            self.assertEqual(self._once(queue, run), 0)
+            self.assertTrue(any("push" in c for c in run.calls))
+            result = _result(queue, "done", "job-01")
+            self.assertEqual(result["state"], "done")
+            self.assertFalse(marker.exists())
+
+    def test_no_pr_yet_pushes_then_opens_draft(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            queue = _make_queue(tmp)
+            _put_inbox(queue, _job("job-01"))
+            run = PublishRun(
+                ahead="1",
+                unpushed="1",
+                pr_bodies=("[]", '[{"url": "https://github.com/acme/widget/pull/4"}]'),
+            )
+            self.assertEqual(self._once(queue, run), 0)
+            self.assertTrue(any("push" in c for c in run.calls))
+            self.assertTrue(
+                any(c[:3] == ("gh", "pr", "create") for c in run.calls)
+            )
+            result = _result(queue, "done", "job-01")
+            self.assertEqual(result["pr_url"], "https://github.com/acme/widget/pull/4")
+            self.assertEqual(result["state"], "done")
+
+
 if __name__ == "__main__":
     unittest.main()

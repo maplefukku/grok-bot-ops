@@ -81,9 +81,16 @@ What a run does: clone `--branch <base>` (or `<branch>` when
 --respect-workspace-trust false --export work/<id>/session.atif`
 (**no `--sandbox`**: in CLI 3000.11.1 it forces autonomous mode and stalls
 headless `-p` runs). On `timeout_sec` the process group gets SIGTERM, then
-SIGKILL after 30 s. Afterwards it checks `gh pr list --repo <repo> --head
-<branch>`; if there is no PR but the branch has new commits it pushes the
-branch (no force) and opens a draft PR with `gh pr create --draft --fill`.
+SIGKILL after 30 s. Afterwards it counts commits on `HEAD` that
+`origin/<branch>` does not have (`git rev-list --count
+origin/<branch>..HEAD`). A missing remote-tracking ref falls back to commits
+ahead of `origin/<base>`. Those commits are pushed (no force) even when a
+draft PR for the branch already exists — a PR URL only means an earlier
+commit was published. If that push fails, the job is `failed` and
+`work/<id>/` is kept. It then checks `gh pr list --repo <repo> --head
+<branch>` and, when there is still no PR but the branch is ahead of its
+base, opens a draft PR with `gh pr create --draft --fill`. The workdir is
+removed only after that PR exists and any unpushed commits were pushed.
 It never merges, marks ready, comments, or force-pushes.
 
 The `devin` child (`devin auth status` and `devin -p`) does **not** inherit

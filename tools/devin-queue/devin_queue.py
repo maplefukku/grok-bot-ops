@@ -465,6 +465,22 @@ def _finish_failed(
     )
 
 
+def _rev_list_count(res: CmdResult) -> Optional[int]:
+    """Parse `git rev-list --count` stdout.
+
+    None means the revision is missing or the output is not a count. Callers
+    must not treat that as "zero commits", which would publish nothing and
+    then delete the only local copy.
+    """
+    if res.returncode != 0:
+        return None
+    # default_run merges stderr into stdout, so a hint may precede the count.
+    lines = [line.strip() for line in res.output.splitlines() if line.strip()]
+    if not lines or not lines[-1].isdigit():
+        return None
+    return int(lines[-1])
+
+
 def _pr_url(repo: str, branch: str, run: Run, child) -> Optional[str]:
     res = run(("gh", "pr", "list", "--repo", repo, "--head", branch, "--json", "url"))
     child(res)
@@ -592,30 +608,67 @@ def execute_job(queue: Queue, job: dict, claimed: Path, run: Run, config: dict) 
             return
         head = run(("git", "-C", str(workdir), "rev-parse", "HEAD"))
         head_sha = head.output.strip() if head.returncode == 0 else None
-        ahead_res = run(
-            (
-                "git",
-                "-C",
-                str(workdir),
-                "rev-list",
-                "--count",
-                # No `--`: rev-list treats what follows as pathspecs. The
-                # range starts with literal "origin/" and base_branch is
-                # validated as a safe ref anyway.
-                "origin/{}..HEAD".format(job["base_branch"]),
+        # No `--`: rev-list treats what follows as pathspecs. The range
+        # starts with literal "origin/" and the refs are validated safe.
+        ahead = _rev_list_count(
+            run(
+                (
+                    "git",
+                    "-C",
+                    str(workdir),
+                    "rev-list",
+                    "--count",
+                    "origin/{}..HEAD".format(job["base_branch"]),
+                )
             )
         )
-        try:
-            ahead = int(ahead_res.output.strip()) if ahead_res.returncode == 0 else 0
-        except ValueError:
-            ahead = 0
+        # Commits on HEAD that origin/<branch> does not have. A missing
+        # remote-tracking ref (first push, or devin pushed without updating
+        # it) is not the same as "already published".
+        unpushed = _rev_list_count(
+            run(
+                (
+                    "git",
+                    "-C",
+                    str(workdir),
+                    "rev-list",
+                    "--count",
+                    "origin/{}..HEAD".format(branch),
+                )
+            )
+        )
+        if ahead is None and unpushed is None:
+            failed(
+                "error",
+                "could not count commits against origin; workdir kept",
+                head_sha=head_sha,
+            )
+            return
+        if unpushed is None:
+            needs_push = ahead is not None and ahead > 0
+        else:
+            needs_push = unpushed > 0
         pr_url = _pr_url(repo, branch, run, child)
-        if not pr_url and ahead > 0:
+        # An existing PR URL only means some earlier commit was published.
+        # HEAD can still be ahead of origin/<branch> (continue_branch, or
+        # devin opened the PR and then committed again). Deleting work/<id>/
+        # in that state drops the only copy of those commits.
+        ahead_n = ahead or 0
+        if needs_push or (not pr_url and ahead_n > 0):
             push = run(
                 ("git", "-C", str(workdir), "push", "-u", "origin", "--", branch)
             )
             child(push)
-            if push.returncode == 0:
+            if push.returncode != 0:
+                failed(
+                    "error",
+                    "git push failed (rc={}); local commits kept in work/".format(
+                        push.returncode
+                    ),
+                    head_sha=head_sha,
+                )
+                return
+            if not pr_url:
                 created = run(
                     (
                         "gh",
@@ -648,7 +701,7 @@ def execute_job(queue: Queue, job: dict, claimed: Path, run: Run, config: dict) 
                 log_rel=log_rel,
             )
             shutil.rmtree(workdir, ignore_errors=True)
-        elif ahead == 0:
+        elif ahead_n == 0 and not needs_push:
             failed("no_changes", "no PR and no new commits", head_sha=head_sha)
         else:
             failed(
