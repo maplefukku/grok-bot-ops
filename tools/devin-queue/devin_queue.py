@@ -78,9 +78,14 @@ QUOTA_MARKERS = (
         re.compile(r"total_session_limit_exceeded", re.IGNORECASE),
     ),
     ("insufficient_credits", re.compile(r"insufficient credits", re.IGNORECASE)),
+    # A bare 402 also matches issue/PR numbers, line numbers and counts in a
+    # successful transcript, so only a 402 tied to an HTTP status counts.
     (
         "payment_required",
-        re.compile(r"\b402\b|payment required", re.IGNORECASE),
+        re.compile(
+            r"(?:HTTP(?:/[\d.]+)?|status|code)\W{0,3}402\b|payment required",
+            re.IGNORECASE,
+        ),
     ),
 )
 

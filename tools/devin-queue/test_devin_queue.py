@@ -188,6 +188,74 @@ class TestQuotaStop(unittest.TestCase):
             status = json.loads((queue.root / "STATUS.json").read_text())
             self.assertEqual(status["state"], "stopped_quota")
 
+    def test_402_status_line_is_payment_required(self):
+        for output in (
+            "HTTP/1.1 402",
+            "status: 402",
+            "error code 402",
+            '{"statusCode": 402}',
+            "status_code=402",
+        ):
+            with self.subTest(output=output):
+                self.assertEqual(dq.quota_reason(output), "payment_required")
+
+
+class _PushingRun(FakeRun):
+    """FakeRun where devin left one commit and gh finds the PR once created."""
+
+    PR_URL = "https://github.com/acme/widget/pull/9"
+
+    def __init__(self, devin_output: str):
+        super().__init__(devin_output=devin_output)
+        self.created = False
+
+    def __call__(self, argv, cwd=None, timeout_sec=None, env=None) -> dq.CmdResult:
+        res = super().__call__(argv, cwd, timeout_sec, env)
+        argv = tuple(str(a) for a in argv)
+        if "rev-list" in argv:
+            return dq.CmdResult(0, "1\n", False)
+        if argv[:3] == ("gh", "pr", "create"):
+            self.created = True
+        if argv[:3] == ("gh", "pr", "list"):
+            urls = [{"url": self.PR_URL}] if self.created else []
+            return dq.CmdResult(0, json.dumps(urls), False)
+        return res
+
+
+class TestQuotaFalsePositive(unittest.TestCase):
+    """Gate:
+    1. Contract: a successful devin run whose output merely mentions the
+       number 402 (an issue, PR, line or count) is pushed and opened as a
+       draft PR; it is not failed as payment_required and does not pause
+       the queue.
+    2. Guards regressions where a bare `402` anywhere in the transcript
+       stops the queue before push, leaving the job's commits only in
+       work/<id>/, which prune() deletes after WORK_KEEP_SEC.
+    3. TestQuotaStop covers true markers; nothing covers non-quota 402s.
+    4. Goes through run_once with the injected run fn, like TestQuotaStop.
+    """
+
+    def test_bare_402_in_successful_output_is_not_quota(self):
+        for output in (
+            "Fixed the crash reported in issue #402 and committed.",
+            "Refactored parser.py:402 and pushed nothing yet.",
+            "Updated 402 snapshot files.",
+        ):
+            with self.subTest(output=output):
+                with tempfile.TemporaryDirectory() as tmp:
+                    queue = _make_queue(tmp)
+                    _put_inbox(queue, _job("job-01"))
+                    run = _PushingRun(output)
+                    dq.run_once(queue, run=run, remote_check=lambda j, r: [])
+                    self.assertFalse((queue.root / "PAUSE").exists())
+                    self.assertEqual(queue.status_state(), "ok")
+                    self.assertTrue(
+                        any(argv[3:4] == ("push",) for argv in run.calls),
+                        "committed work must be pushed",
+                    )
+                    result = _result(queue, "done", "job-01")
+                    self.assertEqual(result["pr_url"], _PushingRun.PR_URL)
+
 
 class TestRedactor(unittest.TestCase):
     """Gate:
